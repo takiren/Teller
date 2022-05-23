@@ -13,5 +13,69 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{b69d1f0f-68ee-4946-b3ec-9faf6db4be12}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Agent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Agent.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
