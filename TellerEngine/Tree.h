@@ -16,33 +16,35 @@ namespace Teller {
 			OPTION
 		};
 
-		class Socket :public std::enable_shared_from_this<Socket> {
-		private:
-			Socket_TYPE type;
-			int ID;
-		public:
-			Socket(Socket_TYPE socketType) : type(socketType) {};
-		};
+		class Socket;
 
-		class Node :public std::enable_shared_from_this<Node> {
+		class NodeBase :public std::enable_shared_from_this<NodeBase> {
 		private:
-			int uniqueKey;
+			int ID_;
 			Node_TYPE type;
-			std::vector<std::shared_ptr<Node>> children;
-			std::weak_ptr<Node> parent;
 		public:
 			//コンストラクタ
-			Node(int key)
-				:uniqueKey(key),
+			NodeBase() = default;
+			NodeBase(int id)
+				:ID_(id),
 				type(Node_TYPE::BLANK) {};
-			Node(int key, Node_TYPE nodeType)
-				:uniqueKey(key),
+			NodeBase(int id, Node_TYPE nodeType)
+				:ID_(id),
 				type(nodeType) {};
 
 			//デストラクタ
-			~Node() = default;
-			void AddChild(const std::shared_ptr<Node> child);
-			void AddSocket(Socket_TYPE socketType);
+			~NodeBase() = default;
+
+			std::weak_ptr<NodeBase> parent;
+			std::vector<std::shared_ptr<Socket>> sockets;
+			std::vector<std::shared_ptr<NodeBase>> children;
+			std::vector<std::weak_ptr<NodeBase>> parents;
+
+			std::weak_ptr<NodeBase>& GetParent();
+			int GetID() const { return ID_; }
+			void AddChild(const std::shared_ptr<NodeBase> child);
+			void AddSocket(int socketID, Socket_TYPE socketType);
+			void AppendSocket(Socket socket);
 			void RemoveSocket(int socketID);
 			void RemoveChild(int key);
 			void SearchChild(int key);//子ノードのみ。
@@ -50,9 +52,29 @@ namespace Teller {
 			void IsEnd();//終端か判定
 		};
 
+		class Node :public std::enable_shared_from_this<Node> {
+		private:
+		public:
+			
+		};
+
+		class Socket :public std::enable_shared_from_this<Socket>
+		{
+		private:
+			int ID;
+			Socket_TYPE type;
+		public:
+			Socket(int id, Socket_TYPE socketType) :ID(id), type(socketType) {};
+			std::vector<std::weak_ptr<Socket>> previousSockets;
+			std::vector<std::shared_ptr<Socket>> targetSockets;
+			void Attach(std::shared_ptr<Socket> target);
+			void Dettach(std::shared_ptr<Socket> target);
+		};
+
+
 		class NodeGroup :
 			public std::enable_shared_from_this<NodeGroup>,
-			public Node
+			public NodeBase
 		{
 		private:
 			std::string description;

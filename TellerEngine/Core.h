@@ -5,6 +5,7 @@
 #include<memory>
 #include<cassert>
 #include<iostream>
+#include<set>
 #include "cinder/app/App.h"
 #include"NodeEditor.h"
 using namespace ci;
