@@ -1,0 +1,9 @@
+[submodule "Cinder"]
+	path = Cinder
+	url = https://github.com/cinder/Cinder.git
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "imgui-node-editor"]
+	path = imgui-node-editor
+	url = https://github.com/thedmd/imgui-node-editor.git
