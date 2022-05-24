@@ -39,7 +39,6 @@ namespace Teller {
 			std::vector<std::shared_ptr<Socket>> sockets;
 			std::vector<std::shared_ptr<NodeBase>> children;
 			std::vector<std::weak_ptr<NodeBase>> parents;
-
 			std::weak_ptr<NodeBase>& GetParent();
 			int GetID() const { return ID_; }
 			void AddChild(const std::shared_ptr<NodeBase> child);
