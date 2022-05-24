@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a8020318-4c5b-4916-b7cf-b9bf9aef97d3}</ProjectGuid>
-    <RootNamespace>TellerEngine</RootNamespace>
+    <ProjectGuid>{b253cd24-9597-443b-aeeb-ae635d65514b}</ProjectGuid>
+    <RootNamespace>nazo</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>TellerEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,12 +70,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)OpenSiv3D\Siv3D\lib\Windows;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(SolutionDir)OpenSiv3D\Siv3D\lib\Windows;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -109,20 +102,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\imgui\backends;C:\Users\taki\source\repos\TellerEngine\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\imgui;$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Cinder\lib\msw\$(PlatformTarget);$(SolutionDir)Cinder\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCPMT</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,60 +118,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\imgui\backends;C:\Users\taki\source\repos\TellerEngine\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\imgui;$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Cinder\lib\msw\$(PlatformTarget);$(SolutionDir)Cinder\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
-    <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Core.cpp" />
-    <ClCompile Include="Editor.cpp" />
-    <ClCompile Include="Episode.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Image.cpp" />
-    <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NodeEditor.cpp" />
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="StoryBoard.cpp" />
-    <ClCompile Include="TellerEvent.cpp" />
-    <ClCompile Include="Tree.cpp" />
-    <ClCompile Include="UIBase.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Agent.h" />
-    <ClInclude Include="Asset.h" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Core.h" />
-    <ClInclude Include="Editor.h" />
-    <ClInclude Include="Episode.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Image.h" />
-    <ClInclude Include="InGameUI.h" />
-    <ClInclude Include="NodeEditor.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TellerEvent.h" />
-    <ClInclude Include="Tree.h" />
-    <ClInclude Include="UIBase.h" />
-    <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TellerEngine", "TellerEngin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TellerEditor", "TellerEditor\TellerEditor.vcxproj", "{0A857FA7-4CE7-4A75-9EFE-A04F25A994C9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nazo", "nazo\nazo.vcxproj", "{B253CD24-9597-443B-AEEB-AE635D65514B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{0A857FA7-4CE7-4A75-9EFE-A04F25A994C9}.Release|x64.Build.0 = Release|x64
 		{0A857FA7-4CE7-4A75-9EFE-A04F25A994C9}.Release|x86.ActiveCfg = Release|x64
 		{0A857FA7-4CE7-4A75-9EFE-A04F25A994C9}.Release|x86.Build.0 = Release|x64
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Debug|x64.ActiveCfg = Debug|x64
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Debug|x64.Build.0 = Debug|x64
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Debug|x86.Build.0 = Debug|Win32
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Release|x64.ActiveCfg = Release|x64
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Release|x64.Build.0 = Release|x64
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Release|x86.ActiveCfg = Release|Win32
+		{B253CD24-9597-443B-AEEB-AE635D65514B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

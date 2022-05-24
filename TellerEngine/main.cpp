@@ -2,8 +2,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Rand.h"
-#include"Core.h"
-#include"cinder/CinderImGui.h"
+#include <list>
 
 using namespace ci;
 using namespace ci::app;
@@ -35,9 +34,6 @@ void BasicAppMultiWindow::setup()
 {
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
-	
-	createNewWindow();
-	ImGui::Initialize();
 }
 
 void BasicAppMultiWindow::createNewWindow()
@@ -71,7 +67,7 @@ void BasicAppMultiWindow::keyDown(KeyEvent event)
 void BasicAppMultiWindow::draw()
 {
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
-	ImGui::Text("Hello, world!");
+
 	WindowData* data = getWindow()->getUserData<WindowData>();
 
 	gl::color(data->mColor);

@@ -1,5 +1,6 @@
 #pragma once
 #include"Core.h"
+#include"Episode.h"
 
 namespace Teller {
 	namespace Tree {
@@ -10,76 +11,79 @@ namespace Teller {
 		};
 
 		enum class Socket_TYPE {
-			TimeLine,
+			Delegate,
 			BOOL,
 			INT,
 			OPTION
 		};
 
-		class Socket;
+		class SocketBase;
 
 		class NodeBase :public std::enable_shared_from_this<NodeBase> {
-		private:
-			int ID_;
+		protected:
+			int ID_ = 0;
 			Node_TYPE type;
 		public:
-			//コンストラクタ
-			NodeBase() = default;
-			NodeBase(int id)
-				:ID_(id),
-				type(Node_TYPE::BLANK) {};
-			NodeBase(int id, Node_TYPE nodeType)
-				:ID_(id),
-				type(nodeType) {};
-
-			//デストラクタ
-			~NodeBase() = default;
-
-			std::weak_ptr<NodeBase> parent;
-			std::vector<std::shared_ptr<Socket>> sockets;
+			std::vector<std::shared_ptr<SocketBase>> sockets;
 			std::vector<std::shared_ptr<NodeBase>> children;
 			std::vector<std::weak_ptr<NodeBase>> parents;
-			std::weak_ptr<NodeBase>& GetParent();
+
+			NodeBase(int key) :ID_(key) {};
+			~NodeBase() = default;
 			int GetID() const { return ID_; }
-			void AddChild(const std::shared_ptr<NodeBase> child);
+
 			void AddSocket(int socketID, Socket_TYPE socketType);
-			void AppendSocket(Socket socket);
-			void RemoveSocket(int socketID);
+			void AddChild(std::shared_ptr<NodeBase> child);
+
 			void RemoveChild(int key);
 			void SearchChild(int key);//子ノードのみ。
 			void SearchChildDeeply(int key); //ノード端まで検索
-			void IsEnd();//終端か判定
+			bool IsEnd();//終端か判定
 		};
 
-		class Node :public std::enable_shared_from_this<Node> {
+		template<class T>
+		class NodeBlank :public NodeBase {
 		private:
+			std::unique_ptr<Episode> episode;
 		public:
-			
+			NodeBlank(int key) :NodeBase(key) {};
+			~NodeBlank() = default;
 		};
 
-		class Socket :public std::enable_shared_from_this<Socket>
-		{
+		class NodeEpisode :public NodeBase {
 		private:
-			int ID;
-			Socket_TYPE type;
+			std::unique_ptr<Episode> episode;
 		public:
-			Socket(int id, Socket_TYPE socketType) :ID(id), type(socketType) {};
-			std::vector<std::weak_ptr<Socket>> previousSockets;
-			std::vector<std::shared_ptr<Socket>> targetSockets;
-			void Attach(std::shared_ptr<Socket> target);
-			void Dettach(std::shared_ptr<Socket> target);
+			NodeEpisode(int key) :NodeBase(key) {};
+			~NodeEpisode() = default;
 		};
 
-
-		class NodeGroup :
-			public std::enable_shared_from_this<NodeGroup>,
-			public NodeBase
-		{
-		private:
-			std::string description;
+		class SocketBase :public NodeBase {
 		public:
-			NodeGroup() = default;
-			virtual ~NodeGroup() = default;
+
+			SocketBase(int key) :NodeBase(key) {};
+			virtual ~SocketBase() = default;
+		};
+
+		class SocketTimeLine :public SocketBase {
+		public:
+			SocketTimeLine(int key) :SocketBase(key) {};
+		};
+
+		class SocketBool :public SocketBase {
+		private:
+			bool bTrue;
+		public:
+			SocketBool(int key) :SocketBase(key), bTrue(false) {};
+		};
+
+		class SocketInt :public SocketBase {
+		private:
+
+		};
+
+		class SocketValue :public NodeBase {
+
 		};
 
 	}
