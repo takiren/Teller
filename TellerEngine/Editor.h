@@ -1,8 +1,8 @@
 #pragma once
 #include"Core.h"
 
-class Editor {
-public:
-	Editor() = default;
-	void run();
-};
+namespace Teller {
+	class Editor {
+
+	};
+}

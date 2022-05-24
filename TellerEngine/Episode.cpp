@@ -1,5 +1,19 @@
 #include "Episode.h"
+
 namespace Teller {
+	void Episode::SetLineBegin(int line)
+	{
+		line_begin = line;
+	}
+
+	void Episode::SetLineEnd(int line)
+	{
+		line_end = line;
+	}
+
+	void Episode::SetNumber(int episodeNumber)
+	{
+	}
 
 	/*
 	ストーリー用CSVファイルフォーマット
@@ -57,7 +71,7 @@ namespace Teller {
 				if (!episodes.empty()) {
 					episodes.back().SetLineEnd(key - 1);
 				}
-				episodes.emplace_back(value.at(0));
+				episodes.emplace_back();
 				episodes.back().SetLineBegin(key);
 			};
 		}
@@ -67,15 +81,5 @@ namespace Teller {
 		return episodes;
 	}
 
-	void Episode::SetLineBegin(int line)
-	{
-		line_begin = line;
-	}
-	void Episode::SetLineEnd(int line)
-	{
-		line_end = line;
-	}
-	void Episode::SetNumber(int episodeNumber)
-	{
-	}
+
 }
