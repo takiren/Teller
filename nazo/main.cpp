@@ -4,26 +4,37 @@
 #include<string>
 #include<memory>
 
-class Episode {
+class Core;
+template<class TREE_TYPE>
+class ModuleTemplate :public std::enable_shared_from_this<TREE_TYPE> {
 private:
-	std::string title;
-	int number;
-	int line_begin;
-	int line_end;
-	std::map<int, std::vector<std::string>> data;
+	std::weak_ptr<TREE_TYPE> parent;
+	std::vector<std::shared_ptr<TREE_TYPE>> children;
 public:
-	void SetLineBegin(int line);
-	void SetLineEnd(int line);
-	void SetNumber(int episodeNumber);
-	Episode() :
-		line_begin(0),
-		line_end(0),
-		number(0),
-		title("")
-	{};
+	ModuleTemplate() = default;
+	~ModuleTemplate() = default;
+	void AddChild(std::shared_ptr<TREE_TYPE>&& sub_module);
 };
 
+struct Tint {
+	int d;
+};
+
+
+
+class ModuleCore {
+private:
+
+public:
+};
+
+void testfunc() {
+	ModuleTemplate<ModuleCore> fs;
+}
+
 int main() {
-	auto s = std::make_unique<Episode>();
+	auto n = std::make_shared<ModuleTemplate<ModuleCore>>();
+	auto m = std::make_shared<ModuleTemplate<ModuleCore>>();
+	n->AddChild(m);
 	return 0;
 }
