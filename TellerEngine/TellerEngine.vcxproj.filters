@@ -16,6 +16,9 @@
     <Filter Include="src">
       <UniqueIdentifier>{b69d1f0f-68ee-4946-b3ec-9faf6db4be12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{cc0f5e47-38ee-4a9b-9845-ac8177879fcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp">
@@ -48,6 +51,27 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="StoryBoard.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameUI.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TellerEvent.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h">
@@ -76,6 +100,24 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameUI.h">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBase.h">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TellerEvent.h">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeEditor.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

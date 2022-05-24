@@ -3,5 +3,6 @@
 class Game :
     public Core
 {
+    
 };
 

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\taki\source\repos\TellerEngine\glfw-3.3.7\build\CMakeFiles\f7816c7fa1b194e99c9a9094aa9b5245\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{D53C1C1C-D456-3E59-A89F-6CA2882A702F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

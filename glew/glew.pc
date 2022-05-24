@@ -1,0 +1,11 @@
+prefix=C:/Users/taki/source/repos/TellerEngine/glew
+exec_prefix=${prefix}
+libdir=C:/Users/taki/source/repos/TellerEngine/glew/lib
+includedir=${prefix}/include
+
+Name: glew
+Description: The OpenGL Extension Wrangler library
+Version: 2.1.0
+Cflags: -I${includedir} 
+Libs: -L${libdir} -lglew32
+Requires: glu

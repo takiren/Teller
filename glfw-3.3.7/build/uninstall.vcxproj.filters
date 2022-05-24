@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\taki\source\repos\TellerEngine\glfw-3.3.7\build\CMakeFiles\bab4db9a56c58d26568f0d85b91a3822\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\taki\source\repos\TellerEngine\glfw-3.3.7\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\taki\source\repos\TellerEngine\glfw-3.3.7\build\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{D53C1C1C-D456-3E59-A89F-6CA2882A702F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
