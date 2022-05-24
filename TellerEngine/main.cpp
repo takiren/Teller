@@ -1,9 +1,4 @@
-#include "cinder/app/App.h"
-#include "cinder/app/RendererGl.h"
-#include "cinder/gl/gl.h"
-#include "cinder/Rand.h"
 #include"Core.h"
-#include"cinder/CinderImGui.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -35,8 +30,6 @@ void BasicAppMultiWindow::setup()
 {
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
-	
-	createNewWindow();
 	ImGui::Initialize();
 }
 
@@ -62,16 +55,12 @@ void BasicAppMultiWindow::mouseDrag(MouseEvent event)
 
 void BasicAppMultiWindow::keyDown(KeyEvent event)
 {
-	if (event.getChar() == 'f')
-		setFullScreen(!isFullScreen());
-	else if (event.getChar() == 'w')
-		createNewWindow();
 }
 
 void BasicAppMultiWindow::draw()
 {
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
-	ImGui::Text("Hello, world!");
+
 	WindowData* data = getWindow()->getUserData<WindowData>();
 
 	gl::color(data->mColor);
@@ -79,6 +68,9 @@ void BasicAppMultiWindow::draw()
 	for (auto pointIter = data->mPoints.begin(); pointIter != data->mPoints.end(); ++pointIter) {
 		gl::vertex(*pointIter);
 	}
+	ImGui::Text("Hello, world");
+	float f=0.5;
+	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 	gl::end();
 }
 
