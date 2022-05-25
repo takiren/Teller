@@ -15,8 +15,6 @@ void Teller::EpisodeEditor::Tick()
 			}
 
 			ImGui::EndMenuBar();
-
-
 		}
 
 		// 1. エディタ左側

@@ -53,6 +53,14 @@ namespace Teller {
 	public:
 		ModuleCore() :bUpdate(true), bEnabled(true), count_(0), debugLog("Nothing.") {};
 		~ModuleCore();
+
+		//コピー禁止
+		ModuleCore(const ModuleCore&) = delete;
+		ModuleCore& operator=(const ModuleCore&) = delete;
+
+		//ムーブは許可
+		ModuleCore& operator=(ModuleCore&&) = default;
+
 		void AddChildModule(std::shared_ptr<ModuleCore > sub_module);
 		virtual void Tick(); //必ずtickごとに処理される処理。
 		virtual void Update(); //Gameが動いてないと処理されない。
