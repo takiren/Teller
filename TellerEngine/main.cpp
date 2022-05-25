@@ -14,9 +14,6 @@ namespace fs = std::filesystem;
 class BasicAppMultiWindow : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
-	std::shared_ptr<GameModule> mGame;
-	std::shared_ptr<SceneModule> mScene;
-	std::shared_ptr<Character> mCharacter;
 
 	void setup();
 	void createNewWindow();
@@ -43,13 +40,24 @@ void BasicAppMultiWindow::setup()
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
 	mCore = std::make_shared<TellerCore>();
+<<<<<<< HEAD
 	mGame = std::make_shared<GameModule>();
 	mScene = std::make_shared<SceneModule>();
 	
 	mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
+=======
+
+	auto mGame = std::make_shared<GameModule>();
+	auto mScene = std::make_shared<SceneModule>();
+	auto mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
+
+>>>>>>> develop/core
 	mCore->AddChildModule(mGame);
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mCharacter);
+
+	auto ts = std::make_shared<Text>("episode.csv");
+	mScene->AddAgent(ts);
 }
 
 void BasicAppMultiWindow::createNewWindow()
@@ -85,8 +93,12 @@ void BasicAppMultiWindow::draw()
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
 
+<<<<<<< HEAD
 	float f=0.5;
 
+=======
+	ImGui::Text("Hello, world");
+>>>>>>> develop/core
 	/*
 	èàóùãLèqÇ±Ç±Ç©ÇÁ
 	*/

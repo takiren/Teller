@@ -24,8 +24,10 @@
 #include "cinder/gl/gl.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/Rand.h"
+#include"cinder/Log.h"
 #include <list>
 #include "cinder/CinderImGui.h"
+#include"cinder/ImageIo.h"
 
 using namespace ci;
 using namespace ci::app;

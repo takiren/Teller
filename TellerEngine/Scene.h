@@ -13,4 +13,3 @@ namespace Teller {
 		void AddAgent(std::shared_ptr<Agent>&& _agent);
 	};
 }
-
