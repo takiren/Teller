@@ -3,6 +3,9 @@
 #include"Scene.h"
 #include"Agent.h"
 #include"Asset.h"
+#include <io.h>
+#include <Fcntl.h>
+#include<Windows.h>
 
 using namespace ci;
 using namespace ci::app;
@@ -50,6 +53,13 @@ void BasicAppMultiWindow::setup()
 
 	auto ts = std::make_shared<Text>("episode.csv");
 	mScene->AddAgent(ts);
+	setvbuf(stdout, NULL, _IONBF, 0);
+
+
+	AllocConsole();
+	auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+	*stdout = *_fdopen(hConsole, "w");
+
 }
 
 void BasicAppMultiWindow::createNewWindow()

@@ -3,6 +3,12 @@
 
 
 namespace Teller {
+	enum class EDITOR_TYPE
+	{
+		NODE_EDITOR,
+		EPISODE_EDITOR
+	};
+
 	class Editor :public ModuleCore{
 	private:
 		
@@ -10,8 +16,16 @@ namespace Teller {
 
 	};
 
-	class TopLevelEditor {
+	class TopLevelMenu :public ModuleCore{
 	private:
 	public:
+		void Tick() override;
+
+	};
+
+	class EpisodeEditor :public ModuleCore {
+	private:
+	public:
+		void Tick() override;
 	};
 }
