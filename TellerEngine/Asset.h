@@ -1,9 +1,6 @@
 #pragma once
 #include "Core.h"
 
-#ifndef _ASSET_H_
-#define _ASSET_H_
-
 namespace fs = std::filesystem;
 namespace Teller {
 	enum class ASSET_TYPE
@@ -37,6 +34,3 @@ namespace Teller {
 	};
 
 }
-
-#endif // !_ASSET_H_
-
