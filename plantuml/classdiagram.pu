@@ -1,0 +1,54 @@
+@startuml ClassDiagram
+
+skinparam {
+    monochrome true
+    padding 1
+}
+
+class ModuleCore{
+    #std::weak_ptr<ModuleCore> parent
+    #std::vector<std::shared_ptr<ModuleCore>> children
+    +{abstract} void Tick()
+    +{abstract} void Update()
+}
+
+class TellerCore{
+    +void Tick() override
+    +void Update() override
+}
+class GameModule{
+    +void Tick() override
+    +void Update() override
+}
+class SceneModule{
+    +void Tick() override
+    +void Update() override
+}
+class Agent{
+    +void Tick() override
+    +void Update() override
+}
+class Editor{
+    +void Tick() override
+    +void Update() override
+}
+
+class Character{}
+
+
+class CSVLoader{
+}
+
+class Episode{
+}
+
+
+ModuleCore <|-- TellerCore
+ModuleCore <|-- GameModule
+ModuleCore <|-- SceneModule
+ModuleCore <|-- Agent
+Agent <|-- Character 
+ModuleCore <|-- Editor
+CSVLoader -Episode
+
+@enduml

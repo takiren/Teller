@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+
 namespace fs = std::filesystem;
 namespace Teller {
 	enum class ASSET_TYPE

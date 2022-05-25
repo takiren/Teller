@@ -1,0 +1,41 @@
+@startuml Stack
+
+skinparam {
+    monochrome true
+    padding 1
+}
+class TellerCore{
+    +void Tick() override
+    +void Update() override
+}
+class GameModule{
+    +void Tick() override
+    +void Update() override
+}
+class SceneModule{
+    +void Tick() override
+    +void Update() override
+}
+class Agent{
+    +void Tick() override
+    +void Update() override
+}
+class Editor{
+    +void Tick() override
+    +void Update() override
+}
+
+class CSVLoader{
+}
+
+class Episode{
+}
+
+TellerCore *-- GameModule
+TellerCore *-- Editor
+GameModule *-- SceneModule
+SceneModule *-- Agent
+Agent - Episode
+Episode - CSVLoader
+
+@enduml

@@ -20,7 +20,9 @@
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
+#include"cinder/ImageIo.h"
 #include "cinder/gl/gl.h"
+#include "cinder/gl/Texture.h"
 #include "cinder/Rand.h"
 #include <list>
 #include "cinder/CinderImGui.h"
@@ -47,7 +49,7 @@ namespace Teller {
 		bool bUpdate; //Gameを動かすかどうか。
 		bool bEnabled;
 	public:
-		ModuleCore():bUpdate(true),bEnabled(true),count_(0),debugLog("Nothing.") {};
+		ModuleCore() :bUpdate(true), bEnabled(true), count_(0), debugLog("Nothing.") {};
 		~ModuleCore();
 		void AddChildModule(std::shared_ptr<ModuleCore > sub_module);
 		virtual void Tick(); //必ずtickごとに処理される処理。
@@ -58,8 +60,8 @@ namespace Teller {
 	class TellerCore :public ModuleCore {
 	private:
 	public:
-		TellerCore():ModuleCore(){};
-		~TellerCore(){};
+		TellerCore() :ModuleCore() {};
+		~TellerCore() {};
 	};
 
 	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7

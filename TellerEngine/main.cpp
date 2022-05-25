@@ -45,8 +45,8 @@ void BasicAppMultiWindow::setup()
 	mCore = std::make_shared<TellerCore>();
 	mGame = std::make_shared<GameModule>();
 	mScene = std::make_shared<SceneModule>();
-	fs::path path = getOpenFilePath("", ImageIo::getLoadExtensions());
-	mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(path));
+	
+	mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
 	mCore->AddChildModule(mGame);
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mCharacter);
@@ -84,28 +84,14 @@ void BasicAppMultiWindow::draw()
 {
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
-	WindowData* data = getWindow()->getUserData<WindowData>();
 
-	gl::color(data->mColor);
-	gl::begin(GL_LINE_STRIP);
-
-	for (auto pointIter = data->mPoints.begin(); pointIter != data->mPoints.end(); ++pointIter) {
-		gl::vertex(*pointIter);
-	}
-
-	ImGui::Text("Hello, world");
 	float f=0.5;
-	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 
 	/*
 	処理記述ここから
 	*/
 
 	mCore->Tick();
-	ImGui::Text("Core Count %d", mCore->GetCount());
-	ImGui::Text("Game Count %d", mGame->GetCount());
-	ImGui::Text("Scene Count %d", mScene->GetCount());
-	ImGui::Text("Character Count %d", mCharacter->GetCount());
 
 	/*
 	処理記述ここまで
