@@ -10,6 +10,13 @@
 #include<fstream>
 #include<sstream>
 #include<filesystem>
+#include<thread>
+#include<mutex>
+#include<queue>
+#include<atomic>
+#include<type_traits>
+#include<functional>
+#include<future>
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -23,20 +30,9 @@ using namespace ci::app;
 
 namespace Teller {
 	class Core;
-	template<class TREE_TYPE>
-	class ModuleTemplate :public std::enable_shared_from_this<TREE_TYPE> {
-	protected:
-		std::weak_ptr<TREE_TYPE> parent;
-		std::vector<std::shared_ptr<TREE_TYPE>> children;
-	public:
-		ModuleTemplate() = default;
-		~ModuleTemplate() = default;
-		void AddChild(std::shared_ptr<ModuleTemplate<TREE_TYPE>>&& sub_module);
-	};
 
-	struct Tint {
-		int d;
-	};
+	using Tint = int;
+	using Tuint = unsigned int;
 
 	class ModuleCore :public std::enable_shared_from_this<ModuleCore>
 	{
@@ -46,12 +42,55 @@ namespace Teller {
 		bool bUpdate; //Gameを動かすかどうか。
 		bool bEnabled;
 	public:
-		ModuleCore();
+		ModuleCore():bUpdate(true),bEnabled(false){};
 		virtual ~ModuleCore();
 		void AddChildModule(std::shared_ptr<ModuleCore >&& sub_module);
 		void Tick(); //必ずtickごとに処理される処理。
 		void Update(); //Gameが動いてないと処理されない。
 	};
 
+	class TellerCore :public ModuleCore {
+
+	};
+
+	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7
+	class ThreadPool {
+		std::unique_ptr<std::thread[]> threads; //スレッド用のユニークポインタ
+		Tint thread_count_; //スレッド数
+		mutable std::mutex tasks_mutex{};
+		std::condition_variable condition;
+		std::queue<std::function<void()>> tasks{};
+		std::atomic<bool> running{ true };
+	public:
+		ThreadPool(const Tuint thread_count = std::thread::hardware_concurrency()) :
+			thread_count_(thread_count ? thread_count : std::thread::hardware_concurrency()) {
+			threads.reset(new std::thread[thread_count]);
+			//後置してthread_count-1までループ
+			for (Tuint i = 0; i < thread_count_; ++i) {
+				threads[i] = std::thread(&ThreadPool::worker, this);
+			}
+		}
+
+		~ThreadPool() {
+			{
+				std::lock_guard<std::mutex> lock(tasks_mutex);
+				running = false;
+			}
+
+			condition.notify_all();
+
+			for (Tuint i = 0; i < thread_count_; ++i) {
+				threads[i].join();
+			}
+		}
+
+		template<typename F>
+		void push_task(const F& task);
+
+		void worker();
+
+		template<typename F, typename... Args, typename R = std::invoke_result_t<std::decay_t<F>, std::decay_t<Args>...>>
+		std::future<R> submit(F&& func, const Args&&... args);
+	};
 
 }

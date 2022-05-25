@@ -3,7 +3,7 @@ using namespace Teller;
 
 Teller::GameModule::GameModule()
 {
-	bUpdate = false;
+	bUpdate = true;
 }
 
 void Teller::GameModule::SetEnable(bool enable)

@@ -7,21 +7,28 @@ namespace Teller {
 		Image,
 		Audio
 	};
+
 	class Asset
 	{
 	protected:
 		fs::path filePath;
 		ASSET_TYPE type;
-		void Init();
+		virtual void Init();
 	public:
 		Asset(fs::path _path) :
-			filePath(_path){};
+			filePath(_path) {
+			Init();
+		};
 	};
 
 	class Sprite :public Asset {
 		void Init();
 	public:
 		Sprite(fs::path _path) :Asset(_path) { Init(); };
+	};
+
+	class AssetLoader {
+
 	};
 
 }

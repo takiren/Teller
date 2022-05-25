@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Core.h" />
