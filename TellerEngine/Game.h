@@ -6,7 +6,6 @@ namespace Teller {
 	public:
 		GameModule():ModuleCore(){};
 		~GameModule(){};
-		void Tick() override;
 		void SetEnable(bool enable);
 		bool IsEnabled() const { return bEnabled; };
 		bool IsUpdate() const { return bUpdate; };

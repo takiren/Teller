@@ -10,7 +10,6 @@ namespace Teller {
 	public:
 		SceneModule():ModuleCore(){};
 		~SceneModule(){};
-		void Tick() override;
 		void AddAgent(std::shared_ptr<Agent>&& _agent);
 	};
 }

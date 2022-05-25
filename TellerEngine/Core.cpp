@@ -18,8 +18,7 @@ namespace Teller {
 
 	}
 
-	void TellerCore::Tick()
-	{
+	void Teller::ModuleCore::Tick() {
 		count_++;
 		if (bUpdate) {
 			for (auto& e : children) {
@@ -34,6 +33,7 @@ namespace Teller {
 			}
 		}
 	}
+
 }
 
 

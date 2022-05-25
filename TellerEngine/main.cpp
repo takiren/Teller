@@ -40,7 +40,6 @@ public:
 void BasicAppMultiWindow::setup()
 {
 	// for the default window we need to provide an instance of WindowData
-
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
 	mCore = std::make_shared<TellerCore>();

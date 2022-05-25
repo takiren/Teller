@@ -24,8 +24,6 @@ namespace Teller {
 		~Agent(){};
 		std::weak_ptr<ModuleCore>& parentScene =
 			ModuleCore::parent;
-
-		void Tick() override;
 		void Move();
 		void Scale();
 		void Rotate();

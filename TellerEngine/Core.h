@@ -32,6 +32,10 @@ namespace Teller {
 	using Tint = int;
 	using Tuint = unsigned int;
 
+	class ModuleInterface {
+
+	};
+
 	class ModuleCore :public std::enable_shared_from_this<ModuleCore>
 	{
 	private:
@@ -56,7 +60,6 @@ namespace Teller {
 	public:
 		TellerCore():ModuleCore(){};
 		~TellerCore(){};
-		void Tick() override;
 	};
 
 	//éQçl : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7
