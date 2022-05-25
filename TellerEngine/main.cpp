@@ -14,9 +14,6 @@ namespace fs = std::filesystem;
 class BasicAppMultiWindow : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
-	std::shared_ptr<GameModule> mGame;
-	std::shared_ptr<SceneModule> mScene;
-	std::shared_ptr<Character> mCharacter;
 
 	void setup();
 	void createNewWindow();
@@ -43,17 +40,17 @@ void BasicAppMultiWindow::setup()
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
 	mCore = std::make_shared<TellerCore>();
-	mGame = std::make_shared<GameModule>();
-	mScene = std::make_shared<SceneModule>();
-	fs::path path = getOpenFilePath("", ImageIo::getLoadExtensions());
-	mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(path));
+
+	auto mGame = std::make_shared<GameModule>();
+	auto mScene = std::make_shared<SceneModule>();
+	auto mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
+
 	mCore->AddChildModule(mGame);
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mCharacter);
 
 	auto ts = std::make_shared<Text>("episode.csv");
 	mScene->AddAgent(ts);
-
 }
 
 void BasicAppMultiWindow::createNewWindow()
@@ -88,28 +85,14 @@ void BasicAppMultiWindow::draw()
 {
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
-	WindowData* data = getWindow()->getUserData<WindowData>();
-
-	gl::begin(GL_LINE_STRIP);
-
-	for (auto pointIter = data->mPoints.begin(); pointIter != data->mPoints.end(); ++pointIter) {
-		gl::vertex(*pointIter);
-	}
 
 	ImGui::Text("Hello, world");
-	float f=0.5;
-	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-
 	/*
 	処理記述ここから
 	*/
 
 	mCore->Tick();
-	ImGui::Text("Core Count %d", mCore->GetCount());
-	ImGui::Text("Game Count %d", mGame->GetCount());
-	ImGui::Text("Scene Count %d", mScene->GetCount());
-	ImGui::Text("Character Count %d", mCharacter->GetCount());
-	
+
 	/*
 	処理記述ここまで
 	*/
