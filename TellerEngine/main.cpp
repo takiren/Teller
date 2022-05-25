@@ -50,6 +50,10 @@ void BasicAppMultiWindow::setup()
 	mCore->AddChildModule(mGame);
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mCharacter);
+
+	auto ts = std::make_shared<Text>("episode.csv");
+	mScene->AddAgent(ts);
+
 }
 
 void BasicAppMultiWindow::createNewWindow()
@@ -86,7 +90,6 @@ void BasicAppMultiWindow::draw()
 	gl::enableAlphaBlending();
 	WindowData* data = getWindow()->getUserData<WindowData>();
 
-	gl::color(data->mColor);
 	gl::begin(GL_LINE_STRIP);
 
 	for (auto pointIter = data->mPoints.begin(); pointIter != data->mPoints.end(); ++pointIter) {
@@ -106,7 +109,7 @@ void BasicAppMultiWindow::draw()
 	ImGui::Text("Game Count %d", mGame->GetCount());
 	ImGui::Text("Scene Count %d", mScene->GetCount());
 	ImGui::Text("Character Count %d", mCharacter->GetCount());
-
+	
 	/*
 	ˆ—‹Lq‚±‚±‚Ü‚Å
 	*/

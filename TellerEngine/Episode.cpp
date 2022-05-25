@@ -39,6 +39,11 @@ namespace Teller {
 		return ostr.str();
 	}
 
+	std::vector<int> CSVLoader::GetEpisodeList()
+	{
+		return std::vector<int>();
+	}
+
 	CSVLoader::CSVLoader(std::string inputCSVPath, char delimiter)
 	{
 		auto data = ReadToString(inputCSVPath);

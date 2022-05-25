@@ -8,8 +8,8 @@ namespace Teller {
 		int number;
 		int line_begin;
 		int line_end;
-		std::map<int, std::vector<std::string>> data;
 	public:
+		std::map<int, std::vector<std::string>> data;
 		Episode() :
 			title("Nothing title"),
 			number(0),
@@ -23,10 +23,19 @@ namespace Teller {
 			line_end(0)
 		{};
 
+		Episode(std::map<int, std::vector<std::string>> csv) :
+			data(csv),
+			title("Nothing title"),
+			number(0),
+			line_begin(0),
+			line_end(0)
+		{};
+
 		~Episode() = default;
 		void SetLineBegin(int line);
 		void SetLineEnd(int line);
 		void SetNumber(int episodeNumber);
+
 	};
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";
@@ -38,6 +47,7 @@ namespace Teller {
 		CSVLoader(std::string input, char delimiter);
 		Episode GetEpisode();
 		std::vector<Episode> GetEpisodes();
+		std::map<int, std::vector<std::string>> GetCSVData()const { return csv_data; };
 	};
 
 }

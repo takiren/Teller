@@ -41,5 +41,25 @@ namespace Teller {
 		void Update();
 		void GetDraw();
 	};
+
+	class Text :public Agent {
+	private:
+		void Initialize();
+		std::string path_;
+		std::vector<Episode> episodes;
+		int count;
+		int currentLine;
+		std::string currentText;
+	public:
+		Text(std::string path) :
+			Agent(),
+			count(0),
+			currentLine(0) ,
+			currentText("") ,
+			path_(path)
+		{ Initialize(); };
+		void Tick() override;
+		void Update() override;
+	};
 }
 

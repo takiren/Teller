@@ -112,7 +112,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\imgui\backends;C:\Users\taki\source\repos\TellerEngine\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\imgui;$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\imgui\backends;C:\Users\taki\source\repos\TellerEngine\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\imgui;$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)json\include\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -134,7 +134,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\imgui\backends;C:\Users\taki\source\repos\TellerEngine\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\imgui;$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\imgui\backends;C:\Users\taki\source\repos\TellerEngine\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\imgui;$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)json\include\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
