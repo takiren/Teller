@@ -34,6 +34,3 @@ namespace Teller {
 	};
 
 }
-
-#endif // !_ASSET_H_
-
