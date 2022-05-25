@@ -40,18 +40,10 @@ void BasicAppMultiWindow::setup()
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
 	mCore = std::make_shared<TellerCore>();
-<<<<<<< HEAD
 	mGame = std::make_shared<GameModule>();
 	mScene = std::make_shared<SceneModule>();
 	
 	mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
-=======
-
-	auto mGame = std::make_shared<GameModule>();
-	auto mScene = std::make_shared<SceneModule>();
-	auto mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
-
->>>>>>> develop/core
 	mCore->AddChildModule(mGame);
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mCharacter);
@@ -93,12 +85,8 @@ void BasicAppMultiWindow::draw()
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
 
-<<<<<<< HEAD
 	float f=0.5;
 
-=======
-	ImGui::Text("Hello, world");
->>>>>>> develop/core
 	/*
 	ˆ—‹Lq‚±‚±‚©‚ç
 	*/

@@ -1,12 +1,6 @@
 #pragma once
 #include "Core.h"
 
-<<<<<<< HEAD
-=======
-#ifndef _ASSET_H_
-#define _ASSET_H_
-
->>>>>>> develop/core
 namespace fs = std::filesystem;
 namespace Teller {
 	enum class ASSET_TYPE
