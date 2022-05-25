@@ -13,7 +13,7 @@ namespace Teller {
 	protected:
 		fs::path filePath;
 		ASSET_TYPE type;
-		virtual void Init();
+		void Init();
 	public:
 		Asset(fs::path _path) :
 			filePath(_path) {
@@ -24,6 +24,7 @@ namespace Teller {
 	class Sprite :public Asset {
 		void Init();
 	public:
+		gl::TextureRef texture;
 		Sprite(fs::path _path) :Asset(_path) { Init(); };
 	};
 

@@ -1,7 +1,12 @@
 #pragma once
+#include"Core.h"
 #include "Game.h"
+#include"Asset.h"
 #include "cinder/Vector.h"
 #include"Animation.h"
+
+using namespace ci;
+using namespace ci::app;
 
 namespace Teller {
 
@@ -12,23 +17,31 @@ namespace Teller {
 		cinder::vec3 scale;
 		cinder::vec3 rotation;
 
-		std::vector<std::shared_ptr<ModuleCore>>& animations =
-			ModuleCore::children;
+		std::vector<std::shared_ptr<ModuleCore>> animations;
 
 	public:
-		Agent() = default;
-		virtual ~Agent() = default;
-		virtual void Move();
-		virtual void Scale();
-		virtual void Rotate();
-		virtual void MessageHandler();
-		virtual void SetAnimation();
+		Agent():ModuleCore(){};
+		~Agent(){};
+		std::weak_ptr<ModuleCore>& parentScene =
+			ModuleCore::parent;
+
+		void Tick() override;
+		void Move();
+		void Scale();
+		void Rotate();
+		void MessageHandler();
+		void SetAnimation();
 	};
 
 	class Character :public Agent {
+	private:
+		std::unique_ptr<Sprite> csprite;
 	public:
-		void Tick();
+		Character(std::unique_ptr<Sprite> _sprite):Agent(),csprite(std::move(_sprite)){};
+		void Tick() override;
+		void SetSprite();
 		void Update();
+		void GetDraw();
 	};
 }
 

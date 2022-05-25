@@ -4,7 +4,9 @@
 namespace Teller {
 	class GameModule :public ModuleCore {
 	public:
-		GameModule();
+		GameModule():ModuleCore(){};
+		~GameModule(){};
+		void Tick() override;
 		void SetEnable(bool enable);
 		bool IsEnabled() const { return bEnabled; };
 		bool IsUpdate() const { return bUpdate; };

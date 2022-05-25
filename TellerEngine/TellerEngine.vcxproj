@@ -157,14 +157,12 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Episode.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeEditor.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StoryBoard.cpp" />
     <ClCompile Include="TellerEvent.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -179,12 +177,10 @@
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Episode.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Image.h" />
     <ClInclude Include="InGameUI.h" />
     <ClInclude Include="NodeEditor.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sprite.h" />
     <ClInclude Include="TellerEvent.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="UIBase.h" />

@@ -29,31 +29,38 @@ using namespace ci;
 using namespace ci::app;
 
 namespace Teller {
-	class Core;
-
 	using Tint = int;
 	using Tuint = unsigned int;
 
 	class ModuleCore :public std::enable_shared_from_this<ModuleCore>
 	{
+	private:
 	protected:
+		int count_;
+		std::string debugLog;
 		std::weak_ptr<ModuleCore> parent;
 		std::vector<std::shared_ptr<ModuleCore>>children;
 		bool bUpdate; //Gameを動かすかどうか。
 		bool bEnabled;
 	public:
-		ModuleCore():bUpdate(true),bEnabled(false){};
-		virtual ~ModuleCore();
-		void AddChildModule(std::shared_ptr<ModuleCore >&& sub_module);
-		void Tick(); //必ずtickごとに処理される処理。
-		void Update(); //Gameが動いてないと処理されない。
+		ModuleCore():bUpdate(true),bEnabled(true),count_(0),debugLog("Nothing.") {};
+		~ModuleCore();
+		void AddChildModule(std::shared_ptr<ModuleCore > sub_module);
+		virtual void Tick(); //必ずtickごとに処理される処理。
+		virtual void Update(); //Gameが動いてないと処理されない。
+		int GetCount() const { return count_; };
 	};
 
 	class TellerCore :public ModuleCore {
-
+	private:
+	public:
+		TellerCore():ModuleCore(){};
+		~TellerCore(){};
+		void Tick() override;
 	};
 
 	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7
+
 	class ThreadPool {
 		std::unique_ptr<std::thread[]> threads; //スレッド用のユニークポインタ
 		Tint thread_count_; //スレッド数

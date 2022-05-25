@@ -1,9 +1,22 @@
 #include "Game.h"
+#include<iostream>
 using namespace Teller;
 
-Teller::GameModule::GameModule()
+void Teller::GameModule::Tick()
 {
-	bUpdate = true;
+	count_++;
+	if (bUpdate) {
+		for (auto& e : children) {
+			e.get()->Tick();
+			e.get()->Update();
+		}
+	}
+	else
+	{
+		for (auto& e : children) {
+			e.get()->Tick();
+		}
+	}
 }
 
 void Teller::GameModule::SetEnable(bool enable)

@@ -1,15 +1,26 @@
 #include"Core.h"
+#include"Game.h"
+#include"Scene.h"
+#include"Agent.h"
+#include"Asset.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
+using namespace Teller;
+namespace fs = std::filesystem;
 
 // We'll create a new Cinder Application by deriving from the App class
 class BasicAppMultiWindow : public App {
 public:
+	std::shared_ptr<TellerCore> mCore;
+	std::shared_ptr<GameModule> mGame;
+	std::shared_ptr<SceneModule> mScene;
+	std::shared_ptr<Character> mCharacter;
+
 	void setup();
 	void createNewWindow();
-
+	void update() override;
 	void mouseDrag(MouseEvent event);
 	void keyDown(KeyEvent event);
 	void draw();
@@ -29,8 +40,17 @@ public:
 void BasicAppMultiWindow::setup()
 {
 	// for the default window we need to provide an instance of WindowData
+
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
+	mCore = std::make_shared<TellerCore>();
+	mGame = std::make_shared<GameModule>();
+	mScene = std::make_shared<SceneModule>();
+	fs::path path = getOpenFilePath("", ImageIo::getLoadExtensions());
+	mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(path));
+	mCore->AddChildModule(mGame);
+	mGame->AddChildModule(mScene);
+	mScene->AddAgent(mCharacter);
 }
 
 void BasicAppMultiWindow::createNewWindow()
@@ -43,6 +63,10 @@ void BasicAppMultiWindow::createNewWindow()
 	newWindow->getSignalClose().connect(
 		[uniqueId, this] { this->console() << "You closed window #" << uniqueId << std::endl; }
 	);
+}
+
+void BasicAppMultiWindow::update()
+{
 }
 
 void BasicAppMultiWindow::mouseDrag(MouseEvent event)
@@ -60,17 +84,33 @@ void BasicAppMultiWindow::keyDown(KeyEvent event)
 void BasicAppMultiWindow::draw()
 {
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
-
+	gl::enableAlphaBlending();
 	WindowData* data = getWindow()->getUserData<WindowData>();
 
 	gl::color(data->mColor);
 	gl::begin(GL_LINE_STRIP);
+
 	for (auto pointIter = data->mPoints.begin(); pointIter != data->mPoints.end(); ++pointIter) {
 		gl::vertex(*pointIter);
 	}
+
 	ImGui::Text("Hello, world");
 	float f=0.5;
 	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+
+	/*
+	処理記述ここから
+	*/
+
+	mCore->Tick();
+	ImGui::Text("Core Count %d", mCore->GetCount());
+	ImGui::Text("Game Count %d", mGame->GetCount());
+	ImGui::Text("Scene Count %d", mScene->GetCount());
+	ImGui::Text("Character Count %d", mCharacter->GetCount());
+
+	/*
+	処理記述ここまで
+	*/
 	gl::end();
 }
 
