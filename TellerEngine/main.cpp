@@ -39,7 +39,7 @@ void BasicAppMultiWindow::setup()
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
-	auto mCore = std::make_shared<TellerCore>();
+	mCore = std::make_shared<TellerCore>();
 	auto mGame = std::make_shared<GameModule>();
 	auto mScene = std::make_shared<SceneModule>();
 	

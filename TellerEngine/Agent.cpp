@@ -52,7 +52,7 @@ void Teller::Text::Tick()
 	if (count % 200 == 0) {
 		currentLine++;
 	}
-	if (currentLine > episodes.back().data.size()) {
+	if (currentLine >= episodes.back().data.size()) {
 		currentLine = episodes.back().data.size() - 1;
 	}
 	auto size = cinder::app::getWindowSize();
