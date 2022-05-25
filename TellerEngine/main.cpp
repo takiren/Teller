@@ -86,7 +86,6 @@ void BasicAppMultiWindow::draw()
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
 
-	ImGui::Text("Hello, world");
 	/*
 	ˆ—‹Lq‚±‚±‚©‚ç
 	*/
