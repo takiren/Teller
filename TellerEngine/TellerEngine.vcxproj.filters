@@ -123,5 +123,6 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
