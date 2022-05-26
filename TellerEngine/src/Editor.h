@@ -29,6 +29,7 @@ namespace Teller {
 
 	class EpisodeEditor :public Editor {
 	private:
+
 		std::weak_ptr<ContentManager<CSVLoader>> wptr_csvContentManger;
 		void LinkTellerCore();
 	public:
