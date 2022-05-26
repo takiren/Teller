@@ -1,13 +1,12 @@
 #pragma once
 #include"Core.h"
+#include"ModuleCore.h"
 
 namespace Teller {
 	class Agent;
 
 	class SceneModule :public ModuleCore {
 	private:
-		std::vector<std::shared_ptr<ModuleCore>>& agents_ =
-			ModuleCore::children;
 	public:
 		SceneModule():ModuleCore(){};
 		~SceneModule(){};

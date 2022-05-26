@@ -1,5 +1,6 @@
 #pragma once
 #include"Core.h"
+#include"ModuleCore.h"
 
 namespace Teller {
 	class Episode;

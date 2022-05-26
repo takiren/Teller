@@ -4,7 +4,6 @@
 #include<map>
 
 namespace Teller {
-
 	template<class TYPE>
 	class ContentManager {
 	private:

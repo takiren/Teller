@@ -3,6 +3,7 @@
 #include"Asset.h"
 #include"Agent.h"
 #include"Episode.h"
+#include"ModuleCore.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -23,6 +24,7 @@ namespace Teller {
 
 	public:
 		Agent() :
+			ModuleCore(),
 			size(vec3(1)),
 			position(vec3(0, 0, 0)),
 			scale(vec3(1, 1, 1)),
@@ -57,10 +59,6 @@ namespace Teller {
 		void GetDraw();
 	};
 
-	class MainTextArea :public Agent {
-	public:
-
-	};
 
 	class Text :public Agent {
 	private:

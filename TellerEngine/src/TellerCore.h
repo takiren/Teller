@@ -1,6 +1,8 @@
 #pragma once
 #include"Core.h"
 #include"ContentManager.h"
+#include"Editor.h"
+#include"ModuleCore.h"
 
 namespace Teller {
 	class Editor;
@@ -9,8 +11,9 @@ namespace Teller {
 	template<class TYPE>
 	class ContentManager;
 	class Episode;
+	class ModuleCore;
 
-	class TellerCore{
+	class TellerCore:public std::enable_shared_from_this<TellerCore>{
 	private:
 		//*ManagerÇÃÉ|ÉCÉìÉ^ï€éù
 		std::shared_ptr<ContentManager<Sprite>> spriteContentManager;
@@ -31,6 +34,9 @@ namespace Teller {
 		std::shared_ptr<ContentManager<Sprite>> GetSpriteContentManager() const { return spriteContentManager; };
 		std::shared_ptr<ContentManager<Episode>> GetEpisodeContentManager() const { return episodeContentManager; };
 		
+		void AddEditor(std::shared_ptr<Editor> editor);
+		void AddModule(std::shared_ptr<ModuleCore> sub_module);
 		void Tick();
+
 	};
 }

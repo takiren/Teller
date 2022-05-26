@@ -224,6 +224,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InGameUI.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ModuleCore.cpp" />
     <ClCompile Include="src\NodeEditor.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="src\Episode.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\InGameUI.h" />
+    <ClInclude Include="src\ModuleCore.h" />
     <ClInclude Include="src\NodeEditor.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Scene.h" />

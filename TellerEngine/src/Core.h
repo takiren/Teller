@@ -17,6 +17,7 @@
 #include<type_traits>
 #include<functional>
 #include<future>
+#include"TellerCore.h"
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
@@ -35,33 +36,6 @@ using namespace ci::app;
 namespace Teller {
 	using Tint = int;
 	using Tuint = unsigned int;
-
-	class ModuleCore :public std::enable_shared_from_this<ModuleCore>
-	{
-	private:
-	protected:
-		int count_;
-		std::string debugLog;
-		std::weak_ptr<ModuleCore> parent;
-		std::vector<std::shared_ptr<ModuleCore>>children;
-		bool bUpdate; //Gameを動かすかどうか。
-		bool bEnabled;
-	public:
-		ModuleCore() :bUpdate(true), bEnabled(true), count_(0), debugLog("Nothing.") {};
-		~ModuleCore();
-
-		//コピー禁止
-		ModuleCore(const ModuleCore&) = delete;
-		ModuleCore& operator=(const ModuleCore&) = delete;
-
-		//ムーブは許可
-		ModuleCore& operator=(ModuleCore&&) = default;
-
-		virtual void AddChildModule(std::shared_ptr<ModuleCore> sub_module);
-		virtual void Tick(); //必ずtickごとに処理される処理。
-		virtual void Update(); //Gameが動いてないと処理されない。
-		int GetCount() const { return count_; };
-	};
 
 	//スレッドプール
 	// 

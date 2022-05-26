@@ -5,10 +5,6 @@ void Teller::TopLevelMenu::Tick()
 	ImGui::Begin("");
 }
 
-void Teller::EpisodeEditor::LinkTellerCore()
-{
-}
-
 void Teller::EpisodeEditor::Tick()
 {
 	/*
