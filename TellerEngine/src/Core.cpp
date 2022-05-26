@@ -3,12 +3,6 @@
 using namespace Teller;
 
 namespace Teller {
-	
-
-}
-
-
-namespace Teller {
 	template<typename F>
 	void Teller::ThreadPool::push_task(const F& task) {
 		{

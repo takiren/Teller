@@ -8,7 +8,6 @@ namespace Teller {
 	class ContentManager;
 	class CSVLoader;
 
-
 	enum class EDITOR_TYPE
 	{
 		NODE_EDITOR,
@@ -25,9 +24,10 @@ namespace Teller {
 		virtual void Tick();
 		virtual void Update();
 
+		//コピー禁止
 		Editor(const Editor&) = delete;
 		Editor& operator=(const Editor&) = delete;
-
+		//ムーブ許可
 		Editor& operator=(Editor&&) = default;
 	};
 
@@ -42,11 +42,13 @@ namespace Teller {
 	private:
 		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
 	public:
-		EpisodeEditor() :
-			Editor()
-		{};
-		void Tick() override;
 
+		EpisodeEditor() :
+			Editor(),
+			ptr_csvContentManger(parent.lock()->GetCSVContentsManager())
+		{};
+
+		void Tick() override;
 	};
 
 	class AssetViewer :public Editor {

@@ -3,7 +3,17 @@
 namespace Teller {
 	void TellerCore::Tick()
 	{
+		// 1. モジュールのTick()呼び出し。
+		{
+			for (auto& e : modules) {
+				e.get()->Tick();
+			}
+		}
 
+		// 2. エディターのTick()呼び出し。
+		{
+
+		}
 	}
 	void TellerCore::AddModule(std::shared_ptr<ModuleCore> sub_module)
 	{
