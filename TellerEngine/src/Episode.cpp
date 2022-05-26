@@ -2,6 +2,20 @@
 
 namespace Teller {
 
+	void Episode::SetLineBegin(int line)
+	{
+		line_begin = line;
+	}
+
+	void Episode::SetLineEnd(int line)
+	{
+		line_end = line;
+	}
+
+	void Episode::SetNumber(int episodeNumber)
+	{
+	}
+
 	/*
 	ストーリー用CSVファイルフォーマット
 	-------------------------------

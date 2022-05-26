@@ -47,15 +47,12 @@ void BasicAppMultiWindow::setup()
 	auto mGame = std::make_shared<GameModule>();
 	auto mScene = std::make_shared<SceneModule>();
 	
-	auto mCharacter = std::make_shared<Character>(std::make_unique<Sprite>(std::string("kappa.png")));
 	mCore->AddChildModule(mGame);
 	mGame->AddChildModule(mScene);
-	mScene->AddAgent(mCharacter);
 
 	auto ts = std::make_shared<Text>("episode.csv");
 	mScene->AddAgent(ts);
 	setvbuf(stdout, NULL, _IONBF, 0);
-
 
 	AllocConsole();
 	auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);

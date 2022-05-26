@@ -78,6 +78,9 @@
     <ClCompile Include="src\TellerCore.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\ContentManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Agent.h">
@@ -126,6 +129,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\TellerCore.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ContentManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -217,6 +217,7 @@
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Asset.cpp" />
     <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\ContentManager.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\Episode.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Asset.h" />
     <ClInclude Include="src\Audio.h" />
+    <ClInclude Include="src\ContentManager.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\Episode.h" />
