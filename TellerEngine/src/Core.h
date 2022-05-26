@@ -57,14 +57,10 @@ namespace Teller {
 		//ムーブは許可
 		ModuleCore& operator=(ModuleCore&&) = default;
 
-		void AddChildModule(std::shared_ptr<ModuleCore > sub_module);
+		virtual void AddChildModule(std::shared_ptr<ModuleCore> sub_module);
 		virtual void Tick(); //必ずtickごとに処理される処理。
 		virtual void Update(); //Gameが動いてないと処理されない。
 		int GetCount() const { return count_; };
-	};
-
-	template<class T>
-	class ModuleTemplate :public ModuleCore {
 	};
 
 	//スレッドプール

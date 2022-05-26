@@ -1,8 +1,9 @@
 #pragma once
-#include "Game.h"
-#include"Agent.h"
+#include"Core.h"
 
 namespace Teller {
+	class Agent;
+
 	class SceneModule :public ModuleCore {
 	private:
 		std::vector<std::shared_ptr<ModuleCore>>& agents_ =
@@ -10,6 +11,6 @@ namespace Teller {
 	public:
 		SceneModule():ModuleCore(){};
 		~SceneModule(){};
-		void AddAgent(std::shared_ptr<Agent>&& _agent);
+		void AddAgent(std::shared_ptr<Agent> _agent);
 	};
 }

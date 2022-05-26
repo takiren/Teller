@@ -43,15 +43,7 @@ void BasicAppMultiWindow::setup()
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
-	mCore = std::make_shared<TellerCore>();
-	auto mGame = std::make_shared<GameModule>();
-	auto mScene = std::make_shared<SceneModule>();
-	
-	mCore->AddChildModule(mGame);
-	mGame->AddChildModule(mScene);
 
-	auto ts = std::make_shared<Text>("episode.csv");
-	mScene->AddAgent(ts);
 	setvbuf(stdout, NULL, _IONBF, 0);
 
 	AllocConsole();

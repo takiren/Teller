@@ -1,14 +1,16 @@
 #pragma once
 #include"Core.h"
-#include "Game.h"
 #include"Asset.h"
-#include "cinder/Vector.h"
-#include"Animation.h"
+#include"Agent.h"
+#include"Episode.h"
 
 using namespace ci;
 using namespace ci::app;
 
 namespace Teller {
+	class ModuleCore;
+	class Sprite;
+	class Episode;
 
 	class Agent :public ModuleCore
 	{
@@ -18,7 +20,6 @@ namespace Teller {
 		::vec3 scale;
 		::vec3 rotation;
 		//std::vector<std::shared_ptr<ModuleCore>> animations;
-
 
 	public:
 		Agent() :

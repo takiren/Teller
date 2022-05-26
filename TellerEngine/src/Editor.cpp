@@ -11,7 +11,6 @@ void Teller::EpisodeEditor::LinkTellerCore()
 
 void Teller::EpisodeEditor::Tick()
 {
-	ModuleCore::Tick();
 	/*
 	ImGui::Begin~----;
 
@@ -73,5 +72,13 @@ void Teller::EpisodeEditor::Tick()
 }
 
 void Teller::AssetViewer::Tick()
+{
+}
+
+void Teller::Editor::Tick()
+{
+}
+
+void Teller::Editor::Update()
 {
 }

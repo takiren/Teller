@@ -6,6 +6,7 @@
 using json = nlohmann::json;
 
 namespace Teller {
+	class Episode;
 
 	class Sequence {
 	private:
@@ -25,18 +26,4 @@ namespace Teller {
 		bool IsUpdate() const { return bUpdate; };
 	};
 
-	class GameStory :public GameModule {
-	private:
-		std::vector<Episode> episodes;
-	public:
-		GameStory(Episode episode) :
-			GameModule()
-		{
-			episodes.push_back(episode);
-		};
-
-		~GameStory() = default;
-		void Tick() override;
-		void Update() override;
-	};
 }

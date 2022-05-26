@@ -1,8 +1,8 @@
 #pragma once
 #include"Core.h"
-#include"Episode.h"
 
 namespace Teller {
+	class Episode;
 	enum class Node_TYPE {
 		BLANK,
 		EPISODE,

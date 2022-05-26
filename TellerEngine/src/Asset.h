@@ -4,6 +4,7 @@
 namespace fs = std::filesystem;
 using namespace Teller;
 namespace Teller {
+
 	enum class ASSET_TYPE
 	{
 		Image,
@@ -29,8 +30,6 @@ namespace Teller {
 		gl::TextureRef texture;
 		Sprite(fs::path _path) :Asset(_path){};
 	};
-
-	
 
 	/*
 	すべてのアセットはコンテンツマネージャーが管理し、

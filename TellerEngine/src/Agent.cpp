@@ -40,13 +40,11 @@ void Teller::Agent::SetAnimation()
 
 void Teller::Text::Initialize()
 {
-	auto csv = std::make_unique<CSVLoader>(path_);
-	episodes.emplace_back(csv->GetCSVData());
 }
 
 void Teller::Text::Tick()
 {
-	count++;
+	/*count++;
 	Agent::Tick();
 	Agent::Update();
 	if (count % 200 == 0) {
@@ -58,7 +56,7 @@ void Teller::Text::Tick()
 	auto size = cinder::app::getWindowSize();
 	currentText =
 		episodes.back().data.at(currentLine).at(1);
-	gl::drawString(currentText, vec2(size[0] * 0.3, size[1] * 0.7), Color(1, 1, 1), Font("", 50));
+	gl::drawString(currentText, vec2(size[0] * 0.3, size[1] * 0.7), Color(1, 1, 1), Font("", 50));*/
 }
 
 void Teller::Text::Update()

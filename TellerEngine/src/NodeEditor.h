@@ -1,9 +1,10 @@
 #pragma once
 #include"Core.h"
-#include"Tree.h"
-#include"Editor.h"
 
 namespace Teller {
+	class NodeBase;
+	class TreeClass;
+
 	class NodeEditor {
 	private:
 	public:
@@ -13,12 +14,4 @@ namespace Teller {
 		void Update();
 	};
 
-	class SequenceEditor :public NodeEditor {
-	private:
-		TreeClass sequenceTree;
-	public:
-		SequenceEditor() :NodeEditor() {};
-		void AddNode(std::shared_ptr<NodeBase> node) override;
-		void RemoveNode() override;
-	};
 }

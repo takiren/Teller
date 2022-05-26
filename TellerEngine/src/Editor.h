@@ -1,10 +1,12 @@
 #pragma once
 #include"Core.h"
-#include"ContentManager.h"
-#include"Episode.h"
-#include"TellerCore.h"
 
 namespace Teller {
+	class TellerCore;
+	template<class TYPE>
+	class ContentManager;
+	class CSVLoader;
+	
 
 	enum class EDITOR_TYPE
 	{
@@ -12,18 +14,19 @@ namespace Teller {
 		EPISODE_EDITOR
 	};
 
-	template<class PTYPE>
-	class EditorCore :public ModuleCore {
-	protected:
-		std::weak_ptr<PTYPE> p;
-	};
-
-	class Editor :public ModuleCore{
+	class Editor:public std::enable_shared_from_this<Editor>{
 	private:
 	protected:
-		// ëΩï™parentÇ…ê›íËÇ∑ÇÈä÷êîÇ‡íäè€âªÇµÇ»Ç¢Ç∆Ç§Ç‹Ç≠ìÆÇ©Ç»Ç¢
 		std::weak_ptr<TellerCore> parent;
 	public:
+		Editor() = default;
+		virtual void Tick();
+		virtual void Update();
+
+		Editor(const Editor&) = delete;
+		Editor& operator=(const Editor&) = delete;
+
+		Editor& operator=(Editor&&) = default;
 	};
 
 	class TopLevelMenu :public Editor{
@@ -36,7 +39,7 @@ namespace Teller {
 	class EpisodeEditor :public Editor {
 	private:
 
-		std::weak_ptr<ContentManager<CSVLoader>> wptr_csvContentManger;
+		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
 		void LinkTellerCore();
 	public:
 		EpisodeEditor() :
