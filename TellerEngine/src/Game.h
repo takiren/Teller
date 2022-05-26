@@ -1,12 +1,15 @@
 #pragma once
 #include "Core.h"
 #include"Episode.h"
+#include"ModuleCore.h"
 #include<../json/include/nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 namespace Teller {
 	class Episode;
+	class ModuleCore;
+	class TellerCore;
 
 	class Sequence {
 	private:

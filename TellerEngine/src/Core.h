@@ -17,7 +17,6 @@
 #include<type_traits>
 #include<functional>
 #include<future>
-#include"TellerCore.h"
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"

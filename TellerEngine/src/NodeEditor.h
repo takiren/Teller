@@ -1,5 +1,6 @@
 #pragma once
 #include"Core.h"
+#include"Tree.h"
 
 namespace Teller {
 	class NodeBase;

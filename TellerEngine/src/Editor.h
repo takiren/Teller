@@ -1,6 +1,14 @@
 #pragma once
 #include"Core.h"
 #include"ModuleCore.h"
+#include"Episode.h"
+#include"ContentManager.h"
+#include"TellerCore.h"
+
+#include<string>
+#include<vector>
+#include<map>
+#include<memory>
 
 namespace Teller {
 	class TellerCore;
@@ -40,13 +48,16 @@ namespace Teller {
 
 	class EpisodeEditor :public Editor {
 	private:
+		std::vector<std::string> loadedCsvFiles;
 		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
+		void UpdateKeys();
 	public:
-
 		EpisodeEditor() :
 			Editor(),
 			ptr_csvContentManger(parent.lock()->GetCSVContentsManager())
-		{};
+		{
+			loadedCsvFiles = ptr_csvContentManger.lock()->GetKeys();
+		};
 
 		void Tick() override;
 	};

@@ -2,8 +2,13 @@
 #include<string>
 #include<memory>
 #include<map>
+#include<vector>
+#include"TellerCore.h"
+
 
 namespace Teller {
+	class TellerCore;
+
 	template<class TYPE>
 	class ContentManager {
 	private:
@@ -40,7 +45,7 @@ namespace Teller {
 	inline std::vector<std::string> ContentManager<TYPE>::GetKeys()
 	{
 		auto keys = std::vector<std::string>();
-		for (auto iter = contents.begin(); iter != end; iter++) {
+		for (auto iter = contents.begin(); iter != contents.end(); iter++) {
 			keys.push_back(iter->first);
 		}
 		return keys;

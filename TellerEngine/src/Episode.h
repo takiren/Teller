@@ -2,9 +2,13 @@
 #include"Core.h"
 #include"ContentManager.h"
 #include"Asset.h"
+#include<string>
+#include<vector>
+#include<map>
+#include<memory>
 
 namespace Teller {
-
+	class TellerCore;
 	class Episode {
 	private:
 		std::string title;

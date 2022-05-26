@@ -4,6 +4,8 @@
 #include"Agent.h"
 #include"Episode.h"
 #include"ModuleCore.h"
+#include"TellerCore.h"
+#include<string>
 
 using namespace ci;
 using namespace ci::app;
@@ -12,6 +14,10 @@ namespace Teller {
 	class ModuleCore;
 	class Sprite;
 	class Episode;
+	class TellerCore;
+	class Agent;
+	class Sprite;
+
 
 	class Agent :public ModuleCore
 	{

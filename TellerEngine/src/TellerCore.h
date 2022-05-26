@@ -3,6 +3,9 @@
 #include"ContentManager.h"
 #include"Editor.h"
 #include"ModuleCore.h"
+#include"Episode.h"
+#include"Asset.h"
+
 
 namespace Teller {
 	class Editor;

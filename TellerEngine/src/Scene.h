@@ -5,6 +5,7 @@
 
 namespace Teller {
 	class Agent;
+	class ModuleCore;
 
 	class SceneModule :public ModuleCore {
 	private:
