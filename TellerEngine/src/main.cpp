@@ -6,6 +6,7 @@
 #include <io.h>
 #include <Fcntl.h>
 #include<Windows.h>
+#include"TellerCore.h"
 
 using namespace ci;
 using namespace ci::app;

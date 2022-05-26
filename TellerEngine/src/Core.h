@@ -36,10 +36,6 @@ namespace Teller {
 	using Tint = int;
 	using Tuint = unsigned int;
 
-	class ModuleInterface {
-
-	};
-
 	class ModuleCore :public std::enable_shared_from_this<ModuleCore>
 	{
 	private:
@@ -67,13 +63,10 @@ namespace Teller {
 		int GetCount() const { return count_; };
 	};
 
-	class TellerCore :public ModuleCore {
-	private:
-	public:
-		TellerCore() :ModuleCore() {};
-		~TellerCore() {};
-	};
+	
 
+	//スレッドプール
+	// 
 	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7
 
 	class ThreadPool {

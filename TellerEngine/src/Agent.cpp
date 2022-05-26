@@ -2,8 +2,8 @@
 
 void Teller::Character::Tick()
 {
-	Rectf destRect = Rectf(csprite->texture->getBounds()).getCenteredFit(getWindowBounds(), true).scaledCentered(0.85f);
-	gl::draw(csprite->texture, destRect);
+	Rectf destRect = Rectf(sprite_.lock()->texture->getBounds()).getCenteredFit(getWindowBounds(), true).scaledCentered(0.85f);
+	gl::draw(sprite_.lock()->texture, destRect);
 }
 
 void Teller::Character::SetSprite()

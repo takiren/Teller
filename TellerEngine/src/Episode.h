@@ -1,42 +1,9 @@
 #pragma once
 #include"Core.h"
+#include"Asset.h"
 
 namespace Teller {
-	class Episode {
-	private:
-		std::string title;
-		int number;
-		int line_begin;
-		int line_end;
-	public:
-		std::map<int, std::vector<std::string>> data;
-		Episode() :
-			title("Nothing title"),
-			number(0),
-			line_begin(0),
-			line_end(0)
-		{};
-		Episode(std::string titleText,int episode_num):
-			title(titleText),
-			number(episode_num),
-			line_begin(0),
-			line_end(0)
-		{};
 
-		Episode(std::map<int, std::vector<std::string>> csv) :
-			data(csv),
-			title("Nothing title"),
-			number(0),
-			line_begin(0),
-			line_end(0)
-		{};
-
-		~Episode() = default;
-		void SetLineBegin(int line);
-		void SetLineEnd(int line);
-		void SetNumber(int episodeNumber);
-
-	};
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";
 		std::map<int, std::vector<std::string>> csv_data;

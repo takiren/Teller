@@ -13,15 +13,29 @@ namespace Teller {
 	class Agent :public ModuleCore
 	{
 	protected:
-		cinder::vec3 position;
-		cinder::vec3 scale;
-		cinder::vec3 rotation;
+		::vec3 size; //このエージェントの占める画面上の大きさ(ピクセル数)
+		::vec3 position; //画面上の位置
+		::vec3 scale;
+		::vec3 rotation;
+		//std::vector<std::shared_ptr<ModuleCore>> animations;
 
-		std::vector<std::shared_ptr<ModuleCore>> animations;
 
 	public:
-		Agent():ModuleCore(){};
-		~Agent(){};
+		Agent() :
+			size(vec3(1)),
+			position(vec3(0, 0, 0)),
+			scale(vec3(1, 1, 1)),
+			rotation(vec3(0, 0, 0))
+		{};
+
+		Agent(ci::vec3 _position, ci::vec3 _scale, ci::vec3 _rotation) :
+			ModuleCore(),
+			position(_position),
+			scale(_scale),
+			rotation(_rotation)
+		{};
+
+		virtual ~Agent() = default;
 		std::weak_ptr<ModuleCore>& parentScene =
 			ModuleCore::parent;
 		void Move();
@@ -33,13 +47,18 @@ namespace Teller {
 
 	class Character :public Agent {
 	private:
-		std::unique_ptr<Sprite> csprite;
+		std::weak_ptr<Sprite> sprite_;
 	public:
-		Character(std::unique_ptr<Sprite> _sprite):Agent(),csprite(std::move(_sprite)){};
+		Character(std::shared_ptr<Sprite> _sprite) :Agent(), sprite_(_sprite) {};
 		void Tick() override;
 		void SetSprite();
 		void Update();
 		void GetDraw();
+	};
+
+	class MainTextArea :public Agent {
+	public:
+
 	};
 
 	class Text :public Agent {
@@ -54,10 +73,12 @@ namespace Teller {
 		Text(std::string path) :
 			Agent(),
 			count(0),
-			currentLine(0) ,
-			currentText("") ,
+			currentLine(0),
+			currentText(""),
 			path_(path)
-		{ Initialize(); };
+		{
+			Initialize();
+		};
 		void Tick() override;
 		void Update() override;
 	};
