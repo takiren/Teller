@@ -18,6 +18,7 @@ namespace fs = std::filesystem;
 using namespace Teller;
 namespace Teller {
 	class TellerCore;
+
 	enum class ASSET_TYPE
 	{
 		Image,

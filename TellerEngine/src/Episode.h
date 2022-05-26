@@ -9,6 +9,9 @@
 
 namespace Teller {
 	class TellerCore;
+	template<class TYPE>
+	class ContentManager;
+
 	class Episode {
 	private:
 		std::string title;

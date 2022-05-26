@@ -28,7 +28,6 @@ namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 class BasicAppMultiWindow : public App {
 public:
-	std::shared_ptr<TellerCore> mCore;
 
 	void setup();
 	void createNewWindow();
@@ -99,8 +98,6 @@ void BasicAppMultiWindow::draw()
 	/*
 	処理記述ここから
 	*/
-
-	mCore->Tick();
 
 	/*
 	処理記述ここまで
