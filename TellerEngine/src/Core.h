@@ -36,16 +36,6 @@ namespace Teller {
 	using Tint = int;
 	using Tuint = unsigned int;
 
-	template<class PTYPE, class CTYPE>
-	class ModuleTemplate :public std::enable_shared_from_this<ModuleTemplate<PTYPE,CTYPE>> {
-	public:
-		std::weak_ptr<PTYPE> parent;
-		std::vector<std::shared_ptr<CTYPE>> children;
-		ModuleTemplate() = default;
-		~ModuleTemplate() = default;
-		void AddChildModule(std::shared_ptr<CTYPE> child);
-	};
-
 	class ModuleCore :public std::enable_shared_from_this<ModuleCore>
 	{
 	private:
@@ -71,6 +61,10 @@ namespace Teller {
 		virtual void Tick(); //必ずtickごとに処理される処理。
 		virtual void Update(); //Gameが動いてないと処理されない。
 		int GetCount() const { return count_; };
+	};
+
+	template<class T>
+	class ModuleTemplate :public ModuleCore {
 	};
 
 	//スレッドプール
@@ -116,11 +110,5 @@ namespace Teller {
 		std::future<R> submit(F&& func, const Args&&... args);
 	};
 
-	template<class PTYPE, class CTYPE>
-	inline void ModuleTemplate<PTYPE, CTYPE>::AddChildModule(std::shared_ptr<CTYPE> child)
-	{
-		children.push_back(child);
-		child->parent = this->shared_from_this();
-	}
 
 }

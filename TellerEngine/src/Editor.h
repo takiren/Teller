@@ -12,6 +12,12 @@ namespace Teller {
 		EPISODE_EDITOR
 	};
 
+	template<class PTYPE>
+	class EditorCore :public ModuleCore {
+	protected:
+		std::weak_ptr<PTYPE> p;
+	};
+
 	class Editor :public ModuleCore{
 	private:
 	protected:
