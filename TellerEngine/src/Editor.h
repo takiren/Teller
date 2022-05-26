@@ -28,4 +28,10 @@ namespace Teller {
 	public:
 		void Tick() override;
 	};
+
+	class AssetViewer :public ModuleCore {
+	private:
+	public:
+		void Tick() override;
+	};
 }

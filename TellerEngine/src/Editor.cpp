@@ -7,6 +7,15 @@ void Teller::TopLevelMenu::Tick()
 
 void Teller::EpisodeEditor::Tick()
 {
+	ModuleCore::Tick();
+	/*
+	ImGui::Begin~----;
+
+	ImGui::End~----;
+	この間に処理を書く。
+	*/
+
+
 	if (ImGui::Begin("Episode Editor")) {
 		if (ImGui::BeginMainMenuBar()) {
 			if (ImGui::MenuItem("Close")) {
@@ -27,4 +36,8 @@ void Teller::EpisodeEditor::Tick()
 		// 2. エディタ右側
 		ImGui::End();
 	}
+}
+
+void Teller::AssetViewer::Tick()
+{
 }

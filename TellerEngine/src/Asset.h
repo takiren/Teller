@@ -29,7 +29,18 @@ namespace Teller {
 		Sprite(fs::path _path) :Asset(_path) { Init(); };
 	};
 
-	class AssetLoader {
+	template<class TYPE>
+	class ContentManager {
+	private:
+		std::vector<std::shared_ptr<TYPE>> contents;
+	public:
+		ContentManager() = default;
+		~ContentManager() = default;
+		//コピー禁止
+		ContentManager(const ModuleCore&) = delete;
+		ModuleCore& operator=(const ModuleCore&) = delete;
+		//ムーブはあ許可。
+		ModuleCore& operator=(ModuleCore&&) = default;
 
 	};
 

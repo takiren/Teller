@@ -153,7 +153,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -174,7 +174,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -197,7 +197,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -213,40 +213,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Core.cpp" />
-    <ClCompile Include="Editor.cpp" />
-    <ClCompile Include="Episode.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="InGameUI.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="NodeEditor.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="StoryBoard.cpp" />
-    <ClCompile Include="TellerEvent.cpp" />
-    <ClCompile Include="Tree.cpp" />
-    <ClCompile Include="UIBase.cpp" />
+    <ClCompile Include="src\Agent.cpp" />
+    <ClCompile Include="src\Animation.cpp" />
+    <ClCompile Include="src\Asset.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\Editor.cpp" />
+    <ClCompile Include="src\Episode.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\InGameUI.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\NodeEditor.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\StoryBoard.cpp" />
+    <ClCompile Include="src\TellerEvent.cpp" />
+    <ClCompile Include="src\Tree.cpp" />
+    <ClCompile Include="src\UIBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Asset.h" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Core.h" />
-    <ClInclude Include="Editor.h" />
-    <ClInclude Include="Episode.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="InGameUI.h" />
-    <ClInclude Include="NodeEditor.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="TellerEvent.h" />
-    <ClInclude Include="Tree.h" />
-    <ClInclude Include="UIBase.h" />
+    <ClInclude Include="src\Agent.h" />
+    <ClInclude Include="src\Animation.h" />
+    <ClInclude Include="src\Asset.h" />
+    <ClInclude Include="src\Audio.h" />
+    <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\Editor.h" />
+    <ClInclude Include="src\Episode.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\InGameUI.h" />
+    <ClInclude Include="src\NodeEditor.h" />
+    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\TellerEvent.h" />
+    <ClInclude Include="src\Tree.h" />
+    <ClInclude Include="src\UIBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

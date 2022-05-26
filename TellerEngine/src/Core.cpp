@@ -19,6 +19,7 @@ namespace Teller {
 	}
 
 	void Teller::ModuleCore::Tick() {
+		if (!bEnabled) return;
 		count_++;
 		if (bUpdate) {
 			for (auto& e : children) {
