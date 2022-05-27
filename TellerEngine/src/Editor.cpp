@@ -58,21 +58,7 @@ void Teller::EpisodeEditor::Tick()
 			// CSVファイルを表示。
 			static int currentLine = 0;
 			{
-				/*std::weak_ptr<CSVLoader> data = ptr_csvContentManger.lock()->GetContent(loadedCsvFiles.at(selectedFile));
 
-				std::vector<std::string> d;
-				for (size_t i = 0; i < data.lock().get()->GetCSVData().size(); i++)
-				{
-					auto& t = data.lock().get()->GetCSVData().at(i);
-					std::string s{ "" };
-					for (auto& e : t) {
-						s += e;
-					}
-					d.push_back(s);
-					if (ImGui::Selectable(s.c_str(), curr == i)) {
-						curr = i;
-					}
-				}*/
 			}
 			if (ImGui::Button("Revert")) {}
 			ImGui::SameLine();

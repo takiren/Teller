@@ -18,8 +18,14 @@ void Teller::Character::GetDraw()
 {
 }
 
-void Teller::Agent::Move()
+void Teller::Agent::AttachAnimator(std::function<void(vec2&, vec2&, vec2&)>& _animatorCallBack)
 {
+	animatorCallBack_ = _animatorCallBack;
+}
+
+void Teller::Agent::AnimateInternal()
+{
+
 }
 
 void Teller::Agent::Scale()

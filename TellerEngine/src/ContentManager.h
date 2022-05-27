@@ -4,9 +4,8 @@
 #include"Asset.h"
 
 namespace Teller {
-	template<class TYPE>
-	//using ContentT = std::shared_ptr<TYPE>;
 
+	template<class TYPE>
 	class ContentsManager {
 	private:
 		//std::map<int, std::function<void()>&> callbackMap;

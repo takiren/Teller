@@ -10,8 +10,6 @@ namespace Teller {
 	class Editor;
 	class ModuleCore;
 
-	
-
 	class TellerCore :public std::enable_shared_from_this<TellerCore> {
 	private:
 		//*Manager‚Ìƒ|ƒCƒ“ƒ^•Û

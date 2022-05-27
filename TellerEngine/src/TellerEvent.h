@@ -33,7 +33,6 @@ namespace Teller {
 	using MessageHandlerImpleOnSuccess = std::function<void(TMessage& _message)>;
 	using MessageHandlerImpleOnError = std::function<void(const std::string& _message)>;
 
-
 	class TMessageHandlerImple :public TMessageHandler {
 	private:
 		MessageHandlerImpleOnSuccess callback_;

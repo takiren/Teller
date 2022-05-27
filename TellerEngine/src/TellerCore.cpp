@@ -19,6 +19,7 @@ namespace Teller {
 	void TellerCore::AttachEvent(CALL_BACK_EVENT _event, std::shared_ptr<Editor> editor)
 	{
 		//callBackByEventMap.at(_event)[callBackByEventMap.at(_event).size()] = 0;
+
 	}
 
 	int TellerCore::AddModule(std::shared_ptr<ModuleCore> sub_module)

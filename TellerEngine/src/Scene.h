@@ -4,7 +4,6 @@
 #include"Agent.h"
 
 namespace Teller {
-
 	class SceneModule :	public ModuleCore
 	{
 	private:
