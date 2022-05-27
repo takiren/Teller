@@ -1,13 +1,9 @@
 #pragma once
 #include"Core.h"
-#include"Episode.h"
-
 #include"TellerCore.h"
 
-#include<string>
-#include<vector>
-#include<map>
-#include<memory>
+#include"ContentManager.h"
+#include"Episode.h"
 
 namespace Teller {
 	class TellerCore;

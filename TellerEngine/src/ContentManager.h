@@ -2,7 +2,6 @@
 #include"Core.h"
 
 namespace Teller {
-
 	template<class TYPE>
 	class ContentManager {
 	private:
