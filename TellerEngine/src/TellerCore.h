@@ -10,6 +10,8 @@ namespace Teller {
 	class Editor;
 	class ModuleCore;
 
+	
+
 	class TellerCore :public std::enable_shared_from_this<TellerCore> {
 	private:
 		//*ManagerÇÃÉ|ÉCÉìÉ^ï€éù
@@ -20,7 +22,8 @@ namespace Teller {
 		std::vector<std::shared_ptr<ModuleCore>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
 
-		
+		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
+
 	public:
 		TellerCore() :
 			spriteContentManager(std::make_shared<ContentsManager<Sprite>>()),
@@ -31,11 +34,11 @@ namespace Teller {
 		TellerCore(
 			std::shared_ptr<ContentsManager<Sprite>> CMSprite,
 			std::shared_ptr<ContentsManager<Episode>> CMEpisode,
-			std::shared_ptr<ContentsManager<CSVLoader>> CMCSV) 
+			std::shared_ptr<ContentsManager<CSVLoader>> CMCSV)
 			:
 			spriteContentManager(CMSprite),
 			episodeContentManager(CMEpisode),
-			CSVContentManager(CMCSV) 
+			CSVContentManager(CMCSV)
 		{};
 
 		~TellerCore() = default;
@@ -44,8 +47,10 @@ namespace Teller {
 		std::shared_ptr<ContentsManager<Sprite>> GetSpriteContentManager() const { return spriteContentManager; };
 		std::shared_ptr<ContentsManager<Episode>> GetEpisodeContentManager() const { return episodeContentManager; };
 
-		void AddEditor(std::shared_ptr<Editor> editor);
-		void AddModule(std::shared_ptr<ModuleCore> sub_module);
+		int AddEditor(std::shared_ptr<Editor> editor);
+		int AddModule(std::shared_ptr<ModuleCore> sub_module);
 		void Tick();
+		//êÑèß
+		void AttachEvent(CALL_BACK_EVENT _event, std::shared_ptr<Editor> editor);
 	};
 }

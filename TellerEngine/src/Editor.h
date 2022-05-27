@@ -30,6 +30,7 @@ namespace Teller {
 		Editor& operator=(const Editor&) = delete;
 		//ÉÄÅ[Éuãñâ¬
 		Editor& operator=(Editor&&) = default;
+		virtual void AttachEvent(CALL_BACK_EVENT _event);
 	};
 
 	class TopLevelMenu :public Editor {
@@ -61,6 +62,7 @@ namespace Teller {
 				std::string, 
 				std::shared_ptr<CSVLoader>>>&)>& callback);
 
+		void CB_CSV_Update();
 	};
 
 	class AssetViewer :public Editor {
