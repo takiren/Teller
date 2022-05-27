@@ -44,12 +44,8 @@ namespace Teller {
 		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
 		void UpdateKeys();
 	public:
-		EpisodeEditor() :
-			Editor(),
-			ptr_csvContentManger(parent.lock()->GetCSVContentsManager())
-		{
-			loadedCsvFiles = ptr_csvContentManger.lock()->GetKeys();
-		};
+		EpisodeEditor():Editor(){};
+		~EpisodeEditor() = default;
 
 		void Tick() override;
 	};
