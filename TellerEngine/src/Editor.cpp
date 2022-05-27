@@ -86,7 +86,7 @@ void Teller::EpisodeEditor::Tick()
 
 void Teller::EpisodeEditor::CB_UpdateCSVContents(std::function<void(std::weak_ptr < std::map<std::string, std::shared_ptr<CSVLoader>>>&)>& callback)
 {
-	callback(csv_contents);
+
 }
 
 void Teller::AssetViewer::Tick()
@@ -99,4 +99,9 @@ void Teller::Editor::Tick()
 
 void Teller::Editor::Update()
 {
+}
+
+void Teller::Editor::AttachEvent(CALL_BACK_EVENT)
+{
+
 }

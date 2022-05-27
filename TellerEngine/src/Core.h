@@ -33,7 +33,11 @@ using namespace ci;
 using namespace ci::app;
 
 namespace Teller {
-
+	enum class CALL_BACK_EVENT
+	{
+		CONTENTS_UPDATE,
+		CSV_UPDATE
+	};
 	//スレッドプール
 	// 
 	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7

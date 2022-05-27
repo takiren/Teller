@@ -9,7 +9,7 @@ namespace Teller {
 
 	class ContentsManager {
 	private:
-		std::map<int, std::function<void(TYPE)>> callbackMap;
+		//std::map<int, std::function<void()>&> callbackMap;
 
 		std::map<std::string, std::shared_ptr<TYPE>> contents_;
 	public:
