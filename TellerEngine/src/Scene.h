@@ -4,9 +4,9 @@
 #include"Agent.h"
 
 namespace Teller {
-	class Agent;
 
-	class SceneModule :public ModuleCore {
+	class SceneModule :	public ModuleCore
+	{
 	private:
 		std::vector<std::shared_ptr<Agent>> agents_;
 	public:

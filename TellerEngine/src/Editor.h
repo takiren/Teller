@@ -1,12 +1,11 @@
 #pragma once
 #include"Core.h"
-#include"ModuleCore.h"
+#include"TellerCore.h"
+#include"ContentManager.h"
+#include"Episode.h"
 
 namespace Teller {
 	class TellerCore;
-	template<class TYPE>
-	class ContentManager;
-	class CSVLoader;
 
 	enum class EDITOR_TYPE
 	{
@@ -21,6 +20,7 @@ namespace Teller {
 		std::weak_ptr<TellerCore> parent;
 
 		Editor() = default;
+		virtual ~Editor() = default;
 		virtual void Tick();
 		virtual void Update();
 
@@ -40,13 +40,12 @@ namespace Teller {
 
 	class EpisodeEditor :public Editor {
 	private:
+		std::vector<std::string> loadedCsvFiles;
 		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
+		void UpdateKeys();
 	public:
-
-		EpisodeEditor() :
-			Editor(),
-			ptr_csvContentManger(parent.lock()->GetCSVContentsManager())
-		{};
+		EpisodeEditor() :Editor() {};
+		~EpisodeEditor()=default;
 
 		void Tick() override;
 	};

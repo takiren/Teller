@@ -1,10 +1,9 @@
 #pragma once
 #include"Core.h"
+#include"Tree.h"
+#include<memory>
 
 namespace Teller {
-	class NodeBase;
-	class TreeClass;
-
 	class NodeEditor {
 	private:
 	public:

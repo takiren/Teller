@@ -1,30 +1,23 @@
 #pragma once
 #include"Core.h"
-#include"Asset.h"
-#include"Agent.h"
-#include"Episode.h"
 #include"ModuleCore.h"
+#include"Asset.h"
+#include"Episode.h"
 
 using namespace ci;
 using namespace ci::app;
+using namespace Teller;
 
 namespace Teller {
-	class ModuleCore;
-	class Sprite;
-	class Episode;
-
-	class Agent :public ModuleCore
+	class Agent:public ModuleCore
 	{
 	protected:
 		::vec3 size; //このエージェントの占める画面上の大きさ(ピクセル数)
 		::vec3 position; //画面上の位置
 		::vec3 scale;
 		::vec3 rotation;
-		//std::vector<std::shared_ptr<ModuleCore>> animations;
-
 	public:
 		Agent() :
-			ModuleCore(),
 			size(vec3(1)),
 			position(vec3(0, 0, 0)),
 			scale(vec3(1, 1, 1)),
@@ -32,20 +25,16 @@ namespace Teller {
 		{};
 
 		Agent(ci::vec3 _position, ci::vec3 _scale, ci::vec3 _rotation) :
-			ModuleCore(),
 			position(_position),
 			scale(_scale),
 			rotation(_rotation)
 		{};
 
-		virtual ~Agent() = default;
-		std::weak_ptr<ModuleCore>& parentScene =
-			ModuleCore::parent;
-		void Move();
-		void Scale();
-		void Rotate();
-		void MessageHandler();
-		void SetAnimation();
+		virtual void Move();
+		virtual void Scale();
+		virtual void Rotate();
+		virtual void MessageHandler();
+		virtual void SetAnimation();
 	};
 
 	class Character :public Agent {
@@ -55,10 +44,9 @@ namespace Teller {
 		Character(std::shared_ptr<Sprite> _sprite) :Agent(), sprite_(_sprite) {};
 		void Tick() override;
 		void SetSprite();
-		void Update();
+		void Update() override;
 		void GetDraw();
 	};
-
 
 	class Text :public Agent {
 	private:

@@ -36,4 +36,5 @@ namespace Teller {
 		virtual void Update(); //Game‚ª“®‚¢‚Ä‚È‚¢‚Æˆ—‚³‚ê‚È‚¢B
 		int GetCount() const { return count_; };
 	};
+
 }

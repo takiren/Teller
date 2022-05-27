@@ -1,12 +1,22 @@
-#include"Core.h"
-#include"Game.h"
-#include"Scene.h"
-#include"Agent.h"
-#include"Asset.h"
 #include <io.h>
 #include <Fcntl.h>
 #include<Windows.h>
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
+#include"cinder/ImageIo.h"
+#include "cinder/gl/gl.h"
+#include "cinder/gl/Texture.h"
+#include "cinder/Rand.h"
+#include"cinder/Log.h"
+#include <list>
+#include "cinder/CinderImGui.h"
+#include"cinder/ImageIo.h"
+
 #include"TellerCore.h"
+#include"Game.h"
+#include"Scene.h"
+#include"Agent.h"
+
 
 using namespace ci;
 using namespace ci::app;
@@ -17,7 +27,6 @@ namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 class BasicAppMultiWindow : public App {
 public:
-	std::shared_ptr<TellerCore> mCore;
 
 	void setup();
 	void createNewWindow();
@@ -88,8 +97,6 @@ void BasicAppMultiWindow::draw()
 	/*
 	処理記述ここから
 	*/
-
-	mCore->Tick();
 
 	/*
 	処理記述ここまで

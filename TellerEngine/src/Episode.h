@@ -1,10 +1,7 @@
 #pragma once
 #include"Core.h"
-#include"ContentManager.h"
-#include"Asset.h"
 
 namespace Teller {
-
 	class Episode {
 	private:
 		std::string title;
@@ -51,14 +48,6 @@ namespace Teller {
 		Episode GetEpisode();
 		std::vector<Episode> GetEpisodes();
 		std::map<int, std::vector<std::string>> GetCSVData()const { return csv_data; };
-	};
-
-	class EpisodeManager :public ContentManager<Episode> {
-	private:
-		std::vector<std::shared_ptr<CSVLoader>> csv_data;
-	public:
-		EpisodeManager() :ContentManager() {};
-		~EpisodeManager() = default;
 	};
 
 }

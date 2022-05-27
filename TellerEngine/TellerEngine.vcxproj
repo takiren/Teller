@@ -217,7 +217,6 @@
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Asset.cpp" />
     <ClCompile Include="src\Audio.cpp" />
-    <ClCompile Include="src\ContentManager.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\Episode.cpp" />
@@ -251,6 +250,7 @@
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\TellerCore.h" />
     <ClInclude Include="src\TellerEvent.h" />
+    <ClInclude Include="src\ThreadPool.h" />
     <ClInclude Include="src\Tree.h" />
     <ClInclude Include="src\UIBase.h" />
   </ItemGroup>
