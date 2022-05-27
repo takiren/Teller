@@ -1,19 +1,15 @@
 #pragma once
 #include"Core.h"
+
+#include"Asset.h"
 #include"ContentManager.h"
 #include"Editor.h"
-#include"ModuleCore.h"
 #include"Episode.h"
-#include"Asset.h"
+#include"ModuleCore.h"
 
 
 namespace Teller {
 	class Editor;
-	class Sprite;
-	class CSVLoader;
-	template<class TYPE>
-	class ContentManager;
-	class Episode;
 	class ModuleCore;
 
 	class TellerCore :public std::enable_shared_from_this<TellerCore> {

@@ -7,10 +7,6 @@
 using json = nlohmann::json;
 
 namespace Teller {
-	class Episode;
-	class ModuleCore;
-	class TellerCore;
-
 	class Sequence {
 	private:
 		json jsfile;

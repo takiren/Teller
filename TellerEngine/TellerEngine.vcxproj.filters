@@ -78,9 +78,6 @@
     <ClCompile Include="src\TellerCore.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\ContentManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\ModuleCore.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -145,5 +142,10 @@
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\kappa.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
 </Project>

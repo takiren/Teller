@@ -217,7 +217,6 @@
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Asset.cpp" />
     <ClCompile Include="src\Audio.cpp" />
-    <ClCompile Include="src\ContentManager.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\Episode.cpp" />
@@ -258,6 +257,9 @@
     <None Include="..\README.md" />
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\kappa.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

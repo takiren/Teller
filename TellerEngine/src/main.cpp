@@ -1,8 +1,3 @@
-#include"Core.h"
-#include"Game.h"
-#include"Scene.h"
-#include"Agent.h"
-#include"Asset.h"
 #include <io.h>
 #include <Fcntl.h>
 #include<Windows.h>
@@ -16,7 +11,11 @@
 #include <list>
 #include "cinder/CinderImGui.h"
 #include"cinder/ImageIo.h"
+
 #include"TellerCore.h"
+#include"Game.h"
+#include"Scene.h"
+#include"Agent.h"
 
 
 using namespace ci;

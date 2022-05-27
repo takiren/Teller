@@ -1,8 +1,7 @@
 #pragma once
 #include"Core.h"
-#include"ModuleCore.h"
 #include"Episode.h"
-#include"ContentManager.h"
+
 #include"TellerCore.h"
 
 #include<string>
@@ -12,9 +11,6 @@
 
 namespace Teller {
 	class TellerCore;
-	template<class TYPE>
-	class ContentManager;
-	class CSVLoader;
 
 	enum class EDITOR_TYPE
 	{

@@ -1,23 +1,10 @@
 #pragma once
 #include "Core.h"
-#include<filesystem>
-#include<memory>
-#include "cinder/app/App.h"
-#include "cinder/app/RendererGl.h"
-#include"cinder/ImageIo.h"
-#include "cinder/gl/gl.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/Rand.h"
-#include"cinder/Log.h"
-#include <list>
-#include "cinder/CinderImGui.h"
-#include"cinder/ImageIo.h"
-#include"TellerCore.h"
+
 
 namespace fs = std::filesystem;
 using namespace Teller;
 namespace Teller {
-	class TellerCore;
 
 	enum class ASSET_TYPE
 	{
