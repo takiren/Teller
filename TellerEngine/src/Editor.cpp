@@ -35,7 +35,7 @@ void Teller::EpisodeEditor::Tick()
 			// ロードされたファイルを左側に表示。
 			{
 				selectedFileKey = "";
-				int i=0;
+				int i = 0;
 				for (auto& e : loadedCsvFiles) {
 					if (ImGui::Selectable(e.c_str(), selectedFile == i)) {
 						selectedFile = i;
@@ -58,7 +58,7 @@ void Teller::EpisodeEditor::Tick()
 			// CSVファイルを表示。
 			static int currentLine = 0;
 			{
-				std::weak_ptr<CSVLoader> data = ptr_csvContentManger.lock()->GetContent(loadedCsvFiles.at(selectedFile));
+				/*std::weak_ptr<CSVLoader> data = ptr_csvContentManger.lock()->GetContent(loadedCsvFiles.at(selectedFile));
 
 				std::vector<std::string> d;
 				for (size_t i = 0; i < data.lock().get()->GetCSVData().size(); i++)
@@ -72,10 +72,8 @@ void Teller::EpisodeEditor::Tick()
 					if (ImGui::Selectable(s.c_str(), curr == i)) {
 						curr = i;
 					}
-				}
-
+				}*/
 			}
-
 			if (ImGui::Button("Revert")) {}
 			ImGui::SameLine();
 			if (ImGui::Button("Save")) {}
@@ -84,6 +82,11 @@ void Teller::EpisodeEditor::Tick()
 
 		ImGui::End();
 	}
+}
+
+void Teller::EpisodeEditor::CB_UpdateCSVContents(std::function<void(std::weak_ptr < std::map<std::string, std::shared_ptr<CSVLoader>>>&)>& callback)
+{
+	callback(csv_contents);
 }
 
 void Teller::AssetViewer::Tick()
@@ -96,9 +99,4 @@ void Teller::Editor::Tick()
 
 void Teller::Editor::Update()
 {
-}
-
-void Teller::EpisodeEditor::UpdateKeys()
-{
-	loadedCsvFiles = ptr_csvContentManger.lock()->GetKeys();
 }

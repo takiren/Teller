@@ -7,42 +7,47 @@ namespace Teller {
 	template<class TYPE>
 	//using ContentT = std::shared_ptr<TYPE>;
 
-	class ContentManager {
+	class ContentsManager {
 	private:
+		std::map<int, std::function<void(TYPE)>> callbackMap;
+
 		std::map<std::string, std::shared_ptr<TYPE>> contents_;
 	public:
-		ContentManager();
+		ContentsManager();
 		//コピー禁止
-		ContentManager(const ContentManager&) = delete;
-		ContentManager& operator=(const ContentManager&) = delete;
+		ContentsManager(const ContentsManager&) = delete;
+		ContentsManager& operator=(const ContentsManager&) = delete;
 		//ムーブは許可。
-		ContentManager& operator=(ContentManager&&) = default;
+		ContentsManager& operator=(ContentsManager&&) = default;
 
 		void AddContent(const std::string key, const std::shared_ptr<TYPE> content);
 		std::shared_ptr<TYPE> GetContent(const std::string key);
+
+		//std::mapのコンテンツのキーを返す。
 		std::vector<std::string> GetKeys();
 		std::map<std::string, std::shared_ptr<TYPE>> contents()const { return contents_; };
+
 	};
 
 	template<class TYPE>
-	inline ContentManager<TYPE>::ContentManager()
+	inline ContentsManager<TYPE>::ContentsManager()
 	{
 	}
 
 	template<class TYPE>
-	inline void ContentManager<TYPE>::AddContent(std::string key, std::shared_ptr<TYPE> content)
+	inline void ContentsManager<TYPE>::AddContent(std::string key, std::shared_ptr<TYPE> content)
 	{
 		contents_[key] = content;
 	}
 
 	template<class TYPE>
-	inline std::shared_ptr<TYPE> ContentManager<TYPE>::GetContent(std::string key)
+	inline std::shared_ptr<TYPE> ContentsManager<TYPE>::GetContent(std::string key)
 	{
 		return contents_[key];
 	}
 
 	template<class TYPE>
-	inline std::vector<std::string> ContentManager<TYPE>::GetKeys()
+	inline std::vector<std::string> ContentsManager<TYPE>::GetKeys()
 	{
 		auto keys = std::vector<std::string>();
 		for (auto iter = contents_.begin(); iter != contents_.end(); iter++) {
@@ -51,7 +56,7 @@ namespace Teller {
 		return keys;
 	}
 
-	template class ContentManager<CSVLoader>;
-	template class ContentManager<Sprite>;
-	template class ContentManager<Episode>;
+	template class ContentsManager<CSVLoader>;
+	template class ContentsManager<Sprite>;
+	template class ContentsManager<Episode>;
 }

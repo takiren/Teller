@@ -5,17 +5,17 @@ namespace Teller {
 
 	class ThreadPool {
 		std::unique_ptr<std::thread[]> threads; //スレッド用のユニークポインタ
-		Tint thread_count_; //スレッド数
+		int thread_count_; //スレッド数
 		mutable std::mutex tasks_mutex{};
 		std::condition_variable condition;
 		std::queue<std::function<void()>> tasks{};
 		std::atomic<bool> running{ true };
 	public:
-		ThreadPool(const Tuint thread_count = std::thread::hardware_concurrency()) :
+		ThreadPool(const int thread_count = std::thread::hardware_concurrency()) :
 			thread_count_(thread_count ? thread_count : std::thread::hardware_concurrency()) {
 			threads.reset(new std::thread[thread_count]);
 			//後置してthread_count-1までループ
-			for (Tuint i = 0; i < thread_count_; ++i) {
+			for (int i = 0; i < thread_count_; ++i) {
 				threads[i] = std::thread(&ThreadPool::worker, this);
 			}
 		}
@@ -28,7 +28,7 @@ namespace Teller {
 
 			condition.notify_all();
 
-			for (Tuint i = 0; i < thread_count_; ++i) {
+			for (int i = 0; i < thread_count_; ++i) {
 				threads[i].join();
 			}
 		}
