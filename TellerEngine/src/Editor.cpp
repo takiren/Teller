@@ -5,18 +5,6 @@ void Teller::TopLevelMenu::Tick()
 	ImGui::Begin("");
 }
 
-void Teller::EpisodeEditor::UpdateHandler()
-{
-	//TellerCoreのCSVコンテンツマネージャーへのポインタ取得。
-	ptr_csvContentManger = parent.lock().get()->GetCSVContentsManager();
-
-	loadedCsvFiles.clear();
-	for (auto& e : ptr_csvContentManger.lock().get()->GetKeys()) {
-		loadedCsvFiles.push_back(e);
-	}
-	return;
-}
-
 void Teller::EpisodeEditor::Tick()
 {
 	/*
@@ -70,7 +58,7 @@ void Teller::EpisodeEditor::Tick()
 			// CSVファイルを表示。
 			static int currentLine = 0;
 			{
-				std::weak_ptr<CSVLoader> data = ptr_csvContentManger.lock()->GetContent(loadedCsvFiles.at(selectedFile));
+				/*std::weak_ptr<CSVLoader> data = ptr_csvContentManger.lock()->GetContent(loadedCsvFiles.at(selectedFile));
 
 				std::vector<std::string> d;
 				for (size_t i = 0; i < data.lock().get()->GetCSVData().size(); i++)
@@ -84,10 +72,8 @@ void Teller::EpisodeEditor::Tick()
 					if (ImGui::Selectable(s.c_str(), curr == i)) {
 						curr = i;
 					}
-				}
-
+				}*/
 			}
-
 			if (ImGui::Button("Revert")) {}
 			ImGui::SameLine();
 			if (ImGui::Button("Save")) {}
@@ -96,6 +82,11 @@ void Teller::EpisodeEditor::Tick()
 
 		ImGui::End();
 	}
+}
+
+void Teller::EpisodeEditor::CB_UpdateCSVContents(std::function<void(std::weak_ptr < std::map<std::string, std::shared_ptr<CSVLoader>>>&)>& callback)
+{
+	callback(csv_contents);
 }
 
 void Teller::AssetViewer::Tick()

@@ -33,8 +33,6 @@ using namespace ci;
 using namespace ci::app;
 
 namespace Teller {
-	using Tint = int;
-	using Tuint = unsigned int;
 
 	//スレッドプール
 	// 

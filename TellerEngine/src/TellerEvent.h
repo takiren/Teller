@@ -6,57 +6,58 @@ namespace Teller {
 	public:
 		int ID_;
 		std::string message_;
+		TMessage() :ID_(0), message_("") {};
 		TMessage(int _id) :message_(""), ID_(_id) {};
 		virtual ~TMessage() = default;
 	};
 
-	class EventMessage {
-	public:
-		EventMessage() = default;
-		virtual ~EventMessage() = default;
-		int ID_;
-		std::string message_;
-	};
-
 	class TMessageHandler {
 	protected:
-		virtual void onSuccessInternal() = 0;
-		virtual void onErrorInternal(const TMessage& _message) = 0;
+		virtual void onSuccessInternal(const TMessage& _message) = 0;
+		virtual void onErrorInternal(const std::string& _message) = 0;
+		
 	public:
 		TMessageHandler() = default;
 		virtual ~TMessageHandler() = default;
 
-		void onSuccess() {
-			onSuccessInternal();
+		void onSuccess(const TMessage& _message) {
+			onSuccessInternal(_message);
 		}
 
-		void onError(const TMessage& _message) {
+		void onError(const std::string& _message) {
 			onErrorInternal(_message);
 		}
+
 	};
 
-	using MessageHandlerImpleOnSuccess = std::function<void(void)>;
-	using MessageHandlerImpleOnError = std::function<void(const TMessage& _message)>;
-
+	using MessageHandlerImpleOnSuccess = std::function<void(TMessage& _message)>;
+	using MessageHandlerImpleOnError = std::function<void(const std::string& _message)>;
 
 
 	class TMessageHandlerImple :public TMessageHandler {
 	private:
-
-		MessageHandlerImpleOnSuccess on_success_;
+		MessageHandlerImpleOnSuccess callback_;
 		MessageHandlerImpleOnError on_error_;
+		TMessage message_;
 	protected:
-		void onSuccessInternal() override {
-			if (on_success_)
-				on_success_();
+
+		void onSuccessInternal(const TMessage& _message) override {
+			if (callback_) callback_(message_);
 		}
+
+		void onErrorInternal(const std::string& _message)override {
+		}
+
 	public:
 		TMessageHandlerImple(
 			MessageHandlerImpleOnSuccess on_success,
-			MessageHandlerImpleOnError on_error
-		) :on_success_(on_success), on_error_(on_error) {};
-
+			MessageHandlerImpleOnError on_error) :
+			callback_(on_success), 
+			on_error_(on_error)
+		{};
+		virtual ~TMessageHandlerImple() = default;
 	};
+
 
 	class TMessanger {
 	private:
@@ -77,7 +78,7 @@ namespace Teller {
 			}
 
 			if (handler_)
-				handler_->onSuccess();
+				handler_->onSuccess(_message);
 		}
 	};
 

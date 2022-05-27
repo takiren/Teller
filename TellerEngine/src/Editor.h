@@ -3,6 +3,7 @@
 #include"TellerCore.h"
 #include"ContentManager.h"
 #include"Episode.h"
+#include"TellerEvent.h"
 
 namespace Teller {
 	class TellerCore;
@@ -44,13 +45,22 @@ namespace Teller {
 		std::vector<std::string> loadedCsvFiles;
 		//コンテンツマネージャーへのポインタ。
 		std::weak_ptr<ContentsManager<CSVLoader>> ptr_csvContentManger;
-
+		std::weak_ptr<std::map<
+			std::string,
+			std::shared_ptr<CSVLoader>>> csv_contents;
 	public:
+
 		EpisodeEditor() :Editor() {};
-		~EpisodeEditor()=default;
+		~EpisodeEditor() = default;
 		void Tick() override;
 
-		void UpdateHandler();
+		void CB_UpdateCSVContents(
+			std::function<void(
+				std::weak_ptr<
+				std::map<
+				std::string, 
+				std::shared_ptr<CSVLoader>>>&)>& callback);
+
 	};
 
 	class AssetViewer :public Editor {

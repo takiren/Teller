@@ -1,7 +1,7 @@
 #pragma once
 #include"Core.h"
 #include"ModuleCore.h"
-
+#include"TellerEvent.h"
 #include"ContentManager.h"
 #include"Editor.h"
 #include"Episode.h"
@@ -19,6 +19,8 @@ namespace Teller {
 
 		std::vector<std::shared_ptr<ModuleCore>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
+
+		
 	public:
 		TellerCore() :
 			spriteContentManager(std::make_shared<ContentsManager<Sprite>>()),

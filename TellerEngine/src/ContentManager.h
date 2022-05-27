@@ -9,6 +9,8 @@ namespace Teller {
 
 	class ContentsManager {
 	private:
+		std::map<int, std::function<void(TYPE)>> callbackMap;
+
 		std::map<std::string, std::shared_ptr<TYPE>> contents_;
 	public:
 		ContentsManager();
@@ -20,9 +22,11 @@ namespace Teller {
 
 		void AddContent(const std::string key, const std::shared_ptr<TYPE> content);
 		std::shared_ptr<TYPE> GetContent(const std::string key);
+
 		//std::mapのコンテンツのキーを返す。
 		std::vector<std::string> GetKeys();
 		std::map<std::string, std::shared_ptr<TYPE>> contents()const { return contents_; };
+
 	};
 
 	template<class TYPE>
