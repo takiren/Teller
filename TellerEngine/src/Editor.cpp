@@ -35,7 +35,7 @@ void Teller::EpisodeEditor::Tick()
 			// ロードされたファイルを左側に表示。
 			{
 				selectedFileKey = "";
-				int i;
+				int i=0;
 				for (auto& e : loadedCsvFiles) {
 					if (ImGui::Selectable(e.c_str(), selectedFile == i)) {
 						selectedFile = i;
@@ -74,7 +74,6 @@ void Teller::EpisodeEditor::Tick()
 					}
 				}
 
-
 			}
 
 			if (ImGui::Button("Revert")) {}
@@ -103,4 +102,3 @@ void Teller::EpisodeEditor::UpdateKeys()
 {
 	loadedCsvFiles = ptr_csvContentManger.lock()->GetKeys();
 }
-

@@ -1,12 +1,10 @@
 #pragma once
 #include"Core.h"
+#include"ModuleCore.h"
 
-#include"Asset.h"
 #include"ContentManager.h"
 #include"Editor.h"
 #include"Episode.h"
-#include"ModuleCore.h"
-
 
 namespace Teller {
 	class Editor;

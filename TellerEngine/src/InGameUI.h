@@ -19,7 +19,6 @@ namespace Teller {
 	public:
 		UITemplate(std::unique_ptr<T>&& target) :
 			ui(std::move(target)) {};
-
 	};
 
 	class UIBase {

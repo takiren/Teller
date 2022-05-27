@@ -9,6 +9,7 @@ void Teller::ModuleCore::AddChildModule(std::shared_ptr<ModuleCore> sub_module)
 	sub_module->ptrTellerCore = this->ptrTellerCore;
 }
 
+void Teller::ModuleCore::Update(){};
 
 void Teller::ModuleCore::Tick() {
 	if (!bEnabled) return;

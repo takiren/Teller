@@ -1,7 +1,6 @@
 #pragma once
 #include"Core.h"
 #include"TellerCore.h"
-
 #include"ContentManager.h"
 #include"Episode.h"
 
@@ -21,6 +20,7 @@ namespace Teller {
 		std::weak_ptr<TellerCore> parent;
 
 		Editor() = default;
+		virtual ~Editor() = default;
 		virtual void Tick();
 		virtual void Update();
 
@@ -44,8 +44,8 @@ namespace Teller {
 		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
 		void UpdateKeys();
 	public:
-		EpisodeEditor():Editor(){};
-		~EpisodeEditor() = default;
+		EpisodeEditor() :Editor() {};
+		~EpisodeEditor()=default;
 
 		void Tick() override;
 	};

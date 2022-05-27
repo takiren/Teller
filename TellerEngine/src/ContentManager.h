@@ -3,7 +3,6 @@
 #include"Episode.h"
 #include"Asset.h"
 
-
 namespace Teller {
 	template<class TYPE>
 	//using ContentT = std::shared_ptr<TYPE>;
