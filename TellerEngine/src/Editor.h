@@ -40,14 +40,17 @@ namespace Teller {
 
 	class EpisodeEditor :public Editor {
 	private:
+		//読み込まれた生のCSVファイルリスト
 		std::vector<std::string> loadedCsvFiles;
-		std::weak_ptr<ContentManager<CSVLoader>> ptr_csvContentManger;
-		void UpdateKeys();
+		//コンテンツマネージャーへのポインタ。
+		std::weak_ptr<ContentsManager<CSVLoader>> ptr_csvContentManger;
+
 	public:
 		EpisodeEditor() :Editor() {};
 		~EpisodeEditor()=default;
-
 		void Tick() override;
+
+		void UpdateHandler();
 	};
 
 	class AssetViewer :public Editor {

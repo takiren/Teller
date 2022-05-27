@@ -5,6 +5,18 @@ void Teller::TopLevelMenu::Tick()
 	ImGui::Begin("");
 }
 
+void Teller::EpisodeEditor::UpdateHandler()
+{
+	//TellerCoreのCSVコンテンツマネージャーへのポインタ取得。
+	ptr_csvContentManger = parent.lock().get()->GetCSVContentsManager();
+
+	loadedCsvFiles.clear();
+	for (auto& e : ptr_csvContentManger.lock().get()->GetKeys()) {
+		loadedCsvFiles.push_back(e);
+	}
+	return;
+}
+
 void Teller::EpisodeEditor::Tick()
 {
 	/*
@@ -35,7 +47,7 @@ void Teller::EpisodeEditor::Tick()
 			// ロードされたファイルを左側に表示。
 			{
 				selectedFileKey = "";
-				int i=0;
+				int i = 0;
 				for (auto& e : loadedCsvFiles) {
 					if (ImGui::Selectable(e.c_str(), selectedFile == i)) {
 						selectedFile = i;
@@ -96,9 +108,4 @@ void Teller::Editor::Tick()
 
 void Teller::Editor::Update()
 {
-}
-
-void Teller::EpisodeEditor::UpdateKeys()
-{
-	loadedCsvFiles = ptr_csvContentManger.lock()->GetKeys();
 }
