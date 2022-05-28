@@ -1,6 +1,8 @@
 #include <io.h>
 #include <Fcntl.h>
 #include<Windows.h>
+#include <list>
+
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include"cinder/ImageIo.h"
@@ -8,9 +10,7 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/Rand.h"
 #include"cinder/Log.h"
-#include <list>
 #include "cinder/CinderImGui.h"
-#include"cinder/ImageIo.h"
 
 #include"TellerCore.h"
 #include"Game.h"
@@ -27,7 +27,8 @@ namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 class BasicAppMultiWindow : public App {
 public:
-
+	std::shared_ptr<TellerCore> mCore;
+	std::shared_ptr<Animator> mAnimator;
 	void setup();
 	void createNewWindow();
 	void update() override;
@@ -52,6 +53,25 @@ void BasicAppMultiWindow::setup()
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
+
+	mCore = std::make_shared<TellerCore>();
+	mAnimator = std::make_shared<Circular>();
+	mCore->AttachDeltaTimeMessanger(0,
+		[&](float deltaTime) {return mAnimator->SetDeltaTime(deltaTime); }
+	);
+
+	auto mGame = std::make_shared<GameModule>();
+	auto mScene = std::make_shared<SceneModule>();
+	auto mAgent = std::make_shared<RectAgent>();
+
+	mAnimator->Attach(0,
+		[&](vec2 _pos, vec2 _rot, vec2 _scale) {
+			return mAgent->Animate(_pos, _rot, _scale);
+		});
+
+	mCore->AddModule(mGame);
+	mGame->AddChildModule(mScene);
+	mScene->AddAgent(mAgent);
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 

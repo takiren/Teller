@@ -25,8 +25,9 @@ namespace Teller {
 
 	}
 
-	void TellerCore::AttachDeltaTimeMessanger(std::function<void(float)>& callback)
+	void TellerCore::AttachDeltaTimeMessanger(int key,std::function<void(float)> callback)
 	{
+		DeltaTimeMessanger.AttachFunction(key, callback);
 	}
 
 	int TellerCore::AddModule(std::shared_ptr<ModuleCore> sub_module)
@@ -41,7 +42,7 @@ namespace Teller {
 	}
 	void TellerCore::UpdateDeltaTime()
 	{
-		deltaTime_ = deltaTimeCurrent - deltaTimeOld;
+		deltaTime_ = timeCurrent - timeOld;
 	}
 	int TellerCore::AddEditor(std::shared_ptr<Editor> editor)
 	{

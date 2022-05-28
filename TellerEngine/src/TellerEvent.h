@@ -25,7 +25,7 @@ namespace Teller {
 			onSuccessInternal(_message);
 		}
 
-		void AttachDesitination(KEY _key,MessageHandlerImpleOnSuccess& _dest){
+		void AttachDesitinationInternal(KEY _key,MessageHandlerImpleOnSuccess _dest){
 			callbackMap_[_key] = _dest;
 		}
 	};
@@ -47,6 +47,11 @@ namespace Teller {
 			if (handler_)
 				handler_->onSuccess(_message);
 		}
+
+		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)>& callback) {
+			handler_->AttachDesitinationInternal(_key,callback);
+		};
+
 	};
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include"cinder/Cinder.h"
-
+#include"cinder/gl/gl.h"
 #include"ModuleCore.h"
 #include"Asset.h"
 #include"Episode.h"
@@ -39,11 +39,12 @@ namespace Teller {
 		virtual void AnimateInternal(int key, float factor);
 		virtual void Move();*/
 
-		virtual void Animate(vec2& _pos, vec2& _rot, vec2& _scale);
+		virtual void Animate(vec2& _dpos, vec2& _drot, vec2& _dscale);
 		virtual void Scale();
 		virtual void Rotate();
 		virtual void MessageHandler();
 		virtual void SetAnimation();
+
 	};
 
 	class Character :public Agent {
@@ -55,6 +56,12 @@ namespace Teller {
 		void SetSprite();
 		void Update() override;
 		void GetDraw();
+	};
+
+	class RectAgent :public Agent {
+	private:
+	public:
+		void Tick(float& deltaTime) override;
 	};
 
 	class Text :public Agent {

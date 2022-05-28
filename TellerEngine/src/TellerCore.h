@@ -21,8 +21,8 @@ namespace Teller {
 
 	class TellerCore :public std::enable_shared_from_this<TellerCore> {
 	private:
-		float deltaTimeOld;
-		float deltaTimeCurrent;
+		float timeOld;
+		float timeCurrent;
 		float deltaTime_;
 
 		//*Manager‚Ìƒ|ƒCƒ“ƒ^•Û
@@ -43,8 +43,8 @@ namespace Teller {
 			spriteContentManager(std::make_shared<SpriteManager>()),
 			episodeContentManager(std::make_shared<EpisodeManager>()),
 			CSVContentManager(std::make_shared<CSVManager>()),
-			deltaTimeOld(0.0f),
-			deltaTimeCurrent(0.01),
+			timeOld(0.0f),
+			timeCurrent(0.01),
 			deltaTime_(0.01)
 		{};
 
@@ -63,6 +63,6 @@ namespace Teller {
 		//„§
 		void AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor);
 
-		void AttachDeltaTimeMessanger(std::function<void(float)>& callback);
+		void AttachDeltaTimeMessanger(int key,std::function<void(float)> callback);
 	};
 }

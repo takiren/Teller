@@ -77,3 +77,9 @@ void Teller::Text::Tick(float& deltaTime)
 void Teller::Text::Update()
 {
 }
+
+void Teller::RectAgent::Tick(float& deltaTime)
+{
+	Rectf rf = Rectf(Area(vec2(0, 0), vec2(300, 300)));
+	gl::drawSolidRect(rf, vec2(40, 40), vec2(400, 400));
+}

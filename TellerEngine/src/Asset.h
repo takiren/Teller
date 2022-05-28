@@ -6,6 +6,7 @@ namespace Teller {
 
 	enum class ASSET_TYPE
 	{
+		NONE,
 		Image,
 		Audio
 	};
@@ -15,7 +16,7 @@ namespace Teller {
 
 		ASSET_TYPE type;
 	public:
-		Asset() = default;
+		Asset():type(ASSET_TYPE::NONE){};
 	};
 
 	class Sprite :public Asset {

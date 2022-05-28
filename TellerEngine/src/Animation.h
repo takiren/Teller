@@ -19,17 +19,27 @@ namespace Teller {
 		using AnimatorTargetFunc = std::function<void(vec2&, vec2&, vec2&)>;
 		std::map<int, AnimatorTargetFunc> callbackMap_;
 	public:
-		Animator() :deltaTime_(0.01) {};
+		Animator() :
+			deltaTime_(0.0),
+			dpos_(vec2(0)),
+			drot_(vec2(0)),
+			dscale_(1)
+		{};
 		void SetDeltaTime(float& _deltaTime);
 		virtual void Animate(vec2&, vec2&, vec2&);
 
-		virtual void Attach(int key, AnimatorTargetFunc& _destination);
-		virtual void AnimateD(std::function<void(vec2&, vec2&, vec2&)>);
+		virtual void Attach(int key, AnimatorTargetFunc _destination);
+		virtual void Update();
+		virtual void AnimateInternal();
+
+		virtual void AnimateD(std::function<void(vec2&, vec2&, vec2&)>& callback);
 	};
 
 	class Circular :public Animator {
 	private:
+		float theta;
 	public:
-		void AnimateD(std::function<void(vec2&, vec2&, vec2&)>) override;
+		Circular() :Animator(), theta(0){};
+		void AnimateD(std::function<void(vec2&, vec2&, vec2&)>& callback) override;
 	};
 }
