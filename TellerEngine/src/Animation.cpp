@@ -26,11 +26,6 @@ void Teller::TextChanger::Update()
 		auto cline = csvData->GetLine(currentline);
 		callback_(cline.at(0), cline.at(1));
 	}
-	if (timer_.getSeconds() == 3) {
-		Next();
-		auto& cline = csvData.get()->GetCSVData().at(currentline);
-		callback_(cline.at(0), cline.at(1));
-	}
 }
 
 void Teller::TextChanger::Next()

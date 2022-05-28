@@ -28,7 +28,6 @@ namespace Teller {
 		vec2 dpos_;
 		vec2 drot_;
 		vec2 dscale_;
-
 		std::weak_ptr<Agent<Args...>> targetAgent;
 		float deltaTime_;
 		using AnimatorTargetFunc = std::function<void(Args...)>;
@@ -54,7 +53,6 @@ namespace Teller {
 		void AttachToAgent(std::shared_ptr<Agent<Args...>> _agent);
 	};
 
-
 	template<class ...Args>
 	inline void Animator<Args...>::SetDeltaTime(float _deltaTime)
 	{
@@ -71,7 +69,6 @@ namespace Teller {
 		targetAgent = _agent;
 		callback_ = [&](Args... args) {targetAgent.lock()->CallBackLisner(args...); };
 	}
-
 
 	class Circular :public Animator<vec2, vec2, vec2> {
 	private:

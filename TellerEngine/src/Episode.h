@@ -45,7 +45,6 @@ namespace Teller {
 	/*
 	CSVファイルを読み込むクラス。
 	コンストラクタ引数にCSVファイルのパスを入れる。
-
 	*/
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";

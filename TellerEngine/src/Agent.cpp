@@ -1,17 +1,5 @@
 #include "Agent.h"
 
-////Animatorインスタンスのポインタとコールバックを登録。
-//void Teller::Agent::AttachAnimator(std::shared_ptr<Animator>&& _animator, int key)
-//{
-//	animatorMap_[key] = _animator;
-//	animatorCallBackMap_[key] = [&]() { return animatorMap_[key]->Animate(size_, position_, rotation_); };
-//}
-//
-//void Teller::Agent::AnimateInternal(int key, float factor)
-//{
-//
-//}
-
 void Teller::RectAgent::Tick()
 {
 	ImGui::Text("Position: %f %f", position_[0], position_[1]);
@@ -28,8 +16,8 @@ void Teller::RectAgent::CallBackLisner(vec2 _pos, vec2 _rot, vec2 _scale)
 
 void Teller::MainTextArea::Tick()
 {
-	gl::drawString(speaker_, vec2(100, 380), ci::Color(1, 1, 1), ci::Font("", 20));
-	gl::drawString(text_, vec2(100, 400), ci::Color(1, 1, 1), ci::Font("", 20));
+	gl::drawString(speaker_, vec2(100, 380), ci::Color(1, 1, 1), ci::Font("", 40));
+	gl::drawString(text_, vec2(100, 400), ci::Color(1, 1, 1), ci::Font("", 30));
 }
 
 void Teller::MainTextArea::CallBackLisner(std::string _speaker, std::string _text)
