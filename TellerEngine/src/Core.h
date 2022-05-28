@@ -1,12 +1,11 @@
 #pragma once
 
 namespace Teller {
-	enum class CALL_BACK_EVENT
+	enum class TEVENT_MESSAGE
 	{
 		CONTENTS_UPDATE,
-		CSV_UPDATE
+		CSV_UPDATE,
+		SPRITE_UPDATE
 	};
-	
-	
 
 }

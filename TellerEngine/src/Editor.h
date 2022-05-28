@@ -7,7 +7,7 @@
 #include"cinder/Cinder.h"
 #include"cinder/CinderImGui.h"
 
-
+#include<Core.h>
 #include"TellerCore.h"
 #include"ContentManager.h"
 #include"Episode.h"
@@ -38,7 +38,11 @@ namespace Teller {
 		Editor& operator=(const Editor&) = delete;
 		//ÉÄÅ[Éuãñâ¬
 		Editor& operator=(Editor&&) = default;
-		virtual void AttachEvent(CALL_BACK_EVENT _event);
+
+		void GetMessage(TEVENT_MESSAGE& _message) {
+
+		}
+
 	};
 
 	class TopLevelMenu :public Editor {
@@ -62,9 +66,8 @@ namespace Teller {
 	public:
 		EpisodeEditor() :Editor() {};
 		~EpisodeEditor() = default;
-		void Tick() override;
 
-		void CB_CSV_Update();
+		void Tick() override;
 	};
 
 	class AssetViewer :public Editor {

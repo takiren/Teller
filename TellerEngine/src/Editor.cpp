@@ -47,7 +47,7 @@ void Teller::EpisodeEditor::Tick()
 			ImGui::EndChild();
 		}
 
-		static int curr;
+		static int curr=0;
 		// 2. エディタ右側
 
 		{
@@ -55,7 +55,7 @@ void Teller::EpisodeEditor::Tick()
 			ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
 			ImGui::Text("Selected File: %d", curr);
 			ImGui::Separator();
-			// CSVファイルを表示。
+			// CSVファイルの中身を表示。
 			static int currentLine = 0;
 			{
 
@@ -80,9 +80,4 @@ void Teller::Editor::Tick()
 
 void Teller::Editor::Update()
 {
-}
-
-void Teller::Editor::AttachEvent(CALL_BACK_EVENT)
-{
-
 }

@@ -17,17 +17,25 @@ void Teller::Character::Update()
 void Teller::Character::GetDraw()
 {
 }
-//Animatorインスタンスのポインタとコールバックを登録。
-void Teller::Agent::AttachAnimator(std::shared_ptr<Animator>&& _animator,int key)
+////Animatorインスタンスのポインタとコールバックを登録。
+//void Teller::Agent::AttachAnimator(std::shared_ptr<Animator>&& _animator, int key)
+//{
+//	animatorMap_[key] = _animator;
+//	animatorCallBackMap_[key] = [&]() { return animatorMap_[key]->Animate(size_, position_, rotation_); };
+//}
+//
+//void Teller::Agent::AnimateInternal(int key, float factor)
+//{
+//
+//}
+
+void Teller::Agent::Animate(vec2& _dpos, vec2& _drot, vec2& _dscale)
 {
-	animatorMap_[key] = _animator;
-	animatorCallBackMap_[key] = [&]() { return animatorMap_[key]->Animate(size_, position_, rotation_); };
+	position_ += deltaTime_;
+	rotation_ += deltaTime_;
+	scale_ += deltaTime_;
 }
 
-void Teller::Agent::AnimateInternal(int key,float factor)
-{
-
-}
 
 void Teller::Agent::Scale()
 {

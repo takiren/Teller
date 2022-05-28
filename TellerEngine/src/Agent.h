@@ -35,9 +35,11 @@ namespace Teller {
 			rotation_(_rotation)
 		{};
 
-		virtual void AttachAnimator(std::shared_ptr<Animator>&& _animator,int key);
+		/*virtual void AttachAnimator(std::shared_ptr<Animator>&& _animator,int key);
 		virtual void AnimateInternal(int key, float factor);
-		virtual void Move();
+		virtual void Move();*/
+
+		virtual void Animate(vec2& _pos, vec2& _rot, vec2& _scale);
 		virtual void Scale();
 		virtual void Rotate();
 		virtual void MessageHandler();

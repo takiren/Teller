@@ -12,6 +12,7 @@
 #include"ThreadPool.h"
 
 namespace Teller {
+	//前方宣言
 	class Editor;
 	class ModuleCore;
 	using CSVManager = ContentsManager<CSVLoader>;
@@ -20,6 +21,10 @@ namespace Teller {
 
 	class TellerCore :public std::enable_shared_from_this<TellerCore> {
 	private:
+		float deltaTimeOld;
+		float deltaTimeCurrent;
+		float deltaTime_;
+
 		//*Managerのポインタ保持
 		std::shared_ptr<SpriteManager> spriteContentManager;
 		std::shared_ptr<EpisodeManager> episodeContentManager;
@@ -28,25 +33,19 @@ namespace Teller {
 		std::vector<std::shared_ptr<ModuleCore>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
 
-		
+		TMessanger<int, float> DeltaTimeMessanger;
 
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
 		void CoreInitialize();
+		void UpdateDeltaTime();
 	public:
 		TellerCore() :
 			spriteContentManager(std::make_shared<SpriteManager>()),
 			episodeContentManager(std::make_shared<EpisodeManager>()),
-			CSVContentManager(std::make_shared<CSVManager>())
-		{};
-
-		TellerCore(
-			std::shared_ptr<SpriteManager> CMSprite,
-			std::shared_ptr<EpisodeManager> CMEpisode,
-			std::shared_ptr<CSVManager> CMCSV)
-			:
-			spriteContentManager(CMSprite),
-			episodeContentManager(CMEpisode),
-			CSVContentManager(CMCSV)
+			CSVContentManager(std::make_shared<CSVManager>()),
+			deltaTimeOld(0.0f),
+			deltaTimeCurrent(0.01),
+			deltaTime_(0.01)
 		{};
 
 		~TellerCore() = default;
@@ -57,8 +56,13 @@ namespace Teller {
 
 		int AddEditor(std::shared_ptr<Editor> editor);
 		int AddModule(std::shared_ptr<ModuleCore> sub_module);
+
+		float GetDeltaTime()const { return deltaTime_; };
+
 		void Tick(float& deltaTime);
 		//推奨
-		void AttachEvent(CALL_BACK_EVENT _event, std::shared_ptr<Editor> editor);
+		void AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor);
+
+		void AttachDeltaTimeMessanger(std::function<void(float)>& callback);
 	};
 }
