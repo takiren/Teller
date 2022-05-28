@@ -57,7 +57,6 @@ void BasicAppMultiWindow::setup()
 
 	mCore = std::make_shared<TellerCore>();
 
-	auto mAnimator = std::make_unique<Circular>();
 
 	/*mCore->AttachDeltaTimeMessanger(0,
 		[&](float deltaTime) { mAnimator->SetDeltaTime(deltaTime); }
@@ -71,16 +70,20 @@ void BasicAppMultiWindow::setup()
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mAgent);
 
-	auto animSeq = std::make_unique<AnimationSequencer>();
+	auto animSeq = std::make_unique<AnimationSequencer>("args");
 
+	auto mAnimator = std::make_unique<Circular>();
+
+	auto textAgent = std::make_shared<MainTextArea>();
+	mScene->AddAgent(textAgent);
+	auto tChanger = std::make_unique<TextChanger>();
+
+	tChanger->AttachToAgent(textAgent);
+	tChanger->LoadCSV("data/story.csv");
 	mAnimator->AttachToAgent(mAgent);
 	animSeq->AddAnimator(std::move(mAnimator));
+	animSeq->AddAnimator(std::move(tChanger));
 	mCore->AddAnimSequencer(std::move(animSeq));
-	/*mAnimator->Attach(0,
-		[](vec2& _pos, vec2& _rot, vec2& _scale) {
-			mAgent->Animate(_pos, _rot, _scale);
-		});*/
-
 		//冷静に考えたらポインタどっかいってるから削除。
 		/*setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -89,6 +92,7 @@ void BasicAppMultiWindow::setup()
 		*stdout = *_fdopen(hConsole, "w");*/
 
 	ci::app::setWindowSize(1280, 720);
+	ci::app::setWindowPos(vec2(1920/2-1280/2,1080/2-720/2));
 }
 
 void BasicAppMultiWindow::createNewWindow()

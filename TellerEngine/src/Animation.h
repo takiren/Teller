@@ -3,6 +3,7 @@
 #include<map>
 #include"cinder/Cinder.h"
 #include"cinder/gl/gl.h"
+#include"cinder/Timer.h"
 
 #include"Agent.h"
 #include"Episode.h"
@@ -11,8 +12,11 @@ namespace Teller {
 	using namespace ci;
 
 	class AnimatorCore {
+	protected:
+		std::string uniqueName;
 	public:
-		AnimatorCore() = default;
+		AnimatorCore() :uniqueName("") {};
+		AnimatorCore(std::string _name) :uniqueName(_name) {};
 		virtual ~AnimatorCore() = default;
 		virtual void Update();
 	};
@@ -72,28 +76,37 @@ namespace Teller {
 	class Circular :public Animator<vec2, vec2, vec2> {
 	private:
 		float theta;
+		Timer timer_;
+		void Initialize();
 	public:
-		Circular() :Animator(), theta(0) {};
+		Circular() :Animator(), theta(0) { Initialize(); };
 		void Update() override;
 	};
 
 	class TextChanger :public Animator<std::string, std::string> {
 	private:
+		Timer timer_;
 		std::unique_ptr<CSVLoader> csvData;
 		int currentline;
+		int count_;
+		void Initialize();
 	public:
-		TextChanger() :Animator(), currentline(1) {};
+		TextChanger() :Animator(), currentline(1), count_(0) { ; };
 		void Update() override;
-
 		//éüÇÃçsÇ÷ÅB
 		void Next();
+		void LoadCSV(std::string path) {
+			csvData = std::move(std::make_unique<CSVLoader>(path)); Initialize();
+		};
 	};
 
-
 	class AnimationSequencer {
+	private:
+		std::string uniqueName;
 		std::vector<std::unique_ptr<AnimatorCore>> animators;
 	public:
-		AnimationSequencer() = default;
+		AnimationSequencer() = delete;
+		AnimationSequencer(std::string _name) :uniqueName(_name) {};
 		~AnimationSequencer() = default;
 
 		AnimationSequencer(const AnimationSequencer&) = delete;
