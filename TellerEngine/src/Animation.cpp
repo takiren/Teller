@@ -37,12 +37,21 @@ void Teller::AnimationSequencer::AddAnimator(std::unique_ptr<AnimatorCore> _anim
 
 void Teller::TextChanger::Update()
 {
+	
+}
+
+void Teller::TextChanger::Next()
+{
+	currentline++;
 }
 
 void Teller::AnimatorCore::Update()
 {
 }
 
-void Teller::Circular::AnimateInternal()
+void Teller::Circular::Update()
 {
+	theta += 0.01f;
+	dpos_ = vec2(-sin(theta) * 100, cos(theta) * 100);
+	callback_(dpos_, drot_, dscale_);
 }

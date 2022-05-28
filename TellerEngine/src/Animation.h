@@ -18,7 +18,7 @@ namespace Teller {
 	};
 
 	template<class... Args>
-	class Animator :public AnimatorCore{
+	class Animator :public AnimatorCore {
 	protected:
 		//A letter "d" means diff
 		vec2 dpos_;
@@ -29,8 +29,7 @@ namespace Teller {
 		float deltaTime_;
 		using AnimatorTargetFunc = std::function<void(Args...)>;
 		AnimatorTargetFunc callback_;
-		virtual void AnimateInternal();
-		virtual void Animate(Args... args);
+
 	public:
 		Animator() :
 			deltaTime_(1),
@@ -49,25 +48,45 @@ namespace Teller {
 		virtual void Update();
 
 		void AttachToAgent(std::shared_ptr<Agent<Args...>> _agent);
-
 	};
 
 
-	class Circular :public Animator<vec2,vec2,vec2> {
+	template<class ...Args>
+	inline void Animator<Args...>::SetDeltaTime(float _deltaTime)
+	{
+	}
+
+	template<class ...Args>
+	inline void Animator<Args...>::Update()
+	{
+	}
+
+	template<class ...Args>
+	inline void Animator<Args...>::AttachToAgent(std::shared_ptr<Agent<Args...>> _agent)
+	{
+		targetAgent = _agent;
+		callback_ = [&](Args... args) {targetAgent.lock()->CallBackLisner(args...); };
+	}
+
+
+	class Circular :public Animator<vec2, vec2, vec2> {
 	private:
 		float theta;
 	public:
-		Circular() :Animator<vec2, vec2, vec2>(), theta(0) {};
-		void AnimateInternal() override;
+		Circular() :Animator(), theta(0) {};
+		void Update() override;
 	};
 
 	class TextChanger :public Animator<std::string, std::string> {
 	private:
 		std::unique_ptr<CSVLoader> csvData;
-		std::function<void(std::string, std::string)> callbackTRGT_;
+		int currentline;
 	public:
+		TextChanger() :Animator(), currentline(1) {};
 		void Update() override;
-		void AttachToAgent(std::shared_ptr<Agent<std::string,std::string>> _agent);
+
+		//éüÇÃçsÇ÷ÅB
+		void Next();
 	};
 
 
@@ -85,27 +104,5 @@ namespace Teller {
 		void Update();
 		void AddAnimator(std::unique_ptr<AnimatorCore> _animator);
 	};
-	template<class ...Args>
-	inline void Animator<Args...>::AnimateInternal()
-	{
-	}
-	template<class ...Args>
-	inline void Animator<Args...>::Animate(Args ...args)
-	{
-	}
-	template<class ...Args>
-	inline void Animator<Args...>::SetDeltaTime(float _deltaTime)
-	{
-	}
-	template<class ...Args>
-	inline void Animator<Args...>::Update()
-	{
-	}
 
-	template<class ...Args>
-	inline void Animator<Args...>::AttachToAgent(std::shared_ptr<Agent<Args...>> _agent)
-	{
-		targetAgent = _agent;
-		callback_ = [&](Args... args) {targetAgent.lock()->CallBackLisner(args...); };
-	}
 }

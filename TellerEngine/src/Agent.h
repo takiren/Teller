@@ -65,6 +65,7 @@ namespace Teller {
 	private:
 	public:
 		void Tick() override;
+		void CallBackLisner(vec2 _pos, vec2 _rot, vec2 _scale) override;
 	};
 
 	class MainTextArea :public Agent<std::string, std::string> {
@@ -74,7 +75,8 @@ namespace Teller {
 	public:
 		MainTextArea() :Agent(), text_(""), speaker_("") {};
 		void Tick() override;
-		void SetText(std::string _speaker, std::string _text);
+		
+		void CallBackLisner(std::string _speaker, std::string _text);
 	};
 
 

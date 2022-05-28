@@ -56,6 +56,7 @@ void BasicAppMultiWindow::setup()
 	ImGui::Initialize();
 
 	mCore = std::make_shared<TellerCore>();
+
 	auto mAnimator = std::make_unique<Circular>();
 
 	/*mCore->AttachDeltaTimeMessanger(0,
