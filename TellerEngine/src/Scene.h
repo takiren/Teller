@@ -1,5 +1,7 @@
 #pragma once
-#include"Core.h"
+#include<vector>
+#include<memory>
+
 #include"ModuleCore.h"
 #include"Agent.h"
 

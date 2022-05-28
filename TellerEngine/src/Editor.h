@@ -1,5 +1,13 @@
 #pragma once
-#include"Core.h"
+
+#include<memory>
+#include<string>
+#include<vector>
+
+#include"cinder/Cinder.h"
+#include"cinder/CinderImGui.h"
+
+
 #include"TellerCore.h"
 #include"ContentManager.h"
 #include"Episode.h"
@@ -40,27 +48,21 @@ namespace Teller {
 		void Tick() override;
 	};
 
+
 	class EpisodeEditor :public Editor {
 	private:
 		//読み込まれた生のCSVファイルリスト
 		std::vector<std::string> loadedCsvFiles;
+
 		//コンテンツマネージャーへのポインタ。
 		std::weak_ptr<ContentsManager<CSVLoader>> ptr_csvContentManger;
 		std::weak_ptr<std::map<
 			std::string,
 			std::shared_ptr<CSVLoader>>> csv_contents;
 	public:
-
 		EpisodeEditor() :Editor() {};
 		~EpisodeEditor() = default;
 		void Tick() override;
-
-		void CB_UpdateCSVContents(
-			std::function<void(
-				std::weak_ptr<
-				std::map<
-				std::string, 
-				std::shared_ptr<CSVLoader>>>&)>& callback);
 
 		void CB_CSV_Update();
 	};

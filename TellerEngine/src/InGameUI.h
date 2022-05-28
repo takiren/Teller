@@ -1,5 +1,5 @@
 #pragma once
-#include"Core.h"
+#include<memory>
 #include"Agent.h"
 
 namespace Teller {

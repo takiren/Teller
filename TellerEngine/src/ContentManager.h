@@ -1,5 +1,9 @@
 #pragma once
-#include"Core.h"
+#include<string>
+#include<map>
+#include<memory>
+#include<vector>
+
 #include"Episode.h"
 #include"Asset.h"
 
@@ -8,9 +12,10 @@ namespace Teller {
 	template<class TYPE>
 	class ContentsManager {
 	private:
-		//std::map<int, std::function<void()>&> callbackMap;
-
+		//データはmapで管理
+		//key=std::stringはファイル名
 		std::map<std::string, std::shared_ptr<TYPE>> contents_;
+
 	public:
 		ContentsManager();
 		//コピー禁止

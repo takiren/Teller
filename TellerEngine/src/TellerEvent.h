@@ -1,5 +1,8 @@
 #pragma once
-#include"Core.h"
+#include<vector>
+#include<string>
+#include<functional>
+#include<memory>
 
 namespace Teller {
 	class TMessage {

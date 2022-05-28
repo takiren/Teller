@@ -1,5 +1,8 @@
 #pragma once
-#include "Core.h"
+#include<string>
+#include<iostream>
+#include<fstream>
+#include<sstream>
 
 #include"ModuleCore.h"
 #include"Episode.h"

@@ -1,9 +1,7 @@
 #pragma once
-#include "Core.h"
 
+#include<memory>
 
-namespace fs = std::filesystem;
-using namespace Teller;
 namespace Teller {
 
 	enum class ASSET_TYPE
@@ -16,16 +14,14 @@ namespace Teller {
 	protected:
 
 		ASSET_TYPE type;
-		virtual void Init();
 	public:
 		Asset() = default;
 	};
 
 	class Sprite :public Asset {
 	protected:
-		void Init() override;
 	public:
-		Sprite()=default;
+		Sprite() :Asset() {};
 	};
 
 	/*

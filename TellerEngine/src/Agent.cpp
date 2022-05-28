@@ -1,6 +1,6 @@
 #include "Agent.h"
 
-void Teller::Character::Tick()
+void Teller::Character::Tick(float& deltaTime)
 {
 	//Rectf destRect = Rectf(sprite_.lock()->texture->getBounds()).getCenteredFit(getWindowBounds(), true).scaledCentered(0.85f);
 	//gl::draw(sprite_.lock()->texture, destRect);
@@ -17,13 +17,14 @@ void Teller::Character::Update()
 void Teller::Character::GetDraw()
 {
 }
-
-void Teller::Agent::AttachAnimator(std::function<void(vec2&, vec2&, vec2&)>& _animatorCallBack)
+//Animatorインスタンスのポインタとコールバックを登録。
+void Teller::Agent::AttachAnimator(std::shared_ptr<Animator>&& _animator,int key)
 {
-	animatorCallBack_ = _animatorCallBack;
+	animatorMap_[key] = _animator;
+	animatorCallBackMap_[key] = [&]() { return animatorMap_[key]->Animate(size_, position_, rotation_); };
 }
 
-void Teller::Agent::AnimateInternal()
+void Teller::Agent::AnimateInternal(int key,float factor)
 {
 
 }
@@ -48,7 +49,7 @@ void Teller::Text::Initialize()
 {
 }
 
-void Teller::Text::Tick()
+void Teller::Text::Tick(float& deltaTime)
 {
 	/*count++;
 	Agent::Tick();

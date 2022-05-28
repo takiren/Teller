@@ -1,6 +1,10 @@
 #pragma once
-#include"Core.h"
 #include"TellerCore.h"
+#include<memory>
+#include<vector>
+#include<map>
+#include<string>
+
 
 namespace Teller {
 	class TellerCore;
@@ -9,6 +13,8 @@ namespace Teller {
 	{
 	private:
 	protected:
+		//deltaTime=1フレームにかかった時間
+		float deltaTime_;
 		int count_;
 		std::string debugLog;
 		bool bUpdate; //Gameを動かすかどうか。
@@ -32,7 +38,7 @@ namespace Teller {
 		ModuleCore& operator=(ModuleCore&&) = default;
 
 		virtual void AddChildModule(std::shared_ptr<ModuleCore> sub_module);
-		virtual void Tick(); //必ずtickごとに処理される処理。
+		virtual void Tick(float& deltaTime); //必ずtickごとに処理される処理。
 		virtual void Update(); //Gameが動いてないと処理されない。
 		int GetCount() const { return count_; };
 	};

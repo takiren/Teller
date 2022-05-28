@@ -1,13 +1,12 @@
 #pragma once
-#include"Core.h"
+#include"cinder/Cinder.h"
+
 #include"ModuleCore.h"
 #include"Asset.h"
 #include"Episode.h"
 #include"Animation.h"
 
 using namespace ci;
-using namespace ci::app;
-using namespace Teller;
 
 namespace Teller {
 	class Agent :public ModuleCore
@@ -17,7 +16,11 @@ namespace Teller {
 		::vec2 position_; //画面上の位置
 		::vec2 scale_;
 		::vec2 rotation_;
+
+		//Animatorクラス用変数
+		std::map<int, std::shared_ptr<Animator>> animatorMap_;
 		std::function<void(vec2&, vec2&, vec2&)> animatorCallBack_;
+		std::map<int, std::function<void()>> animatorCallBackMap_;
 	public:
 		Agent() :
 			size_(vec2(1)),
@@ -32,8 +35,8 @@ namespace Teller {
 			rotation_(_rotation)
 		{};
 
-		void AttachAnimator(std::function<void(vec2&, vec2&, vec2&)>& _animatorCallBack);
-		void AnimateInternal();
+		virtual void AttachAnimator(std::shared_ptr<Animator>&& _animator,int key);
+		virtual void AnimateInternal(int key, float factor);
 		virtual void Move();
 		virtual void Scale();
 		virtual void Rotate();
@@ -46,7 +49,7 @@ namespace Teller {
 		std::weak_ptr<Sprite> sprite_;
 	public:
 		Character(std::shared_ptr<Sprite> _sprite) :Agent(), sprite_(_sprite) {};
-		void Tick() override;
+		void Tick(float& deltaTime) override;
 		void SetSprite();
 		void Update() override;
 		void GetDraw();
@@ -70,7 +73,7 @@ namespace Teller {
 		{
 			Initialize();
 		};
-		void Tick() override;
+		void Tick(float& deltaTime) override;
 		void Update() override;
 	};
 }

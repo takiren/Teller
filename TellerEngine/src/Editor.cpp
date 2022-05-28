@@ -70,11 +70,6 @@ void Teller::EpisodeEditor::Tick()
 	}
 }
 
-void Teller::EpisodeEditor::CB_UpdateCSVContents(std::function<void(std::weak_ptr < std::map<std::string, std::shared_ptr<CSVLoader>>>&)>& callback)
-{
-
-}
-
 void Teller::AssetViewer::Tick()
 {
 }

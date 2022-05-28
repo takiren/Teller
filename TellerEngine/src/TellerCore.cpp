@@ -1,18 +1,20 @@
 #include"TellerCore.h"
 
 namespace Teller {
-	void TellerCore::Tick()
+	void TellerCore::Tick(float& deltaTime)
 	{
 		// 1. モジュールのTick()呼び出し。
 		{
 			for (auto& e : modules) {
-				e.get()->Tick();
+				e->Tick(deltaTime);
 			}
 		}
 
 		// 2. エディターのTick()呼び出し。
 		{
-
+			for (auto& e : editors) {
+				e->Tick();
+			}
 		}
 	}
 
@@ -27,6 +29,10 @@ namespace Teller {
 		modules.push_back(sub_module);
 		sub_module->ptrTellerCore = this->shared_from_this();
 		return 0;
+	}
+	void TellerCore::CoreInitialize()
+	{
+
 	}
 	int TellerCore::AddEditor(std::shared_ptr<Editor> editor)
 	{

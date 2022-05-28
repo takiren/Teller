@@ -1,5 +1,10 @@
 #pragma once
-#include"Core.h"
+#include<vector>
+#include<string>
+#include<map>
+#include<istream>
+#include<fstream>
+#include<sstream>
 
 namespace Teller {
 	class Episode {

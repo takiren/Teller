@@ -11,22 +11,26 @@ void Teller::ModuleCore::AddChildModule(std::shared_ptr<ModuleCore> sub_module)
 
 void Teller::ModuleCore::Update(){};
 
-void Teller::ModuleCore::Tick() {
+void Teller::ModuleCore::Tick(float& deltaTime) {
+
+	//1ƒtƒŒ[ƒ€‚Ì•`‰æ‚É‚©‚©‚Á‚½ŽžŠÔ
+	deltaTime_ = deltaTime;
 	if (!bEnabled) return;
 	/*
-	Tick()“à‚Åˆ—‚±‚±‚©‚ç
+	Tick()“àˆ—‚±‚±‚©‚ç
 	*/
 
 	count_++;
+	
 	if (bUpdate) {
 		for (auto& e : children) {
-			e.get()->Tick();
+			e.get()->Tick(deltaTime);
 		}
 	}
 	else
 	{
 		for (auto& e : children) {
-			e.get()->Tick();
+			e.get()->Tick(deltaTime);
 		}
 	}
 	/*
