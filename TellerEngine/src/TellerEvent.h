@@ -4,7 +4,7 @@
 #include<functional>
 #include<memory>
 #include<map>
-#include<Core.h>
+#include"Core.h"
 
 namespace Teller {
 	template<class KEY,class DATA_TYPE>
@@ -13,7 +13,7 @@ namespace Teller {
 		using MessageHandlerImpleOnSuccess = std::function<void(DATA_TYPE)>;
 		std::map<KEY, std::function<void(DATA_TYPE)>> callbackMap_;
 		void onSuccessInternal(const DATA_TYPE& _message) {
-			for (auto iter = callbackMap_.begin(); iter != callbackMap_.end(); ++iter) {
+			for (auto iter = callbackMap_.begin(); iter != callbackMap_.end(); iter++) {
 				iter->second(_message);
 			}
 		}
@@ -43,12 +43,11 @@ namespace Teller {
 		}
 
 		void SendMessage(const DATA_TYPE& _message) {
-
 			if (handler_)
 				handler_->onSuccess(_message);
 		}
 
-		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)>& callback) {
+		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)> callback) {
 			handler_->AttachDesitinationInternal(_key,callback);
 		};
 

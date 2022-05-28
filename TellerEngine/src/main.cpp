@@ -28,7 +28,7 @@ namespace fs = std::filesystem;
 class BasicAppMultiWindow : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
-	std::shared_ptr<Animator> mAnimator;
+	std::shared_ptr<Circular> mAnimator;
 	void setup();
 	void createNewWindow();
 	void update() override;
@@ -55,7 +55,7 @@ void BasicAppMultiWindow::setup()
 	ImGui::Initialize();
 
 	mCore = std::make_shared<TellerCore>();
-	mAnimator = std::make_shared<Circular>();
+	mAnimator = std::shared_ptr<Circular>();
 	mCore->AttachDeltaTimeMessanger(0,
 		[&](float deltaTime) {return mAnimator->SetDeltaTime(deltaTime); }
 	);
