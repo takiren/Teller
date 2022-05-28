@@ -14,6 +14,7 @@ namespace Teller {
 		vec2 drot_;
 		vec2 dscale_;
 
+		std::weak_ptr<Agent> target;
 		float deltaTime_;
 		using AnimatorTargetFunc = std::function<void(vec2&, vec2&, vec2&)>;
 		AnimatorTargetFunc callback_;
