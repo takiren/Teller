@@ -16,6 +16,7 @@
 #include"Game.h"
 #include"Scene.h"
 #include"Agent.h"
+#include"Animation.h"
 
 
 using namespace ci;
@@ -28,7 +29,7 @@ namespace fs = std::filesystem;
 class BasicAppMultiWindow : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
-	std::shared_ptr<Circular> mAnimator;
+
 	void setup();
 	void createNewWindow();
 	void update() override;
@@ -55,29 +56,36 @@ void BasicAppMultiWindow::setup()
 	ImGui::Initialize();
 
 	mCore = std::make_shared<TellerCore>();
-	mAnimator = std::shared_ptr<Circular>();
-	mCore->AttachDeltaTimeMessanger(0,
-		[&](float deltaTime) {return mAnimator->SetDeltaTime(deltaTime); }
-	);
+	auto mAnimator = std::make_unique<Circular>();
+
+	/*mCore->AttachDeltaTimeMessanger(0,
+		[&](float deltaTime) { mAnimator->SetDeltaTime(deltaTime); }
+	);*/
 
 	auto mGame = std::make_shared<GameModule>();
 	auto mScene = std::make_shared<SceneModule>();
 	auto mAgent = std::make_shared<RectAgent>();
 
-	mAnimator->Attach(0,
-		[&](vec2 _pos, vec2 _rot, vec2 _scale) {
-			return mAgent->Animate(_pos, _rot, _scale);
-		});
-
 	mCore->AddModule(mGame);
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mAgent);
 
-	setvbuf(stdout, NULL, _IONBF, 0);
+	auto animSeq = std::make_shared<AnimationSequencer>();
 
-	AllocConsole();
-	auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
-	*stdout = *_fdopen(hConsole, "w");
+	mAnimator->AttachToAgent(std::move(mAgent));
+	animSeq->AddAnimator(std::move(mAnimator));
+	mCore->AddAnimSequencer(animSeq);
+	/*mAnimator->Attach(0,
+		[](vec2& _pos, vec2& _rot, vec2& _scale) {
+			mAgent->Animate(_pos, _rot, _scale);
+		});*/
+
+		//冷静に考えたらポインタどっかいってるから削除。
+		/*setvbuf(stdout, NULL, _IONBF, 0);
+
+		AllocConsole();
+		auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+		*stdout = *_fdopen(hConsole, "w");*/
 
 }
 
@@ -117,7 +125,7 @@ void BasicAppMultiWindow::draw()
 	/*
 	処理記述ここから
 	*/
-
+	mCore->Tick();
 	/*
 	処理記述ここまで
 	*/

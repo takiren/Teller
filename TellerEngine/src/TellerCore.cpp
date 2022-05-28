@@ -1,13 +1,14 @@
 #include"TellerCore.h"
 
 namespace Teller {
-	void TellerCore::Tick(float& deltaTime)
+	void TellerCore::Tick()
 	{
-		DeltaTimeMessanger.SendMessage(deltaTime);
+		auto now = clock();
+		DeltaTimeMessanger->SendMessage(deltaTime_);
 		// 1. モジュールのTick()呼び出し。
 		{
 			for (auto& e : modules) {
-				e->Tick(deltaTime);
+				e->Tick(deltaTime_);
 			}
 		}
 
@@ -17,6 +18,14 @@ namespace Teller {
 				e->Tick();
 			}
 		}
+
+		for (auto& e : animSequencer_) {
+			e->Update();
+		}
+
+		auto old = clock();
+		deltaTime_ = old - now;
+		ImGui::Text("deltatime %f", deltaTime_);
 	}
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)
@@ -25,12 +34,17 @@ namespace Teller {
 
 	}
 
-	void TellerCore::AttachDeltaTimeMessanger(int key,std::function<void(float)> callback)
+	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)
 	{
-		DeltaTimeMessanger.AttachFunction(key, callback);
+		DeltaTimeMessanger->AttachFunction(key, callback_);
 	}
 
-	int TellerCore::AddModule(std::shared_ptr<ModuleCore> sub_module)
+	void TellerCore::AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer)
+	{
+		animSequencer_.push_back(_animSequencer);
+	}
+
+	int TellerCore::AddModule(std::shared_ptr<ModuleCore>&& sub_module)
 	{
 		modules.push_back(sub_module);
 		sub_module->ptrTellerCore = this->shared_from_this();
@@ -38,13 +52,14 @@ namespace Teller {
 	}
 	void TellerCore::CoreInitialize()
 	{
+		DeltaTimeMessanger = std::make_unique<TMessanger<int, float>>();
 
 	}
 	void TellerCore::UpdateDeltaTime()
 	{
 		deltaTime_ = timeCurrent - timeOld;
 	}
-	int TellerCore::AddEditor(std::shared_ptr<Editor> editor)
+	int TellerCore::AddEditor(std::shared_ptr<Editor>&& editor)
 	{
 		editors.push_back(editor);
 		editor->parent = this->shared_from_this();

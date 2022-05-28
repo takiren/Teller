@@ -3,11 +3,10 @@
 #include<map>
 #include"cinder/Cinder.h"
 #include"cinder/gl/gl.h"
-#include"TellerCore.h"
+#include"Agent.h"
 
 namespace Teller {
 	using namespace ci;
-
 	class Animator {
 	protected:
 		//A letter "d" means diff
@@ -17,7 +16,9 @@ namespace Teller {
 
 		float deltaTime_;
 		using AnimatorTargetFunc = std::function<void(vec2&, vec2&, vec2&)>;
-		std::map<int, AnimatorTargetFunc> callbackMap_;
+		AnimatorTargetFunc callback_;
+		virtual void AnimateInternal();
+		virtual void Animate(vec2&, vec2&, vec2&);
 	public:
 		Animator() :
 			deltaTime_(0.0),
@@ -25,21 +26,39 @@ namespace Teller {
 			drot_(vec2(0)),
 			dscale_(1)
 		{};
-		void SetDeltaTime(float& _deltaTime);
-		virtual void Animate(vec2&, vec2&, vec2&);
 
-		virtual void Attach(int key, AnimatorTargetFunc _destination);
+		Animator(const Animator&) = delete;
+		Animator& operator=(const Animator&) = delete;
+
+		Animator& operator=(Animator&&) = default;
+
+		void SetDeltaTime(float _deltaTime);
+
 		virtual void Update();
-		virtual void AnimateInternal();
 
-		virtual void AnimateD(std::function<void(vec2&, vec2&, vec2&)>& callback);
+		virtual void AttachToAgent(std::weak_ptr<Agent> _agent);
 	};
 
 	class Circular :public Animator {
 	private:
 		float theta;
 	public:
-		Circular() :Animator(), theta(0){};
-		void AnimateD(std::function<void(vec2&, vec2&, vec2&)>& callback) override;
+		Circular() :Animator(), theta(0) {};
+		void AnimateInternal() override;
+	};
+
+	class AnimationSequencer {
+		std::vector<std::unique_ptr<Animator>> animators;
+	public:
+		AnimationSequencer() = default;
+		~AnimationSequencer() = default;
+
+		AnimationSequencer(const AnimationSequencer&) = delete;
+		AnimationSequencer& operator=(const AnimationSequencer&) = delete;
+
+		AnimationSequencer& operator=(AnimationSequencer&&) = default;
+
+		void Update();
+		void AddAnimator(std::unique_ptr<Animator> _animator);
 	};
 }

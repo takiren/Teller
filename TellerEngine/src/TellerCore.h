@@ -2,14 +2,17 @@
 #include<memory>
 #include<vector>
 #include<map>
+#include<time.h>
 
-#include<Core.h>
+#include"Core.h"
 #include"ModuleCore.h"
 #include"TellerEvent.h"
 #include"ContentManager.h"
 #include"Editor.h"
 #include"Episode.h"
 #include"ThreadPool.h"
+#include"cinder/CinderImGui.h"
+#include"Animation.h"
 
 namespace Teller {
 	//ëOï˚êÈåæ
@@ -33,7 +36,9 @@ namespace Teller {
 		std::vector<std::shared_ptr<ModuleCore>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
 
-		TMessanger<int, float> DeltaTimeMessanger;
+		std::unique_ptr < TMessanger<int, float>> DeltaTimeMessanger;
+
+		std::vector<std::shared_ptr<AnimationSequencer>> animSequencer_;
 
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
 		void CoreInitialize();
@@ -45,8 +50,11 @@ namespace Teller {
 			CSVContentManager(std::make_shared<CSVManager>()),
 			timeOld(0.0f),
 			timeCurrent(0.01),
-			deltaTime_(0.01)
-		{};
+			deltaTime_(0.01),
+			DeltaTimeMessanger(std::make_unique<TMessanger<int,float>>())
+		{
+			CoreInitialize();
+		};
 
 		~TellerCore() = default;
 		//ïKÇ∏weak_ptrÇ≈éÛÇØéÊÇÈÇ±Ç∆ÅB
@@ -54,15 +62,17 @@ namespace Teller {
 		std::shared_ptr<SpriteManager> GetSpriteContentManager() const { return spriteContentManager; };
 		std::shared_ptr<EpisodeManager> GetEpisodeContentManager() const { return episodeContentManager; };
 
-		int AddEditor(std::shared_ptr<Editor> editor);
-		int AddModule(std::shared_ptr<ModuleCore> sub_module);
+		int AddEditor(std::shared_ptr<Editor>&& editor);
+		int AddModule(std::shared_ptr<ModuleCore>&& sub_module);
 
 		float GetDeltaTime()const { return deltaTime_; };
 
-		void Tick(float& deltaTime);
+		void Tick();
 		//êÑèß
 		void AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor);
 
-		void AttachDeltaTimeMessanger(int key,std::function<void(float)> callback);
+		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
+		
+		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);
 	};
 }

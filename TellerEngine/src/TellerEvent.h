@@ -13,7 +13,7 @@ namespace Teller {
 		using MessageHandlerImpleOnSuccess = std::function<void(DATA_TYPE)>;
 		std::map<KEY, std::function<void(DATA_TYPE)>> callbackMap_;
 		void onSuccessInternal(const DATA_TYPE& _message) {
-			for (auto iter = callbackMap_.begin(); iter != callbackMap_.end(); iter++) {
+			for (auto iter = callbackMap_.begin(); iter != callbackMap_.end(); ++iter) {
 				iter->second(_message);
 			}
 		}
@@ -35,22 +35,17 @@ namespace Teller {
 	private:
 		std::unique_ptr<TMessageHandler<KEY_TYPE,DATA_TYPE>> handler_;
 	public:
-		TMessanger() = default;
+		TMessanger():handler_(std::make_unique<TMessageHandler<KEY_TYPE,DATA_TYPE>>()){};
 		~TMessanger() = default;
-
-		void SetHandler(std::unique_ptr<TMessageHandler<KEY_TYPE, DATA_TYPE>> _handler) {
-			handler_ = std::move(_handler);
-		}
 
 		void SendMessage(const DATA_TYPE& _message) {
 			if (handler_)
 				handler_->onSuccess(_message);
 		}
 
-		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)> callback) {
-			handler_->AttachDesitinationInternal(_key,callback);
+		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)> callback_) {
+			handler_->AttachDesitinationInternal(_key,callback_);
 		};
-
 	};
 
 }
