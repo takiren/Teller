@@ -10,7 +10,7 @@ void Teller::SceneModule::Tick(float& deltaTime)
 	}
 }
 
-void Teller::SceneModule::AddAgent(std::shared_ptr<Agent>&& _agent)
+void Teller::SceneModule::AddAgent(std::shared_ptr<AgentCore> _agent)
 {
-	agents_.push_back(std::move(_agent));
+	agents_.push_back(_agent);
 }

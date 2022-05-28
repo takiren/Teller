@@ -1,6 +1,8 @@
 #pragma once
 #include"cinder/Cinder.h"
 #include"cinder/gl/gl.h"
+#include"cinder/CinderImGui.h"
+#include<string>
 
 #include"Asset.h"
 #include"Episode.h"
@@ -8,18 +10,24 @@
 using namespace ci;
 
 namespace Teller {
+	class AgentCore {
+	public:
+		AgentCore() = default;
+		virtual ~AgentCore() = default;
+		virtual void Tick();
+	};
 
-	class Agent
+	template<class... Args>
+	class Agent :public AgentCore
 	{
 	protected:
-		::vec2 size_; //このエージェントの占める画面上の大きさ(ピクセル数)
 		::vec2 position_; //画面上の位置
-		::vec2 scale_;
 		::vec2 rotation_;
+		::vec2 scale_;
+		::vec2 size_; //このエージェントの占める画面上の大きさ(ピクセル数)
 
 		//Animatorクラス用変数
-		std::function<void(vec2&, vec2&, vec2&)> animatorCallBack_;
-		std::map<int, std::function<void()>> animatorCallBackMap_;
+
 	public:
 		Agent() :
 			size_(vec2(1)),
@@ -43,51 +51,32 @@ namespace Teller {
 		virtual void AnimateInternal(int key, float factor);
 		virtual void Move();*/
 
-		virtual void Animate(vec2 _dpos, vec2 _drot, vec2 _dscale);
-		virtual void Scale();
-		virtual void Rotate();
-		virtual void MessageHandler();
-		virtual void SetAnimation();
-		virtual void Tick();
+		virtual void CallBackLisner(Args...);
 
 		//virtual void AddAnimator(int key,std::shared_ptr<Animator> _animator);
 	};
 
-	class Character :public Agent {
-	private:
-		std::weak_ptr<Sprite> sprite_;
-	public:
-		Character(std::shared_ptr<Sprite> _sprite) :Agent(), sprite_(_sprite) {};
-		void Tick() override;
-		void SetSprite();
-		void GetDraw();
-	};
+	template<class ...Args>
+	inline void Agent<Args...>::CallBackLisner(Args ...)
+	{
+	}
 
-	class RectAgent :public Agent {
+	class RectAgent :public Agent<vec2, vec2, vec2> {
 	private:
 	public:
 		void Tick() override;
 	};
 
-	class Text :public Agent {
+	class MainTextArea :public Agent<std::string, std::string> {
 	private:
-		void Initialize();
-		std::string path_;
-		std::vector<Episode> episodes;
-		int count;
-		int currentLine;
-		std::string currentText;
+		std::string speaker_;
+		std::string text_;
 	public:
-		Text(std::string path) :
-			Agent(),
-			count(0),
-			currentLine(0),
-			currentText(""),
-			path_(path)
-		{
-			Initialize();
-		};
+		MainTextArea() :Agent(), text_(""), speaker_("") {};
 		void Tick() override;
+		void SetText(std::string _speaker, std::string _text);
 	};
+
+
 }
 

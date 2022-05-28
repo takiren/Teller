@@ -1,18 +1,5 @@
 #include "Agent.h"
 
-
-void Teller::Character::Tick()
-{
-}
-
-void Teller::Character::SetSprite()
-{
-}
-
-
-void Teller::Character::GetDraw()
-{
-}
 ////Animatorインスタンスのポインタとコールバックを登録。
 //void Teller::Agent::AttachAnimator(std::shared_ptr<Animator>&& _animator, int key)
 //{
@@ -25,40 +12,23 @@ void Teller::Character::GetDraw()
 //
 //}
 
-void Teller::Agent::Animate(vec2 _dpos, vec2 _drot, vec2 _dscale)
-{
-	position_ += _dpos;
-	rotation_ += _drot;
-	scale_ += _dscale;
-}
-
-
-void Teller::Agent::Scale()
-{
-}
-
-void Teller::Agent::Rotate()
-{
-}
-
-void Teller::Agent::MessageHandler()
-{
-}
-
-void Teller::Agent::SetAnimation()
-{
-}
-
-void Teller::Agent::Tick()
-{
-}
-
-void Teller::Text::Initialize()
-{
-}
-
 void Teller::RectAgent::Tick()
 {
-	Rectf rf = Rectf(Area(vec2(0, 0), vec2(300, 300)));
-	gl::drawSolidRect(rf, vec2(40, 40), vec2(400, 400));
+	ImGui::Text("Position: %f %f", position_[0], position_[1]);
+	Rectf rf = Rectf(Area(vec2(0, 0), vec2(200, 200) + position_));
+	gl::drawSolidRect(rf);
+}
+
+void Teller::MainTextArea::Tick()
+{
+	gl::drawString(text_, vec2(0, 0), ci::Color(1, 1, 1), ci::Font("", 20));
+}
+
+void Teller::MainTextArea::SetText(std::string _speaker, std::string _text)
+{
+
+}
+
+void Teller::AgentCore::Tick()
+{
 }

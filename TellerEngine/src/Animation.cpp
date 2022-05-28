@@ -1,36 +1,27 @@
 #include"Animation.h"
 
-void Teller::Animator::SetDeltaTime(float _deltaTime)
-{
-	deltaTime_ = _deltaTime;
-}
-
 //–¢ŽÀ‘•
-void Teller::Animator::Animate(vec2&, vec2&, vec2&)
-{
-}
 
+//void Teller::Animator::Update()
+//{
+//	AnimateInternal();
+//	
+//	callback_(dpos_, drot_, dscale_);
+//	ImGui::Text("Diff Pos%f %f", dpos_[0], dpos_[1]);
+//}
 
-void Teller::Animator::Update()
-{
-	AnimateInternal();
-	callback_(dpos_, drot_, dscale_);
-}
-
-void Teller::Animator::AnimateInternal()
-{
-}
-
-void Teller::Animator::AttachToAgent(std::weak_ptr<Agent> _agent)
-{
-	callback_ = [&](vec2,vec2,vec2) {_agent.lock()->Animate(dpos_, drot_, dscale_); };
-}
-
-void Teller::Circular::AnimateInternal()
-{
-	theta += deltaTime_ * 0.001;
-	dpos_ = vec2(sin(theta) * deltaTime_, cos(theta) * deltaTime_);
-}
+//void Teller::Animator::AttachToAgent(std::shared_ptr<Agent> _agent)
+//{
+//	std::weak_ptr<Agent> wp = _agent;
+//	target = _agent;
+//	callback_ = [&](vec2 _dpos, vec2 _drot, vec2 _dscale) {target.lock()->Animate(_dpos, _drot, _dscale); };
+//}
+//
+//void Teller::Circular::AnimateInternal()
+//{
+//	theta += deltaTime_ * 0.01;
+//	dpos_ = vec2(-sin(theta)*1, cos(theta)*1);
+//}
 
 void Teller::AnimationSequencer::Update()
 {
@@ -39,7 +30,19 @@ void Teller::AnimationSequencer::Update()
 	}
 }
 
-void Teller::AnimationSequencer::AddAnimator(std::unique_ptr<Animator> _animator)
+void Teller::AnimationSequencer::AddAnimator(std::unique_ptr<AnimatorCore> _animator)
 {
 	animators.push_back(std::move(_animator));
+}
+
+void Teller::TextChanger::Update()
+{
+}
+
+void Teller::AnimatorCore::Update()
+{
+}
+
+void Teller::Circular::AnimateInternal()
+{
 }

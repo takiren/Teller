@@ -70,11 +70,11 @@ void BasicAppMultiWindow::setup()
 	mGame->AddChildModule(mScene);
 	mScene->AddAgent(mAgent);
 
-	auto animSeq = std::make_shared<AnimationSequencer>();
+	auto animSeq = std::make_unique<AnimationSequencer>();
 
-	mAnimator->AttachToAgent(std::move(mAgent));
+	mAnimator->AttachToAgent(mAgent);
 	animSeq->AddAnimator(std::move(mAnimator));
-	mCore->AddAnimSequencer(animSeq);
+	mCore->AddAnimSequencer(std::move(animSeq));
 	/*mAnimator->Attach(0,
 		[](vec2& _pos, vec2& _rot, vec2& _scale) {
 			mAgent->Animate(_pos, _rot, _scale);
@@ -87,6 +87,7 @@ void BasicAppMultiWindow::setup()
 		auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
 		*stdout = *_fdopen(hConsole, "w");*/
 
+	ci::app::setWindowSize(1280, 720);
 }
 
 void BasicAppMultiWindow::createNewWindow()
