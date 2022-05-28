@@ -1,64 +1,43 @@
 #include "Agent.h"
 
-void Teller::Character::Tick()
+////Animatorインスタンスのポインタとコールバックを登録。
+//void Teller::Agent::AttachAnimator(std::shared_ptr<Animator>&& _animator, int key)
+//{
+//	animatorMap_[key] = _animator;
+//	animatorCallBackMap_[key] = [&]() { return animatorMap_[key]->Animate(size_, position_, rotation_); };
+//}
+//
+//void Teller::Agent::AnimateInternal(int key, float factor)
+//{
+//
+//}
+
+void Teller::RectAgent::Tick()
 {
-	//Rectf destRect = Rectf(sprite_.lock()->texture->getBounds()).getCenteredFit(getWindowBounds(), true).scaledCentered(0.85f);
-	//gl::draw(sprite_.lock()->texture, destRect);
+	ImGui::Text("Position: %f %f", position_[0], position_[1]);
+	Rectf rf = Rectf(Area(vec2(0, 0), vec2(200, 200) + position_));
+	gl::drawSolidRect(rf);
 }
 
-void Teller::Character::SetSprite()
+void Teller::RectAgent::CallBackLisner(vec2 _pos, vec2 _rot, vec2 _scale)
 {
+	position_ += _pos * 0.01f;
+	rotation_ += _rot * 0.01f;
+	scale_ += _scale * 0.01f;
 }
 
-void Teller::Character::Update()
+void Teller::MainTextArea::Tick()
 {
+	gl::drawString(speaker_, vec2(100, 380), ci::Color(1, 1, 1), ci::Font("", 20));
+	gl::drawString(text_, vec2(100, 400), ci::Color(1, 1, 1), ci::Font("", 20));
 }
 
-void Teller::Character::GetDraw()
+void Teller::MainTextArea::CallBackLisner(std::string _speaker, std::string _text)
 {
+	speaker_ = _speaker;
+	text_ = _text;
 }
 
-void Teller::Agent::Move()
-{
-}
-
-void Teller::Agent::Scale()
-{
-}
-
-void Teller::Agent::Rotate()
-{
-}
-
-void Teller::Agent::MessageHandler()
-{
-}
-
-void Teller::Agent::SetAnimation()
-{
-}
-
-void Teller::Text::Initialize()
-{
-}
-
-void Teller::Text::Tick()
-{
-	/*count++;
-	Agent::Tick();
-	Agent::Update();
-	if (count % 200 == 0) {
-		currentLine++;
-	}
-	if (currentLine >= episodes.back().data.size()) {
-		currentLine = episodes.back().data.size() - 1;
-	}
-	auto size = cinder::app::getWindowSize();
-	currentText =
-		episodes.back().data.at(currentLine).at(1);
-	gl::drawString(currentText, vec2(size[0] * 0.3, size[1] * 0.7), Color(1, 1, 1), Font("", 50));*/
-}
-
-void Teller::Text::Update()
+void Teller::AgentCore::Tick()
 {
 }

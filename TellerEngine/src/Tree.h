@@ -1,5 +1,10 @@
 #pragma once
-#include"Core.h"
+#include<vector>
+#include<memory>
+#include<string>
+
+#include"cinder/CinderImGui.h"
+
 #include"Episode.h"
 
 namespace Teller {

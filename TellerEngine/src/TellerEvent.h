@@ -1,85 +1,51 @@
 #pragma once
+#include<vector>
+#include<string>
+#include<functional>
+#include<memory>
+#include<map>
 #include"Core.h"
 
 namespace Teller {
-	class TMessage {
-	public:
-		int ID_;
-		std::string message_;
-		TMessage() :ID_(0), message_("") {};
-		TMessage(int _id) :message_(""), ID_(_id) {};
-		virtual ~TMessage() = default;
-	};
-
+	template<class KEY,class DATA_TYPE>
 	class TMessageHandler {
 	protected:
-		virtual void onSuccessInternal(const TMessage& _message) = 0;
-		virtual void onErrorInternal(const std::string& _message) = 0;
-		
+		using MessageHandlerImpleOnSuccess = std::function<void(DATA_TYPE)>;
+		std::map<KEY, std::function<void(DATA_TYPE)>> callbackMap_;
+		void onSuccessInternal(const DATA_TYPE& _message) {
+			for (auto iter = callbackMap_.begin(); iter != callbackMap_.end(); ++iter) {
+				iter->second(_message);
+			}
+		}
 	public:
 		TMessageHandler() = default;
-		virtual ~TMessageHandler() = default;
+		~TMessageHandler() = default;
 
-		void onSuccess(const TMessage& _message) {
+		void onSuccess(const DATA_TYPE& _message) {
 			onSuccessInternal(_message);
 		}
 
-		void onError(const std::string& _message) {
-			onErrorInternal(_message);
+		void AttachDesitinationInternal(KEY _key,MessageHandlerImpleOnSuccess _dest){
+			callbackMap_[_key] = _dest;
 		}
-
 	};
 
-	using MessageHandlerImpleOnSuccess = std::function<void(TMessage& _message)>;
-	using MessageHandlerImpleOnError = std::function<void(const std::string& _message)>;
-
-
-	class TMessageHandlerImple :public TMessageHandler {
-	private:
-		MessageHandlerImpleOnSuccess callback_;
-		MessageHandlerImpleOnError on_error_;
-		TMessage message_;
-	protected:
-
-		void onSuccessInternal(const TMessage& _message) override {
-			if (callback_) callback_(message_);
-		}
-
-		void onErrorInternal(const std::string& _message)override {
-		}
-
-	public:
-		TMessageHandlerImple(
-			MessageHandlerImpleOnSuccess on_success,
-			MessageHandlerImpleOnError on_error) :
-			callback_(on_success), 
-			on_error_(on_error)
-		{};
-		virtual ~TMessageHandlerImple() = default;
-	};
-
-
+	template<class KEY_TYPE,class DATA_TYPE>
 	class TMessanger {
 	private:
-		std::unique_ptr<TMessageHandler> handler_;
+		std::unique_ptr<TMessageHandler<KEY_TYPE,DATA_TYPE>> handler_;
 	public:
-		TMessanger() = default;
+		TMessanger():handler_(std::make_unique<TMessageHandler<KEY_TYPE,DATA_TYPE>>()){};
 		~TMessanger() = default;
 
-		void SetHandler(std::unique_ptr<TMessageHandler> _handler) {
-			handler_ = std::move(_handler);
-		}
-
-		void SendMessage(const TMessage& _message) {
-			if (_message.message_.size() == 0) {
-				//ƒGƒ‰[ˆ—
-				if (handler_) {
-				}
-			}
-
+		void SendMessage(const DATA_TYPE& _message) {
 			if (handler_)
 				handler_->onSuccess(_message);
 		}
+
+		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)> callback_) {
+			handler_->AttachDesitinationInternal(_key,callback_);
+		};
 	};
 
 }

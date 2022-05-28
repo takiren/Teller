@@ -1,6 +1,8 @@
 #include <io.h>
 #include <Fcntl.h>
 #include<Windows.h>
+#include <list>
+
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include"cinder/ImageIo.h"
@@ -8,14 +10,13 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/Rand.h"
 #include"cinder/Log.h"
-#include <list>
 #include "cinder/CinderImGui.h"
-#include"cinder/ImageIo.h"
 
 #include"TellerCore.h"
 #include"Game.h"
 #include"Scene.h"
 #include"Agent.h"
+#include"Animation.h"
 
 
 using namespace ci;
@@ -27,6 +28,7 @@ namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 class BasicAppMultiWindow : public App {
 public:
+	std::shared_ptr<TellerCore> mCore;
 
 	void setup();
 	void createNewWindow();
@@ -53,12 +55,40 @@ void BasicAppMultiWindow::setup()
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
 
-	setvbuf(stdout, NULL, _IONBF, 0);
+	mCore = std::make_shared<TellerCore>();
 
-	AllocConsole();
-	auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
-	*stdout = *_fdopen(hConsole, "w");
+	auto mAnimator = std::make_unique<Circular>();
 
+	/*mCore->AttachDeltaTimeMessanger(0,
+		[&](float deltaTime) { mAnimator->SetDeltaTime(deltaTime); }
+	);*/
+
+	auto mGame = std::make_shared<GameModule>();
+	auto mScene = std::make_shared<SceneModule>();
+	auto mAgent = std::make_shared<RectAgent>();
+
+	mCore->AddModule(mGame);
+	mGame->AddChildModule(mScene);
+	mScene->AddAgent(mAgent);
+
+	auto animSeq = std::make_unique<AnimationSequencer>();
+
+	mAnimator->AttachToAgent(mAgent);
+	animSeq->AddAnimator(std::move(mAnimator));
+	mCore->AddAnimSequencer(std::move(animSeq));
+	/*mAnimator->Attach(0,
+		[](vec2& _pos, vec2& _rot, vec2& _scale) {
+			mAgent->Animate(_pos, _rot, _scale);
+		});*/
+
+		//冷静に考えたらポインタどっかいってるから削除。
+		/*setvbuf(stdout, NULL, _IONBF, 0);
+
+		AllocConsole();
+		auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+		*stdout = *_fdopen(hConsole, "w");*/
+
+	ci::app::setWindowSize(1280, 720);
 }
 
 void BasicAppMultiWindow::createNewWindow()
@@ -97,7 +127,7 @@ void BasicAppMultiWindow::draw()
 	/*
 	処理記述ここから
 	*/
-
+	mCore->Tick();
 	/*
 	処理記述ここまで
 	*/

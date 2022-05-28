@@ -1,5 +1,10 @@
 #pragma once
-#include"Core.h"
+#include<vector>
+#include<string>
+#include<map>
+#include<istream>
+#include<fstream>
+#include<sstream>
 
 namespace Teller {
 	class Episode {
@@ -37,12 +42,17 @@ namespace Teller {
 		void SetNumber(int episodeNumber);
 	};
 
+	/*
+	CSVファイルを読み込むクラス。
+	コンストラクタ引数にパスを入れる。
+	*/
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";
 		std::map<int, std::vector<std::string>> csv_data;
 		std::string ReadToString(const std::string path);
 		std::vector<int> GetEpisodeList();
 	public:
+		CSVLoader() = delete;
 		CSVLoader(std::string input) :CSVLoader(input, ',') {}; //デフォルトでデリミタを','にする。
 		CSVLoader(std::string input, char delimiter);
 		Episode GetEpisode();

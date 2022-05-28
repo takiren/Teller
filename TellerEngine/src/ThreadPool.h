@@ -1,7 +1,17 @@
 #pragma once
-#include"Core.h"
+#include<memory>
+#include<thread>
+#include<mutex>
+#include<queue>
+#include<condition_variable>
+#include<atomic>
+#include<functional>
+#include<future>
 
 namespace Teller {
+	//スレッドプール
+	// 
+	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7
 
 	class ThreadPool {
 		std::unique_ptr<std::thread[]> threads; //スレッド用のユニークポインタ
@@ -36,7 +46,22 @@ namespace Teller {
 		template<typename F>
 		void push_task(const F& task);
 
-		void worker();
+		void worker() {
+			for (;;) {
+				std::function<void()> task;
+				{
+					std::unique_lock<std::mutex> lock(tasks_mutex);
+					condition.wait(lock, [&] {return !tasks.empty() || !running; });
+
+					if (!running && tasks.empty()) {
+						return;
+					}
+					task = std::move(tasks.front());
+					tasks.pop();
+				}
+				task();
+			}
+		}
 
 		template<typename F, typename... Args, typename R = std::invoke_result_t<std::decay_t<F>, std::decay_t<Args>...>>
 		std::future<R> submit(F&& func, const Args&&... args);
@@ -57,22 +82,8 @@ namespace Teller {
 		//スレッド起床
 		condition.notify_one();
 	}
-	void Teller::ThreadPool::worker() {
-		for (;;) {
-			std::function<void()> task;
-			{
-				std::unique_lock<std::mutex> lock(tasks_mutex);
-				condition.wait(lock, [&] {return !tasks.empty() || !running; });
 
-				if (!running && tasks.empty()) {
-					return;
-				}
-				task = std::move(tasks.front());
-				tasks.pop();
-			}
-			task();
-		}
-	}
+	
 
 	template<typename F, typename... Args, typename R = std::invoke_result_t<std::decay_t<F>, std::decay_t<Args>...>>
 	std::future<R> submit(F&& func, const Args&&... args) {
