@@ -55,7 +55,15 @@ void BasicAppMultiWindow::setup()
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
 
-	mCore = std::make_shared<TellerCore>();
+	auto CMCSV = std::make_shared<CSVManager>();
+	auto CMSprite = std::make_shared<SpriteManager>();
+	auto CMEpisode = std::make_shared<EpisodeManager>();
+
+	mCore = std::make_shared<TellerCore>(
+		CMSprite,
+		CMEpisode,
+		CMCSV
+	);
 
 
 	/*mCore->AttachDeltaTimeMessanger(0,
@@ -78,12 +86,17 @@ void BasicAppMultiWindow::setup()
 	mScene->AddAgent(textAgent);
 	auto tChanger = std::make_unique<TextChanger>();
 
+	//CMCSV->AddContent("data/story.h");
+
 	tChanger->AttachToAgent(textAgent);
 	tChanger->LoadCSV("data/story.csv");
 	mAnimator->AttachToAgent(mAgent);
 	animSeq->AddAnimator(std::move(mAnimator));
 	animSeq->AddAnimator(std::move(tChanger));
 	mCore->AddAnimSequencer(std::move(animSeq));
+
+	auto ed = std::make_shared<EpisodeEditor>();
+	//mCore->AddEditor(ed);
 		//冷静に考えたらポインタどっかいってるから削除。
 		/*setvbuf(stdout, NULL, _IONBF, 0);
 

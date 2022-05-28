@@ -1,7 +1,7 @@
 #pragma once
 
 #include<memory>
-
+#include<string>
 namespace Teller {
 
 	enum class ASSET_TYPE
@@ -16,13 +16,14 @@ namespace Teller {
 
 		ASSET_TYPE type;
 	public:
-		Asset():type(ASSET_TYPE::NONE){};
+		Asset() = delete;
+		Asset(std::string path):type(ASSET_TYPE::NONE){};
 	};
 
 	class Sprite :public Asset {
 	protected:
 	public:
-		Sprite() :Asset() {};
+		Sprite(std::string path) :Asset( path) {};
 	};
 
 	/*

@@ -51,10 +51,22 @@ namespace Teller {
 			timeOld(0.0f),
 			timeCurrent(0.01),
 			deltaTime_(0.01),
-			DeltaTimeMessanger(std::make_unique<TMessanger<int,float>>())
+			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>())
 		{
 			CoreInitialize();
 		};
+
+		TellerCore(
+			std::shared_ptr<SpriteManager> _spriteManager,
+			std::shared_ptr<EpisodeManager> _episodeManager,
+			std::shared_ptr<CSVManager> _csvManager) :
+			spriteContentManager(_spriteManager),
+			episodeContentManager(_episodeManager),
+			CSVContentManager(_csvManager),
+			timeOld(0.0f),
+			timeCurrent(0.01),
+			deltaTime_(0.01),
+			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>()) {};
 
 		~TellerCore() = default;
 		//ïKÇ∏weak_ptrÇ≈éÛÇØéÊÇÈÇ±Ç∆ÅB
@@ -62,7 +74,7 @@ namespace Teller {
 		std::shared_ptr<SpriteManager> GetSpriteContentManager() const { return spriteContentManager; };
 		std::shared_ptr<EpisodeManager> GetEpisodeContentManager() const { return episodeContentManager; };
 
-		int AddEditor(std::shared_ptr<Editor>&& editor);
+		int AddEditor(std::shared_ptr<Editor> editor);
 		int AddModule(std::shared_ptr<ModuleCore>&& sub_module);
 
 		float GetDeltaTime()const { return deltaTime_; };
@@ -72,7 +84,7 @@ namespace Teller {
 		void AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor);
 
 		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
-		
+
 		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);
 	};
 }

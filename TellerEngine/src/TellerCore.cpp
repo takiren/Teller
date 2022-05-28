@@ -30,8 +30,7 @@ namespace Teller {
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)
 	{
-		//callBackByEventMap.at(_event)[callBackByEventMap.at(_event).size()] = 0;
-
+		
 	}
 
 	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)
@@ -59,7 +58,7 @@ namespace Teller {
 	{
 		deltaTime_ = timeCurrent - timeOld;
 	}
-	int TellerCore::AddEditor(std::shared_ptr<Editor>&& editor)
+	int TellerCore::AddEditor(std::shared_ptr<Editor> editor)
 	{
 		editors.push_back(editor);
 		editor->parent = this->shared_from_this();

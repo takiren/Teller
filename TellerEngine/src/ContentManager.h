@@ -13,10 +13,10 @@ namespace Teller {
 	class ContentsManager {
 	private:
 		//データはmapで管理
-		//key=std::stringはファイル名
-		std::map<std::string, std::shared_ptr<TYPE>> contents_;
+		//key=std::stringはファイル名、TYPEは型
 
 	public:
+		std::map<std::string, std::shared_ptr<TYPE>> contents_;
 		ContentsManager();
 		//コピー禁止
 		ContentsManager(const ContentsManager&) = delete;
@@ -24,7 +24,7 @@ namespace Teller {
 		//ムーブは許可。
 		ContentsManager& operator=(ContentsManager&&) = default;
 
-		void AddContent(const std::string key, const std::shared_ptr<TYPE> content);
+		void AddContent(const std::string key);
 		std::shared_ptr<TYPE> GetContent(const std::string key);
 
 		//std::mapのコンテンツのキーを返す。
@@ -39,9 +39,9 @@ namespace Teller {
 	}
 
 	template<class TYPE>
-	inline void ContentsManager<TYPE>::AddContent(std::string key, std::shared_ptr<TYPE> content)
+	inline void ContentsManager<TYPE>::AddContent(std::string key)
 	{
-		contents_[key] = content;
+		contents_[key] = std::move( std::make_unique<TYPE>(key));
 	}
 
 	template<class TYPE>
@@ -54,7 +54,7 @@ namespace Teller {
 	inline std::vector<std::string> ContentsManager<TYPE>::GetKeys()
 	{
 		auto keys = std::vector<std::string>();
-		for (auto iter = contents_.begin(); iter != contents_.end(); iter++) {
+		for (auto iter = contents_.begin(); iter != contents_.end(); ++iter) {
 			keys.push_back(iter->first);
 		}
 		return keys;

@@ -16,8 +16,8 @@ void Teller::RectAgent::CallBackLisner(vec2 _pos, vec2 _rot, vec2 _scale)
 
 void Teller::MainTextArea::Tick()
 {
-	gl::drawString(speaker_, vec2(100, 380), ci::Color(1, 1, 1), ci::Font("", 40));
-	gl::drawString(text_, vec2(100, 400), ci::Color(1, 1, 1), ci::Font("", 30));
+	gl::drawString(speaker_, vec2(100, 470), ci::Color(1, 1, 1), ci::Font("", 40));
+	gl::drawString(text_, vec2(100, 520), ci::Color(1, 1, 1), ci::Font("", 30));
 }
 
 void Teller::MainTextArea::CallBackLisner(std::string _speaker, std::string _text)

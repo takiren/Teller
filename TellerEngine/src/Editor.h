@@ -16,6 +16,10 @@
 namespace Teller {
 	class TellerCore;
 
+	class EditorManager :public std::enable_shared_from_this<EditorManager> {
+
+	};
+
 	enum class EDITOR_TYPE
 	{
 		NODE_EDITOR,
@@ -56,17 +60,23 @@ namespace Teller {
 	class EpisodeEditor :public Editor {
 	private:
 		//読み込まれた生のCSVファイルリスト
-		std::vector<std::string> loadedCsvFiles;
+		//std::vector<std::string> loadedCsvFiles;
 
 		//コンテンツマネージャーへのポインタ。
 		std::weak_ptr<ContentsManager<CSVLoader>> ptr_csvContentManger;
-		std::weak_ptr<std::map<
-			std::string,
-			std::shared_ptr<CSVLoader>>> csv_contents;
-	public:
-		EpisodeEditor() :Editor() {};
+		std::string selectedFileStr;
+		std::map<int, std::vector<std::string>> data;
+		void Initialize();
+	public:	
+		EpisodeEditor() :
+			Editor(),
+			selectedFileStr("story.csv")
+		{
+			Initialize();
+		};
 		~EpisodeEditor() = default;
 
+		void UpdateParent();
 		void Tick() override;
 	};
 

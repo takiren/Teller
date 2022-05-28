@@ -21,9 +21,9 @@ namespace Teller {
 			line_begin(0),
 			line_end(0)
 		{};
-		Episode(std::string titleText, int episode_num) :
+		Episode(std::string titleText) :
 			title(titleText),
-			number(episode_num),
+			number(0),
 			line_begin(0),
 			line_end(0)
 		{};
