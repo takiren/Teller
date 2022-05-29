@@ -15,8 +15,6 @@ void Teller::EpisodeEditor::Tick()
 	‚±‚ÌŠÔ‚Éˆ—‚ğ‘‚­B
 	*/
 
-
-
 	ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
 
 	ImGui::Begin("Episode Editor");
