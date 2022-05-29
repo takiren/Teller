@@ -51,6 +51,7 @@ public:
 
 void BasicAppMultiWindow::setup()
 {
+	setlocale(LC_CTYPE, "");
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();
@@ -90,8 +91,8 @@ void BasicAppMultiWindow::setup()
 
 	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
 
-	CMCSV->AddContent("../data/story.csv");
-	CMCSV->AddContent("../data/episode.csv");
+	CMCSV->LoadContent("../data/story.csv");
+	CMCSV->LoadContent("../data/episode.csv");
 
 	tChanger->AttachToAgent(textAgent);
 	tChanger->LoadCSV("../data/story.csv");

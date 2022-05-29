@@ -35,6 +35,7 @@ namespace Teller {
 	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)
 	{
 		DeltaTimeMessanger->AttachFunction(key, callback_);
+		
 	}
 
 	void TellerCore::AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer)
@@ -51,6 +52,11 @@ namespace Teller {
 
 	}
 
+	void TellerCore::AddEpisode(std::string _key, std::unique_ptr<Episode> _episode)
+	{
+		episodeContentManager->AddContent(_key, std::move(_episode));
+	}
+
 	int TellerCore::AddModule(std::shared_ptr<ModuleCore>&& sub_module)
 	{
 		modules.push_back(sub_module);
@@ -60,7 +66,17 @@ namespace Teller {
 	void TellerCore::CoreInitialize()
 	{
 		DeltaTimeMessanger = std::make_unique<TMessanger<int, float>>();
-
+		
+		AllocConsole();
+		// 標準入出力に割り当てる
+		FILE* fp = NULL;
+		// 昔のコード
+		//freopen("CONOUT$", "w", stdout);
+		//freopen("CONIN$", "r", stdin);
+		// 現在のコード
+		freopen_s(&fp, "CONOUT$", "w", stdout);
+		freopen_s(&fp, "CONIN$", "r", stdin);
+		setlocale(LC_ALL, "japanese");
 	}
 	void TellerCore::UpdateDeltaTime()
 	{

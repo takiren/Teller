@@ -1,5 +1,6 @@
 #include"Editor.h"
 
+
 void Teller::TopLevelMenu::Tick()
 {
 	ImGui::Begin("");
@@ -51,11 +52,12 @@ void Teller::EpisodeEditor::Tick()
 		ImGui::Separator();
 		// CSVファイルの中身を表示。
 		{
-			auto sentence = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
-			auto st = sentence->GetCSVData();
+			auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
+			auto st = cont->GetCSVData();
 			int i = 0;
 			for (auto iter = st.begin(); iter != st.end(); ++iter) {
 
+				//std::vector<std::string>をstd::stringに展開
 				auto s = [=]() {
 					std::string ts("");
 					for (auto& e : iter->second) ts += e;
@@ -66,9 +68,39 @@ void Teller::EpisodeEditor::Tick()
 			}
 		}
 		ImGui::EndChild();
-		if (ImGui::Button("Revert")) {}
+		if (ImGui::Button("Set")) {
+			if (lineBracket.first < currentLine) {
+				lineBracket.second = currentLine;
+			}
+			else {
+				lineBracket.second = lineBracket.first;
+				lineBracket.first = currentLine;
+			}
+		}
 		ImGui::SameLine();
-		if (ImGui::Button("Save")) {}
+		ImGui::InputText("Episode Name: It must be a Unique Name.", &episodeNameCandidate);
+
+		if (ImGui::Button("Save")) {
+			if (episodeNameCandidate == "") {
+			}
+			else {
+
+				auto epMap = std::map<int, std::vector< std::string>>();
+				auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
+				auto csv_ = cont->GetCSVData();
+				for (auto i = lineBracket.first; i < lineBracket.second; i++) {
+					epMap.emplace(i, csv_[i]);
+					parent.lock()->AddEpisode(episodeNameCandidate, std::move(std::make_unique<Episode>(epMap)));
+				}
+
+				#ifdef _DEBUG
+				for (auto iter = epMap.begin(); iter != epMap.end(); ++iter) {
+					std::cout << (SingleLine(iter->second).c_str()) << std::endl;
+				}
+				#endif // DEBUG
+			}
+
+		}
 		ImGui::EndGroup();
 
 	}

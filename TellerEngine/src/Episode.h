@@ -13,8 +13,9 @@ namespace Teller {
 		int number;
 		int line_begin;
 		int line_end;
-	public:
+
 		std::map<int, std::vector<std::string>> data;
+	public:
 		Episode() :
 			title("Nothing title"),
 			number(0),
@@ -58,7 +59,7 @@ namespace Teller {
 		Episode GetEpisode();
 		std::vector<Episode> GetEpisodes();
 		std::vector<std::string> GetLine(int _line) { return csv_data.at(_line); };
-		std::map<int, std::vector<std::string>> GetCSVData(){ return csv_data; };
+		std::map<int, std::vector<std::string>> GetCSVData() { return csv_data; };
 	};
 
 }

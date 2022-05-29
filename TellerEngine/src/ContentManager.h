@@ -24,8 +24,10 @@ namespace Teller {
 		//ムーブは許可。
 		ContentsManager& operator=(ContentsManager&&) = default;
 
-		void AddContent(const std::string key);
+		void LoadContent(const std::string key);
 		std::shared_ptr<TYPE> GetContent(const std::string key);
+
+		void AddContent(std::string _key, std::unique_ptr<TYPE> _content);
 
 		//std::mapのコンテンツのキーを返す。
 		std::vector<std::string> GetKeys();
@@ -34,7 +36,7 @@ namespace Teller {
 
 
 	template<class TYPE>
-	inline void ContentsManager<TYPE>::AddContent(std::string key)
+	inline void ContentsManager<TYPE>::LoadContent(std::string key)
 	{
 		contents_[key] = std::move(std::make_unique<TYPE>(key));
 	}
@@ -46,9 +48,15 @@ namespace Teller {
 	}
 
 	template<class TYPE>
+	inline void ContentsManager<TYPE>::AddContent(std::string _key, std::unique_ptr<TYPE> _content)
+	{
+		contents_[_key] = std::move(_content);
+	}
+
+	template<class TYPE>
 	inline std::vector<std::string> ContentsManager<TYPE>::GetKeys()
 	{
-		auto keys = std::vector<std::string>(0,"");
+		auto keys = std::vector<std::string>(0, "");
 		if (contents_.size() == 0) return keys;
 		for (auto iter = contents_.begin(); iter != contents_.end(); ++iter) {
 			keys.push_back(iter->first);

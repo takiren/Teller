@@ -4,6 +4,10 @@
 #include<map>
 #include<time.h>
 
+#include <io.h>
+#include <Fcntl.h>
+#include<Windows.h>
+
 #include"Core.h"
 #include"ModuleCore.h"
 #include"TellerEvent.h"
@@ -13,6 +17,14 @@
 #include"ThreadPool.h"
 #include"cinder/CinderImGui.h"
 #include"Animation.h"
+
+#ifdef _DEBUG
+# define DEBUG_PUTS(str) puts(str)
+# define DEBUG_PRINTF(fmt, ...)  printf(fmt, __VA_ARGS__);                   
+#else
+# define DEBUG_PUTS(str)
+# define DEBUG_PRINTF(fmt, ...)
+#endif
 
 namespace Teller {
 	//ëOï˚êÈåæ
@@ -43,6 +55,8 @@ namespace Teller {
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
 		void CoreInitialize();
 		void UpdateDeltaTime();
+
+		int hConsole;
 	public:
 		TellerCore() :
 			spriteContentManager(std::make_shared<SpriteManager>()),
@@ -51,7 +65,8 @@ namespace Teller {
 			timeOld(0.0f),
 			timeCurrent(0.01),
 			deltaTime_(0.01),
-			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>())
+			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>()),
+			hConsole(0)
 		{
 			CoreInitialize();
 		};
@@ -66,7 +81,11 @@ namespace Teller {
 			timeOld(0.0f),
 			timeCurrent(0.01),
 			deltaTime_(0.01),
-			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>()) {};
+			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>()),
+			hConsole(0) 
+		{
+			CoreInitialize();
+		};
 
 		~TellerCore() = default;
 		//ïKÇ∏weak_ptrÇ≈éÛÇØéÊÇÈÇ±Ç∆ÅB
@@ -89,5 +108,7 @@ namespace Teller {
 
 		void LoadCSV(std::string path);
 		void LoadSprite(std::string path);
+
+		void AddEpisode(std::string _key, std::unique_ptr<Episode> _episode);
 	};
 }
