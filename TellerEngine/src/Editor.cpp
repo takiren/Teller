@@ -15,7 +15,7 @@ void Teller::EpisodeEditor::Tick()
 	この間に処理を書く。
 	*/
 
-	ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(200, 440), ImGuiCond_FirstUseEver);
 
 	ImGui::Begin("Episode Editor");
 
@@ -24,7 +24,7 @@ void Teller::EpisodeEditor::Tick()
 
 	// 1. エディタ左側
 	{
-		ImGui::BeginChild("left pane", ImVec2(300, 0), true);
+		ImGui::BeginChild("left pane", ImVec2(150, 0), true);
 		ImGui::Text("Loaded files.");
 		// ロードされたファイルを左側に表示。
 		{
@@ -47,7 +47,7 @@ void Teller::EpisodeEditor::Tick()
 	{
 		ImGui::BeginGroup();
 		ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile));
+		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile).c_str());
 		ImGui::Separator();
 		// CSVファイルの中身を表示。
 		{
@@ -57,7 +57,7 @@ void Teller::EpisodeEditor::Tick()
 			for (auto iter = st.begin(); iter != st.end(); ++iter) {
 
 				auto s = [=]() {
-					auto ts = std::string{ "" };
+					auto ts = std::string("");
 					for (auto& e : iter->second) ts += e;
 					return ts;
 				};

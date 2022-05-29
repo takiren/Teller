@@ -244,6 +244,7 @@
     <ClInclude Include="src\Episode.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\InGameUI.h" />
+    <ClInclude Include="src\japaneseGryph.h" />
     <ClInclude Include="src\ModuleCore.h" />
     <ClInclude Include="src\NodeEditor.h" />
     <ClInclude Include="src\Renderer.h" />

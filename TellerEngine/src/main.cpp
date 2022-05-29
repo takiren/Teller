@@ -11,6 +11,7 @@
 #include "cinder/Rand.h"
 #include"cinder/Log.h"
 #include "cinder/CinderImGui.h"
+#include"japaneseGryph.h"
 
 #include"TellerCore.h"
 #include"Game.h"
@@ -55,7 +56,7 @@ void BasicAppMultiWindow::setup()
 	ImGui::Initialize();
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontFromFileTTF("../data/ipaexg.ttf", 14.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+		io.Fonts->AddFontFromFileTTF("../data/ipaexg.ttf", 14.0f, nullptr, glyphRangesJapanese);
 	}
 
 	auto CMCSV = std::make_shared<CSVManager>();
@@ -65,7 +66,7 @@ void BasicAppMultiWindow::setup()
 	mCore = std::make_shared<TellerCore>(
 		CMSprite,
 		CMEpisode,
-		CMCSV	);
+		CMCSV);
 
 	/*mCore->AttachDeltaTimeMessanger(0,
 		[&](float deltaTime) { mAnimator->SetDeltaTime(deltaTime); }
