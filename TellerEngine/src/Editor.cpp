@@ -57,7 +57,7 @@ void Teller::EpisodeEditor::Tick()
 			for (auto iter = st.begin(); iter != st.end(); ++iter) {
 
 				auto s = [=]() {
-					auto ts = std::string("");
+					std::string ts("");
 					for (auto& e : iter->second) ts += e;
 					return ts;
 				};
