@@ -45,9 +45,9 @@ namespace Teller {
 		void UpdateDeltaTime();
 	public:
 		TellerCore() :
-			spriteContentManager(std::make_unique<SpriteManager>()),
-			episodeContentManager(std::make_unique<EpisodeManager>()),
-			CSVContentManager(std::make_unique<CSVManager>()),
+			spriteContentManager(std::make_shared<SpriteManager>()),
+			episodeContentManager(std::make_shared<EpisodeManager>()),
+			CSVContentManager(std::make_shared<CSVManager>()),
 			timeOld(0.0f),
 			timeCurrent(0.01),
 			deltaTime_(0.01),

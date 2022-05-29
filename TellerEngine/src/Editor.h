@@ -66,13 +66,12 @@ namespace Teller {
 
 		//コンテンツマネージャーへのポインタ。
 		std::weak_ptr<CSVManager> ptr_csvContentManger;
-		std::string selectedFileStr;
+		std::vector<std::string> fileVec_;
 		std::map<int, std::vector<std::string>> data;
 		void Initialize();
 	public:	
 		EpisodeEditor() :
-			Editor(),
-			selectedFileStr("story.csv")
+			Editor()
 		{
 			Initialize();
 		};
