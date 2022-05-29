@@ -94,7 +94,7 @@ void BasicAppMultiWindow::setup()
 	mCore->AddAnimSequencer(std::move(animSeq));
 
 	auto ed = std::make_shared<EpisodeEditor>();
-	//mCore->AddEditor(ed);
+	mCore->AddEditor(ed);
 		//冷静に考えたらポインタどっかいってるから削除。
 		/*setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -143,6 +143,7 @@ void BasicAppMultiWindow::draw()
 	処理記述ここから
 	*/
 	mCore->Tick();
+	ImGui::Render();
 	/*
 	処理記述ここまで
 	*/

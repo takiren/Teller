@@ -25,7 +25,6 @@ namespace Teller {
 
 		auto old = clock();
 		deltaTime_ = old - now;
-		ImGui::Text("deltatime %f", deltaTime_);
 	}
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)
@@ -71,6 +70,7 @@ namespace Teller {
 	{
 		editors.push_back(editor);
 		editor->parent = this->shared_from_this();
+		editor->CallByParent();
 		return 0;
 	}
 }

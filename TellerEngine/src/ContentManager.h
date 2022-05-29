@@ -48,7 +48,8 @@ namespace Teller {
 	template<class TYPE>
 	inline std::vector<std::string> ContentsManager<TYPE>::GetKeys()
 	{
-		auto keys = std::vector<std::string>();
+		auto keys = std::vector<std::string>(0,"");
+		if (contents_.size() == 0) return keys;
 		for (auto iter = contents_.begin(); iter != contents_.end(); ++iter) {
 			keys.push_back(iter->first);
 		}

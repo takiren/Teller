@@ -15,6 +15,7 @@
 
 namespace Teller {
 	class TellerCore;
+	using CSVManager = ContentsManager<CSVLoader>;
 
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 
@@ -46,6 +47,7 @@ namespace Teller {
 		void GetMessage(TEVENT_MESSAGE& _message) {
 
 		}
+		virtual void CallByParent();
 
 	};
 
@@ -63,7 +65,7 @@ namespace Teller {
 		//std::vector<std::string> loadedCsvFiles;
 
 		//コンテンツマネージャーへのポインタ。
-		std::weak_ptr<ContentsManager<CSVLoader>> ptr_csvContentManger;
+		std::weak_ptr<CSVManager> ptr_csvContentManger;
 		std::string selectedFileStr;
 		std::map<int, std::vector<std::string>> data;
 		void Initialize();
@@ -74,9 +76,11 @@ namespace Teller {
 		{
 			Initialize();
 		};
+
 		~EpisodeEditor() = default;
 
-		void UpdateParent();
+		void CallByParent() override;
+
 		void Tick() override;
 	};
 

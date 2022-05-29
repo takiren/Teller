@@ -24,19 +24,21 @@ void Teller::EpisodeEditor::Tick()
 
 				ImGui::EndMenuBar();
 			}
+		}
 
-			static int selectedFile = 0;
+		static int selectedFile = 0;
 
-			static std::string selectedFileKey{ "" };
-			// 1. エディタ左側
+		static std::string selectedFileKey{ "" };
+		// 1. エディタ左側
+		{
+			ImGui::BeginChild("left pane", ImVec2(300, 0), true);
+			ImGui::Text("Loaded files.");
+			// ロードされたファイルを左側に表示。
 			{
-				ImGui::BeginChild("left pane", ImVec2(300, 0), true);
-				ImGui::Text("Loaded files.");
-				// ロードされたファイルを左側に表示。
-				{
-					selectedFileKey = "";
-					int i = 0;
-					auto csvvec = ptr_csvContentManger.lock()->GetKeys();
+				selectedFileKey = "";
+				int i = 0;
+				auto csvvec = ptr_csvContentManger.lock()->GetKeys();
+				if (csvvec.size() != 0) {
 					for (auto& e : csvvec) {
 						if (ImGui::Selectable(e.c_str(), selectedFile == i)) {
 							selectedFile = i;
@@ -45,26 +47,28 @@ void Teller::EpisodeEditor::Tick()
 						i++;
 					}
 				}
-				ImGui::EndChild();
 			}
-			selectedFileStr = selectedFileKey;
+			ImGui::EndChild();
+		}
+		selectedFileStr = selectedFileKey;
 
-			static int curr = 0;
+		static int curr = 0;
 
-			// 2. エディタ右側
+		// 2. エディタ右側
+		{
+			ImGui::BeginGroup();
+			ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
+			ImGui::Text("Selected File: %s", selectedFileKey);
+			ImGui::Separator();
+			// CSVファイルの中身を表示。
+			static int currentLine = 0;
 			{
-				ImGui::BeginGroup();
-				ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-				ImGui::Text("Selected File: %s", selectedFileKey);
-				ImGui::Separator();
-				// CSVファイルの中身を表示。
-				static int currentLine = 0;
-				{
+				if (selectedFileKey != "") {
 					int i = 0;
-					auto sentence=ptr_csvContentManger.lock()->GetContent(selectedFileKey);
+					auto sentence = ptr_csvContentManger.lock()->GetContent(selectedFileKey);
 					auto st = sentence->GetCSVData();
 					for (auto iter = st.begin(); iter != st.end(); ++iter) {
-						
+
 						auto s = [&]() {
 							std::string s{ "" };
 							for (auto& e : st[i]) s += e;
@@ -73,16 +77,14 @@ void Teller::EpisodeEditor::Tick()
 						ImGui::Selectable(s().c_str());
 						i++;
 					}
-
 				}
-				if (ImGui::Button("Revert")) {}
-				ImGui::SameLine();
-				if (ImGui::Button("Save")) {}
-				ImGui::EndGroup();
 			}
-
-			ImGui::End();
+			if (ImGui::Button("Revert")) {}
+			ImGui::SameLine();
+			if (ImGui::Button("Save")) {}
+			ImGui::EndGroup();
 		}
+		ImGui::End();
 	}
 }
 
@@ -98,11 +100,15 @@ void Teller::Editor::Update()
 {
 }
 
+void Teller::Editor::CallByParent()
+{
+}
+
 void Teller::EpisodeEditor::Initialize()
 {
 }
 
-void Teller::EpisodeEditor::UpdateParent()
+void Teller::EpisodeEditor::CallByParent()
 {
 	ptr_csvContentManger = parent.lock()->GetCSVContentsManager();
 }

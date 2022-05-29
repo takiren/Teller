@@ -2,7 +2,6 @@
 
 void Teller::RectAgent::Tick()
 {
-	ImGui::Text("Position: %f %f", position_[0], position_[1]);
 	Rectf rf = Rectf(Area(vec2(0, 0), vec2(200, 200) + position_));
 	gl::drawSolidRect(rf);
 }
@@ -41,7 +40,7 @@ void Teller::Character::Tick()
 
 void Teller::Character::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale)
 {
-	position_ += _rot * 0.03f;
-	position_ += _scale * 0.03f;
+	position_ += _rot * deltaTime_;
+	position_ += _scale * deltaTime_;
 	position_ += _pos * deltaTime_;
 }
