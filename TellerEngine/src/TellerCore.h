@@ -45,9 +45,9 @@ namespace Teller {
 		void UpdateDeltaTime();
 	public:
 		TellerCore() :
-			spriteContentManager(std::make_shared<SpriteManager>()),
-			episodeContentManager(std::make_shared<EpisodeManager>()),
-			CSVContentManager(std::make_shared<CSVManager>()),
+			spriteContentManager(std::make_unique<SpriteManager>()),
+			episodeContentManager(std::make_unique<EpisodeManager>()),
+			CSVContentManager(std::make_unique<CSVManager>()),
 			timeOld(0.0f),
 			timeCurrent(0.01),
 			deltaTime_(0.01),
@@ -70,9 +70,9 @@ namespace Teller {
 
 		~TellerCore() = default;
 		//•K‚¸weak_ptr‚Åó‚¯æ‚é‚±‚ÆB
-		std::shared_ptr<CSVManager> GetCSVContentsManager() const { return CSVContentManager; };
-		std::shared_ptr<SpriteManager> GetSpriteContentManager() const { return spriteContentManager; };
-		std::shared_ptr<EpisodeManager> GetEpisodeContentManager() const { return episodeContentManager; };
+		const std::shared_ptr<CSVManager>& GetCSVContentsManager() const { return CSVContentManager; };
+		const std::shared_ptr<SpriteManager>& GetSpriteContentManager() const { return spriteContentManager; };
+		const std::shared_ptr<EpisodeManager>& GetEpisodeContentManager() const { return episodeContentManager; };
 
 		int AddEditor(std::shared_ptr<Editor> editor);
 		int AddModule(std::shared_ptr<ModuleCore>&& sub_module);
@@ -86,5 +86,8 @@ namespace Teller {
 		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
 
 		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);
+
+		void LoadCSV(std::string path);
+		void LoadSprite(std::string path);
 	};
 }

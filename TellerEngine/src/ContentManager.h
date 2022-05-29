@@ -17,7 +17,7 @@ namespace Teller {
 
 	public:
 		std::map<std::string, std::shared_ptr<TYPE>> contents_;
-		ContentsManager();
+		ContentsManager() = default;
 		//コピー禁止
 		ContentsManager(const ContentsManager&) = delete;
 		ContentsManager& operator=(const ContentsManager&) = delete;
@@ -29,19 +29,14 @@ namespace Teller {
 
 		//std::mapのコンテンツのキーを返す。
 		std::vector<std::string> GetKeys();
-		std::map<std::string, std::shared_ptr<TYPE>> contents()const { return contents_; };
-
+		const std::map<std::string, std::shared_ptr<TYPE>>& contents()const { return contents_; };
 	};
 
-	template<class TYPE>
-	inline ContentsManager<TYPE>::ContentsManager()
-	{
-	}
 
 	template<class TYPE>
 	inline void ContentsManager<TYPE>::AddContent(std::string key)
 	{
-		contents_[key] = std::move( std::make_unique<TYPE>(key));
+		contents_[key] = std::move(std::make_unique<TYPE>(key));
 	}
 
 	template<class TYPE>

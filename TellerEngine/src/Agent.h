@@ -11,10 +11,14 @@ using namespace ci;
 
 namespace Teller {
 	class AgentCore {
+	private:
+	protected:
+		float deltaTime_;
 	public:
-		AgentCore() = default;
+		AgentCore() :deltaTime_(0.0f) {};
 		virtual ~AgentCore() = default;
 		virtual void Tick();
+		void SetDeltaTime(float _deltaTime);
 	};
 
 	template<class... Args>
@@ -25,7 +29,6 @@ namespace Teller {
 		::vec2 rotation_;
 		::vec2 scale_;
 		::vec2 size_; //このエージェントの占める画面上の大きさ(ピクセル数)
-
 		//Animatorクラス用変数
 
 	public:
@@ -51,21 +54,30 @@ namespace Teller {
 		virtual void AnimateInternal(int key, float factor);
 		virtual void Move();*/
 
-		virtual void CallBackLisner(Args...);
+		virtual void CallBackListener(Args... args);
 
 		//virtual void AddAnimator(int key,std::shared_ptr<Animator> _animator);
 	};
 
 	template<class ...Args>
-	inline void Agent<Args...>::CallBackLisner(Args ...)
+	inline void Agent<Args...>::CallBackListener(Args ...)
 	{
 	}
+
+	class Character :public Agent<vec2, vec2, vec2> {
+	private:
+		std::weak_ptr<Sprite> sprite_;
+	public:
+		void Tick() override;
+		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale) override;
+
+	};
 
 	class RectAgent :public Agent<vec2, vec2, vec2> {
 	private:
 	public:
 		void Tick() override;
-		void CallBackLisner(vec2 _pos, vec2 _rot, vec2 _scale) override;
+		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale) override;
 	};
 
 	class MainTextArea :public Agent<std::string, std::string> {
@@ -75,8 +87,8 @@ namespace Teller {
 	public:
 		MainTextArea() :Agent(), text_(""), speaker_("") {};
 		void Tick() override;
-		
-		void CallBackLisner(std::string _speaker, std::string _text);
+
+		void CallBackListener(std::string _speaker, std::string _text);
 	};
 
 

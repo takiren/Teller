@@ -67,7 +67,7 @@ namespace Teller {
 	inline void Animator<Args...>::AttachToAgent(std::shared_ptr<Agent<Args...>> _agent)
 	{
 		targetAgent = _agent;
-		callback_ = [&](Args... args) {targetAgent.lock()->CallBackLisner(args...); };
+		callback_ = [&](Args... args) {targetAgent.lock()->CallBackListener(args...); };
 	}
 
 	class Circular :public Animator<vec2, vec2, vec2> {

@@ -43,6 +43,15 @@ namespace Teller {
 		animSequencer_.push_back(_animSequencer);
 	}
 
+	void TellerCore::LoadCSV(std::string path)
+	{
+	}
+
+	void TellerCore::LoadSprite(std::string path)
+	{
+
+	}
+
 	int TellerCore::AddModule(std::shared_ptr<ModuleCore>&& sub_module)
 	{
 		modules.push_back(sub_module);

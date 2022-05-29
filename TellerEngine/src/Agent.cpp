@@ -7,7 +7,7 @@ void Teller::RectAgent::Tick()
 	gl::drawSolidRect(rf);
 }
 
-void Teller::RectAgent::CallBackLisner(vec2 _pos, vec2 _rot, vec2 _scale)
+void Teller::RectAgent::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale)
 {
 	position_ += _pos * 0.01f;
 	rotation_ += _rot * 0.01f;
@@ -20,7 +20,7 @@ void Teller::MainTextArea::Tick()
 	gl::drawString(text_, vec2(100, 520), ci::Color(1, 1, 1), ci::Font("", 30));
 }
 
-void Teller::MainTextArea::CallBackLisner(std::string _speaker, std::string _text)
+void Teller::MainTextArea::CallBackListener(std::string _speaker, std::string _text)
 {
 	speaker_ = _speaker;
 	text_ = _text;
@@ -28,4 +28,20 @@ void Teller::MainTextArea::CallBackLisner(std::string _speaker, std::string _tex
 
 void Teller::AgentCore::Tick()
 {
+}
+
+void Teller::AgentCore::SetDeltaTime(float _deltaTime)
+{
+
+}
+
+void Teller::Character::Tick()
+{
+}
+
+void Teller::Character::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale)
+{
+	position_ += _rot * 0.03f;
+	position_ += _scale * 0.03f;
+	position_ += _pos * deltaTime_;
 }

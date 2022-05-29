@@ -59,11 +59,7 @@ void BasicAppMultiWindow::setup()
 	auto CMSprite = std::make_shared<SpriteManager>();
 	auto CMEpisode = std::make_shared<EpisodeManager>();
 
-	mCore = std::make_shared<TellerCore>(
-		CMSprite,
-		CMEpisode,
-		CMCSV
-	);
+	mCore = std::make_shared<TellerCore>();
 
 
 	/*mCore->AttachDeltaTimeMessanger(0,
@@ -86,7 +82,9 @@ void BasicAppMultiWindow::setup()
 	mScene->AddAgent(textAgent);
 	auto tChanger = std::make_unique<TextChanger>();
 
-	//CMCSV->AddContent("data/story.h");
+	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
+
+	CMCSV->AddContent("data/story.csv");
 
 	tChanger->AttachToAgent(textAgent);
 	tChanger->LoadCSV("data/story.csv");
@@ -105,7 +103,7 @@ void BasicAppMultiWindow::setup()
 		*stdout = *_fdopen(hConsole, "w");*/
 
 	ci::app::setWindowSize(1280, 720);
-	ci::app::setWindowPos(vec2(1920/2-1280/2,1080/2-720/2));
+	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));
 }
 
 void BasicAppMultiWindow::createNewWindow()
