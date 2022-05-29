@@ -55,7 +55,7 @@ void BasicAppMultiWindow::setup()
 	ImGui::Initialize();
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontFromFileTTF("data/ipaexg.ttf", 14.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+		io.Fonts->AddFontFromFileTTF("../data/ipaexg.ttf", 14.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 	}
 
 	auto CMCSV = std::make_shared<CSVManager>();
@@ -89,11 +89,11 @@ void BasicAppMultiWindow::setup()
 
 	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
 
-	CMCSV->AddContent("data/story.csv");
-	CMCSV->AddContent("data/episode.csv");
+	CMCSV->AddContent("../data/story.csv");
+	CMCSV->AddContent("../data/episode.csv");
 
 	tChanger->AttachToAgent(textAgent);
-	tChanger->LoadCSV("data/story.csv");
+	tChanger->LoadCSV("../data/story.csv");
 	mAnimator->AttachToAgent(mAgent);
 	animSeq->AddAnimator(std::move(mAnimator));
 	animSeq->AddAnimator(std::move(tChanger));
