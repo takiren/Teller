@@ -132,7 +132,6 @@ void BasicAppMultiWindow::update()
 void BasicAppMultiWindow::mouseDrag(MouseEvent event)
 {
 	WindowData* data = getWindow()->getUserData<WindowData>();
-
 }
 
 void BasicAppMultiWindow::keyDown(KeyEvent event)
@@ -148,7 +147,6 @@ void BasicAppMultiWindow::draw()
 	処理記述ここから
 	*/
 	mCore->Tick();
-
 
 	/*
 	処理記述ここまで
