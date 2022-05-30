@@ -1,23 +1,23 @@
 #pragma once
-
 #include<memory>
 #include<string>
 #include<vector>
 #include<iostream>
 #include <stdio.h>
-#include"cinder/Cinder.h"
-#include"cinder/CinderImGui.h"
+#include<cinder/Cinder.h>
+#include<cinder/CinderImGui.h>
 
 #include<Core.h>
+
 #include"TellerCore.h"
 #include"ContentManager.h"
 #include"Episode.h"
 #include"TellerEvent.h"
-#include"utility.h"
 
 namespace Teller {
 	class TellerCore;
 	using CSVManager = ContentsManager<CSVLoader>;
+	using EpisodeManager = ContentsManager<Episode>;
 
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 
@@ -33,12 +33,14 @@ namespace Teller {
 	private:
 		std::pair<int, int> lineBracket;
 	protected:
+		bool bEnabled;
 	public:
 		std::weak_ptr<TellerCore> parent;
 
-		Editor()=default;
-		virtual ~Editor() = default;
+		Editor() = default;
 		virtual void Tick();
+		void TickInternal();
+		virtual ~Editor() = default;
 		virtual void Update();
 
 		//ÉRÉsÅ[ã÷é~
@@ -75,7 +77,7 @@ namespace Teller {
 
 		std::string episodeNameCandidate;
 		void Initialize();
-	public:	
+	public:
 		EpisodeEditor() :
 			Editor(),
 			lineBracket(std::make_pair<int, int>(0, 0)),
@@ -95,6 +97,19 @@ namespace Teller {
 			for (auto& e : _vector)s += e;
 			return s;
 		}
+	};
+
+	class EpisodeEventEditor :public Editor {
+	private:
+		std::weak_ptr<EpisodeManager> ptrEpsdMngr;
+	public:
+		EpisodeEventEditor() :
+			Editor()
+		{};
+		void Tick() override;
+		void Update() override;
+		void CallByParent() override;
+
 	};
 
 	class AssetViewer :public Editor {

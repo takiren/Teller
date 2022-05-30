@@ -63,6 +63,11 @@ void Teller::EpisodeEditor::Tick()
 					for (auto& e : iter->second) ts += e;
 					return ts;
 				};
+				if (lineBracket.first == i || lineBracket.second == i) {
+					ImGui::Selectable(s().c_str(), true);
+					i++;
+					continue;
+				}
 				if (ImGui::Selectable(s().c_str(), currentLine == i))currentLine = i;
 				i++;
 			}
@@ -113,6 +118,11 @@ void Teller::AssetViewer::Tick()
 
 void Teller::Editor::Tick()
 {
+	TickInternal();
+}
+
+void Teller::Editor::TickInternal()
+{
 }
 
 void Teller::Editor::Update()
@@ -131,4 +141,19 @@ void Teller::EpisodeEditor::CallByParent()
 {
 	ptr_csvContentManger = parent.lock()->GetCSVContentsManager();
 	fileVec_ = ptr_csvContentManger.lock()->GetKeys();
+}
+
+void Teller::EpisodeEventEditor::CallByParent()
+{
+	ptrEpsdMngr = parent.lock()->GetEpisodeContentManager();
+}
+
+void Teller::EpisodeEventEditor::Update()
+{
+	
+}
+
+void Teller::EpisodeEventEditor::Tick()
+{
+	
 }

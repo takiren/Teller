@@ -66,7 +66,8 @@ namespace Teller {
 	void TellerCore::CoreInitialize()
 	{
 		DeltaTimeMessanger = std::make_unique<TMessanger<int, float>>();
-		
+#ifdef _DEBUG
+
 		AllocConsole();
 		// 標準入出力に割り当てる
 		FILE* fp = NULL;
@@ -76,7 +77,8 @@ namespace Teller {
 		// 現在のコード
 		freopen_s(&fp, "CONOUT$", "w", stdout);
 		freopen_s(&fp, "CONIN$", "r", stdin);
-		setlocale(LC_ALL, "japanese");
+#endif // _DEBUG
+
 	}
 	void TellerCore::UpdateDeltaTime()
 	{

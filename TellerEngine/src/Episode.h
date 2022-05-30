@@ -1,4 +1,5 @@
 #pragma once
+#include<list>
 #include<vector>
 #include<string>
 #include<map>
@@ -60,6 +61,15 @@ namespace Teller {
 		std::vector<Episode> GetEpisodes();
 		std::vector<std::string> GetLine(int _line) { return csv_data.at(_line); };
 		std::map<int, std::vector<std::string>> GetCSVData() { return csv_data; };
+	};
+
+	template<class TYPE>
+	class TSequencer {
+	private:
+		std::unique_ptr<TYPE> target;
+		std::map<std::string, TYPE> elements;
+		
+	public:
 	};
 
 }
