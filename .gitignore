@@ -93,6 +93,8 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.sarif
+*.idb
 *.tlog
 
 # Chutzpah Test files

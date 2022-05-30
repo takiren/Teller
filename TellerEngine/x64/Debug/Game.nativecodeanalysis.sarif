@@ -7,987 +7,32 @@
         {
           "ruleId": "C26495",
           "message": {
-            "text": "変数 'cinder::StreamExc::mMessage' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+            "text": "変数 'Teller::Editor::bEnabled' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Stream.h"
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/Editor.h"
                 },
                 "region": {
-                  "startLine": 379,
-                  "startColumn": 2,
-                  "endLine": 379,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::StreamExc::{ctor}",
-                  "decoratedName": "??0StreamExc@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::StreamExc::mMessage"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::Area::y2' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
-                },
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 2,
-                  "endLine": 40,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::Area::{ctor}",
-                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::Area::y2"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::Area::x2' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
-                },
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 2,
-                  "endLine": 40,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::Area::{ctor}",
-                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::Area::x2"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::Area::x1' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
-                },
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 2,
-                  "endLine": 40,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::Area::{ctor}",
-                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::Area::x1"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::Area::y1' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
-                },
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 2,
-                  "endLine": 40,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::Area::{ctor}",
-                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::Area::y1"
-          }
-        },
-        {
-          "ruleId": "C26451",
-          "message": {
-            "text": "演算のオーバーフロー: 4 バイトの値に演算子 '*' を使用し、結果を 8 バイトの値にキャストしています。オーバーフローを避けるため、演算子 '*' を呼び出す前に値を幅の広い型にキャストしてください (io.2)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Surface.h"
-                },
-                "region": {
-                  "startLine": 94,
-                  "startColumn": 124,
-                  "endLine": 94,
-                  "endColumn": 170
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::SurfaceConstraints::getRowBytes",
-                  "decoratedName": "?getRowBytes@SurfaceConstraints@cinder@@UEBA_JHAEBVSurfaceChannelOrder@2@H@Z",
-                  "kind": "function"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "ruleId": "C26451",
-          "message": {
-            "text": "演算のオーバーフロー: 4 バイトの値に演算子 '*' を使用し、結果を 8 バイトの値にキャストしています。オーバーフローを避けるため、演算子 '*' を呼び出す前に値を幅の広い型にキャストしてください (io.2)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Surface.h"
-                },
-                "region": {
-                  "startLine": 94,
-                  "startColumn": 124,
-                  "endLine": 94,
-                  "endColumn": 141
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::SurfaceConstraints::getRowBytes",
-                  "decoratedName": "?getRowBytes@SurfaceConstraints@cinder@@UEBA_JHAEBVSurfaceChannelOrder@2@H@Z",
-                  "kind": "function"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::MouseEvent::mWheelIncrement' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/MouseEvent.h"
-                },
-                "region": {
-                  "startLine": 36,
-                  "startColumn": 2,
-                  "endLine": 36,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::MouseEvent::{ctor}",
-                  "decoratedName": "??0MouseEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::MouseEvent::mWheelIncrement"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::MouseEvent::mModifiers' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/MouseEvent.h"
-                },
-                "region": {
-                  "startLine": 36,
-                  "startColumn": 2,
-                  "endLine": 36,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::MouseEvent::{ctor}",
-                  "decoratedName": "??0MouseEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::MouseEvent::mModifiers"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::MouseEvent::mInitiator' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/MouseEvent.h"
-                },
-                "region": {
-                  "startLine": 36,
-                  "startColumn": 2,
-                  "endLine": 36,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::MouseEvent::{ctor}",
-                  "decoratedName": "??0MouseEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::MouseEvent::mInitiator"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::MouseEvent::mNativeModifiers' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/MouseEvent.h"
-                },
-                "region": {
-                  "startLine": 36,
-                  "startColumn": 2,
-                  "endLine": 36,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::MouseEvent::{ctor}",
-                  "decoratedName": "??0MouseEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::MouseEvent::mNativeModifiers"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::Touch::mHandled' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 38,
+                  "startLine": 43,
                   "startColumn": 3,
-                  "endLine": 38,
+                  "endLine": 43,
                   "endColumn": 3
                 }
               },
               "logicalLocations": [
                 {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::Touch::{ctor}",
-                  "decoratedName": "??0Touch@TouchEvent@app@cinder@@QEAA@XZ",
+                  "fullyQualifiedName": "Teller::Editor::{ctor}",
+                  "decoratedName": "??0Editor@Teller@@QEAA@XZ",
                   "kind": "function"
                 }
               ]
             }
           ],
           "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::Touch::mHandled"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::Touch::mNative' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 38,
-                  "startColumn": 3,
-                  "endLine": 38,
-                  "endColumn": 3
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::Touch::{ctor}",
-                  "decoratedName": "??0Touch@TouchEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::Touch::mNative"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::Touch::mTime' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 38,
-                  "startColumn": 3,
-                  "endLine": 38,
-                  "endColumn": 3
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::Touch::{ctor}",
-                  "decoratedName": "??0Touch@TouchEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::Touch::mTime"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::Touch::mId' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 38,
-                  "startColumn": 3,
-                  "endLine": 38,
-                  "endColumn": 3
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::Touch::{ctor}",
-                  "decoratedName": "??0Touch@TouchEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::Touch::mId"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::mNative' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 76,
-                  "startColumn": 2,
-                  "endLine": 76,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::{ctor}",
-                  "decoratedName": "??0TouchEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::mNative"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::mHandled' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 76,
-                  "startColumn": 2,
-                  "endLine": 76,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::{ctor}",
-                  "decoratedName": "??0TouchEvent@app@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::mHandled"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::TouchEvent::mHandled' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-                },
-                "region": {
-                  "startLine": 79,
-                  "startColumn": 2,
-                  "endLine": 79,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::TouchEvent::{ctor}",
-                  "decoratedName": "??0TouchEvent@app@cinder@@QEAA@AEBV?$shared_ptr@VWindow@app@cinder@@@std@@AEBV?$vector@VTouch@TouchEvent@app@cinder@@V?$allocator@VTouch@TouchEvent@app@cinder@@@std@@@4@PEAX@Z",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::TouchEvent::mHandled"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::app::Window::mApp' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/Window.h"
-                },
-                "region": {
-                  "startLine": 462,
-                  "startColumn": 2,
-                  "endLine": 462,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::app::Window::{ctor}",
-                  "decoratedName": "??0Window@app@cinder@@IEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::app::Window::mApp"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncTargetRed' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncTargetRed"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncSourceRed' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncSourceRed"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncTargetAlpha' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncTargetAlpha"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncSourceAlpha' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncSourceAlpha"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncSourceGreen' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncSourceGreen"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncSourceGray' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncSourceGray"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncTargetGray' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncTargetGray"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncTargetGreen' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncTargetGreen"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncSourceBlue' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncSourceBlue"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncTargetInc' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncTargetInc"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncSourceInc' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncSourceInc"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageSource::mRowFuncTargetBlue' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 2,
-                  "endLine": 88,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
-                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageSource::mRowFuncTargetBlue"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
-            "text": "変数 'cinder::ImageTarget::Options::mColorModel' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-                },
-                "region": {
-                  "startLine": 167,
-                  "startColumn": 3,
-                  "endLine": 167,
-                  "endColumn": 3
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::ImageTarget::Options::{ctor}",
-                  "decoratedName": "??0Options@ImageTarget@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::ImageTarget::Options::mColorModel"
+            "targetSymbol": "Teller::Editor::bEnabled"
           }
         },
         {
@@ -1112,6 +157,130 @@
           ],
           "properties": {
             "targetSymbol": "cinder::Sphere::mRadius"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::Area::y2' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
+                },
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 2,
+                  "endLine": 40,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::Area::{ctor}",
+                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::Area::y2"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::Area::x2' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
+                },
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 2,
+                  "endLine": 40,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::Area::{ctor}",
+                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::Area::x2"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::Area::y1' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
+                },
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 2,
+                  "endLine": 40,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::Area::{ctor}",
+                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::Area::y1"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::Area::x1' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
+                },
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 2,
+                  "endLine": 40,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::Area::{ctor}",
+                  "decoratedName": "??0Area@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::Area::x1"
           }
         },
         {
@@ -1546,37 +715,6 @@
         {
           "ruleId": "C26495",
           "message": {
-            "text": "変数 'cinder::geom::WireTorus::mCoils' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/GeomIo.h"
-                },
-                "region": {
-                  "startLine": 1177,
-                  "startColumn": 2,
-                  "endLine": 1177,
-                  "endColumn": 2
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "cinder::geom::WireTorus::{ctor}",
-                  "decoratedName": "??0WireTorus@geom@cinder@@QEAA@XZ",
-                  "kind": "function"
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "targetSymbol": "cinder::geom::WireTorus::mCoils"
-          }
-        },
-        {
-          "ruleId": "C26495",
-          "message": {
             "text": "変数 'cinder::geom::WireTorus::mNumAxis' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
           },
           "locations": [
@@ -1606,6 +744,37 @@
           }
         },
         {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::geom::WireTorus::mCoils' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/GeomIo.h"
+                },
+                "region": {
+                  "startLine": 1177,
+                  "startColumn": 2,
+                  "endLine": 1177,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::geom::WireTorus::{ctor}",
+                  "decoratedName": "??0WireTorus@geom@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::geom::WireTorus::mCoils"
+          }
+        },
+        {
           "ruleId": "C26439",
           "message": {
             "text": "この種類の関数は throw できません。'noexcept' として宣言します (f.6)。"
@@ -1632,6 +801,496 @@
               ]
             }
           ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "演算のオーバーフロー: 4 バイトの値に演算子 '*' を使用し、結果を 8 バイトの値にキャストしています。オーバーフローを避けるため、演算子 '*' を呼び出す前に値を幅の広い型にキャストしてください (io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Surface.h"
+                },
+                "region": {
+                  "startLine": 94,
+                  "startColumn": 124,
+                  "endLine": 94,
+                  "endColumn": 170
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::SurfaceConstraints::getRowBytes",
+                  "decoratedName": "?getRowBytes@SurfaceConstraints@cinder@@UEBA_JHAEBVSurfaceChannelOrder@2@H@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "演算のオーバーフロー: 4 バイトの値に演算子 '*' を使用し、結果を 8 バイトの値にキャストしています。オーバーフローを避けるため、演算子 '*' を呼び出す前に値を幅の広い型にキャストしてください (io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Surface.h"
+                },
+                "region": {
+                  "startLine": 94,
+                  "startColumn": 124,
+                  "endLine": 94,
+                  "endColumn": 141
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::SurfaceConstraints::getRowBytes",
+                  "decoratedName": "?getRowBytes@SurfaceConstraints@cinder@@UEBA_JHAEBVSurfaceChannelOrder@2@H@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::StreamExc::mMessage' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Stream.h"
+                },
+                "region": {
+                  "startLine": 379,
+                  "startColumn": 2,
+                  "endLine": 379,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::StreamExc::{ctor}",
+                  "decoratedName": "??0StreamExc@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::StreamExc::mMessage"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncTargetGray' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncTargetGray"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncSourceRed' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncSourceRed"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncSourceGreen' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncSourceGreen"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncTargetBlue' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncTargetBlue"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncTargetInc' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncTargetInc"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncTargetAlpha' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncTargetAlpha"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncSourceBlue' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncSourceBlue"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncSourceInc' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncSourceInc"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncSourceAlpha' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncSourceAlpha"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncTargetRed' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncTargetRed"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncSourceGray' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncSourceGray"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageSource::mRowFuncTargetGreen' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 2,
+                  "endLine": 88,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageSource::{ctor}",
+                  "decoratedName": "??0ImageSource@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageSource::mRowFuncTargetGreen"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'cinder::ImageTarget::Options::mColorModel' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+                },
+                "region": {
+                  "startLine": 167,
+                  "startColumn": 3,
+                  "endLine": 167,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "cinder::ImageTarget::Options::{ctor}",
+                  "decoratedName": "??0Options@ImageTarget@cinder@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "cinder::ImageTarget::Options::mColorModel"
+          }
         },
         {
           "ruleId": "C26451",
@@ -1841,32 +1500,32 @@
         {
           "ruleId": "C26495",
           "message": {
-            "text": "変数 'cinder::log::Location::mLineNumber' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+            "text": "変数 'Teller::ModuleCore::deltaTime_' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Log.h"
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/ModuleCore.h"
                 },
                 "region": {
-                  "startLine": 62,
-                  "startColumn": 2,
-                  "endLine": 62,
-                  "endColumn": 2
+                  "startLine": 26,
+                  "startColumn": 3,
+                  "endLine": 26,
+                  "endColumn": 3
                 }
               },
               "logicalLocations": [
                 {
-                  "fullyQualifiedName": "cinder::log::Location::{ctor}",
-                  "decoratedName": "??0Location@log@cinder@@QEAA@XZ",
+                  "fullyQualifiedName": "Teller::ModuleCore::{ctor}",
+                  "decoratedName": "??0ModuleCore@Teller@@QEAA@XZ",
                   "kind": "function"
                 }
               ]
             }
           ],
           "properties": {
-            "targetSymbol": "cinder::log::Location::mLineNumber"
+            "targetSymbol": "Teller::ModuleCore::deltaTime_"
           }
         },
         {
@@ -1998,79 +1657,13 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Stream.h"
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/Editor.h"
           },
           "roles": [
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "078f6ccbe2d5e798b9fe54b1ef7917fef3b5c492d9a3cd914222dd275f1ce061"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
-          },
-          "roles": [
-            "resultFile"
-          ],
-          "hashes": {
-            "sha-256": "59a0ddd004404146659f882b64579e51ab75520eecfbdc91b99e5034205cd21c"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Surface.h"
-          },
-          "roles": [
-            "resultFile"
-          ],
-          "hashes": {
-            "sha-256": "047d602dad6e7c7f3a26d5655a1dd8279a9fa0afc78f4c2fad41e8ebff8214bf"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/MouseEvent.h"
-          },
-          "roles": [
-            "resultFile"
-          ],
-          "hashes": {
-            "sha-256": "cfa8f6178878c0cde226345be3e7339b6e72f2feadd65d2a857ca33eea8639f9"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/TouchEvent.h"
-          },
-          "roles": [
-            "resultFile"
-          ],
-          "hashes": {
-            "sha-256": "8836c8841bc1d327549c16dfd086ce917c5ca3a61835aa494da0059bfa192cfe"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/app/Window.h"
-          },
-          "roles": [
-            "resultFile"
-          ],
-          "hashes": {
-            "sha-256": "556b2c8ad4b2c3c39127241dcb6e208555b276575e2d158d85ec8e542ac6bc1d"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
-          },
-          "roles": [
-            "resultFile"
-          ],
-          "hashes": {
-            "sha-256": "79872d1979b53a55c265a84d4efecd8683233df77ad844eadbe3ac5f8b124245"
+            "sha-256": "8c12bf6494dccd1da8d94b3efa0a7e8b4a71bf98b5b5004ba364bcfd72577790"
           }
         },
         {
@@ -2097,6 +1690,17 @@
         },
         {
           "location": {
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Area.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "59a0ddd004404146659f882b64579e51ab75520eecfbdc91b99e5034205cd21c"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/GeomIo.h"
           },
           "roles": [
@@ -2104,6 +1708,39 @@
           ],
           "hashes": {
             "sha-256": "bca98c27ca307204f9f6f09b4675fffcaa3a465b12918b983c9f30429e3ed856"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Surface.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "047d602dad6e7c7f3a26d5655a1dd8279a9fa0afc78f4c2fad41e8ebff8214bf"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Stream.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "078f6ccbe2d5e798b9fe54b1ef7917fef3b5c492d9a3cd914222dd275f1ce061"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/ImageIo.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "79872d1979b53a55c265a84d4efecd8683233df77ad844eadbe3ac5f8b124245"
           }
         },
         {
@@ -2152,13 +1789,13 @@
         },
         {
           "location": {
-            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/Cinder/include/cinder/Log.h"
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/ModuleCore.h"
           },
           "roles": [
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "454696419e1a6f91c136f65e3741f8ddc98e2fe613fa770ed8dc53ff76f46da6"
+            "sha-256": "865a88a63c8f3b9f954643bbf650c0bcefca1dbf56517953b97c6333c75f4417"
           }
         },
         {
@@ -2188,7 +1825,15 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/game.h"
           },
           "hashes": {
-            "sha-256": "803e90761868def85fade33a3e734e6ba54defebf7ad4767bb6843a5d8b104ab"
+            "sha-256": "07f71cfda88b2eecd4e0f3ddf21f57fb7a500df8084d46525a12a8e334873f03"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/tellercore.h"
+          },
+          "hashes": {
+            "sha-256": "6ab85d1fe26bc54f99a6ce8e280c0572161cea899cfc6b1d259d72d1b044028c"
           }
         },
         {
@@ -2196,15 +1841,39 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/core.h"
           },
           "hashes": {
-            "sha-256": "67c13edbb64d5d4430d4bdf1b0173bba52fa057ddc642ecdb85bed4844ff1a02"
+            "sha-256": "635dee884e163d03a2523e1bfd66bb6d18efc2ef50c5d59342ba629179e47732"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/app.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/tellerevent.h"
           },
           "hashes": {
-            "sha-256": "8dd3049f2883ad3169365b49eb1f6b2376557cf6c9e7f2302a6d7bf5d2c1c6bb"
+            "sha-256": "4b90aad21c711741f0c0118c4ffba23a0a02f65be6efccc0f6c21e289a8b1aa2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/contentmanager.h"
+          },
+          "hashes": {
+            "sha-256": "be1f3dd8a09bc35e2a28ecec4f55426014f99e3f7853d4e7379ca4e5c9e94412"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/episode.h"
+          },
+          "hashes": {
+            "sha-256": "2e48f951707384fda5af34df7a3e7c58a3d17cf009cfd34957ae32e6edfd4505"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/asset.h"
+          },
+          "hashes": {
+            "sha-256": "ac51f37cbae3d7fa130f0dfa903e58cb30b333e892bf35ac5fbc0f5b5dcddb93"
           }
         },
         {
@@ -2265,90 +1934,42 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/msw/appmsw.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderimgui.h"
           },
           "hashes": {
-            "sha-256": "ab730759f3ca756eec8e66f16dc5364c6dd4dc587cf91d1e51f7a0b47ba48105"
+            "sha-256": "58426e6cd6dcdaf13068003f9abf80d202e06f8e9be32e188f5cdff70d9d39bb"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/appbase.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui/imgui.h"
           },
           "hashes": {
-            "sha-256": "0eb23c91d594ade2be77efc626028c6e31042f7095b782febcdf5a13ea22435e"
+            "sha-256": "53aeb16c73a9bf6ac1882cc542218ea2fb0bc8fd95d1f0d83964892dcba3f8f5"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/platform.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderimguiconfig.h"
           },
           "hashes": {
-            "sha-256": "03004243d74049652634508aa62a3c6b2eeda308ceafeff97b83c3c5724b5577"
+            "sha-256": "c41ab078a0326e43897bc3aba08be124d45de8240f7c5807bc3c9fbf6788f031"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/datasource.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/color.h"
           },
           "hashes": {
-            "sha-256": "393d7b76ec38d0e22a99d5abdf6af49760b0daf09625f97c546d320527ad69be"
+            "sha-256": "a60a3d024521900195fe7e8d0a5f0945d030dd8796b0bb6322ed28c04077cbc8"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/url.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/chantraits.h"
           },
           "hashes": {
-            "sha-256": "f4dfba7bbb1f907464ca1cff0a80efb4a007b372cc133c9f8817f718eab5f7f8"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/buffer.h"
-          },
-          "hashes": {
-            "sha-256": "d1a7dff4e8d83db92224f13da0a98e15a3e36fdaffde8aca07acac52846460af"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/exception.h"
-          },
-          "hashes": {
-            "sha-256": "cee8a66b8ef69b60bfaf8c6b03a399f009a01e32d2465a1444b5424636e0f2a3"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/filesystem.h"
-          },
-          "hashes": {
-            "sha-256": "bf5f9d1c47f48704878598213d68b3e85fff6c4a6a63507cf7cb790e43ad86b1"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/noncopyable.h"
-          },
-          "hashes": {
-            "sha-256": "99ed34f3e674fe48cb1b5ae5149d79e2c23f9627ac194d60e2bd9cea3a9b03ff"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/renderer.h"
-          },
-          "hashes": {
-            "sha-256": "338e4b5220939388950b92374566063a9e1e552047143f33ed5194660ab0e73d"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix.h"
-          },
-          "hashes": {
-            "sha-256": "6dafb59e3aaa336729a4a28b15c0eefb7caf26f4c64729ae2fabab434517e9c5"
+            "sha-256": "4d216e8dc5291a79757f214d379b5d8f6187be21f6aeddb661e8b33ee20283dc"
           }
         },
         {
@@ -3961,30 +3582,6 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix22.h"
-          },
-          "hashes": {
-            "sha-256": "9bffe565fd2836c8d1d2fc909a90b8c83942df0f71316239cfe87653f8300ffb"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix33.h"
-          },
-          "hashes": {
-            "sha-256": "7a8a419a366259473ccfd9cdb85be9b43e5b475b7547442fca73ee5f859c1959"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix44.h"
-          },
-          "hashes": {
-            "sha-256": "f22d947a4a47e2c86fa3d733a2fa59edcb9ef20d1aa542569cd9f2e68384ff0c"
-          }
-        },
-        {
-          "location": {
             "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/vector.h"
           },
           "hashes": {
@@ -4005,6 +3602,158 @@
           },
           "hashes": {
             "sha-256": "e3f164718b25b422943b65d6470c6d0338a4b2a990ea43f80355771397b6dba8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderassert.h"
+          },
+          "hashes": {
+            "sha-256": "10e019aeaf2cbefaf480ce48b2f6d72ecfb07788262febc9efb614b06df76bfc"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/currentfunction.h"
+          },
+          "hashes": {
+            "sha-256": "415b74b53d30206c797558c067296642daf04cefd54f40ec29c88352dd3e37ae"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/gl/platform.h"
+          },
+          "hashes": {
+            "sha-256": "1ef958b5f86136584dd4e01a528fcbca817ee1626b8bee6c951e1acd82061855"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/glad/glad.h"
+          },
+          "hashes": {
+            "sha-256": "ef4310e613a51783c58de3af67b9fdf6d1c1fb47d54cb8473916e211e8966d02"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/khr/khrplatform.h"
+          },
+          "hashes": {
+            "sha-256": "4c2f83949bf0c231df0f7ee20f2bb75e1706415c64cec828574dacc9c642ba26"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui/imconfig.h"
+          },
+          "hashes": {
+            "sha-256": "91dabca6ab96eed3342b876ff654dc4eec0a936d70374b241e3891ef45510295"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui/imgui_stdlib.h"
+          },
+          "hashes": {
+            "sha-256": "b8f0750279973ec63ba282137bf2a9a367a6a96b61dfa0c713c0f0c9be096506"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/filesystem.h"
+          },
+          "hashes": {
+            "sha-256": "bf5f9d1c47f48704878598213d68b3e85fff6c4a6a63507cf7cb790e43ad86b1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/noncopyable.h"
+          },
+          "hashes": {
+            "sha-256": "99ed34f3e674fe48cb1b5ae5149d79e2c23f9627ac194d60e2bd9cea3a9b03ff"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui-node-editor/imgui_node_editor.h"
+          },
+          "hashes": {
+            "sha-256": "d2beec4e2c75a86ef6cb0456146148cda206d4cded4913e44041d11e3edca7e3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/threadpool.h"
+          },
+          "hashes": {
+            "sha-256": "1310c94d69bf4f29da3eb3cd8f60bd7243f124a8f7d304021d2837f338183858"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/animation.h"
+          },
+          "hashes": {
+            "sha-256": "8e3282c05b54660dcf6dade9d4e9ec4c03e955c0c2f0af18d13f5f414538cc18"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/gl/gl.h"
+          },
+          "hashes": {
+            "sha-256": "5c09d4a791ebcb891d1f67df0988e4df21ebdbb195bd60d5d38d63dbe013976c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/gl/wrapper.h"
+          },
+          "hashes": {
+            "sha-256": "cffc8ffcef743e4161dacc1c221e7f30c0e0885320c40b13a8977e8460801052"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/camera.h"
+          },
+          "hashes": {
+            "sha-256": "b0d09c5bd197bb0d9b6b26df290b0a93207680b46f4ea3bbef344aacf1b994e2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix.h"
+          },
+          "hashes": {
+            "sha-256": "6dafb59e3aaa336729a4a28b15c0eefb7caf26f4c64729ae2fabab434517e9c5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix22.h"
+          },
+          "hashes": {
+            "sha-256": "9bffe565fd2836c8d1d2fc909a90b8c83942df0f71316239cfe87653f8300ffb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix33.h"
+          },
+          "hashes": {
+            "sha-256": "7a8a419a366259473ccfd9cdb85be9b43e5b475b7547442fca73ee5f859c1959"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/matrix44.h"
+          },
+          "hashes": {
+            "sha-256": "f22d947a4a47e2c86fa3d733a2fa59edcb9ef20d1aa542569cd9f2e68384ff0c"
           }
         },
         {
@@ -4041,186 +3790,18 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/channel.h"
-          },
-          "hashes": {
-            "sha-256": "c0a0a178ec5e98fe23ea892077f270c1dce0b73c12f3374d3e50fa3a9604e0ea"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/color.h"
-          },
-          "hashes": {
-            "sha-256": "a60a3d024521900195fe7e8d0a5f0945d030dd8796b0bb6322ed28c04077cbc8"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/chantraits.h"
-          },
-          "hashes": {
-            "sha-256": "4d216e8dc5291a79757f214d379b5d8f6187be21f6aeddb661e8b33ee20283dc"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/display.h"
-          },
-          "hashes": {
-            "sha-256": "fad9cc3071eec1e134df01c963f261c12ff8d9191fd1adbb40769d2f8e5830f2"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/signals.h"
-          },
-          "hashes": {
-            "sha-256": "ed86ea4165db62de1948eab40be7bdc4384a5ddededbd5dc3ba1d38473cfcf62"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderassert.h"
-          },
-          "hashes": {
-            "sha-256": "10e019aeaf2cbefaf480ce48b2f6d72ecfb07788262febc9efb614b06df76bfc"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/currentfunction.h"
-          },
-          "hashes": {
-            "sha-256": "415b74b53d30206c797558c067296642daf04cefd54f40ec29c88352dd3e37ae"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/msw/cinderwindowsfwd.h"
-          },
-          "hashes": {
-            "sha-256": "464d979a4b0c6b1a78b4f6c43d4e18d39a611cf1bef4f57a70145b2f56cf1681"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/rect.h"
-          },
-          "hashes": {
-            "sha-256": "f0f17ea1d267ecbf5af87a0603d2440d0bbc629d8d60498bf5b0c1222fc84976"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/event.h"
-          },
-          "hashes": {
-            "sha-256": "440ba0ce69411893fdc66ca34657db958c504fa269df953c747053fcc66281c8"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/keyevent.h"
-          },
-          "hashes": {
-            "sha-256": "d97c2193555db41bb9d5825a7140d6dfbeccd6449112982ecaed650c8426f9e1"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/filedropevent.h"
-          },
-          "hashes": {
-            "sha-256": "67a184d9060f1efba3d90d9cab85665cfd12c4e2439dce613b6698df752d9dfb"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/timer.h"
-          },
-          "hashes": {
-            "sha-256": "1cf0c988844be5834dba5172fb30978d0884f3df07eb2eb7e09f77d597002023"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/thread.h"
-          },
-          "hashes": {
-            "sha-256": "2420c71b5b89c8473e60fc39389f7f5b8eb432e274986cbfcbff52b024961bd1"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/renderergl.h"
-          },
-          "hashes": {
-            "sha-256": "6b69491dd9fab6fa5c9f880f624453ee7bdbadeb5266ba819278b13467b9619b"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/gl/platform.h"
-          },
-          "hashes": {
-            "sha-256": "1ef958b5f86136584dd4e01a528fcbca817ee1626b8bee6c951e1acd82061855"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/glad/glad.h"
-          },
-          "hashes": {
-            "sha-256": "ef4310e613a51783c58de3af67b9fdf6d1c1fb47d54cb8473916e211e8966d02"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/khr/khrplatform.h"
-          },
-          "hashes": {
-            "sha-256": "4c2f83949bf0c231df0f7ee20f2bb75e1706415c64cec828574dacc9c642ba26"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/datatarget.h"
-          },
-          "hashes": {
-            "sha-256": "c3e7b0b405bd51a035a46bf65da5c709dc0a378b951a71306cf945c5bf17e880"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/gl/gl.h"
-          },
-          "hashes": {
-            "sha-256": "5c09d4a791ebcb891d1f67df0988e4df21ebdbb195bd60d5d38d63dbe013976c"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/gl/wrapper.h"
-          },
-          "hashes": {
-            "sha-256": "cffc8ffcef743e4161dacc1c221e7f30c0e0885320c40b13a8977e8460801052"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/camera.h"
-          },
-          "hashes": {
-            "sha-256": "b0d09c5bd197bb0d9b6b26df290b0a93207680b46f4ea3bbef344aacf1b994e2"
-          }
-        },
-        {
-          "location": {
             "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/quaternion.h"
           },
           "hashes": {
             "sha-256": "94b761008561408b808abcd79876ccba90795c237069f7576a8b640c6a416236"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/exception.h"
+          },
+          "hashes": {
+            "sha-256": "cee8a66b8ef69b60bfaf8c6b03a399f009a01e32d2465a1444b5424636e0f2a3"
           }
         },
         {
@@ -4257,6 +3838,14 @@
         },
         {
           "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/rect.h"
+          },
+          "hashes": {
+            "sha-256": "f0f17ea1d267ecbf5af87a0603d2440d0bbc629d8d60498bf5b0c1222fc84976"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/path2d.h"
           },
           "hashes": {
@@ -4281,10 +3870,58 @@
         },
         {
           "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/channel.h"
+          },
+          "hashes": {
+            "sha-256": "c0a0a178ec5e98fe23ea892077f270c1dce0b73c12f3374d3e50fa3a9604e0ea"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/buffer.h"
+          },
+          "hashes": {
+            "sha-256": "d1a7dff4e8d83db92224f13da0a98e15a3e36fdaffde8aca07acac52846460af"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/datasource.h"
+          },
+          "hashes": {
+            "sha-256": "393d7b76ec38d0e22a99d5abdf6af49760b0daf09625f97c546d320527ad69be"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/url.h"
+          },
+          "hashes": {
+            "sha-256": "f4dfba7bbb1f907464ca1cff0a80efb4a007b372cc133c9f8817f718eab5f7f8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/datatarget.h"
+          },
+          "hashes": {
+            "sha-256": "c3e7b0b405bd51a035a46bf65da5c709dc0a378b951a71306cf945c5bf17e880"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/polyline.h"
           },
           "hashes": {
             "sha-256": "507e5301abd8acd54bfdba5d412bc97c479777e02bddc496973d4297f00914db"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/msw/cinderwindowsfwd.h"
+          },
+          "hashes": {
+            "sha-256": "464d979a4b0c6b1a78b4f6c43d4e18d39a611cf1bef4f57a70145b2f56cf1681"
           }
         },
         {
@@ -4341,6 +3978,14 @@
           },
           "hashes": {
             "sha-256": "a8a018f6b890b240031f98ebcb6ebcd645eb38f1fc26fbf5108f27017389a4af"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/signals.h"
+          },
+          "hashes": {
+            "sha-256": "ed86ea4165db62de1948eab40be7bdc4384a5ddededbd5dc3ba1d38473cfcf62"
           }
         },
         {
@@ -4457,106 +4102,10 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/rand.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/timer.h"
           },
           "hashes": {
-            "sha-256": "9dddd7ed89d1b3e88a956e2bb06c9fb4202992c20de026d05b96283e3ed4640b"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/system.h"
-          },
-          "hashes": {
-            "sha-256": "1fe57fd8a6bc2967e82f056d1f4b5ae988a72313d916cabc6824df8980de5cee"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderimgui.h"
-          },
-          "hashes": {
-            "sha-256": "58426e6cd6dcdaf13068003f9abf80d202e06f8e9be32e188f5cdff70d9d39bb"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui/imgui.h"
-          },
-          "hashes": {
-            "sha-256": "53aeb16c73a9bf6ac1882cc542218ea2fb0bc8fd95d1f0d83964892dcba3f8f5"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderimguiconfig.h"
-          },
-          "hashes": {
-            "sha-256": "c41ab078a0326e43897bc3aba08be124d45de8240f7c5807bc3c9fbf6788f031"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui/imconfig.h"
-          },
-          "hashes": {
-            "sha-256": "91dabca6ab96eed3342b876ff654dc4eec0a936d70374b241e3891ef45510295"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui/imgui_stdlib.h"
-          },
-          "hashes": {
-            "sha-256": "b8f0750279973ec63ba282137bf2a9a367a6a96b61dfa0c713c0f0c9be096506"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/tellercore.h"
-          },
-          "hashes": {
-            "sha-256": "0fc1077c90c38b0eab20c63c8425fcce50dfbb89251054e231d3af429b3e45af"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/modulecore.h"
-          },
-          "hashes": {
-            "sha-256": "92ebaec5d3613ede56fe4f12faf5c305005a414f9cbedd797cd804a7ca9b7ecc"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/contentmanager.h"
-          },
-          "hashes": {
-            "sha-256": "4c11de5b2385847926387e25d7c1e87e6d2e4d57dfce2a50fd1391c16fae611b"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/episode.h"
-          },
-          "hashes": {
-            "sha-256": "51683fd9ef78b7f76033d79e1485fc5ea094bb5ef2553b3296b620f775a9eb26"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/asset.h"
-          },
-          "hashes": {
-            "sha-256": "ea68c9e0390821daf51f1e3376381b96377b2e3dcfe600974b81d587d68228d5"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/editor.h"
-          },
-          "hashes": {
-            "sha-256": "c5467e0c150aa97506049c33a3d985b814fe7f0fdbcc8636485d381f1a3fef19"
+            "sha-256": "1cf0c988844be5834dba5172fb30978d0884f3df07eb2eb7e09f77d597002023"
           }
         },
         {
@@ -4564,7 +4113,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/agent.h"
           },
           "hashes": {
-            "sha-256": "1dde06f74b4067caeb56e004401059be90047f4a842cd9dccaf4ddd39150c6df"
+            "sha-256": "3f4bf6e69d2ee8d25646724577f2288dd67fc120fbe5f976a6281d7d702ec9a8"
           }
         },
         {
