@@ -1,12 +1,6 @@
-[submodule "Cinder"]
-	path = Cinder
-	url = https://github.com/cinder/Cinder.git
 [submodule "imgui"]
 	path = imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "imgui-node-editor"]
-	path = imgui-node-editor
-	url = https://github.com/thedmd/imgui-node-editor.git
 [submodule "fast-cpp-csv-parser"]
 	path = fast-cpp-csv-parser
 	url = https://github.com/ben-strasser/fast-cpp-csv-parser.git
@@ -16,3 +10,12 @@
 [submodule "json"]
 	path = json
 	url = https://github.com/nlohmann/json.git
+[submodule "imnodes"]
+	path = imnodes
+	url = https://github.com/Nelarius/imnodes.git
+[submodule "Cinder"]
+	path = Cinder
+	url = https://github.com/cinder/Cinder.git
+[submodule "imgui-node-editor"]
+	path = imgui-node-editor
+	url = https://github.com/thedmd/imgui-node-editor.git
