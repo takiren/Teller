@@ -34,7 +34,15 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/tellerevent.h"
           },
           "hashes": {
-            "sha-256": "6707ce28299cd914e46e63edbdbd530c50aed52711cdca60973dbfe8c44bd7a8"
+            "sha-256": "4b90aad21c711741f0c0118c4ffba23a0a02f65be6efccc0f6c21e289a8b1aa2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/core.h"
+          },
+          "hashes": {
+            "sha-256": "635dee884e163d03a2523e1bfd66bb6d18efc2ef50c5d59342ba629179e47732"
           }
         }
       ]

@@ -11,7 +11,6 @@
 #include <cinder/gl/Texture.h>
 #include <cinder/Rand.h>
 #include<cinder/Log.h>
-#include <imgui_node_editor.h>
 
 #include"japaneseGryph.h"
 
@@ -27,9 +26,6 @@ using namespace ci::app;
 using namespace Teller;
 namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
-namespace ed = ax::NodeEditor;
-
-static ed::EditorContext* g_Context = nullptr;
 
 class BasicAppMultiWindow : public App {
 public:
@@ -56,7 +52,6 @@ public:
 
 void BasicAppMultiWindow::setup()
 {
-	g_Context = ed::CreateEditor();
 	setlocale(LC_CTYPE, "");
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
@@ -157,25 +152,6 @@ void BasicAppMultiWindow::draw()
 	処理記述ここから
 	*/
 	mCore->Tick();
-	ed::SetCurrentEditor(g_Context);
-
-	ed::Begin("My Editor");
-
-	int uniqueId = 1;
-
-	// Start drawing nodes.
-	ed::BeginNode(uniqueId++);
-	ImGui::Text("Node A");
-	ed::BeginPin(uniqueId++, ed::PinKind::Input);
-	ImGui::Text("-> In");
-	ed::EndPin();
-	ImGui::SameLine();
-	ed::BeginPin(uniqueId++, ed::PinKind::Output);
-	ImGui::Text("Out ->");
-	ed::EndPin();
-	ed::EndNode();
-
-	ed::End();
 	/*
 	処理記述ここまで
 	*/

@@ -157,3 +157,8 @@ void Teller::EpisodeEventEditor::Tick()
 {
 	
 }
+
+void Teller::EpisodeEventEditor::AddNode() 
+{
+
+}

@@ -39,4 +39,39 @@ namespace Teller {
 	}
 
 
+	void TNodeCore::SetDesciption(std::string _description)
+	{
+	}
+
+	void TNodeCore::AddInputSocket(Socket_TYPE _scktType)
+	{
+		auto sckt = std::make_unique<TSocketCore>(_scktType);
+		sckt->parentTNode = this->shared_from_this();
+		socketsInput.push_back(std::move(sckt));
+	}
+	void TNodeCore::AddOutPutSocket(Socket_TYPE _scktType)
+	{
+		auto sckt = std::make_unique<TSocketCore>(_scktType);
+		sckt->parentTNode = this->shared_from_this();
+		socketsOutput.push_back(std::move(sckt));
+	}
+
+	void TNodeManager::AddTNode(Node_TYPE _type) {
+
+	}
+
+
+	std::vector<TNodeManager::LinkInfo> TNodeManager::MakeLinkVector()
+	{
+		auto links = std::vector<LinkInfo>();
+		int l = 1;
+		for (auto iter = nodes.begin(); iter != nodes.end(); ++iter) {
+			l += iter->second->socketsInput.size() + iter->second->socketsOutput.size();
+		}
+
+		auto mx = std::make_unique<Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic>>();
+
+		return std::vector<LinkInfo>();
+	}
+
 }

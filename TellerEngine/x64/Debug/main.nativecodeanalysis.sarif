@@ -1870,6 +1870,68 @@
           }
         },
         {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'Teller::ModuleCore::deltaTime_' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/ModuleCore.h"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 3,
+                  "endLine": 26,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Teller::ModuleCore::{ctor}",
+                  "decoratedName": "??0ModuleCore@Teller@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "Teller::ModuleCore::deltaTime_"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'Teller::Editor::bEnabled' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/Editor.h"
+                },
+                "region": {
+                  "startLine": 43,
+                  "startColumn": 3,
+                  "endLine": 43,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Teller::Editor::{ctor}",
+                  "decoratedName": "??0Editor@Teller@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "Teller::Editor::bEnabled"
+          }
+        },
+        {
           "ruleId": "C28251",
           "message": {
             "text": "'WinMain' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\program files (x86)\\windows kits\\10\\include\\10.0.20348.0\\um\\winbase.h(1006) を参照してください。"
@@ -1881,9 +1943,9 @@
                   "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/main.cpp"
                 },
                 "region": {
-                  "startLine": 108,
+                  "startLine": 163,
                   "startColumn": 1,
-                  "endLine": 108,
+                  "endLine": 163,
                   "endColumn": 1
                 }
               },
@@ -2135,6 +2197,28 @@
         },
         {
           "location": {
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/ModuleCore.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "865a88a63c8f3b9f954643bbf650c0bcefca1dbf56517953b97c6333c75f4417"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/Editor.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "8c12bf6494dccd1da8d94b3efa0a7e8b4a71bf98b5b5004ba364bcfd72577790"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///C:/Users/taki/source/repos/TellerEngine/TellerEngine/src/main.cpp"
           },
           "roles": [
@@ -2142,7 +2226,7 @@
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "c081a5b74ecb1a010eb795a1294b5606f66c3e5f3c399c252785d3bc9f386544"
+            "sha-256": "afce3f9f67053fc615b9c5be4844f8dd71a49d8817444d4bf4bf66fa80812f38"
           }
         },
         {
@@ -2154,14 +2238,6 @@
           ],
           "hashes": {
             "sha-256": "4cd14bd09abd2dc0574a922a7c45f8cfd72b3d1c1d69c4e0b73dacde186e5dcb"
-          }
-        },
-        {
-          "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/app.h"
-          },
-          "hashes": {
-            "sha-256": "8dd3049f2883ad3169365b49eb1f6b2376557cf6c9e7f2302a6d7bf5d2c1c6bb"
           }
         },
         {
@@ -2218,6 +2294,14 @@
           },
           "hashes": {
             "sha-256": "6c3ab1d215539bfe65bdf795b425537ed4f6e120a10854d2f235ec560def09b3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/app/app.h"
+          },
+          "hashes": {
+            "sha-256": "8dd3049f2883ad3169365b49eb1f6b2376557cf6c9e7f2302a6d7bf5d2c1c6bb"
           }
         },
         {
@@ -4430,6 +4514,14 @@
         },
         {
           "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/japanesegryph.h"
+          },
+          "hashes": {
+            "sha-256": "8932e8e102b8e04ea11a587d393bcafec6b0c347f6084ba618072fb69356a118"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/cinder/cinderimgui.h"
           },
           "hashes": {
@@ -4473,7 +4565,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/tellercore.h"
           },
           "hashes": {
-            "sha-256": "0fc1077c90c38b0eab20c63c8425fcce50dfbb89251054e231d3af429b3e45af"
+            "sha-256": "6ab85d1fe26bc54f99a6ce8e280c0572161cea899cfc6b1d259d72d1b044028c"
           }
         },
         {
@@ -4481,15 +4573,15 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/core.h"
           },
           "hashes": {
-            "sha-256": "67c13edbb64d5d4430d4bdf1b0173bba52fa057ddc642ecdb85bed4844ff1a02"
+            "sha-256": "635dee884e163d03a2523e1bfd66bb6d18efc2ef50c5d59342ba629179e47732"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/modulecore.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/tellerevent.h"
           },
           "hashes": {
-            "sha-256": "92ebaec5d3613ede56fe4f12faf5c305005a414f9cbedd797cd804a7ca9b7ecc"
+            "sha-256": "4b90aad21c711741f0c0118c4ffba23a0a02f65be6efccc0f6c21e289a8b1aa2"
           }
         },
         {
@@ -4497,7 +4589,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/contentmanager.h"
           },
           "hashes": {
-            "sha-256": "4c11de5b2385847926387e25d7c1e87e6d2e4d57dfce2a50fd1391c16fae611b"
+            "sha-256": "be1f3dd8a09bc35e2a28ecec4f55426014f99e3f7853d4e7379ca4e5c9e94412"
           }
         },
         {
@@ -4505,7 +4597,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/episode.h"
           },
           "hashes": {
-            "sha-256": "51683fd9ef78b7f76033d79e1485fc5ea094bb5ef2553b3296b620f775a9eb26"
+            "sha-256": "2e48f951707384fda5af34df7a3e7c58a3d17cf009cfd34957ae32e6edfd4505"
           }
         },
         {
@@ -4513,15 +4605,31 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/asset.h"
           },
           "hashes": {
-            "sha-256": "ea68c9e0390821daf51f1e3376381b96377b2e3dcfe600974b81d587d68228d5"
+            "sha-256": "ac51f37cbae3d7fa130f0dfa903e58cb30b333e892bf35ac5fbc0f5b5dcddb93"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/editor.h"
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/cinder/include/imgui-node-editor/imgui_node_editor.h"
           },
           "hashes": {
-            "sha-256": "c5467e0c150aa97506049c33a3d985b814fe7f0fdbcc8636485d381f1a3fef19"
+            "sha-256": "d2beec4e2c75a86ef6cb0456146148cda206d4cded4913e44041d11e3edca7e3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/threadpool.h"
+          },
+          "hashes": {
+            "sha-256": "1310c94d69bf4f29da3eb3cd8f60bd7243f124a8f7d304021d2837f338183858"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/animation.h"
+          },
+          "hashes": {
+            "sha-256": "8e3282c05b54660dcf6dade9d4e9ec4c03e955c0c2f0af18d13f5f414538cc18"
           }
         },
         {
@@ -4529,7 +4637,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/agent.h"
           },
           "hashes": {
-            "sha-256": "1dde06f74b4067caeb56e004401059be90047f4a842cd9dccaf4ddd39150c6df"
+            "sha-256": "3f4bf6e69d2ee8d25646724577f2288dd67fc120fbe5f976a6281d7d702ec9a8"
           }
         },
         {
@@ -4537,7 +4645,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/game.h"
           },
           "hashes": {
-            "sha-256": "803e90761868def85fade33a3e734e6ba54defebf7ad4767bb6843a5d8b104ab"
+            "sha-256": "07f71cfda88b2eecd4e0f3ddf21f57fb7a500df8084d46525a12a8e334873f03"
           }
         },
         {
@@ -4865,7 +4973,7 @@
             "uri": "file:///c:/users/taki/source/repos/tellerengine/tellerengine/src/scene.h"
           },
           "hashes": {
-            "sha-256": "ee4602802f2914c3d7e4580bd71ada7519ad2d02f5cdf9444757e34448882365"
+            "sha-256": "7c1fb89d4f774a82b31f8f7d05b610ca12b1cb131033dcaec5fd7f7713392ecf"
           }
         }
       ]

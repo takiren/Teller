@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include<cinder/Cinder.h>
 #include<cinder/CinderImGui.h>
+#include<imgui_node_editor.h>
 
 #include<Core.h>
 
@@ -18,6 +19,8 @@ namespace Teller {
 	class TellerCore;
 	using CSVManager = ContentsManager<CSVLoader>;
 	using EpisodeManager = ContentsManager<Episode>;
+
+	namespace ed = ax::NodeEditor;
 
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 
@@ -101,15 +104,28 @@ namespace Teller {
 
 	class EpisodeEventEditor :public Editor {
 	private:
+		struct LinkInfo {
+			ed::LinkId Id;
+			ed::PinId  InputId;
+			ed::PinId  OutputId;
+		};
+		bool g_FirstFrame = true;
+		ImVector<LinkInfo> g_Links;
+		ed::EditorContext* gContext;
 		std::weak_ptr<EpisodeManager> ptrEpsdMngr;
 	public:
 		EpisodeEventEditor() :
-			Editor()
+			Editor(),
+			gContext(ed::CreateEditor())
 		{};
+
+		~EpisodeEventEditor() = default;
 		void Tick() override;
 		void Update() override;
+
 		void CallByParent() override;
 
+		void AddNode();
 	};
 
 	class AssetViewer :public Editor {
