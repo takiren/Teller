@@ -16,3 +16,6 @@
 [submodule "imgui-node-editor"]
 	path = imgui-node-editor
 	url = https://github.com/thedmd/imgui-node-editor.git
+[submodule "eigen"]
+	path = eigen
+	url = https://gitlab.com/libeigen/eigen.git
