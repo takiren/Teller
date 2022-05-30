@@ -10,9 +10,6 @@
 [submodule "json"]
 	path = json
 	url = https://github.com/nlohmann/json.git
-[submodule "imnodes"]
-	path = imnodes
-	url = https://github.com/Nelarius/imnodes.git
 [submodule "Cinder"]
 	path = Cinder
 	url = https://github.com/cinder/Cinder.git
