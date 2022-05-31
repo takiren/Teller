@@ -24,10 +24,7 @@ class SceneModule{
     +void Tick() override
     +void Update() override
 }
-class Agent{
-    +void Tick() override
-    +void Update() override
-}
+
 class Editor{
     +void Tick() override
     +void Update() override
@@ -35,20 +32,16 @@ class Editor{
 
 class Character{}
 
-
-class CSVLoader{
-}
-
-class Episode{
-}
-
+class MainText{}
+class EpisodeEditor{}
+class EpisodeEventEditor{}
 
 ModuleCore <|-- TellerCore
 ModuleCore <|-- GameModule
 ModuleCore <|-- SceneModule
-ModuleCore <|-- Agent
 Agent <|-- Character 
-ModuleCore <|-- Editor
-CSVLoader -Episode
+Agent <|-- MainText
+Editor <|-- EpisodeEditor
+Editor <|-- EpisodeEventEditor
 
 @enduml

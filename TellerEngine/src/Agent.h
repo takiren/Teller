@@ -1,5 +1,6 @@
 #pragma once
 #include"cinder/Cinder.h"
+#include "cinder/app/App.h"
 #include"cinder/gl/gl.h"
 #include"cinder/CinderImGui.h"
 #include<string>
@@ -8,14 +9,14 @@
 #include"Episode.h"
 
 using namespace ci;
-
+using namespace ci::app;
 namespace Teller {
 	class AgentCore {
 	private:
 	protected:
 		float deltaTime_;
 	public:
-		AgentCore() :deltaTime_(0.0f) {};
+		AgentCore() :deltaTime_(0.02f) {};
 		virtual ~AgentCore() = default;
 		virtual void Tick();
 		void SetDeltaTime(float _deltaTime);
@@ -71,6 +72,21 @@ namespace Teller {
 		void Tick() override;
 		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale) override;
 
+	};
+
+	class Kappa :public Agent<vec2> {
+	private:
+		std::unique_ptr<Sprite> sprite_;
+	public:
+		Kappa() = delete;
+		Kappa(std::string path) :
+			sprite_(std::make_unique<Sprite>(path))
+		{
+			position_ = vec2(700, 300);
+		};
+
+		void Tick() override;
+		void CallBackListener(vec2 _pos) override;
 	};
 
 	class RectAgent :public Agent<vec2, vec2, vec2> {

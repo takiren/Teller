@@ -43,7 +43,14 @@ void Teller::Circular::Initialize()
 
 void Teller::Circular::Update()
 {
-	theta += 0.01f;
+	theta += 0.02f;
 	dpos_ = vec2(-sin(theta) * 100, cos(theta) * 100);
 	callback_(dpos_, drot_, dscale_);
+}
+
+void Teller::Repeat::Update()
+{
+	theta += 0.02f;
+	dpos_ = vec2(-sin(theta) * 100, 0);
+	callback_(dpos_);
 }

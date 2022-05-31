@@ -32,9 +32,9 @@
 グラフィックライブラリにOpenGLラッパーのCinderを使用。
 マルチプラットフォーム対応を見据えできるだけ環境依存しないように標準ライブラリを使用して構築。
 
-スマートポインタを使いそこそこスマートな実装になっている。
+スマートポインタを使いそこそこスマートな実装になっているはず。
 
-<img src="images\ClassDiagram.png">
+<img src="images\plantuml\ClassDiagram.png">
 
 すべての機能をモジュールという単位に分解して機能拡張しやすくする。　　
 ModuleCoreを継承したモジュール群をすべてのモジュールを管理するTellerCoreクラスに登録する。
@@ -42,7 +42,7 @@ ModuleCoreを継承したモジュール群をすべてのモジュールを管�
 これによりエディターとゲームを別々に作らず開発できる。  
 配布するためにはまた別の処理が必要ではある。
 
-<img src=images\Stack.png>
+<img src="images\plantuml\Stack.png">
 
 ゲーム内で動くオブジェクトはAgentクラスから派生したもの。
 

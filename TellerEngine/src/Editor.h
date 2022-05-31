@@ -4,9 +4,17 @@
 #include<vector>
 #include<iostream>
 #include <stdio.h>
+
 #include<cinder/Cinder.h>
 #include<cinder/CinderImGui.h>
+#include <cinder/app/App.h>
+#include <cinder/app/RendererGl.h>
+#include <cinder/gl/gl.h>
+#include <cinder/gl/Texture.h>
+#include<cinder/ImageIo.h>
 #include<imgui_node_editor.h>
+#include <cinder/Rand.h>
+#include<cinder/Log.h>
 
 #include<Core.h>
 
@@ -115,9 +123,8 @@ namespace Teller {
 		std::weak_ptr<EpisodeManager> ptrEpsdMngr;
 	public:
 		EpisodeEventEditor() :
-			Editor(),
-			gContext(ed::CreateEditor())
-		{};
+			Editor()
+		{ gContext = ed::CreateEditor(); };
 
 		~EpisodeEventEditor() = default;
 		void Tick() override;

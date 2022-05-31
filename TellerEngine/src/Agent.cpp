@@ -40,7 +40,18 @@ void Teller::Character::Tick()
 
 void Teller::Character::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale)
 {
-	position_ += _rot * deltaTime_;
-	position_ += _scale * deltaTime_;
+	position_ += _pos * deltaTime_;
+	rotation_ += _rot * deltaTime_;
+	scale_ += _scale * deltaTime_;
+}
+
+void Teller::Kappa::Tick()
+{
+	Rectf destRect = Rectf(sprite_->texture_->getBounds()+position_);
+	gl::draw(sprite_->texture_, destRect);
+}
+
+void Teller::Kappa::CallBackListener(vec2 _pos)
+{
 	position_ += _pos * deltaTime_;
 }

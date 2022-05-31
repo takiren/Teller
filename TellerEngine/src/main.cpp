@@ -26,7 +26,9 @@ using namespace ci::app;
 using namespace Teller;
 namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
+namespace ed = ax::NodeEditor;
 
+static ed::EditorContext* gContext = nullptr;
 class BasicAppMultiWindow : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
@@ -52,6 +54,7 @@ public:
 
 void BasicAppMultiWindow::setup()
 {
+	gContext = ed::CreateEditor();
 	setlocale(LC_CTYPE, "");
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
@@ -89,8 +92,11 @@ void BasicAppMultiWindow::setup()
 	auto textAgent = std::make_shared<MainTextArea>();
 	mScene->AddAgent(textAgent);
 	auto tChanger = std::make_unique<TextChanger>();
+	auto rpt = std::make_unique<Repeat>();
 
 	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
+	auto kap = std::make_shared<Kappa>("kappa.png");
+	rpt->AttachToAgent(kap);
 
 	CMCSV->LoadContent("../data/story.csv");
 	CMCSV->LoadContent("../data/episode.csv");
@@ -100,19 +106,17 @@ void BasicAppMultiWindow::setup()
 	mAnimator->AttachToAgent(mAgent);
 	animSeq->AddAnimator(std::move(mAnimator));
 	animSeq->AddAnimator(std::move(tChanger));
+	animSeq->AddAnimator(std::move(rpt));
 	mCore->AddAnimSequencer(std::move(animSeq));
 
 	auto ed = std::make_shared<EpisodeEditor>();
 	mCore->AddEditor(ed);
 
-	auto ne = std::make_unique<EpisodeEventEditor>();
-	mCore->AddEditor(std::move(ne));
-	//冷静に考えたらポインタどっかいってるから削除。
-	/*setvbuf(stdout, NULL, _IONBF, 0);
+	auto epe = std::make_unique<EpisodeEventEditor>();
 
-	AllocConsole();
-	auto hConsole = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
-	*stdout = *_fdopen(hConsole, "w");*/
+	mCore->AddEditor(std::move(epe));
+
+	mScene->AddAgent(kap);
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));

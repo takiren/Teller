@@ -31,6 +31,10 @@ class CSVLoader{
 class Episode{
 }
 
+class AnimationSequencer{}
+class Animation{}
+
+
 TellerCore *-- GameModule
 TellerCore *-- Editor
 GameModule *-- SceneModule
@@ -38,4 +42,7 @@ SceneModule *-- Agent
 Agent - Episode
 Episode - CSVLoader
 
+AnimationSequencer *-- Animation
+Animation -> Agent :callback
+TellerCore *-- AnimationSequencer
 @enduml

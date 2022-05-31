@@ -80,6 +80,14 @@ namespace Teller {
 		void Update() override;
 	};
 
+	class Repeat :public Animator<vec2> {
+	private:
+		float theta;
+	public:
+		Repeat() :Animator(), theta(0) {};
+		void Update() override;
+	};
+
 	class TextChanger :public Animator<std::string, std::string> {
 	private:
 		Timer timer_;
