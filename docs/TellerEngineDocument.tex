@@ -1,0 +1,47 @@
+\documentclass[12pt,a4j,uplatex]{jsarticle}
+\usepackage{titlesec}
+\titleformat*{\section}{\Huge}
+\begin{document}
+\title{Teller Engineドキュメント}
+\author{\texttt{たき}}
+\date{最終更新日\today}
+
+\maketitle
+\section*{はじめに}
+みなさんこんにちは、たきです。「たき」や「たきれん」など、複数名前がありますがたきです。このドキュメントはTellerEngineを改造したいだとか、ちょっと参考にしたいだとかを考えている人に向けた文書です。
+本書ではどのように設計したのか使用しているライブラリの話だとかをまとめたいと思います。
+説明不足の点もあると思いますが気付き次第改善する所存でありますので、どうかよろしくお願い致します。
+\newpage
+\tableofcontents
+\newpage
+\section{TellerEngineことはじめ}
+\subsection{外部ライブラリ}
+では記念すべき本文を書いていきましょう。まずはじめに使用している外部ライブラリのお話をします。以下のリストが使用している外部ライブラリです。
+
+\begin{quote}
+  \begin{itemize}
+    \item Cinder 描画ライブラリ。他にもいろいろな機能があるが描画と画像のロードを担当している。imgui-node-editorを組み込んだカスタムビルド。
+    \item imgui-node-editor imguiでノードエディタを作れる拡張。Cinderライブラリのビルド時に一緒に入れた。
+    \item nlohmann\_json json用パーサー。速くて有名な実績のあるパーサー。
+  \end{itemize}
+\end{quote}
+他にもライブラリが見えていると思いますが使いません。
+\subsection{必要なもの}
+基本的にC++で書いていて今のところwindowsでしか動きません、おそらく。CMakeListsも書きかけのためまだLinux、Macの対応は先でしょう。
+というわけでまずwindowsマシンです。それ以外は知りません。
+筆者の環境をとりあえず載せます。
+\begin{quote}
+  \begin{itemize}
+    \item Windows 10 21H2 build 19044.1706
+    \item Visual Studio 2022 Community
+    \item Git
+  \end{itemize}
+\end{quote}
+以上があればビルドは通せるはずです。
+\section{はじめの一歩}
+まずCinderからビルドを通しましょう。Githubからクローンした場合既にimgui-node-editorもプロジェクトに入っているはずなので/Cinder/build/cinder.slnを開いて、DebugとReleaseのそれぞれでビルドしましょう。
+ビルドが終わったら/TellerEngin/TellerEngine.slnを開いてください。ビルドが通ったら準備完了です。
+\section{TellerEnginについて}
+\subsection{設計}
+
+\end{document}

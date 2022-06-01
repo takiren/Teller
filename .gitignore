@@ -98,6 +98,13 @@ StyleCopReport.xml
 *.tlog
 *.idb
 
+# Files build by latex
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.toc
+
 # Chutzpah Test files
 _Chutzpah*
 

@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.23)
+add_executable(
+    TellerEngine
+    Agent.cpp
+    Agent
+    Animation.cpp
+    Asset.cpp
+    Audio.cpp
+    Core.cpp
+    Editor.cpp
+    Episode.cpp
+    Game.cpp
+    InGameUI.cpp
+    main.cpp
+    ModuleCore.cpp
+    NodeEditor.cpp
+    Renderer.cpp
+    Scene.cpp
+    StoryBoard.cpp
+    TellerCore.cpp
+    TellerEvent.cpp
+    Tree.cpp
+    UIBase.cpp
+)
