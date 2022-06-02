@@ -1,5 +1,11 @@
 #include"Editor.h"
 
+using std::abs;
+namespace util = ax::NodeEditor::Utilities;
+using namespace ax;
+using namespace ci::app;
+
+using ax::Widgets::IconType;
 
 void Teller::TopLevelMenu::Tick()
 {
@@ -11,7 +17,6 @@ void Teller::EpisodeEditor::Tick()
 {
 	/*
 	ImGui::Begin~----;
-
 	ImGui::End~----;
 	この間に処理を書く。
 	*/
@@ -31,7 +36,7 @@ void Teller::EpisodeEditor::Tick()
 			int i = 0;
 			if (fileVec_.size() != 0) {
 				for (auto& e : fileVec_) {
-					if (ImGui::Selectable(e.c_str(), selectedFile == i)) {
+					if (ImGui::Selectable(std::to_string(e).c_str(), selectedFile == i)) {
 						selectedFile = i;
 					}
 					i++;
@@ -46,7 +51,7 @@ void Teller::EpisodeEditor::Tick()
 	{
 		ImGui::BeginGroup();
 		ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile).c_str());
+		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile));
 		ImGui::Separator();
 		// CSVファイルの中身を表示。
 		{
@@ -93,14 +98,16 @@ void Teller::EpisodeEditor::Tick()
 				auto csv_ = cont->GetCSVData();
 				for (auto i = lineBracket.first; i < lineBracket.second; i++) {
 					epMap.emplace(i, csv_[i]);
-					parent.lock()->AddEpisode(episodeNameCandidate, std::move(std::make_unique<Episode>(epMap)));
+					auto ne = std::make_unique<Episode>(episodeNameCandidate, epMap);
+					parent.lock()->AddEpisode(ne->ID_, std::move(ne));
 				}
 
-				#ifdef _DEBUG
+#ifdef _DEBUG
 				for (auto iter = epMap.begin(); iter != epMap.end(); ++iter) {
 					std::cout << (SingleLine(iter->second).c_str()) << std::endl;
 				}
-				#endif // DEBUG
+#endif // DEBUG
+
 			}
 
 		}
@@ -146,33 +153,171 @@ void Teller::EpisodeEventEditor::CallByParent()
 	ptrEpsdMngr = parent.lock()->GetEpisodeContentManager();
 }
 
+
+void Teller::EpisodeEventEditor::OpenAddNodePopup()
+{
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle)) {
+		DEBUG_PRINTF("Right clicked.");
+		ImGui::OpenPopup("AddNode");
+	}
+}
+
+void Teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
+{
+	auto& io = ImGui::GetIO();
+	ImGui::BeginChild("Episode", ImVec2(panewidth, 0));
+	panewidth = ImGui::GetContentRegionAvailWidth();
+	ImGui::BeginHorizontal("Editor", ImVec2(panewidth, 0));
+	ImGui::Spring(0.0f);
+
+	if (ImGui::Button("Add Node")) {
+
+	}
+	ImGui::Spring();
+	if (ImGui::Button("style")) {
+
+	}
+	ImGui::EndHorizontal();
+	ImGui::EndChild();
+}
+
+ImColor Teller::EpisodeEventEditor::GetIconColor(Socket_TYPE type)
+{
+	switch (type)
+	{
+	case Teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
+	case Teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
+	case Teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
+	case Teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
+	case Teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
+	default:							return ImColor(0, 0, 0);
+	}
+}
+
 void Teller::EpisodeEventEditor::Update()
 {
 }
 
 void Teller::EpisodeEventEditor::Tick()
 {
-	ImGui::Begin("Episode Event Editor");
+	if (!bEnabled) return;
+	ImGui::Begin("EventEditor");
+	//ShowLeftPane(150);
+
+	OpenAddNodePopup();
+	auto openPopupPosition = ImGui::GetMousePos();
+	int selected = -1;
+	if (ImGui::BeginPopup("AddNode")) {
+		ImGui::Text("Node list.");
+
+		// 追加可能なノードリスト
+		ImGui::Separator();
+		int i = 0;
+		for (auto& e : nodeList_) {
+			if (ImGui::Selectable(e.c_str())) {
+				selected = i;
+			}
+			i++;
+		}
+		ImGui::EndPopup();
+	}
+
+	if (selected != -1) {
+		// 関数ポインタでもっとスマートな実装にしてもいいかも。
+		uint64_t id_;
+		switch (selected)
+		{
+		case 0:
+			id_ = ptrTNodeManager->AddTNodeBranch();
+			break;
+		case 1:
+			id_ = ptrTNodeManager->AddTNodeSceneChange();
+			break;
+		case 2:
+			id_ = ptrTNodeManager->AddTNodeAnimation();
+			break;
+		default:
+			DEBUG_PRINTF("Nothing added.");
+			break;
+		}
+		ed::SetNodePosition(id_, openPopupPosition);
+	}
+
 	ed::SetCurrentEditor(gContext);
-	//なんかサイズを指定しないとエラーが出る。
-	ed::Begin("Editor", ImVec2(0.0, 0.0f));
-	int uniqueId = 1;
-	// Start drawing nodes.
-	ed::BeginNode(uniqueId++);
-	ImGui::Text("Node A");
-	ed::BeginPin(uniqueId++, ed::PinKind::Input);
-	ImGui::Text("-> In");
-	ed::EndPin();
-	ImGui::SameLine();
-	ed::BeginPin(uniqueId++, ed::PinKind::Output);
-	ImGui::Text("Out ->");
-	ed::EndPin();
-	ed::EndNode();
+	auto cursorTopLeft = ImGui::GetCursorScreenPos();
+
+	ed::Begin("Editor");
+
+	// 1.ノードマネージャーから読み取って描画
+	{
+		util::BlueprintNodeBuilder builder;
+
+		// ノードでイテレーション
+		for (auto& node : ptrTNodeManager->nodes) {
+
+			builder.Begin(node.second->ID_);
+
+			//builderでの操作。
+			{
+				builder.Header(ImColor(255, 255, 255));
+				{
+					ImGui::Spring(0);
+					ImGui::TextUnformatted(node.second->title_.c_str());
+					ImGui::Spring(1);
+					ImGui::Dummy(ImVec2(0, 28));
+					ImGui::Spring(0);
+				}
+				builder.EndHeader();
+
+				// インプットソケットの描画
+				{
+					auto alpha = ImGui::GetStyle().Alpha;
+					for (auto& e : node.second->socketsInput) {
+
+						builder.Input(e->ID_);
+						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+						DrawPinIcon(e, false, (int)(alpha * 255));
+						ImGui::Spring(0);
+						ImGui::Spring(0);
+						ImGui::PopStyleVar();
+						builder.EndInput();
+					}
+				}
+
+				// アウトプットソケットの描画
+				{
+					auto alpha = ImGui::GetStyle().Alpha;
+					for (auto& e : node.second->socketsOutput) {
+						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+						builder.Output(e->ID_);
+						ImGui::Spring(0);
+						ImGui::TextUnformatted(node.second->title_.c_str());
+						// ピンごとの条件分岐を記述ここから
+
+						// ここまで
+						ImGui::Spring(0);
+						DrawPinIcon(e, false, (int)(alpha * 255));
+						ImGui::PopStyleVar();
+						builder.EndOutput();
+					}
+				}
+			}
+			builder.End();
+		}
+	}
+
+
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
 	ImGui::End();
 }
 
-void Teller::EpisodeEventEditor::AddNode() 
+void Teller::NodeEditorBase::Tick()
 {
+	ImGui::Begin(name.c_str());
+
+	ed::Begin("Editor");
+
+	ed::End();
+	ImGui::End();
 }

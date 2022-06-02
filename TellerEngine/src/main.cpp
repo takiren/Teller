@@ -19,6 +19,7 @@
 #include"Scene.h"
 #include"Agent.h"
 #include"Animation.h"
+#include"TellerEvent.h"
 
 
 using namespace ci;
@@ -26,9 +27,7 @@ using namespace ci::app;
 using namespace Teller;
 namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
-namespace ed = ax::NodeEditor;
 
-static ed::EditorContext* gContext = nullptr;
 class BasicAppMultiWindow : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
@@ -54,7 +53,6 @@ public:
 
 void BasicAppMultiWindow::setup()
 {
-	gContext = ed::CreateEditor();
 	setlocale(LC_CTYPE, "");
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
@@ -82,7 +80,7 @@ void BasicAppMultiWindow::setup()
 	auto mAgent = std::make_shared<RectAgent>();
 
 	mCore->AddModule(mGame);
-	mGame->AddChildModule(mScene);
+	mGame->PushScene(mScene);
 	mScene->AddAgent(mAgent);
 
 	auto animSeq = std::make_unique<AnimationSequencer>("args");

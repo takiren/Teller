@@ -38,10 +38,37 @@
   \end{itemize}
 \end{quote}
 以上があればビルドは通せるはずです。
-\section{はじめの一歩}
+
+
+\subsection{はじめの一歩}
 まずCinderからビルドを通しましょう。Githubからクローンした場合既にimgui-node-editorもプロジェクトに入っているはずなので/Cinder/build/cinder.slnを開いて、DebugとReleaseのそれぞれでビルドしましょう。
 ビルドが終わったら/TellerEngin/TellerEngine.slnを開いてください。ビルドが通ったら準備完了です。
 \section{TellerEnginについて}
 \subsection{設計}
-
+TellerEngineは以下の基本的なクラスで構成されています。
+\begin{quote}
+  \begin{itemize}
+    \item TellerCore
+    \item Editor 及びその派生クラス
+    \item ModuleCore 及びその派生クラス
+  \end{itemize}
+\end{quote}
+\subsection{TellerCore}
+TellerCoreは上記のクラス、及びそれ以外のAnimationクラスのなどを管理する中枢となるクラスです。このクラスからModuleCoreの派生クラスであったりEditorクラスを呼び出します。
+\subsection{ModuleCore}
+モジュールの基底クラス。詳細は後述。
+\subsection{Editor}
+エディターの基底クラス。
+\section{Moduleとは？}
+\subsection{ざっくり}
+Moduleとは、ゲームを管理する基本となるクラスのことです。具体的には以下があります。
+\begin{quote}
+  \begin{itemize}
+    \item GameModule
+    \item SceneModule
+  \end{itemize}
+\end{quote}
+GameModuleはゲーム自体の礎となるクラス。これが進行を管理することになります。これの下にシーンを管理するSceneModuleがありGameModuleはSceneModuleを切り替えつつゲームを進行します。
+\subsection{SceneModule}
+シーンを構成するモジュールです。具体的には場面やCGシーンなどを移すときに使うことになります。
 \end{document}

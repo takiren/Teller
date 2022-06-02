@@ -3,8 +3,10 @@
 #include<iostream>
 #include<fstream>
 #include<sstream>
+#include<queue>
 
 #include"ModuleCore.h"
+#include"Scene.h"
 #include"Episode.h"
 #include<../json/include/nlohmann/json.hpp>
 
@@ -19,11 +21,13 @@ namespace Teller {
 	};
 
 	class GameModule :public ModuleCore {
-		std::vector<Episode> episodes;
-
+		// シーンはキューで管理することにした。
+		std::queue<std::shared_ptr<SceneModule>> mScenes_;
 	public:
 		GameModule() :ModuleCore() {};
 		~GameModule() {};
+		void PushScene(std::shared_ptr<SceneModule> _scene);
+		void Tick(float& deltaTime)override;
 		void SetEnable(bool enable);
 		bool IsEnabled() const { return bEnabled; };
 		bool IsUpdate() const { return bUpdate; };

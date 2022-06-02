@@ -2,14 +2,20 @@
 
 namespace Teller {
 
-	void Episode::SetLineBegin(int line)
+	Episode::Episode(uint64_t _ID)
 	{
-		line_begin = line;
-	}
+		std::ifstream i("EpisodeID.json");
+		json j;
+		i >> j;
 
-	void Episode::SetLineEnd(int line)
-	{
-		line_end = line;
+		auto st = std::to_string(_ID);
+		if (j.contains(st)) {
+			ID_ = _ID;
+			title = j["title"];
+			path_ = j["path"];
+			eventID_ = (uint64_t)j["eventID"];
+			data = CSVLoader(path_).GetCSVData();
+		}
 	}
 
 	void Episode::SetNumber(int episodeNumber)
@@ -47,6 +53,7 @@ namespace Teller {
 
 	CSVLoader::CSVLoader(std::string inputCSVPath, char delimiter)
 	{
+		ID_ = (uint64_t)this;
 		auto data = ReadToString(inputCSVPath);
 		std::istringstream sstream(data);
 		std::vector<std::string> items;
@@ -65,27 +72,54 @@ namespace Teller {
 		}
 	}
 
-	std::vector<Episode> CSVLoader::GetEpisodes()
+	StorySequenceElement::StorySequenceElement(std::string _path)
 	{
-		//コンパイラがいい感じに最適化してくれるからムーブしなくていいはず。
-		std::vector<Episode> episodes;
-		int episodeBegin = 0;
-		int episodeEnd = 1;
-
-		for (const auto& [key, value] : csv_data) {
-			if (value.at(0) == PREFIX_EPISODE) {
-				if (!episodes.empty()) {
-					episodes.back().SetLineEnd(key - 1);
-				}
-				episodes.emplace_back();
-				episodes.back().SetLineBegin(key);
-			};
-		}
-
-		episodes.back().SetLineEnd(csv_data.size() + 1);
-
-		return episodes;
+		std::ifstream i(_path);
+		json j;
+		i >> j;
+		episodeFilePath_ = _path;
+		myEpisodeID_ = j["uid"];
+		nextEpisodeID_ = j["nextEpID"];
+		previousEpisodeID_ = j["prevEpID"];
 	}
 
+	StorySequencer::StorySequencer(std::string _path)
+	{
+		std::ifstream i("sequence");
+		json j;
+		i >> j;
+
+		currentEpisodeID_ = j["begin"];
+	}
+
+	StorySequencer::StorySequencer(uint64_t _id, int _line)
+	{
+
+	}
+
+	void StorySequencer::Update()
+	{
+	}
+
+	void StorySequencer::Load()
+	{
+	}
+
+	void StorySequencer::NextEpisode(uint64_t _id)
+	{
+	}
+
+	void StorySequencer::NextEpisode()
+	{
+	}
+
+	EpisodeSequencer::EpisodeSequencer(uint64_t _id)
+	{
+		episode_ = std::move(std::make_unique<Episode>(_id));
+	}
+
+	EventSequencer::EventSequencer(std::string _path)
+	{
+	}
 
 }

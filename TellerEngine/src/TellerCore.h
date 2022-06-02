@@ -8,6 +8,10 @@
 #include <Fcntl.h>
 #include<Windows.h>
 
+#include<cinder/Cinder.h>
+#include <cinder/app/App.h>
+#include <cinder/app/RendererGl.h>
+
 #include"Core.h"
 #include"ModuleCore.h"
 #include"TellerEvent.h"
@@ -17,6 +21,7 @@
 #include"ThreadPool.h"
 #include"cinder/CinderImGui.h"
 #include"Animation.h"
+#include"japaneseGryph.h"
 
 #ifdef _DEBUG
 # define DEBUG_PUTS(str) puts(str)
@@ -34,29 +39,28 @@ namespace Teller {
 	using SpriteManager = ContentsManager<Sprite>;
 	using EpisodeManager = ContentsManager<Episode>;
 
-	class TellerCore :public std::enable_shared_from_this<TellerCore> {
+	class TellerCore :
+		public std::enable_shared_from_this<TellerCore>
+	{
 	private:
 		float timeOld;
 		float timeCurrent;
 		float deltaTime_;
-
 		//*Managerのポインタ保持
 		std::shared_ptr<SpriteManager> spriteContentManager;
 		std::shared_ptr<EpisodeManager> episodeContentManager;
 		std::shared_ptr<CSVManager> CSVContentManager;
-
 		std::vector<std::shared_ptr<ModuleCore>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
-
 		std::unique_ptr < TMessanger<int, float>> DeltaTimeMessanger;
-
+		std::unique_ptr < TMessanger < std::string, std::vector<std::string>>> EpisodeMessanger;
 		std::vector<std::shared_ptr<AnimationSequencer>> animSequencer_;
 
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
 		void CoreInitialize();
 		void UpdateDeltaTime();
-
 		int hConsole;
+
 	public:
 		TellerCore() :
 			spriteContentManager(std::make_shared<SpriteManager>()),
@@ -82,10 +86,11 @@ namespace Teller {
 			timeCurrent(0.01),
 			deltaTime_(0.01),
 			DeltaTimeMessanger(std::make_unique<TMessanger<int, float>>()),
-			hConsole(0) 
+			hConsole(0)
 		{
 			CoreInitialize();
 		};
+
 
 		~TellerCore() = default;
 		//必ずweak_ptrで受け取ること。
@@ -109,6 +114,6 @@ namespace Teller {
 		void LoadCSV(std::string path);
 		void LoadSprite(std::string path);
 
-		void AddEpisode(std::string _key, std::unique_ptr<Episode> _episode);
+		void AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode);
 	};
 }
