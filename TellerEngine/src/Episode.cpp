@@ -37,6 +37,7 @@ namespace Teller {
 
 	std::string CSVLoader::ReadToString(const std::string path)
 	{
+		path_ = path;
 		std::ifstream ifs_csv_file(path);
 		if (!ifs_csv_file.is_open()) {
 			return nullptr;

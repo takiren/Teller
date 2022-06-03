@@ -21,18 +21,16 @@
 #include"Animation.h"
 #include"TellerEvent.h"
 
-
 using namespace ci;
 using namespace ci::app;
 using namespace Teller;
 namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 
-class BasicAppMultiWindow : public App {
+class TellerEngineMain : public App {
 public:
 	std::shared_ptr<TellerCore> mCore;
 	std::vector<std::string> testvec{ 5,"test" };
-
 	void setup();
 	void createNewWindow();
 	void update() override;
@@ -51,7 +49,7 @@ public:
 	Color mColor;
 };
 
-void BasicAppMultiWindow::setup()
+void TellerEngineMain::setup()
 {
 	setlocale(LC_CTYPE, "");
 	// for the default window we need to provide an instance of WindowData
@@ -66,6 +64,7 @@ void BasicAppMultiWindow::setup()
 	auto CMSprite = std::make_shared<SpriteManager>();
 	auto CMEpisode = std::make_shared<EpisodeManager>();
 
+	// ContentsManagerÇÃshareptrÇà¯êîÇ…ìnÇ∑
 	mCore = std::make_shared<TellerCore>(
 		CMSprite,
 		CMEpisode,
@@ -120,7 +119,7 @@ void BasicAppMultiWindow::setup()
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));
 }
 
-void BasicAppMultiWindow::createNewWindow()
+void TellerEngineMain::createNewWindow()
 {
 	app::WindowRef newWindow = createWindow(Window::Format().size(400, 400));
 	newWindow->setUserData(new WindowData);
@@ -132,20 +131,20 @@ void BasicAppMultiWindow::createNewWindow()
 	);
 }
 
-void BasicAppMultiWindow::update()
+void TellerEngineMain::update()
 {
 }
 
-void BasicAppMultiWindow::mouseDrag(MouseEvent event)
+void TellerEngineMain::mouseDrag(MouseEvent event)
 {
 	WindowData* data = getWindow()->getUserData<WindowData>();
 }
 
-void BasicAppMultiWindow::keyDown(KeyEvent event)
+void TellerEngineMain::keyDown(KeyEvent event)
 {
 }
 
-void BasicAppMultiWindow::draw()
+void TellerEngineMain::draw()
 {
 	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
@@ -162,4 +161,4 @@ void BasicAppMultiWindow::draw()
 }
 
 // This line tells Cinder to actually create the application
-CINDER_APP(BasicAppMultiWindow, RendererGl)
+CINDER_APP(TellerEngineMain, RendererGl)

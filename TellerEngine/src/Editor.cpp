@@ -49,10 +49,11 @@ void Teller::EpisodeEditor::Tick()
 
 	// 2. エディタ右側
 	{
-		ImGui::BeginGroup();
-		ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
+		ImGui::BeginChild("item view", ImVec2(0,0)); // Leave room for 1 line below us
 		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile));
-		ImGui::Separator();
+		ImGui::BeginChild("ite", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() * 4));
+
+		ImGui::BeginGroup();
 		// CSVファイルの中身を表示。
 		{
 			auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
@@ -71,23 +72,28 @@ void Teller::EpisodeEditor::Tick()
 
 				}
 				else {
-					if (ImGui::Selectable(s().c_str(), currentLine == i))
-						if (ImGui::IsMouseDoubleClicked(0)) currentLine = i;
+					if (ImGui::Selectable(s().c_str(), currentLine == i,ImGuiSelectableFlags_AllowDoubleClick))
+						if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) currentLine = i;
 				}
 				i++;
 			}
 		}
-
+		ImGui::EndGroup();
 		ImGui::EndChild();
+
+		ImGui::Separator();
 		if (ImGui::Button("Set begin"))
 			if (currentLine < lineBracket.second) lineBracket.first = currentLine;
 		ImGui::SameLine();
 		if (ImGui::Button("Set end"))
 			if (lineBracket.second < currentLine) lineBracket.second = currentLine;
 
-		ImGui::InputText("Episode Name: It must be a Unique Name.", &episodeNameCandidate);
+		ImGui::SameLine();
+		ImGui::Text("Episode Name: It must be a Unique Name.");
+		ImGui::InputText("", &episodeNameCandidate);
 
 		if (ImGui::Button("Export") && episodeNameCandidate != "") {
+
 
 			auto epMap = std::map<int, std::vector< std::string>>();
 			auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
@@ -96,19 +102,24 @@ void Teller::EpisodeEditor::Tick()
 				epMap.emplace(i, cont->GetLine(i));
 			}
 
-			std::ofstream ofile;
-			ofile.write(episodeNameCandidate.c_str(), std::ios::app);
+
+			fs::path p = fs::current_path();
+			p = p.parent_path();
+			p /= fs::path("data");
+			p /= fs::path("episodes");
+			auto outFileName = episodeNameCandidate + ".csv";
+			p /= fs::path(outFileName);
+			std::cout << p.string() << std::endl;
+			std::ofstream ofile(p.string());
 
 			for (auto i = 0; i < epMap.size(); i++) {
 				ofile << SingleLine(epMap[i]) << std::endl;
 			}
 			ofile.close();
 
-			auto ne = std::make_unique<Episode>(episodeNameCandidate, epMap);
-			auto _id = ne->ID_;
-
 			//parent.lock()->AddEpisode(_id, std::move(ne));
-
+			//auto ne = std::make_unique<Episode>(outFileName);
+			
 #ifdef _DEBUG
 			for (auto iter = epMap.begin(); iter != epMap.end(); ++iter) {
 				std::cout << (SingleLine(iter->second).c_str()) << std::endl;
@@ -116,7 +127,9 @@ void Teller::EpisodeEditor::Tick()
 #endif // DEBUG
 
 		}
-		ImGui::EndGroup();
+		ImGui::EndChild();
+
+		
 
 	}
 	ImGui::End();
@@ -155,6 +168,7 @@ void Teller::EpisodeEditor::CallByParent()
 {
 	ptr_csvContentManger = parent.lock()->GetCSVContentsManager();
 	fileVec_ = ptr_csvContentManger.lock()->GetKeys();
+	ptr_episodeContentManager = parent.lock()->GetEpisodeContentManager();
 }
 
 void Teller::EpisodeEventEditor::CallByParent()
@@ -324,6 +338,10 @@ void Teller::EpisodeEventEditor::Tick()
 	ImGui::End();
 }
 
+Teller::NodeEditorBase::NodeEditorBase(std::string _name)
+{
+}
+
 void Teller::NodeEditorBase::Tick()
 {
 	ImGui::Begin(name.c_str());
@@ -356,7 +374,6 @@ void Teller::SequenceEditor::Tick()
 		}
 	}
 	ImGui::EndChild();
-	util::BlueprintNodeBuilder builder;
 
 	// ノードマネージャーからノードを描画。
 
@@ -422,4 +439,17 @@ void Teller::SequenceEditor::Tick()
 void Teller::SequenceEditor::Initialize()
 {
 	ptrEPCM = parent.lock()->GetEpisodeContentManager();
+}
+
+ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
+{
+	switch (type)
+	{
+	case Teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
+	case Teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
+	case Teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
+	case Teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
+	case Teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
+	default:							return ImColor(0, 0, 0);
+	}
 }

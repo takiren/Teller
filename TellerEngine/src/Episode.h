@@ -2,6 +2,7 @@
 #include<list>
 #include<vector>
 #include<string>
+#include<filesystem>
 #include<map>
 #include<istream>
 #include<fstream>
@@ -10,6 +11,7 @@
 
 namespace Teller {
 	using json = nlohmann::json;
+	namespace fs= std::filesystem;
 
 	enum class EPISODE_EVENT_TYPE
 	{
@@ -45,6 +47,8 @@ namespace Teller {
 	public:
 		std::string path_;
 		std::string title;
+		fs::path directory_;
+		fs::path filename_;
 		uint64_t eventID_;
 		uint64_t ID_;
 		std::map<int, std::vector<std::string>> data;
@@ -69,12 +73,33 @@ namespace Teller {
 
 		// エピソードファイルを読み込む。
 		Episode(std::string _path) :
-			title(""),
+			title(_path),
 			ID_((uint64_t)this),
 			eventID_(-1),
 			data(CSVLoader(_path).GetCSVData()),
 			path_(_path)
-		{};
+		{
+			auto filename = fs::path(path_);
+			filename = filename.filename();
+			filename_ = filename;
+			auto jfile = filename.stem();
+			jfile += fs::path(".json");
+			fs::path fspath_= fs::current_path();
+			fspath_ = fspath_.parent_path();
+			fspath_ = fspath_.parent_path();
+			fspath_ /= fs::path("data\\episodes");
+			fspath_ /= jfile;
+
+			// イベントデータが存在するか確認。
+			if (fs::directory_entry(fspath_).exists()) {
+				//存在した場合の処理。
+			}
+			else {
+				// 存在しなかった場合の処理。
+
+			}
+			
+		};
 
 		~Episode() = default;
 		void SetNumber(int episodeNumber);
@@ -138,6 +163,8 @@ namespace Teller {
 	public:
 		uint64_t ID_;
 		EpisodeEventManager() = delete;
+		EpisodeEventManager(fs::path _path);
+
 	};
 
 	class EpisodeSequencer {

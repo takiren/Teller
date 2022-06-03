@@ -1,5 +1,26 @@
 \documentclass[12pt,a4j,uplatex]{jsarticle}
 \usepackage{titlesec}
+\usepackage{listings,jvlisting}
+%ここからソースコードの表示に関する設定
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+%ここまでソースコードの表示に関する設定
 \titleformat*{\section}{\Huge}
 \begin{document}
 \title{Teller Engineドキュメント}
@@ -70,5 +91,36 @@ Moduleとは、ゲームを管理する基本となるクラスのことです�
 \end{quote}
 GameModuleはゲーム自体の礎となるクラス。これが進行を管理することになります。これの下にシーンを管理するSceneModuleがありGameModuleはSceneModuleを切り替えつつゲームを進行します。
 \subsection{SceneModule}
-シーンを構成するモジュールです。具体的には場面やCGシーンなどを移すときに使うことになります。
+シーンを構成するモジュールです。具体的には場面やCGシーンなどを移すときに使うことになります。このモジュールをGameModuleにキューとして追加していきます。
+
+\section{簡単な使い方}
+\subsection{プロジェクト作成}
+ではこの章から実際にビルドまでしてみましょう。
+せっかくなのでプロジェクトから作ってみます。
+VisualStudioでC++から空のプロジェクトを作ってください。
+C++の言語標準はC++17。
+ランタイムライブラリをdebug、Releaseでそれぞれマルチスレッドデバッグ、マルチスレッドに設定。
+追加のインクルードディレクトリにCinder/includeとTellerEngine/srcを追加。
+追加のライブラリディレクトリにcinder.libのあるパスを追加します。
+その後追加の依存ファイルにcinder.libを追加します。
+サブシステムをWindowsに設定。
+以上で終了です。
+
+\subsection{TellerCoreからSceneまで}
+Cinderはマルチプラットフォーム対応の描画ライブラリのためプログラマーがWinMain関数を書く必要はありません。その代わりCinderのAppクラスを継承したクラスがWinMain関数の代わりとなります。
+
+ではまずCinder::Appを継承したクラスを作ります。
+main.cppを作成してください。
+そして以下のコードを書きます。
+
+\begin{lstlisting}[caption=hoge,label=fuga]
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
+#include "cinder/gl/gl.h"
+  int main(){
+     printf("Hello world!");
+  }
+\end{lstlisting}
+
+
 \end{document}

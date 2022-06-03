@@ -91,6 +91,7 @@ namespace Teller {
 
 		//コンテンツマネージャーへのポインタ。
 		std::weak_ptr<CSVManager> ptr_csvContentManger;
+		std::weak_ptr<EpisodeManager> ptr_episodeContentManager;
 		//エピソードCM
 
 		std::pair<int, int> lineBracket;
@@ -102,7 +103,7 @@ namespace Teller {
 	public:
 		EpisodeEditor() :
 			Editor(),
-			lineBracket(std::make_pair<int, int>(0, 0)),
+			lineBracket(std::make_pair<int, int>(0, 1)),
 			episodeNameCandidate("")
 		{
 			Initialize();
