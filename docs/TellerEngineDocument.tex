@@ -117,9 +117,21 @@ main.cppを作成してください。
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
-  int main(){
-     printf("Hello world!");
-  }
+class TellerEngineMain : public App {
+public:
+	std::shared_ptr<TellerCore> mCore;
+
+	void setup() override;
+	void update() override;
+	void draw() override;
+};
+
+void BasicApp::draw()
+{
+	gl::clear( Color::gray( 0.1f ) );
+
+	gl::end();
+}
 \end{lstlisting}
 
 
