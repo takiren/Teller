@@ -12,7 +12,7 @@ namespace Teller {
 	class ContentsManager {
 	private:
 		//データはmapで管理
-		//key=std::stringはファイル名、TYPEは型
+		//key=uint64_tはID、TYPEは型
 
 	public:
 		std::map < uint64_t, std::shared_ptr<TYPE>> contents_;
@@ -27,6 +27,7 @@ namespace Teller {
 		std::shared_ptr<TYPE> GetContent(uint64_t key);
 
 		void AddContent(uint64_t _key, std::unique_ptr<TYPE> _content);
+		
 
 		//std::mapのコンテンツのキーを返す。
 		std::vector<uint64_t> GetKeys();

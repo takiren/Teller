@@ -31,6 +31,9 @@ namespace Teller {
 	using CSVManager = ContentsManager<CSVLoader>;
 	using EpisodeManager = ContentsManager<Episode>;
 
+	using WeakEpisodeCM = std::weak_ptr<EpisodeManager>;
+	using WeakCSVCM = std::weak_ptr<CSVManager>;
+
 	namespace ed = ax::NodeEditor;
 	using namespace ax;
 	using ax::Widgets::IconType;
@@ -59,6 +62,8 @@ namespace Teller {
 		virtual ~Editor() = default;
 		virtual void Update();
 
+		virtual void Save();
+
 		//コピー禁止
 		Editor(const Editor&) = delete;
 		Editor& operator=(const Editor&) = delete;
@@ -85,9 +90,11 @@ namespace Teller {
 		//std::vector<std::string> loadedCsvFiles;
 
 		//コンテンツマネージャーへのポインタ。
+		std::weak_ptr<CSVManager> ptr_csvContentManger;
+		//エピソードCM
+
 		std::pair<int, int> lineBracket;
 
-		std::weak_ptr<CSVManager> ptr_csvContentManger;
 		std::vector<uint64_t> fileVec_;
 		std::map<int, std::vector<std::string>> data;
 		std::string episodeNameCandidate;
@@ -194,12 +201,58 @@ namespace Teller {
 
 	class SequenceEditor :public Editor {
 	private:
+
+		ImColor GetIconColor(Socket_TYPE type);
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+		{
+			IconType iconType;
+			ImColor  color = GetIconColor(sckt->type_);
+			color.Value.w = alpha / 255.0f;
+
+			switch (sckt->type_)
+			{
+			case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+			case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+			case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+			case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+			default:
+				return;
+			}
+
+			ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+		};
+
+		struct LinkInfo {
+			ed::LinkId Id;
+			ed::PinId  InputId;
+			ed::PinId  OutputId;
+		};
+
+		const int s_PinIconSize = 24;
 		std::string name;
+		// EpisodeManagerへのポインタ。
+		std::weak_ptr<EpisodeManager> ptrEPCM;
+		std::unique_ptr<TNodeManager> ptrTNodeManager;
+		void UpdateEpisodeList();
 
+		std::map<uint64_t, std::string> episodeMap;
+		ed::EditorContext* gContext;
+		void Initialize();
 	public:
-		SequenceEditor() :Editor() {};
+		SequenceEditor() :
+			name("SequenceEditor"),
+			Editor(),
+			ptrTNodeManager(std::make_unique<TNodeManager>()),
+			gContext(ed::CreateEditor())
+		{
+			Initialize();
+		};
 
+		~SequenceEditor() = default;
+
+		void Tick() override;
 		void callBackFromCSVManager(std::vector < std::string> _episode);
+		void CallByParent() override;
 	};
 
 	class AssetViewer :public Editor {

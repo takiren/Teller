@@ -21,8 +21,8 @@ namespace Teller {
 	public:
 		SceneModule() :ModuleCore(),
 			destSize(vec2(1920,1080)),
-			//mFbo_(gl::Fbo::create(destSize[0],destSize[1])),
-			destTopLeft(vec2(200,200)),
+			mFbo_(gl::Fbo::create(1920,1080)),
+			destTopLeft(vec2(0,0)),
 			destScaleFactor(0.6),
 			destArea(Rectf(ci::Area(destTopLeft,destSize*destScaleFactor)))
 		{};

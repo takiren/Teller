@@ -84,7 +84,7 @@ namespace Teller {
 		return std::unique_ptr<TNodeCore>();
 	}
 
-	std::vector<TNodeManager::LinkInfo> TNodeManager::GetLinkVector()
+	std::vector<LinkInfo> TNodeManager::GetLinkVector()
 	{
 		auto links = std::vector<LinkInfo>();
 		int l = 1;
@@ -120,6 +120,12 @@ namespace Teller {
 		}
 
 		return nullptr;
+	}
+
+	std::vector<LinkInfo> TNodeManager::GetLinks()
+	{
+
+		return std::vector<LinkInfo>();
 	}
 
 	uint64_t TNodeManager::AddTNodeBranch()
@@ -168,7 +174,6 @@ namespace Teller {
 
 	}
 
-
 	uint64_t TNodeManager::AddTNodeBegin()
 	{
 		auto n = std::make_shared<TNodeCore>(Node_TYPE::BEGINEPISODE);
@@ -179,6 +184,39 @@ namespace Teller {
 		beginNode_ = n;
 		return n->ID_;
 
+	}
+
+	uint64_t TNodeManager::AddEpisodeNode(uint64_t _id)
+	{
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::EPISODE);
+
+		n->title_ = "Episode";
+		n->episodeID_ = _id;
+		n->AddInputSocket(Socket_TYPE::FLOW);
+		n->AddOutPutSocket(Socket_TYPE::FLOW);
+		auto nid = n->ID_;
+
+		nodes[n->ID_] = n;
+		return nid;
+	}
+
+	uint64_t TNodeManager::AddEpisodeNode(Episode _episode)
+	{
+		return uint64_t();
+	}
+
+	uint64_t TNodeManager::AddEpisodeNode(std::shared_ptr<Episode> _episode)
+	{
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::EPISODE);
+		episode_ = _episode;
+		n->title_ = "Episode";
+		n->episodeID_ = episode_.lock()->ID_;
+		n->AddInputSocket(Socket_TYPE::FLOW);
+		if (episode_.lock()->nextCandidate.size() == 0) n->AddOutPutSocket(Socket_TYPE::FLOW);
+		auto nid = n->ID_;
+		nodes[n->ID_] = n;
+
+		return nid;
 	}
 
 

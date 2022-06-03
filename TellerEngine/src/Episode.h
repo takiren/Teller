@@ -10,9 +10,18 @@
 
 namespace Teller {
 	using json = nlohmann::json;
+
+	enum class EPISODE_EVENT_TYPE
+	{
+		BRANCH,
+		ANIMATION,
+		CHARACTER_IN,
+		CHARACTER_OUT,
+		CHANGE_SCENE,
+		CHANGE_BG
+	};
 	/*
 	CSVファイルを読み込むクラス	*/
-
 	class Episode;
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";
@@ -21,6 +30,7 @@ namespace Teller {
 		std::vector<int> GetEpisodeList();
 	public:
 		uint64_t ID_;
+		std::string path_;
 		CSVLoader() = delete;
 		CSVLoader(std::string input) :
 			CSVLoader(input, ',')
@@ -32,14 +42,20 @@ namespace Teller {
 	};
 
 	class Episode {
-	private:
-		std::string path_;
 	public:
+		std::string path_;
 		std::string title;
 		uint64_t eventID_;
 		uint64_t ID_;
 		std::map<int, std::vector<std::string>> data;
+
+		std::map<int, uint64_t> events_;
+
+		std::vector<uint64_t> nextCandidate;
+
 		Episode() = delete;
+
+		// エピソードを新規作成 with name
 		Episode(std::string _name, std::map<int, std::vector<std::string>> _data) :
 			title(_name),
 			data(_data),
@@ -47,14 +63,19 @@ namespace Teller {
 			path_(_name + ".csv"),
 			eventID_(-1)
 		{};
+
 		// エピソードファイルを読み込む。
 		Episode(uint64_t _ID);
+
+		// エピソードファイルを読み込む。
 		Episode(std::string _path) :
 			title(""),
 			ID_((uint64_t)this),
 			eventID_(-1),
-			data(CSVLoader(_path).GetCSVData())
+			data(CSVLoader(_path).GetCSVData()),
+			path_(_path)
 		{};
+
 		~Episode() = default;
 		void SetNumber(int episodeNumber);
 	};
@@ -95,6 +116,28 @@ namespace Teller {
 		void Load();
 		void NextEpisode(uint64_t _id);
 		void NextEpisode();
+	};
+
+	class EpisodeEvent {
+	public:
+		EPISODE_EVENT_TYPE type_;
+		uint64_t ID_;
+		
+		EpisodeEvent() = delete;
+		EpisodeEvent(uint64_t _id, EPISODE_EVENT_TYPE _type):
+			ID_(_id),
+			type_(_type)
+		{};
+		EpisodeEvent(EPISODE_EVENT_TYPE _type) :
+			ID_((uint64_t)this),
+			type_(_type)
+		{};
+	};
+
+	class EpisodeEventManager {
+	public:
+		uint64_t ID_;
+		EpisodeEventManager() = delete;
 	};
 
 	class EpisodeSequencer {

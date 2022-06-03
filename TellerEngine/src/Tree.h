@@ -156,7 +156,7 @@ namespace Teller {
 	struct TSocketOutput :TSocketCore {
 	};
 
-	
+
 
 	template<class>
 	class TNodeTemplate {
@@ -172,6 +172,8 @@ namespace Teller {
 		ImVec2 size_; //大きさ
 		ImVec2 pos_; //座標
 		uint64_t ID_;
+		uint64_t eventID_;
+		uint64_t episodeID_;
 		Node_TYPE type_;
 		std::vector<std::shared_ptr<TSocketCore>> socketsInput;
 		std::vector<std::shared_ptr<TSocketCore>> socketsOutput;
@@ -184,7 +186,9 @@ namespace Teller {
 			title_(_title),
 			description(""),
 			pos_(_pos),
-			size_(_size)
+			size_(_size),
+			eventID_(-1),
+			episodeID_(-1)
 		{};
 
 		void SetDesciption(std::string _description);
@@ -220,16 +224,16 @@ namespace Teller {
 
 	};
 
+	struct LinkInfo
+	{
+		ed::LinkId Id;
+		ed::PinId  InputId;
+		ed::PinId  OutputId;
+	};
 	//ノード管理クラス
 	class TNodeManager {
-
-		struct LinkInfo
-		{
-			ed::LinkId Id;
-			ed::PinId  InputId;
-			ed::PinId  OutputId;
-		};
 		std::unique_ptr<TNodeCore> MakeTNode(Node_TYPE _type);
+		std::weak_ptr<Episode> episode_;
 	public:
 		TNodeManager() = default;
 
@@ -243,12 +247,18 @@ namespace Teller {
 		void MakeLink(uint64_t _from, uint64_t _dest);
 		std::shared_ptr<TSocketCore> SearchSocket(uint64_t _ID);
 
+		std::vector<LinkInfo> GetLinks();
+
 		uint64_t AddTNodeBranch();
 		uint64_t AddTNodeSceneChange();
 		uint64_t AddTNodeEvent();
 		uint64_t AddTNodeAnimation();
 		uint64_t AddTNodeEnd();
 		uint64_t AddTNodeBegin();
+		uint64_t AddEpisodeNode(uint64_t _id);
+		uint64_t AddEpisodeNode(uint64_t _id, int _in, int _out);
+		uint64_t AddEpisodeNode(Episode _episode);
+		uint64_t AddEpisodeNode(std::shared_ptr<Episode> _episode);
 	};
 }
 
