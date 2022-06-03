@@ -2,65 +2,107 @@
 #include<list>
 #include<vector>
 #include<string>
+#include<filesystem>
 #include<map>
 #include<istream>
 #include<fstream>
 #include<sstream>
+#include<nlohmann/json.hpp>
 
 namespace Teller {
-	class Episode {
-	private:
-		std::string title;
-		int number;
-		int line_begin;
-		int line_end;
+	using json = nlohmann::json;
+	namespace fs= std::filesystem;
 
-		std::map<int, std::vector<std::string>> data;
-	public:
-		Episode() :
-			title("Nothing title"),
-			number(0),
-			line_begin(0),
-			line_end(0)
-		{};
-		Episode(std::string titleText) :
-			title(titleText),
-			number(0),
-			line_begin(0),
-			line_end(0)
-		{};
-
-		Episode(std::map<int, std::vector<std::string>> csv) :
-			data(csv),
-			title("Nothing title"),
-			number(0),
-			line_begin(0),
-			line_end(0)
-		{};
-
-		~Episode() = default;
-		void SetLineBegin(int line);
-		void SetLineEnd(int line);
-		void SetNumber(int episodeNumber);
+	enum class EPISODE_EVENT_TYPE
+	{
+		BRANCH,
+		ANIMATION,
+		CHARACTER_IN,
+		CHARACTER_OUT,
+		CHANGE_SCENE,
+		CHANGE_BG
 	};
-
 	/*
-	CSVファイルを読み込むクラス。
-	コンストラクタ引数にCSVファイルのパスを入れる。
-	*/
+	CSVファイルを読み込むクラス	*/
+	class Episode;
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";
 		std::map<int, std::vector<std::string>> csv_data;
 		std::string ReadToString(const std::string path);
 		std::vector<int> GetEpisodeList();
 	public:
+		uint64_t ID_;
+		std::string path_;
 		CSVLoader() = delete;
-		CSVLoader(std::string input) :CSVLoader(input, ',') {}; //デフォルトでデリミタを','にする。
+		CSVLoader(std::string input) :
+			CSVLoader(input, ',')
+		{}; //デフォルトでデリミタを','にする。
 		CSVLoader(std::string input, char delimiter);
-		Episode GetEpisode();
 		std::vector<Episode> GetEpisodes();
 		std::vector<std::string> GetLine(int _line) { return csv_data.at(_line); };
 		std::map<int, std::vector<std::string>> GetCSVData() { return csv_data; };
+	};
+
+	class Episode {
+	public:
+		std::string path_;
+		std::string title;
+		fs::path directory_;
+		fs::path filename_;
+		uint64_t eventID_;
+		uint64_t ID_;
+		std::map<int, std::vector<std::string>> data;
+
+		std::map<int, uint64_t> events_;
+
+		std::vector<uint64_t> nextCandidate;
+
+		Episode() = delete;
+
+		// エピソードを新規作成 with name
+		Episode(std::string _name, std::map<int, std::vector<std::string>> _data) :
+			title(_name),
+			data(_data),
+			ID_((uint64_t)this),
+			path_(_name + ".csv"),
+			eventID_(-1)
+		{};
+
+		// エピソードファイルを読み込む。
+		Episode(uint64_t _ID);
+
+		// エピソードファイルを読み込む。
+		Episode(std::string _path) :
+			title(_path),
+			ID_((uint64_t)this),
+			eventID_(-1),
+			data(CSVLoader(_path).GetCSVData()),
+			path_(_path)
+		{
+			auto filename = fs::path(path_);
+			filename = filename.filename();
+			filename_ = filename;
+			auto jfile = filename.stem();
+			jfile += fs::path(".json");
+			fs::path fspath_= fs::current_path();
+			fspath_ = fspath_.parent_path();
+			fspath_ = fspath_.parent_path();
+			fspath_ /= fs::path("data\\episodes");
+			fspath_ /= jfile;
+
+			// イベントデータが存在するか確認。
+			if (fs::directory_entry(fspath_).exists()) {
+				//存在した場合の処理。
+			}
+			else {
+				// 存在しなかった場合の処理。
+
+			}
+			
+		};
+
+		~Episode() = default;
+		void SetNumber(int episodeNumber);
 	};
 
 	template<class TYPE>
@@ -68,8 +110,74 @@ namespace Teller {
 	private:
 		std::unique_ptr<TYPE> target;
 		std::map<std::string, TYPE> elements;
-		
+
 	public:
+	};
+
+	class StorySequenceElement {
+		uint64_t myEpisodeID_;
+		std::string episodeFilePath_;
+		uint64_t previousEpisodeID_;
+		uint64_t nextEpisodeID_;
+	public:
+		StorySequenceElement() = delete;
+		StorySequenceElement(std::string _path);
+		StorySequenceElement(uint64_t mEp, uint64_t prevEP, uint64_t nextEP, std::string _path) :
+			previousEpisodeID_(prevEP),
+			nextEpisodeID_(nextEP),
+			myEpisodeID_(mEp),
+			episodeFilePath_(_path)
+		{};
+	};
+
+	class StorySequencer {
+		uint64_t currentEpisodeID_;
+	public:
+		StorySequencer() = default;
+		StorySequencer(std::string _path);
+		StorySequencer(uint64_t _id, int _line);
+
+		void Update();
+		void Load();
+		void NextEpisode(uint64_t _id);
+		void NextEpisode();
+	};
+
+	class EpisodeEvent {
+	public:
+		EPISODE_EVENT_TYPE type_;
+		uint64_t ID_;
+		
+		EpisodeEvent() = delete;
+		EpisodeEvent(uint64_t _id, EPISODE_EVENT_TYPE _type):
+			ID_(_id),
+			type_(_type)
+		{};
+		EpisodeEvent(EPISODE_EVENT_TYPE _type) :
+			ID_((uint64_t)this),
+			type_(_type)
+		{};
+	};
+
+	class EpisodeEventManager {
+	public:
+		uint64_t ID_;
+		EpisodeEventManager() = delete;
+		EpisodeEventManager(fs::path _path);
+
+	};
+
+	class EpisodeSequencer {
+		std::unique_ptr<Episode> episode_;
+	public:
+		EpisodeSequencer() = delete;
+		EpisodeSequencer(uint64_t _id);
+	};
+
+	class EventSequencer {
+	public:
+		EventSequencer() = delete;
+		EventSequencer(std::string _path);
 	};
 
 }

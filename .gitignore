@@ -28,6 +28,7 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+x64/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -81,8 +82,9 @@ StyleCopReport.xml
 *.rsp
 *.sbr
 *.tlb
-*.tli
 *.tlh
+*.tli
+*.tlog
 *.tmp
 *.tmp_proj
 *_wpftmp.csproj
@@ -91,11 +93,10 @@ StyleCopReport.xml
 *.vssscc
 .builds
 *.pidb
+*.sarif
 *.svclog
 *.scc
-*.sarif
 *.idb
-*.tlog
 *.idb
 
 # Files build by latex

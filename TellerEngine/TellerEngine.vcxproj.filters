@@ -22,6 +22,9 @@
     <Filter Include="src\Editor">
       <UniqueIdentifier>{40c644b8-038e-465f-a642-68625959972c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\imgui-node-editor">
+      <UniqueIdentifier>{81103424-1636-4a77-9d8a-c53d7df9dfc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Agent.cpp">
@@ -80,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="src\ModuleCore.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\builders.cpp">
+      <Filter>src\imgui-node-editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\drawing.cpp">
+      <Filter>src\imgui-node-editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\widgets.cpp">
+      <Filter>src\imgui-node-editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

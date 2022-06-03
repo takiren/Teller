@@ -5,9 +5,15 @@ using namespace Teller;
 void Teller::SceneModule::Tick(float& deltaTime)
 {
 	ModuleCore::Tick(deltaTime);
+	// レンダーバッファーをFBOに設定。
+	mFbo_->bindFramebuffer();
+	gl::clear(Color::black());
 	for (auto& e : agents_) {
 		e->Tick();
 	}
+	//レンダーバッファーを戻して描画。
+	mFbo_->unbindFramebuffer();
+	gl::draw(mFbo_.get()->getColorTexture());
 }
 
 void Teller::SceneModule::AddAgent(std::shared_ptr<AgentCore> _agent)

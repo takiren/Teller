@@ -29,13 +29,13 @@ namespace Teller {
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)
 	{
-		
+
 	}
 
 	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)
 	{
 		DeltaTimeMessanger->AttachFunction(key, callback_);
-		
+
 	}
 
 	void TellerCore::AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer)
@@ -52,7 +52,7 @@ namespace Teller {
 
 	}
 
-	void TellerCore::AddEpisode(std::string _key, std::unique_ptr<Episode> _episode)
+	void TellerCore::AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode)
 	{
 		episodeContentManager->AddContent(_key, std::move(_episode));
 	}
@@ -84,6 +84,7 @@ namespace Teller {
 	{
 		deltaTime_ = timeCurrent - timeOld;
 	}
+
 	int TellerCore::AddEditor(std::shared_ptr<Editor> editor)
 	{
 		editors.push_back(editor);

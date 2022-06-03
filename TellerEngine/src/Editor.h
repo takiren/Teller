@@ -3,8 +3,6 @@
 #include<string>
 #include<vector>
 #include<iostream>
-#include <stdio.h>
-
 #include<cinder/Cinder.h>
 #include<cinder/CinderImGui.h>
 #include <cinder/app/App.h>
@@ -16,19 +14,29 @@
 #include <cinder/Rand.h>
 #include<cinder/Log.h>
 
+#include <utilities/builders.h>
+#include <utilities/widgets.h>
+#include<jsoncpp/json.h>
+
 #include<Core.h>
 
 #include"TellerCore.h"
 #include"ContentManager.h"
 #include"Episode.h"
 #include"TellerEvent.h"
+#include"Tree.h"
 
 namespace Teller {
 	class TellerCore;
 	using CSVManager = ContentsManager<CSVLoader>;
 	using EpisodeManager = ContentsManager<Episode>;
 
+	using WeakEpisodeCM = std::weak_ptr<EpisodeManager>;
+	using WeakCSVCM = std::weak_ptr<CSVManager>;
+
 	namespace ed = ax::NodeEditor;
+	using namespace ax;
+	using ax::Widgets::IconType;
 
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 
@@ -41,18 +49,20 @@ namespace Teller {
 	};
 
 	class Editor :public std::enable_shared_from_this<Editor> {
-	private:
-		std::pair<int, int> lineBracket;
 	protected:
 		bool bEnabled;
 	public:
 		std::weak_ptr<TellerCore> parent;
 
-		Editor() = default;
+		Editor() :
+			bEnabled(true)
+		{};
 		virtual void Tick();
 		void TickInternal();
 		virtual ~Editor() = default;
 		virtual void Update();
+
+		virtual void Save();
 
 		//コピー禁止
 		Editor(const Editor&) = delete;
@@ -80,18 +90,20 @@ namespace Teller {
 		//std::vector<std::string> loadedCsvFiles;
 
 		//コンテンツマネージャーへのポインタ。
+		std::weak_ptr<CSVManager> ptr_csvContentManger;
+		std::weak_ptr<EpisodeManager> ptr_episodeContentManager;
+		//エピソードCM
+
 		std::pair<int, int> lineBracket;
 
-		std::weak_ptr<CSVManager> ptr_csvContentManger;
-		std::vector<std::string> fileVec_;
+		std::vector<uint64_t> fileVec_;
 		std::map<int, std::vector<std::string>> data;
-
 		std::string episodeNameCandidate;
 		void Initialize();
 	public:
 		EpisodeEditor() :
 			Editor(),
-			lineBracket(std::make_pair<int, int>(0, 0)),
+			lineBracket(std::make_pair<int, int>(0, 1)),
 			episodeNameCandidate("")
 		{
 			Initialize();
@@ -110,29 +122,138 @@ namespace Teller {
 		}
 	};
 
-	class EpisodeEventEditor :public Editor {
+	class EpisodeEventEditor :
+		public Editor
+	{
 	private:
+
+		ImColor GetIconColor(Socket_TYPE type);
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+		{
+			IconType iconType;
+			ImColor  color = GetIconColor(sckt->type_);
+			color.Value.w = alpha / 255.0f;
+
+			switch (sckt->type_)
+			{
+			case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+			case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+			case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+			case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+			default:
+				return;
+			}
+
+			ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+		};
+
 		struct LinkInfo {
 			ed::LinkId Id;
 			ed::PinId  InputId;
 			ed::PinId  OutputId;
 		};
+
+		void ShowLeftPane(float panewidth);
+
 		bool g_FirstFrame = true;
+
+		void OpenAddNodePopup();
+
 		ImVector<LinkInfo> g_Links;
 		ed::EditorContext* gContext;
 		std::weak_ptr<EpisodeManager> ptrEpsdMngr;
+		const int s_PinIconSize = 24;
+
+		std::unique_ptr<TNodeManager> ptrTNodeManager;
+
+		bool bShiftDown;
+
+		std::vector<std::string> nodeList_;
 	public:
 		EpisodeEventEditor() :
-			Editor()
-		{ gContext = ed::CreateEditor(); };
+			Editor(),
+			ptrTNodeManager(std::move(std::make_unique<TNodeManager>())),
+			gContext(ed::CreateEditor()),
+			bShiftDown(false)
+		{
+			nodeList_.push_back("Branch.");
+			nodeList_.push_back("Scene change");
+			nodeList_.push_back("Animation.");
+			nodeList_.push_back("Episode.");
+			nodeList_.push_back("Event.");
+			nodeList_.push_back("Comment");
+		};
 
 		~EpisodeEventEditor() = default;
 		void Tick() override;
 		void Update() override;
-
 		void CallByParent() override;
+	};
 
-		void AddNode();
+
+	class NodeEditorBase :public Editor{
+	private:
+		std::string name;
+	public:
+		NodeEditorBase() = default;
+		NodeEditorBase(std::string _name);
+		virtual void Tick();
+	};
+
+	class SequenceEditor :public Editor {
+	private:
+
+		ImColor GetIconColor(Socket_TYPE type);
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+		{
+			IconType iconType;
+			ImColor  color = GetIconColor(sckt->type_);
+			color.Value.w = alpha / 255.0f;
+
+			switch (sckt->type_)
+			{
+			case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+			case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+			case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+			case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+			default:
+				return;
+			}
+
+			ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+		};
+
+		struct LinkInfo {
+			ed::LinkId Id;
+			ed::PinId  InputId;
+			ed::PinId  OutputId;
+		};
+
+		const int s_PinIconSize = 24;
+		std::string name;
+		// EpisodeManagerへのポインタ。
+		std::weak_ptr<EpisodeManager> ptrEPCM;
+		std::unique_ptr<TNodeManager> ptrTNodeManager;
+		void UpdateEpisodeList();
+
+		std::map<uint64_t, std::string> episodeMap;
+		ed::EditorContext* gContext;
+		void Initialize();
+	public:
+		SequenceEditor() :
+			name("SequenceEditor"),
+			Editor(),
+			ptrTNodeManager(std::make_unique<TNodeManager>()),
+			gContext(ed::CreateEditor())
+		{
+			Initialize();
+		};
+
+		~SequenceEditor() = default;
+
+		void Tick() override;
+		void callBackFromCSVManager(std::vector < std::string> _episode);
+		void CallByParent() override;
 	};
 
 	class AssetViewer :public Editor {

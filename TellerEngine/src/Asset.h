@@ -28,12 +28,14 @@ namespace Teller {
 	protected:
 		std::string filepath_;
 	public:
+		uint64_t ID_;
 		gl::TextureRef texture_;
 		Sprite() = delete;
 		Sprite(std::string path) :
 			Asset(ASSET_TYPE::Image),
 			filepath_(path),
-			texture_(gl::Texture::create(loadImage(path)))
+			texture_(gl::Texture::create(loadImage(path))),
+			ID_((uint64_t)this)
 		{};
 	};
 
