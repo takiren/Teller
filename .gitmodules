@@ -12,10 +12,13 @@
 	url = https://github.com/nlohmann/json.git
 [submodule "Cinder"]
 	path = Cinder
-	url = https://github.com/cinder/Cinder.git
+	url = https://github.com/takiren/CinderCustomized.git
 [submodule "imgui-node-editor"]
 	path = imgui-node-editor
 	url = https://github.com/thedmd/imgui-node-editor.git
 [submodule "eigen"]
 	path = eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "ImGuiFileDialog"]
+	path = ImGuiFileDialog
+	url = https://github.com/aiekick/ImGuiFileDialog.git

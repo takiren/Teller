@@ -460,3 +460,8 @@ ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
 void Teller::CharacterEditor::Initialize(fs::path _path) {
 	
 }
+
+std::filesystem::path Teller::CharacterEditor::OpenFile()
+{
+
+}
