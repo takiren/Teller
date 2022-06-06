@@ -51,7 +51,7 @@ public:
 
 void TellerEngineMain::setup()
 {
-	setlocale(LC_CTYPE, "");
+	setlocale(LC_ALL, "Japanese");
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 	ImGui::Initialize();

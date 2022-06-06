@@ -1,4 +1,5 @@
 #pragma once
+#include<Windows.h>
 #include<memory>
 #include<string>
 #include<vector>
@@ -191,7 +192,7 @@ namespace Teller {
 	};
 
 
-	class NodeEditorBase :public Editor{
+	class NodeEditorBase :public Editor {
 	private:
 		std::string name;
 	public:

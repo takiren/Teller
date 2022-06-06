@@ -67,16 +67,12 @@ namespace Teller {
 	{
 		DeltaTimeMessanger = std::make_unique<TMessanger<int, float>>();
 #ifdef _DEBUG
-
+		SetConsoleOutputCP(CP_UTF8);
 		AllocConsole();
 		// 標準入出力に割り当てる
 		FILE* fp = NULL;
-		// 昔のコード
-		//freopen("CONOUT$", "w", stdout);
-		//freopen("CONIN$", "r", stdin);
-		// 現在のコード
+
 		freopen_s(&fp, "CONOUT$", "w", stdout);
-		freopen_s(&fp, "CONIN$", "r", stdin);
 #endif // _DEBUG
 
 	}

@@ -49,7 +49,7 @@ void Teller::EpisodeEditor::Tick()
 
 	// 2. エディタ右側
 	{
-		ImGui::BeginChild("item view", ImVec2(0,0)); // Leave room for 1 line below us
+		ImGui::BeginChild("item view", ImVec2(0, 0)); // Leave room for 1 line below us
 		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile));
 		ImGui::BeginChild("ite", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() * 4));
 
@@ -69,10 +69,9 @@ void Teller::EpisodeEditor::Tick()
 				};
 				if (lineBracket.first == i || lineBracket.second == i) {
 					ImGui::Selectable(s().c_str(), true);
-
 				}
 				else {
-					if (ImGui::Selectable(s().c_str(), currentLine == i,ImGuiSelectableFlags_AllowDoubleClick))
+					if (ImGui::Selectable(s().c_str(), currentLine == i, ImGuiSelectableFlags_AllowDoubleClick))
 						if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) currentLine = i;
 				}
 				i++;
@@ -97,11 +96,13 @@ void Teller::EpisodeEditor::Tick()
 
 			auto epMap = std::map<int, std::vector< std::string>>();
 			auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
-
-			for (auto i = lineBracket.first; i < lineBracket.second; i++) {
-				epMap.emplace(i, cont->GetLine(i));
+			{
+				int ln = 0;
+				for (auto i = lineBracket.first; i < lineBracket.second; i++) {
+					epMap.emplace(ln, cont->GetLine(i));
+					ln++;
+				}
 			}
-
 
 			fs::path p = fs::current_path();
 			p = p.parent_path();
@@ -111,25 +112,29 @@ void Teller::EpisodeEditor::Tick()
 			p /= fs::path(outFileName);
 			std::cout << p.string() << std::endl;
 			std::ofstream ofile(p.string());
-
+			unsigned char bom[] = { 0xEF,0xBB,0xBF };
+			ofile.write((char*)bom, sizeof(bom));
 			for (auto i = 0; i < epMap.size(); i++) {
-				ofile << SingleLine(epMap[i]) << std::endl;
+				ofile << epMap[i].at(0) << "," << epMap[i].at(1) << std::endl;
 			}
 			ofile.close();
 
 			//parent.lock()->AddEpisode(_id, std::move(ne));
 			//auto ne = std::make_unique<Episode>(outFileName);
-			
+
 #ifdef _DEBUG
-			for (auto iter = epMap.begin(); iter != epMap.end(); ++iter) {
-				std::cout << (SingleLine(iter->second).c_str()) << std::endl;
+			{
+				int ln = 0;
+				for (auto i = 0; i < epMap.size(); i++) {
+					std::cout << epMap[i].at(0) << "," << epMap[i].at(1) << std::endl;
+				}
 			}
 #endif // DEBUG
 
 		}
 		ImGui::EndChild();
 
-		
+
 
 	}
 	ImGui::End();
