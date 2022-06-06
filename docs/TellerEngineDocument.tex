@@ -1,6 +1,9 @@
-\documentclass[12pt,a4j,uplatex]{jsarticle}
+\documentclass[12pt,a4paper,uplatex,dvipdfmx]{jsarticle}
 \usepackage{titlesec}
 \usepackage{listings,jvlisting}
+
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm,truedimen]{geometry}
+
 %ここからソースコードの表示に関する設定
 \lstset{
   basicstyle={\ttfamily},
@@ -23,7 +26,7 @@
 %ここまでソースコードの表示に関する設定
 \titleformat*{\section}{\Huge}
 \begin{document}
-\title{Teller Engineドキュメント}
+\title{Teller Engineドキュメント\\ \bfseries{執筆中}}
 \author{\texttt{たき}}
 \date{最終更新日\today}
 
@@ -55,6 +58,7 @@
   \begin{itemize}
     \item Windows 10 21H2 build 19044.1706
     \item Visual Studio 2022 Community
+    \item 標準C++17
     \item Git
   \end{itemize}
 \end{quote}
@@ -106,7 +110,7 @@ C++の言語標準はC++17。
 サブシステムをWindowsに設定。
 以上で終了です。
 
-\subsection{TellerCoreからSceneまで}
+\subsection{Cinder}
 Cinderはマルチプラットフォーム対応の描画ライブラリのためプログラマーがWinMain関数を書く必要はありません。その代わりCinderのAppクラスを継承したクラスがWinMain関数の代わりとなります。
 
 ではまずCinder::Appを継承したクラスを作ります。
@@ -122,17 +126,34 @@ public:
 	std::shared_ptr<TellerCore> mCore;
 
 	void setup() override;
-	void update() override;
+
 	void draw() override;
 };
+
+void setup()
+{
+}
 
 void BasicApp::draw()
 {
 	gl::clear( Color::gray( 0.1f ) );
-
 	gl::end();
 }
+CINDER_APP(TellerEngineMain, RendererGl)
 \end{lstlisting}
 
+ビルドが通ったら次に行きます。
+\subsection{TellerCoreからSceneまで}
+
+\Large{工事中}
+\normalsize
+
+\newpage
+\appendix
+\section*{謝辞}
+このエンジンを開発していく中で先駆者様のお力添えを何度もいただきました、また頂いております。貴重な情報をブログ等にまとめてくださりありがとうございます。
+
+\subsection*{連絡先}
+e-mail : tyorokyuu@gmail.com
 
 \end{document}
