@@ -20,7 +20,8 @@ namespace Teller {
 		CHARACTER_IN,
 		CHARACTER_OUT,
 		CHANGE_SCENE,
-		CHANGE_BG
+		CHANGE_BG,
+		CHANGE_CHARACTER_APPERANCE
 	};
 	/*
 	CSVファイルを読み込むクラス	*/
@@ -52,21 +53,10 @@ namespace Teller {
 		uint64_t eventID_;
 		uint64_t ID_;
 		std::map<int, std::vector<std::string>> data;
-
 		std::map<int, uint64_t> events_;
-
 		std::vector<uint64_t> nextCandidate;
 
 		Episode() = delete;
-
-		// エピソードを新規作成 with name
-		Episode(std::string _name, std::map<int, std::vector<std::string>> _data) :
-			title(_name),
-			data(_data),
-			ID_((uint64_t)this),
-			path_(_name + ".csv"),
-			eventID_(-1)
-		{};
 
 		// エピソードファイルを読み込む。
 		Episode(uint64_t _ID);
@@ -93,10 +83,10 @@ namespace Teller {
 			// イベントデータが存在するか確認。
 			if (fs::directory_entry(fspath_).exists()) {
 				//存在した場合の処理。
+				
 			}
 			else {
 				// 存在しなかった場合の処理。
-
 			}
 			
 		};
@@ -129,9 +119,10 @@ namespace Teller {
 			episodeFilePath_(_path)
 		{};
 	};
-
+	class EpisodeSequencer;
 	class StorySequencer {
 		uint64_t currentEpisodeID_;
+		std::unique_ptr<EpisodeSequencer> epSequencer_;
 	public:
 		StorySequencer() = default;
 		StorySequencer(std::string _path);
@@ -147,15 +138,14 @@ namespace Teller {
 	public:
 		EPISODE_EVENT_TYPE type_;
 		uint64_t ID_;
+		int targetLine;
+		std::string key_;
 		
 		EpisodeEvent() = delete;
-		EpisodeEvent(uint64_t _id, EPISODE_EVENT_TYPE _type):
-			ID_(_id),
-			type_(_type)
-		{};
-		EpisodeEvent(EPISODE_EVENT_TYPE _type) :
-			ID_((uint64_t)this),
-			type_(_type)
+		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _key) :
+			type_(_type),
+			targetLine(_line),
+			key_(_key)
 		{};
 	};
 
@@ -168,13 +158,19 @@ namespace Teller {
 	};
 
 	class EpisodeSequencer {
-		std::unique_ptr<Episode> episode_;
+		std::weak_ptr<Episode> episode_;
+		std::unordered_map<int, EpisodeEvent> eventsMap_;
+		void LoadEvents();
 	public:
 		EpisodeSequencer() = delete;
 		EpisodeSequencer(uint64_t _id);
+		EpisodeSequencer(fs::path _path);
+		EpisodeSequencer(std::shared_ptr<Episode> _episode) :
+			episode_(_episode) {};
 	};
 
 	class EventSequencer {
+		std::unordered_map<int, EpisodeEvent> eventsMap_;
 	public:
 		EventSequencer() = delete;
 		EventSequencer(std::string _path);

@@ -134,8 +134,6 @@ void Teller::EpisodeEditor::Tick()
 		}
 		ImGui::EndChild();
 
-
-
 	}
 	ImGui::End();
 }
@@ -229,7 +227,7 @@ void Teller::EpisodeEventEditor::Update()
 void Teller::EpisodeEventEditor::Tick()
 {
 	if (!bEnabled) return;
-	ImGui::Begin("EventEditor");
+	ImGui::Begin("EpisodeEventEditor");
 	//ShowLeftPane(150);
 
 	OpenAddNodePopup();
@@ -457,4 +455,8 @@ ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
 	case Teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
 	default:							return ImColor(0, 0, 0);
 	}
+}
+
+void Teller::CharacterEditor::Initialize(fs::path _path) {
+	
 }

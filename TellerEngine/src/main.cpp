@@ -115,6 +115,8 @@ void TellerEngineMain::setup()
 
 	mScene->AddAgent(kap);
 
+	
+
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));
 }

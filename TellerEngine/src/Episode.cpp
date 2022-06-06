@@ -114,9 +114,18 @@ namespace Teller {
 	{
 	}
 
+	void EpisodeSequencer::LoadEvents()
+	{
+		auto fp = episode_.lock()->filename_;
+
+	}
+
 	EpisodeSequencer::EpisodeSequencer(uint64_t _id)
 	{
-		episode_ = std::move(std::make_unique<Episode>(_id));
+	}
+
+	EpisodeSequencer::EpisodeSequencer(fs::path _path)
+	{
 	}
 
 	EventSequencer::EventSequencer(std::string _path)

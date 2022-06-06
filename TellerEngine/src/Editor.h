@@ -14,6 +14,7 @@
 #include<imgui_node_editor.h>
 #include <cinder/Rand.h>
 #include<cinder/Log.h>
+#include<uuids.h>
 
 #include <utilities/builders.h>
 #include <utilities/widgets.h>
@@ -165,6 +166,8 @@ namespace Teller {
 		std::weak_ptr<EpisodeManager> ptrEpsdMngr;
 		const int s_PinIconSize = 24;
 
+		uint64_t currentEpisodeID_;
+
 		std::unique_ptr<TNodeManager> ptrTNodeManager;
 
 		bool bShiftDown;
@@ -175,7 +178,8 @@ namespace Teller {
 			Editor(),
 			ptrTNodeManager(std::move(std::make_unique<TNodeManager>())),
 			gContext(ed::CreateEditor()),
-			bShiftDown(false)
+			bShiftDown(false),
+			currentEpisodeID_(0)
 		{
 			nodeList_.push_back("Branch.");
 			nodeList_.push_back("Scene change");
@@ -262,5 +266,26 @@ namespace Teller {
 	public:
 		AssetViewer() :Editor() {};
 		void Tick() override;
+	};
+
+	class CharacterEditor :public Editor {
+	private:
+		std::vector<fs::path> imgPaths_;
+		std::vector<fs::path> dirPaths_;
+		void Initialize(fs::path _path);
+		fs::path OpenFile();
+	public:
+		CharacterEditor() :Editor() {
+			fs::path p = fs::current_path();
+			p = p.parent_path();
+			p /= fs::path("data\\images");
+			Initialize(p);
+		};
+		CharacterEditor(fs::path _path) :Editor() {
+			Initialize(_path);
+		};
+
+		void Tick()override;
+
 	};
 }

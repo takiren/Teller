@@ -4,6 +4,17 @@
 #include<filesystem>
 #include<iostream>
 namespace fs = std::filesystem;
+
+class TclassP {
+	std::string te;
+public:
+	TclassP() :
+		te("テストだあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ")
+	{};
+	~TclassP() {
+		std::cout << te << std::endl;
+	};
+};
 int main()
 {
 	fs::path p = fs::current_path();
@@ -33,6 +44,15 @@ int main()
 	std::cout << fspath_.string() << std::endl;
 	auto ss = fs::directory_entry(fspath_);
 	std::cout << ss.exists() << std::endl;
+
+	std::vector<std::string> tvec;
+	{
+		for (auto i = 0; i < 10; i++) {
+			tvec.emplace_back("これはテストだあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ。");
+		}
+		tvec.erase(tvec.begin() + 6);
+		std::cout << "テスト終わり。";
+	}
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
