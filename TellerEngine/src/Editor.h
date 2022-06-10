@@ -4,6 +4,10 @@
 #include<string>
 #include<vector>
 #include<iostream>
+#include<fstream>
+#include<istream>
+#include<functional>
+
 #include<cinder/Cinder.h>
 #include<cinder/CinderImGui.h>
 #include <cinder/app/App.h>
@@ -28,27 +32,28 @@
 #include"Episode.h"
 #include"TellerEvent.h"
 #include"Tree.h"
+#include"NodeLink.h"
 
 namespace Teller {
 	class TellerCore;
+
 	using CSVManager = ContentsManager<CSVLoader>;
 	using EpisodeManager = ContentsManager<Episode>;
-
 	using WeakEpisodeCM = std::weak_ptr<EpisodeManager>;
 	using WeakCSVCM = std::weak_ptr<CSVManager>;
 
+	//エイリアス
 	namespace ed = ax::NodeEditor;
+	namespace fs = std::filesystem;
 	using namespace ax;
 	using ax::Widgets::IconType;
-
-	namespace fs = std::filesystem;
 
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 		//TellerCoreへのweak ptr
 		std::weak_ptr<TellerCore> parent;
 	public:
 		EditorManager() {};
-		~EditorManager() = default;
+		virtual ~EditorManager() = default;
 		void EditorCallBack(std::string _filename);
 		void EditorCallBack(std::unique_ptr<Episode> _episode);
 	};
@@ -63,17 +68,15 @@ namespace Teller {
 	protected:
 		bool bEnabled;
 	public:
+		std::string name_;
 		std::weak_ptr<TellerCore> parent;
+		Editor() :name_(""),bEnabled(true) {};
 
-		Editor() :
-			bEnabled(true)
-		{};
-		virtual void Tick();
-		void TickInternal();
+		Editor(std::string _name) :
+			bEnabled(true),
+			name_(_name) {};
+
 		virtual ~Editor() = default;
-		virtual void Update();
-
-		virtual void Save();
 
 		//コピー禁止
 		Editor(const Editor&) = delete;
@@ -81,19 +84,27 @@ namespace Teller {
 		//ムーブ許可
 		Editor& operator=(Editor&&) = default;
 
-		void GetTMessage(TEVENT_MESSAGE& _message) {
+		virtual void TickInternal();
 
-		}
+		virtual void Tick();
+		virtual void Update();
+
+		virtual void Save();
+
+		virtual bool CanAccept(fs::path _path) = 0;
+		void GetTMessage(TEVENT_MESSAGE& _message) {};
+
 		virtual void CallByParent();
-
+		virtual void LoadFile(fs::path _path) = 0;
 	};
 
 	class TopLevelMenu :public Editor {
 	private:
-		
+
 	public:
-		TopLevelMenu() : Editor() {};
+		TopLevelMenu() : Editor("TopLevelMenu") {};
 		void Tick() override;
+		void LoadFile(fs::path _path) override;
 	};
 
 	class EpisodeEditor :public Editor {
@@ -102,8 +113,8 @@ namespace Teller {
 		//std::vector<std::string> loadedCsvFiles;
 
 		//コンテンツマネージャーへのポインタ。
-		std::weak_ptr<CSVManager> ptr_csvContentManger;
-		std::weak_ptr<EpisodeManager> ptr_episodeContentManager;
+		std::weak_ptr<CSVManager> csvContentMangerRef;
+		std::weak_ptr<EpisodeManager> episodeContentManagerRef;
 		//エピソードCM
 
 		std::pair<int, int> lineBracket;
@@ -111,10 +122,12 @@ namespace Teller {
 		std::vector<uint64_t> fileVec_;
 		std::map<int, std::vector<std::string>> data;
 		std::string episodeNameCandidate;
+
+		//初期化用関数。
 		void Initialize();
 	public:
 		EpisodeEditor() :
-			Editor(),
+			Editor("EpisodeEditor"),
 			lineBracket(std::make_pair<int, int>(0, 1)),
 			episodeNameCandidate("")
 		{
@@ -127,57 +140,31 @@ namespace Teller {
 
 		void Tick() override;
 
-		std::string SingleLine(std::vector<std::string > _vector) {
-			auto s = std::string("");
-			for (auto& e : _vector)s += e;
-			return s;
-		}
+		std::string SingleLine(std::vector<std::string > _vector);
+
+		bool CanAccept(fs::path _path) override;
+		void LoadFile(fs::path _path) override;
 	};
 
-	class EpisodeEventEditor :
-		public Editor
-	{
+	class EpisodeEventEditor :public Editor {
 	private:
 		ImColor GetIconColor(Socket_TYPE type);
-		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
-		{
-			IconType iconType;
-			ImColor  color = GetIconColor(sckt->type_);
-			color.Value.w = alpha / 255.0f;
 
-			switch (sckt->type_)
-			{
-			case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-			case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-			case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-			case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
-			default:
-				return;
-			}
-
-			ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
-		};
-
-		struct LinkInfo {
-			ed::LinkId Id;
-			ed::PinId  InputId;
-			ed::PinId  OutputId;
-		};
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
 
 		void ShowLeftPane(float panewidth);
-
 		bool g_FirstFrame = true;
 
 		void OpenAddNodePopup();
 
 		ImVector<LinkInfo> g_Links;
 		ed::EditorContext* gContext;
-		std::weak_ptr<EpisodeManager> ptrEpsdMngr;
-		const int s_PinIconSize = 24;
+		std::weak_ptr<EpisodeManager> EpsdMngrRef;
 
+		int s_PinIconSize;
 		uint64_t currentEpisodeID_;
 
-		std::unique_ptr<TNodeManager> ptrTNodeManager;
+		std::unique_ptr<TNodeManager> TNodeManagerRef;
 
 		bool bShiftDown;
 
@@ -185,18 +172,27 @@ namespace Teller {
 
 		std::unique_ptr<Episode> episodeRef;
 
-		fs::path episodePath;
-
 		void Initialize();
 
-		fs::path episodeFilename;
+		int currentLine;
+
+		json jsonEpisode;
+		std::vector<json> jsonCharacter;
+		std::unordered_map<std::string, json> jsonCharacterMap;
+
+		void LoadEpisode(fs::path _path);
+		void LoadCharacterJson(fs::path _path);
 	public:
 		EpisodeEventEditor() :
-			Editor(),
-			ptrTNodeManager(std::move(std::make_unique<TNodeManager>())),
+			Editor("EpisodeEventEditor"),
+			TNodeManagerRef(std::move(std::make_unique<TNodeManager>())),
 			gContext(ed::CreateEditor()),
 			bShiftDown(false),
-			currentEpisodeID_(0)
+			currentEpisodeID_(0),
+			episodeRef(nullptr),
+			jsonEpisode(nullptr),
+			currentLine(0),
+			s_PinIconSize(24)
 		{
 			nodeList_.push_back("Branch.");
 			nodeList_.push_back("Scene change");
@@ -204,6 +200,7 @@ namespace Teller {
 			nodeList_.push_back("Episode.");
 			nodeList_.push_back("Event.");
 			nodeList_.push_back("Comment");
+			nodeList_.push_back("Character In Out");
 		};
 
 		~EpisodeEventEditor() = default;
@@ -211,64 +208,47 @@ namespace Teller {
 		void Update() override;
 		void CallByParent() override;
 
+		void UpdateAssetList();
+
 		void AttachEpisode(std::shared_ptr<Episode> _episode);
+		bool CanAccept(fs::path _path) override;
+
+		void SetEpisode();
+		void LoadFile(fs::path _path) override;
 	};
 
 
 	class NodeEditorBase :public Editor {
-	private:
-		std::string name;
+
 	public:
-		NodeEditorBase() = default;
-		NodeEditorBase(std::string _name);
+		NodeEditorBase(std::string _name) : Editor("Node Editor Base") {};
 		virtual void Tick();
+		void LoadFile(fs::path _path) override;
 	};
+
 
 	class SequenceEditor :public Editor {
 	private:
-
 		ImColor GetIconColor(Socket_TYPE type);
-		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
-		{
-			IconType iconType;
-			ImColor  color = GetIconColor(sckt->type_);
-			color.Value.w = alpha / 255.0f;
 
-			switch (sckt->type_)
-			{
-			case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-			case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-			case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-			case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
-			default:
-				return;
-			}
-
-			ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
-		};
-
-		struct LinkInfo {
-			ed::LinkId Id;
-			ed::PinId  InputId;
-			ed::PinId  OutputId;
-		};
-
-		const int s_PinIconSize = 24;
-		std::string name;
+		int s_PinIconSize;
 		// EpisodeManagerへのポインタ。
 		std::weak_ptr<EpisodeManager> ptrEPCM;
-		std::unique_ptr<TNodeManager> ptrTNodeManager;
-		void UpdateEpisodeList();
+		std::unique_ptr<TNodeManager> TNodeManagerRef;
 
 		std::map<uint64_t, std::string> episodeMap;
 		ed::EditorContext* gContext;
+
 		void Initialize();
+		void UpdateEpisodeList();
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
+		
 	public:
 		SequenceEditor() :
-			name("SequenceEditor"),
-			Editor(),
-			ptrTNodeManager(std::make_unique<TNodeManager>()),
-			gContext(ed::CreateEditor())
+			Editor("SequenceEditor"),
+			TNodeManagerRef(std::make_unique<TNodeManager>()),
+			gContext(ed::CreateEditor()),
+			s_PinIconSize(24)
 		{
 			Initialize();
 		};
@@ -278,16 +258,35 @@ namespace Teller {
 		void Tick() override;
 		void callBackFromCSVManager(std::vector < std::string> _episode);
 		void CallByParent() override;
+
+		void LoadFile(fs::path _path) override;
+
 	};
 
 	class AssetViewer :public Editor {
 	private:
 		std::weak_ptr<EpisodeManager> episodeMgrRef;
-		fs::path episodePath;
+
+		//アセットへのパス
+		fs::path episodePath_;
+		fs::path characterPath_;
 		void Initialize();
+
+		//std::unordered_map<fs::path, std::unique_ptr<Editor>> editorsRef;
+
+		//TellerCoreのLoadFileToEditorのコールバック。
+	protected:
 	public:
-		AssetViewer() :Editor() {};
+		std::function<void(fs::path)> TCcallback_;
+
+		AssetViewer() :Editor("Asset Viewer") { Initialize(); };
+
 		void Tick() override;
+
+		bool CanAccept(fs::path _path) override;
+
+		void LoadFile(fs::path _path) override;
+		void CallByParent() override;
 	};
 
 	class CharacterEditor :public Editor {
@@ -297,16 +296,18 @@ namespace Teller {
 		void Initialize(fs::path _path);
 		fs::path OpenFile();
 	public:
-		CharacterEditor() :Editor() {
+		CharacterEditor() :Editor("Character Editor") {
 			fs::path p = fs::current_path();
 			p = p.parent_path();
 			p /= fs::path("data\\images");
 			Initialize(p);
 		};
-		CharacterEditor(fs::path _path) :Editor() {
+		CharacterEditor(fs::path _path) :Editor("Character Editor") {
 			Initialize(_path);
 		};
 
 		void Tick()override;
+
+		void LoadFile(fs::path _path) override;
 	};
 }

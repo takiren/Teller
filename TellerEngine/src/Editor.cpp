@@ -14,6 +14,10 @@ void Teller::TopLevelMenu::Tick()
 	ImGui::End();
 }
 
+void Teller::TopLevelMenu::LoadFile(fs::path _path)
+{
+}
+
 void Teller::EpisodeEditor::Tick()
 {
 	/*
@@ -36,7 +40,7 @@ void Teller::EpisodeEditor::Tick()
 			int i = 0;
 			if (fileVec_.size() != 0) {
 				for (auto& e : fileVec_) {
-					auto p = ptr_csvContentManger.lock()->GetContent(e);
+					auto p = csvContentMangerRef.lock()->GetContent(e);
 					if (ImGui::Selectable(p->path_.c_str(), selectedFile == i)) {
 						selectedFile = i;
 					}
@@ -58,7 +62,7 @@ void Teller::EpisodeEditor::Tick()
 		ImGui::BeginGroup();
 		// CSVファイルの中身を表示。
 		{
-			auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
+			auto cont = csvContentMangerRef.lock()->GetContent(fileVec_.at(selectedFile));
 			auto st = cont->GetCSVData();
 			int i = 0;
 			for (auto iter = st.begin(); iter != st.end(); ++iter) {
@@ -97,7 +101,7 @@ void Teller::EpisodeEditor::Tick()
 
 
 			auto epMap = std::map<int, std::vector< std::string>>();
-			auto cont = ptr_csvContentManger.lock()->GetContent(fileVec_.at(selectedFile));
+			auto cont = csvContentMangerRef.lock()->GetContent(fileVec_.at(selectedFile));
 			{
 				int ln = 0;
 				for (auto i = lineBracket.first; i < lineBracket.second; i++) {
@@ -144,20 +148,11 @@ void Teller::AssetViewer::Tick()
 {
 	ImGui::Begin("AssetViewer");
 
-	std::vector<fs::path> entries = cppglob::glob(episodePath / fs::path("*.csv"));
-	for (auto& e : entries) {
-		if (ImGui::Selectable(e.filename().string().c_str()))
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
-
-			}
-	}
-
-	for (auto& e : episodeMgrRef.lock()->contents()) {
-		if (ImGui::Selectable(e.second->name_.c_str())) {
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) std::cout << "Clicked" << std::endl;
-		};
-	}
-
+	std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
+	for (auto& e : entries)
+		if (ImGui::Selectable(e.filename().string().c_str()),false, ImGuiSelectableFlags_AllowDoubleClick)
+			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+				parent.lock()->LoadFileToEditor(e);
 	ImGui::End();
 }
 
@@ -188,21 +183,27 @@ void Teller::EpisodeEditor::Initialize()
 
 void Teller::EpisodeEditor::CallByParent()
 {
-	ptr_csvContentManger = parent.lock()->GetCSVContentsManager();
-	fileVec_ = ptr_csvContentManger.lock()->GetKeys();
-	ptr_episodeContentManager = parent.lock()->GetEpisodeContentManager();
+	csvContentMangerRef = parent.lock()->GetCSVContentsManager();
+	fileVec_ = csvContentMangerRef.lock()->GetKeys();
+	episodeContentManagerRef = parent.lock()->GetEpisodeContentManager();
+}
+
+bool Teller::EpisodeEditor::CanAccept(fs::path _path)
+{
+	return false;
+}
+
+void Teller::EpisodeEditor::LoadFile(fs::path _path)
+{
 }
 
 void Teller::EpisodeEventEditor::Initialize()
 {
-	episodePath = fs::current_path();
-	episodePath = episodePath.parent_path();
-	episodePath /= fs::path("data\\episodes");
 }
 
 void Teller::EpisodeEventEditor::CallByParent()
 {
-	ptrEpsdMngr = parent.lock()->GetEpisodeContentManager();
+	EpsdMngrRef = parent.lock()->GetEpisodeContentManager();
 }
 
 
@@ -246,47 +247,144 @@ ImColor Teller::EpisodeEventEditor::GetIconColor(Socket_TYPE type)
 	}
 }
 
+void Teller::EpisodeEventEditor::LoadFile(fs::path _path)
+{
+	LoadEpisode(_path);
+	LoadCharacterJson(_path);
+}
+
+void Teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+{
+	IconType iconType;
+	ImColor  color = GetIconColor(sckt->type_);
+	color.Value.w = alpha / 255.0f;
+
+	switch (sckt->type_)
+	{
+	case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+	case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+	case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	default:
+		return;
+	}
+
+	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+};
+
 void Teller::EpisodeEventEditor::Update()
 {
 }
 
-void Teller::EpisodeEventEditor::Tick()
+void Teller::EpisodeEventEditor::UpdateAssetList()
+{
+}
+
+void Teller::EpisodeEventEditor::AttachEpisode(std::shared_ptr<Episode> _episode)
+{
+}
+
+bool Teller::EpisodeEventEditor::CanAccept(fs::path _path)
 {
 
+	return false;
+}
+
+void Teller::EpisodeEventEditor::SetEpisode()
+{
+}
+
+void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
+{
+	episodeRef = std::make_unique<Episode>(_path);
+	_path.replace_extension("json");
+	if (fs::directory_entry(_path).exists()) {
+		std::ifstream i(_path.string());
+		i >> jsonEpisode;
+	}
+	else {
+		std::ofstream o(_path.string());
+		jsonEpisode["name"] = episodeRef->name_;
+		o << jsonEpisode;
+	}
+	std::cout << episodeRef->name_ << "Loaded" << std::endl;
+}
+
+void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
+{
+	//登場人物誰がいるか検索 重複なし
+	std::set<std::string> cset;
+	for (auto& e : episodeRef->data) {
+		if (e.second.at(0) != "")
+			cset.insert(e.second.at(0));
+	}
+
+	for (auto& e : cset) {
+		_path = _path.parent_path();
+		_path /= fs::path("images") / fs::path(e) / fs::path("CharacterData.json");
+
+		json j;
+		std::ifstream i(_path);
+		i >> j;
+		jsonCharacterMap[e] = j;
+	}
+}
+
+void Teller::EpisodeEventEditor::Tick()
+{
 	if (!bEnabled) return;
 
 	ImGui::Begin("Character appearance");
-	std::vector<fs::path> entries = cppglob::glob(episodePath / fs::path("*.csv"));
-	if (entries.size() == 0) episodeRef.release();
-	for (auto& e : entries) {
-		if (ImGui::Selectable(e.filename().string().c_str()))
-			episodeRef = std::make_unique<Episode>(e);
+	ImGui::BeginChild("EpisodeText", ImVec2(500, 0));
+
+	//episodeRef!=nullptrのときテキスト表示。
+	if (episodeRef) {
+		int i = 0;
+		for (auto& e : episodeRef->data) {
+			auto str = e.second.at(0) + e.second.at(1);
+			if (ImGui::Selectable(str.c_str())) currentLine = i;
+			i++;
+		}
 	}
-	ImGui::End();
-
-	ImGui::Begin("EpisodeEventEditor");
-	//ShowLeftPane(150);
-	ImGui::BeginChild("Episode Text", ImVec2(300, 0));
-	ImGui::Text("Episode list");
-	ImGui::Separator();
-	/*for (auto& e : episodeRef->data) {
-		auto l = e.second.at(0) + e.second.at(1);
-		if (ImGui::Selectable(l.c_str())) {
-		}
-	}*/
-
-	/*if (!episodeRef.expired()) {
-		auto& str = episodeRef.lock()->data;
-
-		{
-			for (auto i = 0; i < str.size(); i++) {
-				ImGui::Selectable(str[i].at(0).c_str());
-			}
-		}
-	}*/
 
 	ImGui::EndChild();
 	ImGui::SameLine();
+
+	ImGui::BeginChild("File list");
+	if (episodeRef) {
+		auto& characterName = episodeRef->data[currentLine].at(0);
+		if (characterName != "")
+			for (auto& e : jsonCharacterMap[characterName]["file"].items())
+				if (ImGui::Selectable(e.value().dump().c_str()));
+	}
+	ImGui::EndChild();
+
+	ImGui::End();
+
+
+	ImGui::Begin("EpisodeEventEditor");
+	//ShowLeftPane(150);
+	//ImGui::BeginChild("Episode Text", ImVec2(300, 0));
+	//ImGui::Text("Episode list");
+	//ImGui::Separator();
+	///*for (auto& e : episodeRef->data) {
+	//	auto l = e.second.at(0) + e.second.at(1);
+	//	if (ImGui::Selectable(l.c_str())) {
+	//	}
+	//}*/
+
+	///*if (!episodeRef.expired()) {
+	//	auto& str = episodeRef.lock()->data;
+
+	//	{
+	//		for (auto i = 0; i < str.size(); i++) {
+	//			ImGui::Selectable(str[i].at(0).c_str());
+	//		}
+	//	}
+	//}*/
+
+	//ImGui::EndChild();
+	//ImGui::SameLine();
 
 	ImGui::BeginChild("NodeEditor Event");
 	OpenAddNodePopup();
@@ -313,13 +411,19 @@ void Teller::EpisodeEventEditor::Tick()
 		switch (selected)
 		{
 		case 0:
-			id_ = ptrTNodeManager->AddTNodeBranch();
+			//分岐
+			id_ = TNodeManagerRef->AddTNodeBranch();
 			break;
 		case 1:
-			id_ = ptrTNodeManager->AddTNodeSceneChange();
+			//シーンチェンジ
+			id_ = TNodeManagerRef->AddTNodeSceneChange();
 			break;
 		case 2:
-			id_ = ptrTNodeManager->AddTNodeAnimation();
+			id_ = TNodeManagerRef->AddTNodeAnimation();
+			break;
+
+		case 6:
+			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
 			break;
 		default:
 			DEBUG_PRINTF("Nothing added.");
@@ -338,7 +442,7 @@ void Teller::EpisodeEventEditor::Tick()
 		util::BlueprintNodeBuilder builder;
 
 		// ノードでイテレーション
-		for (auto& node : ptrTNodeManager->nodes) {
+		for (auto& node : TNodeManagerRef->nodes) {
 
 			builder.Begin(node.second->ID_);
 
@@ -402,13 +506,9 @@ void Teller::EpisodeEventEditor::Tick()
 	ImGui::End();
 }
 
-Teller::NodeEditorBase::NodeEditorBase(std::string _name)
-{
-}
-
 void Teller::NodeEditorBase::Tick()
 {
-	ImGui::Begin(name.c_str());
+	ImGui::Begin(name_.c_str());
 
 	ed::Begin("Editor");
 
@@ -416,7 +516,30 @@ void Teller::NodeEditorBase::Tick()
 	ImGui::End();
 }
 
+void Teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+{
+	IconType iconType;
+	ImColor  color = GetIconColor(sckt->type_);
+	color.Value.w = alpha / 255.0f;
+
+	switch (sckt->type_)
+	{
+	case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+	case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+	case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	default:
+		return;
+	}
+
+	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+};
+
 void Teller::SequenceEditor::CallByParent()
+{
+}
+
+void Teller::SequenceEditor::LoadFile(fs::path _path)
 {
 }
 
@@ -430,11 +553,11 @@ void Teller::SequenceEditor::UpdateEpisodeList()
 
 void Teller::SequenceEditor::Tick()
 {
-	ImGui::Begin(name.c_str());
+	ImGui::Begin(name_.c_str());
 	ImGui::BeginChild("Episode list.");
 	for (auto& e : episodeMap) {
 		if (ImGui::Selectable(e.second.c_str())) {
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))ptrTNodeManager->AddEpisodeNode(e.first);
+			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))TNodeManagerRef->AddEpisodeNode(e.first);
 		}
 	}
 	ImGui::EndChild();
@@ -443,7 +566,7 @@ void Teller::SequenceEditor::Tick()
 
 	ed::Begin("Sequence editor.");
 	util::BlueprintNodeBuilder builder;
-	for (auto& node : ptrTNodeManager->nodes)
+	for (auto& node : TNodeManagerRef->nodes)
 	{
 		builder.Begin(node.second->ID_);
 
@@ -505,6 +628,10 @@ void Teller::SequenceEditor::Initialize()
 	ptrEPCM = parent.lock()->GetEpisodeContentManager();
 }
 
+void Teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _episode)
+{
+}
+
 ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
 {
 	switch (type)
@@ -518,7 +645,9 @@ ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
 	}
 }
 
-void Teller::CharacterEditor::Initialize(fs::path _path) {
+void Teller::CharacterEditor::Initialize(fs::path _path)
+{
+
 }
 
 std::filesystem::path Teller::CharacterEditor::OpenFile()
@@ -526,10 +655,44 @@ std::filesystem::path Teller::CharacterEditor::OpenFile()
 	return getOpenFilePath("");
 }
 
+void Teller::CharacterEditor::LoadFile(fs::path _path)
+{
+}
+
 void Teller::AssetViewer::Initialize()
 {
-	episodeMgrRef = parent.lock()->GetEpisodeContentManager();
-	episodePath = fs::current_path();
-	episodePath = episodePath.parent_path();
-	episodePath /= fs::path("data\\episodes");
+	episodePath_ = fs::current_path();
+	episodePath_ = episodePath_.parent_path();
+	episodePath_ /= fs::path("data\\episodes");
+
+	characterPath_ = fs::current_path();
+	characterPath_ = characterPath_.parent_path();
+	characterPath_ /= fs::path("data\\images");
+}
+
+bool Teller::AssetViewer::CanAccept(fs::path _path)
+{
+	return false;
+}
+
+void Teller::AssetViewer::CallByParent()
+{
+}
+
+void Teller::AssetViewer::LoadFile(fs::path _path)
+{
+}
+
+void Teller::EditorManager::EditorCallBack(std::string _filename)
+{
+}
+
+void Teller::EditorManager::EditorCallBack(std::unique_ptr<Episode> _episode)
+{
+}
+
+std::string Teller::EpisodeEditor::SingleLine(std::vector<std::string > _vector) {
+	auto s = std::string("");
+	for (auto& e : _vector)s += e;
+	return s;
 }

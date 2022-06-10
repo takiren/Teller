@@ -200,6 +200,18 @@ namespace Teller {
 		return nid;
 	}
 
+	uint64_t TNodeManager::AddTNodeCharacterInOut()
+	{
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::CHARACTER_IN_OUT);
+		n->title_ = "Character In Out";
+		n->AddInputSocket(Socket_TYPE::FLOW);
+		n->AddOutPutSocket(Socket_TYPE::FLOW);
+		auto nid = n->ID_;
+		nodes[n->ID_] = n;
+
+		return nid;
+	}
+
 	uint64_t TNodeManager::AddEpisodeNode(Episode _episode)
 	{
 		return uint64_t();

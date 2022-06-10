@@ -91,8 +91,8 @@ void Teller::CharacterItem::Draw()
 void Teller::CharacterSimple::Initialize(fs::path _path)
 {
 	json j;
-	std::ifstream jfile(_path.string(), std::ios::in);
-	jfile >> j;
+	std::ifstream jsonEpisode(_path.string(), std::ios::in);
+	jsonEpisode >> j;
 	name_ = j["name"];
 	for (auto& e : j["file"].items()) {
 

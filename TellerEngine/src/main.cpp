@@ -108,16 +108,11 @@ void TellerEngineMain::setup()
 	animSeq->AddAnimator(std::move(tChanger));
 	animSeq->AddAnimator(std::move(rpt));
 	mCore->AddAnimSequencer(std::move(animSeq));
-
-	auto ed = std::make_shared<EpisodeEditor>();
-	mCore->AddEditor(ed);
-
-	auto epe = std::make_unique<EpisodeEventEditor>();
-
-	mCore->AddEditor(std::move(epe));
-
 	mScene->AddAgent(kap);
-	
+
+
+	mCore->AppendEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
+	mCore->AppendEditor(std::make_unique<AssetViewer>());
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));

@@ -63,7 +63,7 @@ namespace Teller {
 		// エピソードファイルを読み込む。
 		Episode(uint64_t _ID);
 
-		// エピソードファイルを読み込む。
+		// エピソードファイルを読み込む。非推奨
 		Episode(std::string _path) :
 			title(_path),
 			ID_((uint64_t)this),
@@ -74,13 +74,13 @@ namespace Teller {
 			auto filename = fs::path(path_);
 			filename = filename.filename();
 			filename_ = filename;
-			auto jfile = filename.stem();
-			jfile += fs::path(".json");
+			auto jsonEpisode = filename.stem();
+			jsonEpisode += fs::path(".json");
 			fs::path fspath_ = fs::current_path();
 			fspath_ = fspath_.parent_path();
 			fspath_ = fspath_.parent_path();
 			fspath_ /= fs::path("data\\episodes");
-			fspath_ /= jfile;
+			fspath_ /= jsonEpisode;
 
 			// イベントデータが存在するか確認。
 			if (fs::directory_entry(fspath_).exists()) {
@@ -93,6 +93,7 @@ namespace Teller {
 
 		};
 
+		//エピソードファイルを読み込む
 		Episode(fs::path _path) {
 			auto csv = CSVLoader(_path);
 			data = csv.GetCSVData();
