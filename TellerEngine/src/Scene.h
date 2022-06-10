@@ -9,25 +9,35 @@
 
 namespace Teller {
 	using namespace ci;
-	class SceneModule :	public ModuleCore
+	class SceneModule : public ModuleCore
 	{
 	private:
 		std::vector<std::shared_ptr<AgentCore>> agents_;
 		gl::FboRef mFbo_;
-		Rectf destArea;
+		Rectf destRect;
 		vec2 destTopLeft;
 		vec2 destSize;
 		vec2 destScaleFactor;
 	public:
 		SceneModule() :ModuleCore(),
-			destSize(vec2(1920,1080)),
-			mFbo_(gl::Fbo::create(1920,1080)),
-			destTopLeft(vec2(0,0)),
+			destSize(vec2(800, 600)),
+			mFbo_(gl::Fbo::create(1920, 1080,true)),
+			destTopLeft(vec2(100, 100)),
 			destScaleFactor(0.6),
-			destArea(Rectf(ci::Area(destTopLeft,destSize*destScaleFactor)))
+			destRect(Rectf(ci::Area(vec2(0, 0), vec2(1280, 720))))
 		{};
-		~SceneModule(){};
+		SceneModule(ci::Area _screenArea) :
+			destSize(vec2(1280, 720)),
+			mFbo_(gl::Fbo::create(_screenArea.getWidth(), _screenArea.getHeight())),
+			destTopLeft(vec2(0, 0)),
+			destScaleFactor(0.6),
+			destRect(
+				Rectf(ci::Area(vec2(0, 0), vec2(_screenArea.getWidth(), _screenArea.getHeight())))
+			)
+		{};
+		~SceneModule() {};
 		void Tick(float& deltaTime) override;
 		void AddAgent(std::shared_ptr<AgentCore> _agent);
+		void SetArea(ci::Area _dest);
 	};
 }

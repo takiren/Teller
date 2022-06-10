@@ -118,17 +118,22 @@ namespace Teller {
 	private:
 		std::unordered_map < std::string, std::unique_ptr<Sprite>> charSprites_;
 		std::string currentSprite;
+		std::string name_;
+		std::string rubi_;
+		void Initialize(fs::path _path);
 	public:
 		CharacterSimple() :
 			Agent(),
 			currentSprite("")
 		{};
-		CharacterSimple(vec2 _position, vec2 _scale, vec2 _rotation) :Agent(_position, _scale, _rotation),
+		CharacterSimple(vec2 _position, vec2 _scale, vec2 _rotation,fs::path _path) :
+			Agent(_position, _scale, _rotation),
 			currentSprite("")
-		{};
+		{
+			Initialize(_path);
+		};
 
 		void Tick() override;
-		void AddCharacterSprite(std::string _key, std::shared_ptr<Sprite> _sprite);
 		void AddCharacterSprite(std::string _key, std::unique_ptr<Sprite> _sprite);
 
 		std::vector<std::string> GetKeys();

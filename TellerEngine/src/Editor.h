@@ -15,6 +15,7 @@
 #include <cinder/Rand.h>
 #include<cinder/Log.h>
 #include<uuids.h>
+#include<cppglob/glob.hpp>
 
 #include <utilities/builders.h>
 #include <utilities/widgets.h>
@@ -40,8 +41,16 @@ namespace Teller {
 	using namespace ax;
 	using ax::Widgets::IconType;
 
-	class EditorManager :public std::enable_shared_from_this<EditorManager> {
+	namespace fs = std::filesystem;
 
+	class EditorManager :public std::enable_shared_from_this<EditorManager> {
+		//TellerCoreÇ÷ÇÃweak ptr
+		std::weak_ptr<TellerCore> parent;
+	public:
+		EditorManager() {};
+		~EditorManager() = default;
+		void EditorCallBack(std::string _filename);
+		void EditorCallBack(std::unique_ptr<Episode> _episode);
 	};
 
 	enum class EDITOR_TYPE
@@ -72,7 +81,7 @@ namespace Teller {
 		//ÉÄÅ[Éuãñâ¬
 		Editor& operator=(Editor&&) = default;
 
-		void GetMessage(TEVENT_MESSAGE& _message) {
+		void GetTMessage(TEVENT_MESSAGE& _message) {
 
 		}
 		virtual void CallByParent();
@@ -81,6 +90,7 @@ namespace Teller {
 
 	class TopLevelMenu :public Editor {
 	private:
+		
 	public:
 		TopLevelMenu() : Editor() {};
 		void Tick() override;
@@ -128,7 +138,6 @@ namespace Teller {
 		public Editor
 	{
 	private:
-
 		ImColor GetIconColor(Socket_TYPE type);
 		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 		{
@@ -173,6 +182,14 @@ namespace Teller {
 		bool bShiftDown;
 
 		std::vector<std::string> nodeList_;
+
+		std::unique_ptr<Episode> episodeRef;
+
+		fs::path episodePath;
+
+		void Initialize();
+
+		fs::path episodeFilename;
 	public:
 		EpisodeEventEditor() :
 			Editor(),
@@ -193,6 +210,8 @@ namespace Teller {
 		void Tick() override;
 		void Update() override;
 		void CallByParent() override;
+
+		void AttachEpisode(std::shared_ptr<Episode> _episode);
 	};
 
 
@@ -263,6 +282,9 @@ namespace Teller {
 
 	class AssetViewer :public Editor {
 	private:
+		std::weak_ptr<EpisodeManager> episodeMgrRef;
+		fs::path episodePath;
+		void Initialize();
 	public:
 		AssetViewer() :Editor() {};
 		void Tick() override;
@@ -286,6 +308,5 @@ namespace Teller {
 		};
 
 		void Tick()override;
-
 	};
 }

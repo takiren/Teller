@@ -4,6 +4,7 @@
 #include <list>
 
 #include<cinder/Cinder.h>
+#include<cinder/CinderImGui.h>
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
 #include<cinder/ImageIo.h>
@@ -51,10 +52,12 @@ public:
 
 void TellerEngineMain::setup()
 {
-	setlocale(LC_ALL, "Japanese");
+	setlocale(LC_ALL, "");
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
+
 	ImGui::Initialize();
+
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontFromFileTTF("../data/ipaexg.ttf", 14.0f, nullptr, glyphRangesJapanese);
@@ -114,7 +117,6 @@ void TellerEngineMain::setup()
 	mCore->AddEditor(std::move(epe));
 
 	mScene->AddAgent(kap);
-
 	
 
 	ci::app::setWindowSize(1280, 720);
@@ -148,18 +150,18 @@ void TellerEngineMain::keyDown(KeyEvent event)
 
 void TellerEngineMain::draw()
 {
-	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
+	gl::clear(Color::black());
 
 	/*
 	処理記述ここから
 	*/
+
 	mCore->Tick();
+
 	/*
 	処理記述ここまで
 	*/
-
-	gl::end();
 }
 
 // This line tells Cinder to actually create the application

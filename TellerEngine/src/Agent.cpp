@@ -88,15 +88,23 @@ void Teller::CharacterItem::Draw()
 {
 }
 
+void Teller::CharacterSimple::Initialize(fs::path _path)
+{
+	json j;
+	std::ifstream jfile(_path.string(), std::ios::in);
+	jfile >> j;
+	name_ = j["name"];
+	for (auto& e : j["file"].items()) {
+
+	}
+}
+
 void Teller::CharacterSimple::Tick()
 {
 	Rectf destRect = Rectf(charSprites_[currentSprite]->texture_ ->getBounds() + position_);
 	gl::draw(charSprites_[currentSprite]->texture_, destRect);
 }
 
-void Teller::CharacterSimple::AddCharacterSprite(std::string _key, std::shared_ptr<Sprite> _sprite)
-{
-}
 
 void Teller::CharacterSimple::AddCharacterSprite(std::string _key, std::unique_ptr<Sprite> _sprite)
 {

@@ -11,7 +11,7 @@
 
 namespace Teller {
 	using json = nlohmann::json;
-	namespace fs= std::filesystem;
+	namespace fs = std::filesystem;
 
 	enum class EPISODE_EVENT_TYPE
 	{
@@ -25,7 +25,6 @@ namespace Teller {
 	};
 	/*
 	CSVファイルを読み込むクラス	*/
-	class Episode;
 	class CSVLoader {
 		std::string PREFIX_EPISODE = "E";
 		std::map<int, std::vector<std::string>> csv_data;
@@ -33,13 +32,15 @@ namespace Teller {
 		std::vector<int> GetEpisodeList();
 	public:
 		uint64_t ID_;
+		std::string name_;
 		std::string path_;
 		CSVLoader() = delete;
 		CSVLoader(std::string input) :
 			CSVLoader(input, ',')
 		{}; //デフォルトでデリミタを','にする。
+		CSVLoader(fs::path _path) :CSVLoader(_path.string(), ',') {};
+
 		CSVLoader(std::string input, char delimiter);
-		std::vector<Episode> GetEpisodes();
 		std::vector<std::string> GetLine(int _line) { return csv_data.at(_line); };
 		std::map<int, std::vector<std::string>> GetCSVData() { return csv_data; };
 	};
@@ -47,6 +48,7 @@ namespace Teller {
 	class Episode {
 	public:
 		std::string path_;
+		std::string name_;
 		std::string title;
 		fs::path directory_;
 		fs::path filename_;
@@ -74,7 +76,7 @@ namespace Teller {
 			filename_ = filename;
 			auto jfile = filename.stem();
 			jfile += fs::path(".json");
-			fs::path fspath_= fs::current_path();
+			fs::path fspath_ = fs::current_path();
 			fspath_ = fspath_.parent_path();
 			fspath_ = fspath_.parent_path();
 			fspath_ /= fs::path("data\\episodes");
@@ -83,13 +85,19 @@ namespace Teller {
 			// イベントデータが存在するか確認。
 			if (fs::directory_entry(fspath_).exists()) {
 				//存在した場合の処理。
-				
+
 			}
 			else {
 				// 存在しなかった場合の処理。
 			}
-			
+
 		};
+
+		Episode(fs::path _path) {
+			auto csv = CSVLoader(_path);
+			data = csv.GetCSVData();
+		};
+
 
 		~Episode() = default;
 		void SetNumber(int episodeNumber);
@@ -140,21 +148,27 @@ namespace Teller {
 		uint64_t ID_;
 		int targetLine;
 		std::string key_;
-		
+		std::string description_;
+
 		EpisodeEvent() = delete;
 		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _key) :
 			type_(_type),
 			targetLine(_line),
-			key_(_key)
+			key_(_key),
+			ID_(0)
 		{};
 	};
 
 	class EpisodeEventManager {
+	private:
+		//key=intは行を表す。
+		//ex) key=6 6行目のイベント。
+		std::map<int,std::unique_ptr<EpisodeEvent>> eventRefs;
 	public:
 		uint64_t ID_;
 		EpisodeEventManager() = delete;
 		EpisodeEventManager(fs::path _path);
-
+		
 	};
 
 	class EpisodeSequencer {
