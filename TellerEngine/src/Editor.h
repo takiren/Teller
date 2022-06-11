@@ -73,7 +73,6 @@ namespace Teller {
 	protected:
 		bool bEnabled;
 	public:
-
 		Editor() :name_(""), bEnabled(true) {};
 		Editor(std::string _name) :
 			bEnabled(true),

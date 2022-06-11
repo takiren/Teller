@@ -26,8 +26,9 @@ void Teller::AssetViewer::Tick()
 	std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
 	for (auto& e : entries)
 		if (ImGui::Selectable(e.filename().string().c_str()), false, ImGuiSelectableFlags_AllowDoubleClick)
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			if (ImGui::IsMouseDoubleClicked(0))	
 				parent.lock()->LoadFileToEditor(e);
+
 	ImGui::End();
 }
 

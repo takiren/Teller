@@ -30,6 +30,8 @@ namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 
 class TellerEngineMain : public App {
+private:
+	void ShowConsole();
 public:
 	std::shared_ptr<TellerCore> mCore;
 	std::vector<std::string> testvec{ 5,"test" };
@@ -51,7 +53,7 @@ public:
 	Color mColor;
 };
 
-void TellerEngineMain::setup()
+void TellerEngineMain::ShowConsole()
 {
 	AllocConsole();
 	FILE* fp;
@@ -59,6 +61,11 @@ void TellerEngineMain::setup()
 	freopen_s(&fp, "CONIN$", "r", stdin);
 	SetConsoleOutputCP(CP_UTF8);
 	setvbuf(stdout, nullptr, _IOFBF, 1024);
+}
+
+void TellerEngineMain::setup()
+{
+	ShowConsole();
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 
@@ -115,7 +122,6 @@ void TellerEngineMain::setup()
 	animSeq->AddAnimator(std::move(rpt));
 	mCore->AddAnimSequencer(std::move(animSeq));
 	mScene->AddAgent(kap);
-
 
 	mCore->AppendEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
 	mCore->AppendEditor(std::make_unique<AssetViewer>());
