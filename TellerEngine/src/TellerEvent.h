@@ -37,12 +37,10 @@ namespace Teller {
 	public:
 		TMessanger():handler_(std::make_unique<TMessageHandler<KEY_TYPE,DATA_TYPE>>()){};
 		~TMessanger() = default;
-
-		void SendMessage(const DATA_TYPE& _message) {
+		void SendTMessage(const DATA_TYPE& _message) {
 			if (handler_)
 				handler_->onSuccess(_message);
 		}
-
 		void AttachFunction(KEY_TYPE _key,std::function<void(DATA_TYPE)> callback_) {
 			handler_->AttachDesitinationInternal(_key,callback_);
 		};

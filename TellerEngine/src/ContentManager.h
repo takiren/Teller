@@ -27,7 +27,12 @@ namespace Teller {
 		std::shared_ptr<TYPE> GetContent(uint64_t key);
 
 		void AddContent(uint64_t _key, std::unique_ptr<TYPE> _content);
-		
+
+		std::string GetName(uint64_t _key);
+
+		std::vector<std::string> GetNames();
+
+		std::map<uint64_t, std::string> GetKeyWithValue();
 
 		//std::mapのコンテンツのキーを返す。
 		std::vector<uint64_t> GetKeys();
@@ -51,6 +56,32 @@ namespace Teller {
 	inline void ContentsManager<  TYPE>::AddContent(uint64_t _key, std::unique_ptr<TYPE> _content)
 	{
 		contents_[_key] = std::move(_content);
+	}
+
+	template<class TYPE>
+	inline std::string ContentsManager<TYPE>::GetName(uint64_t _key)
+	{
+		return contents_[_key]->name_;
+	}
+
+	template<class TYPE>
+	inline std::vector<std::string> ContentsManager<TYPE>::GetNames()
+	{
+		std::vector < std::string> namevec_;
+		for (auto& e : contents_) {
+			namevec_.push_back(e.second->name_);
+		}
+		return std::vector<std::string>();
+	}
+
+	template<class TYPE>
+	inline std::map<uint64_t, std::string> ContentsManager<TYPE>::GetKeyWithValue()
+	{
+		std::map<uint64_t, std::string> mp;
+		for (auto& e : contents_) {
+			mp[e.first] = e.second->name_;
+		}
+		return mp;
 	}
 
 	template<class TYPE>

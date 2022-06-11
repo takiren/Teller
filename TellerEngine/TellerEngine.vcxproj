@@ -153,7 +153,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)TellerEngine\src;$(SolutionDir)Cinder\include\imgui-node-editor;$(SolutionDir)Cinder\include\imgui;$(SolutionDir)eigen\Eigen;$(SolutionDir)imgui-node-editor\examples\blueprints-example;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)TellerEngine\src;$(SolutionDir)Cinder\include\imgui-node-editor;$(SolutionDir)Cinder\include\imgui;$(SolutionDir)eigen\Eigen;$(SolutionDir)imgui-node-editor\examples\blueprints-example;$(SolutionDir)cppglob\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -174,7 +174,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)TellerEngine\src;$(SolutionDir)Cinder\include\imgui-node-editor;$(SolutionDir)Cinder\include\imgui;$(SolutionDir)eigen\Eigen;$(SolutionDir)imgui-node-editor\examples\blueprints-example;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)TellerEngine\src;$(SolutionDir)Cinder\include\imgui-node-editor;$(SolutionDir)Cinder\include\imgui;$(SolutionDir)eigen\Eigen;$(SolutionDir)imgui-node-editor\examples\blueprints-example;$(SolutionDir)cppglob\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -197,7 +197,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;NOMINMAX;_WIN32_WINNT=0x0502;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)TellerEngine\src;$(SolutionDir)Cinder\include\imgui-node-editor;$(SolutionDir)Cinder\include\imgui;$(SolutionDir)eigen\Eigen;$(SolutionDir)imgui-node-editor\examples\blueprints-example;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cinder\include;$(SolutionDir)fast-cpp-csv-parser;$(SolutionDir)TellerEngine\src;$(SolutionDir)Cinder\include\imgui-node-editor;$(SolutionDir)Cinder\include\imgui;$(SolutionDir)eigen\Eigen;$(SolutionDir)imgui-node-editor\examples\blueprints-example;$(SolutionDir)cppglob\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -213,9 +213,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cppglob\src\fnmatch.cpp" />
+    <ClCompile Include="..\cppglob\src\glob.cpp" />
     <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\builders.cpp" />
     <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\drawing.cpp" />
     <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\widgets.cpp" />
+    <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="src\Agent.cpp" />
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Asset.cpp" />
@@ -237,6 +240,8 @@
     <ClCompile Include="src\UIBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="src\NodeLink.h" />
     <ClInclude Include="src\Agent.h" />
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Asset.h" />

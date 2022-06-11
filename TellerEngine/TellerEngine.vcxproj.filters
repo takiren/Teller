@@ -25,6 +25,12 @@
     <Filter Include="src\imgui-node-editor">
       <UniqueIdentifier>{81103424-1636-4a77-9d8a-c53d7df9dfc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{6b829dbe-096a-4798-8cdb-464876729193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\cppglob">
+      <UniqueIdentifier>{847acd03-911f-4de1-afde-5f1d3f7246d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Agent.cpp">
@@ -93,6 +99,15 @@
     <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\widgets.cpp">
       <Filter>src\imgui-node-editor</Filter>
     </ClCompile>
+    <ClCompile Include="..\cppglob\src\fnmatch.cpp">
+      <Filter>external\cppglob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cppglob\src\glob.cpp">
+      <Filter>external\cppglob</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>src\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Agent.h">
@@ -157,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="src\utility.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>src\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NodeLink.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

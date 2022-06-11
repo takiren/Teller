@@ -4,7 +4,7 @@ namespace Teller {
 	void TellerCore::Tick()
 	{
 		auto now = clock();
-		DeltaTimeMessanger->SendMessage(deltaTime_);
+		DeltaTimeMessangerRef->SendTMessage(deltaTime_);
 		// 1. モジュールのTick()呼び出し。
 		{
 			for (auto& e : modules) {
@@ -14,8 +14,8 @@ namespace Teller {
 
 		// 2. エディターのTick()呼び出し。
 		{
-			for (auto& e : editors) {
-				e->Tick();
+			for (auto& e : editorsRef) {
+				e.second->Tick();
 			}
 		}
 
@@ -34,7 +34,7 @@ namespace Teller {
 
 	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)
 	{
-		DeltaTimeMessanger->AttachFunction(key, callback_);
+		DeltaTimeMessangerRef->AttachFunction(key, callback_);
 
 	}
 
@@ -43,9 +43,6 @@ namespace Teller {
 		animSequencer_.push_back(_animSequencer);
 	}
 
-	void TellerCore::LoadCSV(std::string path)
-	{
-	}
 
 	void TellerCore::LoadSprite(std::string path)
 	{
@@ -54,7 +51,12 @@ namespace Teller {
 
 	void TellerCore::AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode)
 	{
-		episodeContentManager->AddContent(_key, std::move(_episode));
+		episodeContentManagerRef->AddContent(_key, std::move(_episode));
+	}
+
+	void TellerCore::LoadFileToEditor(fs::path _file)
+	{
+		editorsRef[_file.extension()]->LoadFile(_file);
 	}
 
 	int TellerCore::AddModule(std::shared_ptr<ModuleCore>&& sub_module)
@@ -63,16 +65,21 @@ namespace Teller {
 		sub_module->ptrTellerCore = this->shared_from_this();
 		return 0;
 	}
+	void TellerCore::AppendEditor(fs::path _extension, std::unique_ptr<Editor> editor)
+	{
+		editor->parent = this->shared_from_this();
+		editorsRef[_extension] = std::move(editor);
+	}
+	void TellerCore::AppendEditor(std::unique_ptr<Editor> editor)
+	{
+		editor->parent = this->shared_from_this();
+		editorsRef[editor->name_] = std::move(editor);
+	}
 	void TellerCore::CoreInitialize()
 	{
-		DeltaTimeMessanger = std::make_unique<TMessanger<int, float>>();
+		DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
 #ifdef _DEBUG
-		SetConsoleOutputCP(CP_UTF8);
 		AllocConsole();
-		// 標準入出力に割り当てる
-		FILE* fp = NULL;
-
-		freopen_s(&fp, "CONOUT$", "w", stdout);
 #endif // _DEBUG
 
 	}

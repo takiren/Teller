@@ -1,9 +1,11 @@
+#include<Windows.h>
+#include<stdio.h>
 #include <io.h>
 #include <Fcntl.h>
-#include<Windows.h>
 #include <list>
 
 #include<cinder/Cinder.h>
+#include<cinder/CinderImGui.h>
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
 #include<cinder/ImageIo.h>
@@ -28,6 +30,8 @@ namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 
 class TellerEngineMain : public App {
+private:
+	void ShowConsole();
 public:
 	std::shared_ptr<TellerCore> mCore;
 	std::vector<std::string> testvec{ 5,"test" };
@@ -49,12 +53,24 @@ public:
 	Color mColor;
 };
 
+void TellerEngineMain::ShowConsole()
+{
+	AllocConsole();
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONIN$", "r", stdin);
+	SetConsoleOutputCP(CP_UTF8);
+	setvbuf(stdout, nullptr, _IOFBF, 1024);
+}
+
 void TellerEngineMain::setup()
 {
-	setlocale(LC_ALL, "Japanese");
+	ShowConsole();
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
+
 	ImGui::Initialize();
+
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontFromFileTTF("../data/ipaexg.ttf", 14.0f, nullptr, glyphRangesJapanese);
@@ -105,15 +121,10 @@ void TellerEngineMain::setup()
 	animSeq->AddAnimator(std::move(tChanger));
 	animSeq->AddAnimator(std::move(rpt));
 	mCore->AddAnimSequencer(std::move(animSeq));
-
-	auto ed = std::make_shared<EpisodeEditor>();
-	mCore->AddEditor(ed);
-
-	auto epe = std::make_unique<EpisodeEventEditor>();
-
-	mCore->AddEditor(std::move(epe));
-
 	mScene->AddAgent(kap);
+
+	mCore->AppendEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
+	mCore->AppendEditor(std::make_unique<AssetViewer>());
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));
@@ -146,18 +157,18 @@ void TellerEngineMain::keyDown(KeyEvent event)
 
 void TellerEngineMain::draw()
 {
-	gl::clear(Color(0.1f, 0.1f, 0.15f));
 	gl::enableAlphaBlending();
+	gl::clear(Color::black());
 
 	/*
 	処理記述ここから
 	*/
+
 	mCore->Tick();
+
 	/*
 	処理記述ここまで
 	*/
-
-	gl::end();
 }
 
 // This line tells Cinder to actually create the application

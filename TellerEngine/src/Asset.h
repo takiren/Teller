@@ -28,6 +28,7 @@ namespace Teller {
 	protected:
 		std::string filepath_;
 	public:
+		std::string name_;
 		uint64_t ID_;
 		gl::TextureRef texture_;
 		Sprite() = delete;

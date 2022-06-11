@@ -21,7 +21,8 @@ namespace Teller {
 		BRANCH,
 		COMMENT,
 		SCENECHANGE,
-		ANIMATION
+		ANIMATION,
+		CHARACTER_IN_OUT
 	};
 
 	enum class Socket_TYPE {
@@ -256,6 +257,7 @@ namespace Teller {
 		uint64_t AddTNodeEnd();
 		uint64_t AddTNodeBegin();
 		uint64_t AddEpisodeNode(uint64_t _id);
+		uint64_t AddTNodeCharacterInOut();
 		uint64_t AddEpisodeNode(uint64_t _id, int _in, int _out);
 		uint64_t AddEpisodeNode(Episode _episode);
 		uint64_t AddEpisodeNode(std::shared_ptr<Episode> _episode);
