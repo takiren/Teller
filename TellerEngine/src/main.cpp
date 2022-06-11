@@ -1,6 +1,7 @@
+#include<Windows.h>
+#include<stdio.h>
 #include <io.h>
 #include <Fcntl.h>
-#include<Windows.h>
 #include <list>
 
 #include<cinder/Cinder.h>
@@ -52,7 +53,12 @@ public:
 
 void TellerEngineMain::setup()
 {
-	setlocale(LC_ALL, "");
+	AllocConsole();
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONIN$", "r", stdin);
+	SetConsoleOutputCP(CP_UTF8);
+	setvbuf(stdout, nullptr, _IOFBF, 1024);
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 

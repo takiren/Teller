@@ -18,6 +18,71 @@ void Teller::TopLevelMenu::LoadFile(fs::path _path)
 {
 }
 
+
+void Teller::AssetViewer::Tick()
+{
+	ImGui::Begin("AssetViewer");
+
+	std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
+	for (auto& e : entries)
+		if (ImGui::Selectable(e.filename().string().c_str()), false, ImGuiSelectableFlags_AllowDoubleClick)
+			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+				parent.lock()->LoadFileToEditor(e);
+	ImGui::End();
+}
+
+void Teller::Editor::Tick()
+{
+	TickInternal();
+}
+
+void Teller::Editor::TickInternal()
+{
+}
+
+void Teller::Editor::Update()
+{
+}
+
+void Teller::Editor::Save()
+{
+}
+
+void Teller::Editor::CallByParent()
+{
+}
+
+bool Teller::Editor::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size)
+{
+	ImGuiContext& g = *GImGui;
+	ImGuiWindow* window = g.CurrentWindow;
+	ImGuiID id = window->GetID("##Splitter");
+	ImRect bb;
+	bb.Min = window->DC.CursorPos + (split_vertically ? ImVec2(*size1, 0.0f) : ImVec2(0.0f, *size1));
+	bb.Max = bb.Min + ImGui::CalcItemSize(split_vertically ? ImVec2(thickness, splitter_long_axis_size) : ImVec2(splitter_long_axis_size, thickness),0.0f,0.0f);
+	return ImGui::SplitterBehavior(bb,id,split_vertically? ImGuiAxis_X:ImGuiAxis_Y,size1,size2,min_size1,min_size2,0.0f);
+}
+
+void Teller::EpisodeEditor::Initialize()
+{
+}
+
+void Teller::EpisodeEditor::CallByParent()
+{
+	csvContentMangerRef = parent.lock()->GetCSVContentsManager();
+	fileVec_ = csvContentMangerRef.lock()->GetKeys();
+	episodeContentManagerRef = parent.lock()->GetEpisodeContentManager();
+}
+
+bool Teller::EpisodeEditor::CanAccept(fs::path _path)
+{
+	return false;
+}
+
+void Teller::EpisodeEditor::LoadFile(fs::path _path)
+{
+}
+
 void Teller::EpisodeEditor::Tick()
 {
 	/*
@@ -110,6 +175,8 @@ void Teller::EpisodeEditor::Tick()
 				}
 			}
 
+			//TODO:いずれ関数に切り出す。
+			//csvへ書き込み
 			fs::path p = fs::current_path();
 			p = p.parent_path();
 			p /= fs::path("data");
@@ -144,59 +211,6 @@ void Teller::EpisodeEditor::Tick()
 	ImGui::End();
 }
 
-void Teller::AssetViewer::Tick()
-{
-	ImGui::Begin("AssetViewer");
-
-	std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
-	for (auto& e : entries)
-		if (ImGui::Selectable(e.filename().string().c_str()),false, ImGuiSelectableFlags_AllowDoubleClick)
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-				parent.lock()->LoadFileToEditor(e);
-	ImGui::End();
-}
-
-void Teller::Editor::Tick()
-{
-	TickInternal();
-}
-
-void Teller::Editor::TickInternal()
-{
-}
-
-void Teller::Editor::Update()
-{
-}
-
-void Teller::Editor::Save()
-{
-}
-
-void Teller::Editor::CallByParent()
-{
-}
-
-void Teller::EpisodeEditor::Initialize()
-{
-}
-
-void Teller::EpisodeEditor::CallByParent()
-{
-	csvContentMangerRef = parent.lock()->GetCSVContentsManager();
-	fileVec_ = csvContentMangerRef.lock()->GetKeys();
-	episodeContentManagerRef = parent.lock()->GetEpisodeContentManager();
-}
-
-bool Teller::EpisodeEditor::CanAccept(fs::path _path)
-{
-	return false;
-}
-
-void Teller::EpisodeEditor::LoadFile(fs::path _path)
-{
-}
-
 void Teller::EpisodeEventEditor::Initialize()
 {
 }
@@ -205,7 +219,6 @@ void Teller::EpisodeEventEditor::CallByParent()
 {
 	EpsdMngrRef = parent.lock()->GetEpisodeContentManager();
 }
-
 
 void Teller::EpisodeEventEditor::OpenAddNodePopup()
 {
@@ -219,18 +232,7 @@ void Teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
 {
 	auto& io = ImGui::GetIO();
 	ImGui::BeginChild("EventEditor", ImVec2(panewidth, 0));
-	panewidth = ImGui::GetContentRegionAvailWidth();
-	ImGui::BeginHorizontal("Editor", ImVec2(panewidth, 0));
-	ImGui::Spring(0.0f);
 
-	if (ImGui::Button("Add Node")) {
-
-	}
-	ImGui::Spring();
-	if (ImGui::Button("style")) {
-
-	}
-	ImGui::EndHorizontal();
 	ImGui::EndChild();
 }
 
@@ -253,24 +255,6 @@ void Teller::EpisodeEventEditor::LoadFile(fs::path _path)
 	LoadCharacterJson(_path);
 }
 
-void Teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
-{
-	IconType iconType;
-	ImColor  color = GetIconColor(sckt->type_);
-	color.Value.w = alpha / 255.0f;
-
-	switch (sckt->type_)
-	{
-	case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-	case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-	case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-	case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
-	default:
-		return;
-	}
-
-	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
-};
 
 void Teller::EpisodeEventEditor::Update()
 {
@@ -319,14 +303,18 @@ void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 			cset.insert(e.second.at(0));
 	}
 
+	for (auto& e : cset)std::cout << e << std::endl;
+	return;
 	for (auto& e : cset) {
 		_path = _path.parent_path();
 		_path /= fs::path("images") / fs::path(e) / fs::path("CharacterData.json");
 
-		json j;
-		std::ifstream i(_path);
-		i >> j;
-		jsonCharacterMap[e] = j;
+		if (fs::directory_entry(_path).exists()) {
+			json j;
+			std::ifstream i(_path);
+			i >> j;
+			jsonCharacterMap[e] = j;
+		}
 	}
 }
 
@@ -334,6 +322,7 @@ void Teller::EpisodeEventEditor::Tick()
 {
 	if (!bEnabled) return;
 
+	//キャラクターの画像切替
 	ImGui::Begin("Character appearance");
 	ImGui::BeginChild("EpisodeText", ImVec2(500, 0));
 
@@ -361,7 +350,7 @@ void Teller::EpisodeEventEditor::Tick()
 
 	ImGui::End();
 
-
+	//ノードエディタ
 	ImGui::Begin("EpisodeEventEditor");
 	//ShowLeftPane(150);
 	//ImGui::BeginChild("Episode Text", ImVec2(300, 0));
@@ -516,6 +505,10 @@ void Teller::NodeEditorBase::Tick()
 	ImGui::End();
 }
 
+void Teller::NodeEditorBase::LoadFile(fs::path _path)
+{
+}
+
 void Teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 {
 	IconType iconType;
@@ -534,10 +527,6 @@ void Teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> 
 
 	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
 };
-
-void Teller::SequenceEditor::CallByParent()
-{
-}
 
 void Teller::SequenceEditor::LoadFile(fs::path _path)
 {
@@ -632,6 +621,24 @@ void Teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _ep
 {
 }
 
+void Teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+{
+	IconType iconType;
+	ImColor  color = GetIconColor(sckt->type_);
+	color.Value.w = alpha / 255.0f;
+
+	switch (sckt->type_)
+	{
+	case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+	case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+	case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	default:
+		return;
+	}
+
+	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+};
 ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
 {
 	switch (type)

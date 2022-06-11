@@ -79,12 +79,7 @@ namespace Teller {
 	{
 		DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
 #ifdef _DEBUG
-		SetConsoleOutputCP(CP_UTF8);
 		AllocConsole();
-		// •W€“üo—Í‚ÉŠ„‚è“–‚Ä‚é
-		FILE* fp = NULL;
-
-		freopen_s(&fp, "CONOUT$", "w", stdout);
 #endif // _DEBUG
 
 	}

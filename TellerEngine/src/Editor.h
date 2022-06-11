@@ -15,7 +15,6 @@
 #include <cinder/gl/gl.h>
 #include <cinder/gl/Texture.h>
 #include<cinder/ImageIo.h>
-#include<imgui_node_editor.h>
 #include <cinder/Rand.h>
 #include<cinder/Log.h>
 #include<uuids.h>
@@ -23,6 +22,10 @@
 
 #include <utilities/builders.h>
 #include <utilities/widgets.h>
+#include<imgui_node_editor.h>
+
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include<imgui_internal.h>
 #include<jsoncpp/json.h>
 
 #include<Core.h>
@@ -48,6 +51,7 @@ namespace Teller {
 	using namespace ax;
 	using ax::Widgets::IconType;
 
+	//エディターを管理するクラスがあればいいのかなって思ったけどいらないからいずれ削除
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 		//TellerCoreへのweak ptr
 		std::weak_ptr<TellerCore> parent;
@@ -58,6 +62,7 @@ namespace Teller {
 		void EditorCallBack(std::unique_ptr<Episode> _episode);
 	};
 
+	//多分いらない
 	enum class EDITOR_TYPE
 	{
 		NODE_EDITOR,
@@ -68,15 +73,16 @@ namespace Teller {
 	protected:
 		bool bEnabled;
 	public:
-		std::string name_;
-		std::weak_ptr<TellerCore> parent;
-		Editor() :name_(""),bEnabled(true) {};
 
+		Editor() :name_(""), bEnabled(true) {};
 		Editor(std::string _name) :
 			bEnabled(true),
 			name_(_name) {};
 
 		virtual ~Editor() = default;
+
+		std::weak_ptr<TellerCore> parent;
+		std::string name_;
 
 		//コピー禁止
 		Editor(const Editor&) = delete;
@@ -84,29 +90,33 @@ namespace Teller {
 		//ムーブ許可
 		Editor& operator=(Editor&&) = default;
 
+		//depricated
 		virtual void TickInternal();
-
 		virtual void Tick();
 		virtual void Update();
 
 		virtual void Save();
 
 		virtual bool CanAccept(fs::path _path) = 0;
-		void GetTMessage(TEVENT_MESSAGE& _message) {};
+		virtual void GetTMessage(TEVENT_MESSAGE& _message) {};
 
 		virtual void CallByParent();
 		virtual void LoadFile(fs::path _path) = 0;
+
+		//参照 : imgui-node-editor->Splitter
+		virtual bool Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size = -1.0f);
 	};
 
+	//メニューバー用
 	class TopLevelMenu :public Editor {
 	private:
-
 	public:
 		TopLevelMenu() : Editor("TopLevelMenu") {};
 		void Tick() override;
 		void LoadFile(fs::path _path) override;
 	};
 
+	//csvからエピソードファイルを作成するためのエディター
 	class EpisodeEditor :public Editor {
 	private:
 		//読み込まれた生のCSVファイルリスト
@@ -119,6 +129,7 @@ namespace Teller {
 
 		std::pair<int, int> lineBracket;
 
+		//ファイルリスト
 		std::vector<uint64_t> fileVec_;
 		std::map<int, std::vector<std::string>> data;
 		std::string episodeNameCandidate;
@@ -129,10 +140,7 @@ namespace Teller {
 		EpisodeEditor() :
 			Editor("EpisodeEditor"),
 			lineBracket(std::make_pair<int, int>(0, 1)),
-			episodeNameCandidate("")
-		{
-			Initialize();
-		};
+			episodeNameCandidate("") {};
 
 		~EpisodeEditor() = default;
 
@@ -146,19 +154,24 @@ namespace Teller {
 		void LoadFile(fs::path _path) override;
 	};
 
+	//エピソードイベントエディター
 	class EpisodeEventEditor :public Editor {
 	private:
+		//ノードエディタ用変数
 		ImColor GetIconColor(Socket_TYPE type);
-
 		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
 
+		//左のパネルを表示
 		void ShowLeftPane(float panewidth);
 		bool g_FirstFrame = true;
 
 		void OpenAddNodePopup();
 
+		//ノードエディタ用変数
 		ImVector<LinkInfo> g_Links;
 		ed::EditorContext* gContext;
+
+		//deprecated　これ必要ない。
 		std::weak_ptr<EpisodeManager> EpsdMngrRef;
 
 		int s_PinIconSize;
@@ -166,20 +179,19 @@ namespace Teller {
 
 		std::unique_ptr<TNodeManager> TNodeManagerRef;
 
+		//まじでいらない
 		bool bShiftDown;
 
 		std::vector<std::string> nodeList_;
-
 		std::unique_ptr<Episode> episodeRef;
-
-		void Initialize();
 
 		int currentLine;
 
 		json jsonEpisode;
-		std::vector<json> jsonCharacter;
+		std::vector<json> jsonCharacter; //多分いらない。
 		std::unordered_map<std::string, json> jsonCharacterMap;
 
+		void Initialize();
 		void LoadEpisode(fs::path _path);
 		void LoadCharacterJson(fs::path _path);
 	public:
@@ -217,10 +229,11 @@ namespace Teller {
 		void LoadFile(fs::path _path) override;
 	};
 
-
+	//ノードエディタ用基底クラス
+	//はやくこれに基底クラスを移さないとこれからが大変。
 	class NodeEditorBase :public Editor {
-
 	public:
+		NodeEditorBase() = delete;
 		NodeEditorBase(std::string _name) : Editor("Node Editor Base") {};
 		virtual void Tick();
 		void LoadFile(fs::path _path) override;
@@ -242,7 +255,7 @@ namespace Teller {
 		void Initialize();
 		void UpdateEpisodeList();
 		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
-		
+
 	public:
 		SequenceEditor() :
 			Editor("SequenceEditor"),
@@ -252,12 +265,10 @@ namespace Teller {
 		{
 			Initialize();
 		};
-
 		~SequenceEditor() = default;
 
 		void Tick() override;
 		void callBackFromCSVManager(std::vector < std::string> _episode);
-		void CallByParent() override;
 
 		void LoadFile(fs::path _path) override;
 
@@ -284,8 +295,8 @@ namespace Teller {
 		void Tick() override;
 
 		bool CanAccept(fs::path _path) override;
-
 		void LoadFile(fs::path _path) override;
+
 		void CallByParent() override;
 	};
 
@@ -307,7 +318,6 @@ namespace Teller {
 		};
 
 		void Tick()override;
-
 		void LoadFile(fs::path _path) override;
 	};
 }

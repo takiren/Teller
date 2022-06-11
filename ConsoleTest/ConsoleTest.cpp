@@ -1,5 +1,7 @@
 ﻿// ConsoleTest.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
 //
+#include<Windows.h>
+#include<stdio.h>
 #include<filesystem>
 #include<istream>
 #include<sstream>
@@ -48,9 +50,21 @@ public:
 void nazof() {
 
 }
+
+std::vector<std::string> split(std::string& input, char delimiter)
+{
+	std::istringstream stream(input);
+	std::string field;
+	std::vector<std::string> result;
+	while (std::getline(stream, field, delimiter)) {
+		result.push_back(field);
+	}
+	return result;
+}
 int main()
 {
-	setlocale(LC_ALL, "");
+	SetConsoleOutputCP(CP_UTF8);
+	setvbuf(stdout, nullptr, _IOFBF, 1024);
 
 	fs::path p = fs::current_path();
 	std::cout << p.string() << std::endl;
@@ -78,6 +92,15 @@ int main()
 
 	std::vector<fs::path> entries = cppglob::glob(fspath_ / fs::path("*.csv"));
 	for (auto& e : entries) std::cout << e.string() << std::endl;
+
+	std::ifstream fp(entries.at(0));
+
+	std::string fstr;
+	while (std::getline(fp,fstr	))
+	{
+		std::vector<std::string> strvec = split(fstr, ',');
+		for (auto& e : strvec)std::cout << e << std::endl;
+	}
 
 	{
 		jpath /= fs::path("images\\湊\\CharacterData.json");
