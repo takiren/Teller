@@ -10,7 +10,6 @@ using ax::Widgets::IconType;
 void Teller::TopLevelMenu::Tick()
 {
 	ImGui::Begin("Menu");
-
 	ImGui::End();
 }
 
@@ -23,11 +22,38 @@ void Teller::AssetViewer::Tick()
 {
 	ImGui::Begin("AssetViewer");
 
-	std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
-	for (auto& e : entries)
-		if (ImGui::Selectable(e.filename().string().c_str()), false, ImGuiSelectableFlags_AllowDoubleClick)
-			if (ImGui::IsMouseDoubleClicked(0))	
-				parent.lock()->LoadFileToEditor(e);
+	ImGui::BeginChild("ContentsListdddd", ImVec2(400, 0));
+
+	if (ImGui::BeginTabBar("Contentsdffd")) {
+
+		if (ImGui::BeginTabItem("Episode files")) {
+			std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
+			//FIXME:ダブルクリックすると全部読み込まれる。動作が不自然だが私が悪いのかライブラリが悪いのか不明
+			for (auto& e : entries)
+				if (ImGui::Selectable(e.filename().string().c_str()))
+					targetFile = e;
+
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Character visuals.")) {
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	ImGui::EndChild();
+
+
+	ImGui::SameLine();
+
+	ImGui::BeginChild("Asset Command");
+
+	if (ImGui::Button("Load")) parent.lock()->LoadFileToEditor(targetFile);
+
+	ImGui::EndChild();
+
 
 	ImGui::End();
 }
@@ -60,8 +86,8 @@ bool Teller::Editor::Splitter(bool split_vertically, float thickness, float* siz
 	ImGuiID id = window->GetID("##Splitter");
 	ImRect bb;
 	bb.Min = window->DC.CursorPos + (split_vertically ? ImVec2(*size1, 0.0f) : ImVec2(0.0f, *size1));
-	bb.Max = bb.Min + ImGui::CalcItemSize(split_vertically ? ImVec2(thickness, splitter_long_axis_size) : ImVec2(splitter_long_axis_size, thickness),0.0f,0.0f);
-	return ImGui::SplitterBehavior(bb,id,split_vertically? ImGuiAxis_X:ImGuiAxis_Y,size1,size2,min_size1,min_size2,0.0f);
+	bb.Max = bb.Min + ImGui::CalcItemSize(split_vertically ? ImVec2(thickness, splitter_long_axis_size) : ImVec2(splitter_long_axis_size, thickness), 0.0f, 0.0f);
+	return ImGui::SplitterBehavior(bb, id, split_vertically ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, min_size1, min_size2, 0.0f);
 }
 
 void Teller::EpisodeEditor::Initialize()
@@ -70,9 +96,6 @@ void Teller::EpisodeEditor::Initialize()
 
 void Teller::EpisodeEditor::CallByParent()
 {
-	csvContentMangerRef = parent.lock()->GetCSVContentsManager();
-	fileVec_ = csvContentMangerRef.lock()->GetKeys();
-	episodeContentManagerRef = parent.lock()->GetEpisodeContentManager();
 }
 
 bool Teller::EpisodeEditor::CanAccept(fs::path _path)
@@ -86,6 +109,7 @@ void Teller::EpisodeEditor::LoadFile(fs::path _path)
 
 void Teller::EpisodeEditor::Tick()
 {
+	namespace fs = std::filesystem;
 	/*
 	ImGui::Begin~----;
 	ImGui::End~----;
@@ -101,18 +125,16 @@ void Teller::EpisodeEditor::Tick()
 	{
 		ImGui::BeginChild("left pane", ImVec2(150, 0), true);
 		ImGui::Text("Loaded files.");
-		// ロードされたファイルを左側に表示。
+		//ディレクトリに存在するファイルを表示
 		{
-			int i = 0;
-			if (fileVec_.size() != 0) {
-				for (auto& e : fileVec_) {
-					auto p = csvContentMangerRef.lock()->GetContent(e);
-					if (ImGui::Selectable(p->path_.c_str(), selectedFile == i)) {
-						selectedFile = i;
-					}
-					i++;
-				}
-			}
+			auto _path = fs::current_path();
+			_path = _path.parent_path();
+			_path /= fs::path("data\\csvdata");
+			std::vector<fs::path> entries = cppglob::glob(_path / fs::path("*.csv"));
+			if (entries.size() != 0)
+				for (auto& e : entries)
+					if (ImGui::Selectable(e.filename().string().c_str(), false, ImGuiSelectableFlags_AllowDoubleClick))
+						if (ImGui::IsMouseDoubleClicked(0)) CSVRef = std::make_unique<CSVLoader>(e);
 		}
 		ImGui::EndChild();
 	}
@@ -122,31 +144,27 @@ void Teller::EpisodeEditor::Tick()
 	// 2. エディタ右側
 	{
 		ImGui::BeginChild("item view", ImVec2(0, 0)); // Leave room for 1 line below us
-		ImGui::Text("Selected File: %s", fileVec_.at(selectedFile));
+		ImGui::Text("Selected File: %s");
 		ImGui::BeginChild("ite", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() * 4));
-
 		ImGui::BeginGroup();
 		// CSVファイルの中身を表示。
 		{
-			auto cont = csvContentMangerRef.lock()->GetContent(fileVec_.at(selectedFile));
-			auto st = cont->GetCSVData();
-			int i = 0;
-			for (auto iter = st.begin(); iter != st.end(); ++iter) {
+			if (CSVRef) {
 
-				//std::vector<std::string>をstd::stringに展開
-				auto s = [=]() {
-					std::string ts("");
-					for (auto& e : iter->second) ts += e;
-					return ts;
-				};
-				if (lineBracket.first == i || lineBracket.second == i) {
-					ImGui::Selectable(s().c_str(), true);
+				int i = 0;
+				for (auto& line : CSVRef->GetCSVData()) {
+
+					//std::vector<std::string>をstd::stringに展開
+
+					if (lineBracket.first == i || lineBracket.second == i) {
+						ImGui::Selectable(SingleLine(line.second).c_str(), true);
+					}
+					else {
+						if (ImGui::Selectable(SingleLine(line.second).c_str(), currentLine == i, ImGuiSelectableFlags_AllowDoubleClick))
+							if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) currentLine = i;
+					}
+					i++;
 				}
-				else {
-					if (ImGui::Selectable(s().c_str(), currentLine == i, ImGuiSelectableFlags_AllowDoubleClick))
-						if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) currentLine = i;
-				}
-				i++;
 			}
 		}
 		ImGui::EndGroup();
@@ -167,11 +185,11 @@ void Teller::EpisodeEditor::Tick()
 
 
 			auto epMap = std::map<int, std::vector< std::string>>();
-			auto cont = csvContentMangerRef.lock()->GetContent(fileVec_.at(selectedFile));
+
 			{
 				int ln = 0;
 				for (auto i = lineBracket.first; i < lineBracket.second; i++) {
-					epMap.emplace(ln, cont->GetLine(i));
+					epMap.emplace(ln, CSVRef->GetLine(i));
 					ln++;
 				}
 			}
@@ -216,10 +234,6 @@ void Teller::EpisodeEventEditor::Initialize()
 {
 }
 
-void Teller::EpisodeEventEditor::CallByParent()
-{
-	EpsdMngrRef = parent.lock()->GetEpisodeContentManager();
-}
 
 void Teller::EpisodeEventEditor::OpenAddNodePopup()
 {
@@ -265,19 +279,12 @@ void Teller::EpisodeEventEditor::UpdateAssetList()
 {
 }
 
-void Teller::EpisodeEventEditor::AttachEpisode(std::shared_ptr<Episode> _episode)
-{
-}
-
 bool Teller::EpisodeEventEditor::CanAccept(fs::path _path)
 {
 
 	return false;
 }
 
-void Teller::EpisodeEventEditor::SetEpisode()
-{
-}
 
 void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
 {
@@ -289,10 +296,14 @@ void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
 	}
 	else {
 		std::ofstream o(_path.string());
-		jsonEpisode["name"] = episodeRef->name_;
+		jsonEpisode["name"] = _path.stem().string();
 		o << jsonEpisode;
 	}
 	std::cout << episodeRef->name_ << "Loaded" << std::endl;
+}
+
+void Teller::EpisodeEventEditor::CallByParent() {
+
 }
 
 void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
@@ -304,8 +315,9 @@ void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 			cset.insert(e.second.at(0));
 	}
 
-	for (auto& e : cset)std::cout << e << std::endl;
+	for (auto& e : cset) std::cout << e << std::endl;
 	return;
+
 	for (auto& e : cset) {
 		_path = _path.parent_path();
 		_path /= fs::path("images") / fs::path(e) / fs::path("CharacterData.json");
@@ -315,7 +327,9 @@ void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 			std::ifstream i(_path);
 			i >> j;
 			jsonCharacterMap[e] = j;
+			std::cout << "Character Json Loaded. : " << j["name"] << std::endl;
 		}
+		else std::cout << "Skipped : " << e << std::endl;
 	}
 }
 
@@ -325,14 +339,15 @@ void Teller::EpisodeEventEditor::Tick()
 
 	//キャラクターの画像切替
 	ImGui::Begin("Character appearance");
-	ImGui::BeginChild("EpisodeText", ImVec2(500, 0));
+	ImGui::BeginChild("EpisodeText", ImVec2(1000, 0));
 
 	//episodeRef!=nullptrのときテキスト表示。
 	if (episodeRef) {
 		int i = 0;
 		for (auto& e : episodeRef->data) {
 			auto str = e.second.at(0) + e.second.at(1);
-			if (ImGui::Selectable(str.c_str())) currentLine = i;
+			if (ImGui::Selectable(str.c_str()), currentLine == i)
+				currentLine = i;
 			i++;
 		}
 	}
@@ -342,39 +357,25 @@ void Teller::EpisodeEventEditor::Tick()
 
 	ImGui::BeginChild("File list");
 	if (episodeRef) {
+		//エピソードファイルの1列目が話者
 		auto& characterName = episodeRef->data[currentLine].at(0);
+		int i = 0;
 		if (characterName != "")
-			for (auto& e : jsonCharacterMap[characterName]["file"].items())
-				if (ImGui::Selectable(e.value().dump().c_str()));
+			for (auto& e : jsonCharacterMap[characterName]["file"].items()) {
+				if (ImGui::Selectable(e.value().dump().c_str(), characterAppearanceNum == i)) {
+					characterAppearanceNum = i;
+					eventsMap[currentLine] = std::move(std::make_unique<EpisodeEvent>(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, e.value().dump()));
+				}
+				i++;
+			}
 	}
+
 	ImGui::EndChild();
 
 	ImGui::End();
 
 	//ノードエディタ
 	ImGui::Begin("EpisodeEventEditor");
-	//ShowLeftPane(150);
-	//ImGui::BeginChild("Episode Text", ImVec2(300, 0));
-	//ImGui::Text("Episode list");
-	//ImGui::Separator();
-	///*for (auto& e : episodeRef->data) {
-	//	auto l = e.second.at(0) + e.second.at(1);
-	//	if (ImGui::Selectable(l.c_str())) {
-	//	}
-	//}*/
-
-	///*if (!episodeRef.expired()) {
-	//	auto& str = episodeRef.lock()->data;
-
-	//	{
-	//		for (auto i = 0; i < str.size(); i++) {
-	//			ImGui::Selectable(str[i].at(0).c_str());
-	//		}
-	//	}
-	//}*/
-
-	//ImGui::EndChild();
-	//ImGui::SameLine();
 
 	ImGui::BeginChild("NodeEditor Event");
 	OpenAddNodePopup();
@@ -661,6 +662,10 @@ void Teller::CharacterEditor::Initialize(fs::path _path)
 std::filesystem::path Teller::CharacterEditor::OpenFile()
 {
 	return getOpenFilePath("");
+}
+
+void Teller::CharacterEditor::Tick()
+{
 }
 
 void Teller::CharacterEditor::LoadFile(fs::path _path)

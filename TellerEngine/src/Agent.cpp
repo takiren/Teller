@@ -123,5 +123,5 @@ std::vector<std::string> Teller::CharacterSimple::GetKeys()
 
 void Teller::CharacterSimple::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, std::string _key)
 {
-
+	SetCurrentSprite(_key);
 }

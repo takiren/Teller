@@ -105,12 +105,24 @@ namespace Teller {
 		};
 	};
 
+
 	class CharacterAppearanceChanger :public Animator<std::string> {
 	private:
-		
+
 	public:
 		CharacterAppearanceChanger() :Animator() {};
 		void Change(std::string _key) { callback_(_key); };
+	};
+
+	class CharacterAnimator :public Animator<vec2, vec2, vec2, std::string> {
+	private:
+		//スプライトの名前設定
+		std::string sprite_;
+	public:
+		CharacterAnimator() :Animator() {};
+		void Update() override;
+
+		void SetSprite(std::string _sprite) { sprite_ = _sprite; };
 	};
 
 	class AnimationSequencer {

@@ -152,6 +152,11 @@ namespace Teller {
 		std::string description_;
 
 		EpisodeEvent() = delete;
+		EpisodeEvent(EPISODE_EVENT_TYPE _type, std::string _key) :
+			type_(_type),
+			targetLine(0),
+			key_(_key),
+			ID_(0) {};
 		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _key) :
 			type_(_type),
 			targetLine(_line),
