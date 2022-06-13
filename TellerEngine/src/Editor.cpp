@@ -22,24 +22,29 @@ void Teller::AssetViewer::Tick()
 {
 	ImGui::Begin("AssetViewer");
 
-	ImGui::BeginChild("ContentsListdddd", ImVec2(400, 0));
+	ImGui::BeginChild("ContentsListChild", ImVec2(400, 0));
 
-	if (ImGui::BeginTabBar("Contentsdffd")) {
+	if (ImGui::BeginTabBar("ContentsTabs")) {
 
+		//エピソードファイル表示
 		if (ImGui::BeginTabItem("Episode files")) {
 			std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
-			//FIXME:ダブルクリックすると全部読み込まれる。動作が不自然だが私が悪いのかライブラリが悪いのか不明
 			for (auto& e : entries) {
 				ImGui::Selectable(e.filename().string().c_str(), targetFile == e);
 				if (ImGui::IsItemClicked())
 					targetFile = e;
 			}
-
 			ImGui::EndTabItem();
 		}
 
+		//キャラクターデータ表示
 		if (ImGui::BeginTabItem("Character visuals.")) {
-
+			std::vector<fs::path> entries = cppglob::glob(characterPath_/ fs::path("*.json"));
+			for (auto& e : entries) {
+				ImGui::Selectable(e.filename().string().c_str(), targetFile == e);
+				if (ImGui::IsItemClicked())
+					targetFile = e;
+			}
 			ImGui::EndTabItem();
 		}
 
@@ -871,6 +876,10 @@ void Teller::AssetViewer::Initialize()
 	characterPath_ = fs::current_path();
 	characterPath_ = characterPath_.parent_path();
 	characterPath_ /= fs::path("data\\images");
+
+	dataPath_ = fs::current_path();
+	dataPath_ = dataPath_.parent_path();
+
 }
 
 bool Teller::AssetViewer::CanAccept(fs::path _path)

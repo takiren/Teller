@@ -210,6 +210,8 @@ namespace Teller {
 		void LoadCharacterJson(fs::path _path);
 		void LoadEpisodeEvent(json _j);
 
+		void ShowPreview();
+
 		//Character.json‚Ìfileî•ñ‚ğæ“¾
 		std::vector<std::string> GetSpritesName(json _cjson);
 
@@ -311,6 +313,8 @@ namespace Teller {
 		void Initialize();
 
 		fs::path targetFile;
+
+		fs::path dataPath_;
 
 	protected:
 	public:
