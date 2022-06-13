@@ -29,14 +29,17 @@ void Teller::AssetViewer::Tick()
 		if (ImGui::BeginTabItem("Episode files")) {
 			std::vector<fs::path> entries = cppglob::glob(episodePath_ / fs::path("*.csv"));
 			//FIXME:ダブルクリックすると全部読み込まれる。動作が不自然だが私が悪いのかライブラリが悪いのか不明
-			for (auto& e : entries)
-				if (ImGui::Selectable(e.filename().string().c_str()))
+			for (auto& e : entries) {
+				ImGui::Selectable(e.filename().string().c_str(), targetFile == e);
+				if (ImGui::IsItemClicked())
 					targetFile = e;
+			}
 
 			ImGui::EndTabItem();
 		}
 
 		if (ImGui::BeginTabItem("Character visuals.")) {
+
 			ImGui::EndTabItem();
 		}
 
@@ -44,7 +47,6 @@ void Teller::AssetViewer::Tick()
 	}
 
 	ImGui::EndChild();
-
 
 	ImGui::SameLine();
 
@@ -234,6 +236,34 @@ void Teller::EpisodeEventEditor::Initialize()
 {
 }
 
+std::vector<std::string> Teller::EpisodeEventEditor::GetSpritesName(json _cjson)
+{
+	auto vec = std::vector<std::string>();
+
+	for (auto& e : _cjson["file"].items()) {
+		vec.push_back(e.value().get<std::string>());
+	}
+
+	return vec;
+}
+
+void Teller::EpisodeEventEditor::LoadEpisodeEvent(json _j)
+{
+}
+
+void Teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
+{
+	EventPack::iterator it1;
+	EventPack::iterator it2;
+	it1 = _vector.begin();
+	it2 = _vector.begin();
+
+	std::advance(it1, m);
+	std::advance(it2, n);
+
+	std::iter_swap(it1, it2);
+}
+
 
 void Teller::EpisodeEventEditor::OpenAddNodePopup()
 {
@@ -279,32 +309,74 @@ void Teller::EpisodeEventEditor::UpdateAssetList()
 {
 }
 
-bool Teller::EpisodeEventEditor::CanAccept(fs::path _path)
+void Teller::EpisodeEventEditor::Save()
 {
+	//エピソードイベントを保存するjsonに書き込み
+	json j;
+	std::ofstream o(jsonFilePath_);
+	j["name"] = episodeRef->name_;
 
-	return false;
+	for (auto& evntPack : eventPackMap) {
+		int order = 0;
+		for (auto& evnt : evntPack.second) {
+			std::string type_;
+
+			//json["events"][行の指定][イベントを再生する順序]
+			//j["events"][evntPack.first][order]
+			switch (evnt->type_)
+			{
+			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:
+				type_ = "CHANGE_CHARACTER_APPERANCE";
+				j["events"][evntPack.first][order]["description"] = evnt->key_;
+				break;
+
+			case EPISODE_EVENT_TYPE::CHARACTER_IN:
+				type_ = "CHARACTER_IN";
+				break;
+
+			case EPISODE_EVENT_TYPE::CHARACTER_OUT:
+				type_ = "CHARACTER_OUT";
+				break;
+
+			default:
+				break;
+			}
+			j["events"][evntPack.first][order]["type"] = type_;
+
+			order++;
+		}
+	}
+	o << j;
 }
 
-
-void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
+bool Teller::EpisodeEventEditor::CanAccept(fs::path _path)
 {
-	episodeRef = std::make_unique<Episode>(_path);
-	_path.replace_extension("json");
-	if (fs::directory_entry(_path).exists()) {
-		std::ifstream i(_path.string());
-		i >> jsonEpisode;
-	}
-	else {
-		std::ofstream o(_path.string());
-		jsonEpisode["name"] = _path.stem().string();
-		o << jsonEpisode;
-	}
-	std::cout << episodeRef->name_ << "Loaded" << std::endl;
+	return false;
 }
 
 void Teller::EpisodeEventEditor::CallByParent() {
 
 }
+
+void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
+{
+	episodeRef = std::make_unique<Episode>(_path);
+	jsonFilePath_ = _path;
+	jsonFilePath_.replace_extension("json");
+
+	if (fs::directory_entry(jsonFilePath_).exists()) {
+		std::ifstream i(jsonFilePath_.string());
+		i >> jsonEpisode;
+		LoadEpisodeEvent(jsonEpisode);
+	}
+	else {
+		std::ofstream o(jsonFilePath_.string());
+		jsonEpisode["name"] = jsonFilePath_.stem().string();
+		o << jsonEpisode;
+	}
+	std::cout << episodeRef->name_ << "Loaded" << std::endl;
+}
+
 
 void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 {
@@ -314,39 +386,65 @@ void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 		if (e.second.at(0) != "")
 			cset.insert(e.second.at(0));
 	}
+	for (auto& e : cset)std::cout << e << std::endl;
 
-	for (auto& e : cset) std::cout << e << std::endl;
-	return;
+	//コピーでいい
+	auto jpath_ = _path.parent_path();
+	jpath_ = jpath_.parent_path();
+	jpath_ /= fs::path("images");
 
-	for (auto& e : cset) {
-		_path = _path.parent_path();
-		_path /= fs::path("images") / fs::path(e) / fs::path("CharacterData.json");
+	auto jsonentries = cppglob::glob(jpath_ / fs::path("*\\CharacterData.json"));
 
-		if (fs::directory_entry(_path).exists()) {
-			json j;
-			std::ifstream i(_path);
-			i >> j;
-			jsonCharacterMap[e] = j;
-			std::cout << "Character Json Loaded. : " << j["name"] << std::endl;
+	for (auto& e : jsonentries) {
+		std::cout << e.string() << std::endl;
+		json j;
+		std::ifstream i(e);
+		//読み込めなかったら次
+		if (!i) {
+			std::cout << "Skipped :" << e.string() << std::endl;
+			continue;
 		}
-		else std::cout << "Skipped : " << e << std::endl;
+
+		i >> j;
+		std::cout << "Json Loaded :" << j["name"].get<std::string>() << std::endl;
+
+		jsonCharacterMap[j["name"].get<std::string>()] = j;
 	}
+
+}
+
+void Teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key)
+{
+	eventPackMap[_line].push_back(std::make_unique<EpisodeEvent>(_type, _line, _target, _key));
 }
 
 void Teller::EpisodeEventEditor::Tick()
 {
 	if (!bEnabled) return;
 
+	//TODO:キャラクター見た目変更用エディターとノードエディタを切り出し。
 	//キャラクターの画像切替
-	ImGui::Begin("Character appearance");
-	ImGui::BeginChild("EpisodeText", ImVec2(1000, 0));
+	ImGui::Begin("Character appearance", 0, ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::BeginMenuBar()) {
+
+		if (ImGui::BeginMenu("File")) {
+
+			if (ImGui::MenuItem("save")) Save();
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
+	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
 
 	//episodeRef!=nullptrのときテキスト表示。
 	if (episodeRef) {
 		int i = 0;
 		for (auto& e : episodeRef->data) {
 			auto str = e.second.at(0) + e.second.at(1);
-			if (ImGui::Selectable(str.c_str()), currentLine == i)
+			if (ImGui::Selectable(str.c_str(), currentLine == i))
 				currentLine = i;
 			i++;
 		}
@@ -355,19 +453,111 @@ void Teller::EpisodeEventEditor::Tick()
 	ImGui::EndChild();
 	ImGui::SameLine();
 
-	ImGui::BeginChild("File list");
+	ImGui::BeginChild("Event sprite", ImVec2(300, 0));
+
+
 	if (episodeRef) {
 		//エピソードファイルの1列目が話者
 		auto& characterName = episodeRef->data[currentLine].at(0);
+		ImGui::Text(("Name :" + characterName).c_str());
 		int i = 0;
-		if (characterName != "")
-			for (auto& e : jsonCharacterMap[characterName]["file"].items()) {
-				if (ImGui::Selectable(e.value().dump().c_str(), characterAppearanceNum == i)) {
-					characterAppearanceNum = i;
-					eventsMap[currentLine] = std::move(std::make_unique<EpisodeEvent>(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, e.value().dump()));
+		ImGui::BeginTabBar("Simple Event Tabs");
+		if (ImGui::BeginTabItem("Appearance")) {
+			ImGui::Text("Left click : Make an event  Right click : Preview Appearance");
+			if (characterName != "") {
+
+				if (ImGui::Selectable("Inherit")) {
+					//TODO:前のイベントの情報を引き継ぐときの処理。
+					characterAppearanceNum = 0;
 				}
-				i++;
+				auto filevec = GetSpritesName(jsonCharacterMap[characterName]);
+				for (auto& e : filevec) {
+					ImGui::Selectable(e.c_str(), characterAppearanceNum == i);
+
+					//右クリックでプレビュー
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+						characterAppearanceNum = i;
+
+					//左クリックで確定
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
+						characterAppearanceNum = i;
+						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, "", e);
+					}
+
+					i++;
+				}
 			}
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("CharacterInOut")) {
+			if (ImGui::Selectable("Character IN"))
+				if (characterName != "")
+					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, currentLine, "", characterName);
+
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	ImGui::EndChild();
+
+	ImGui::SameLine();
+	ImGui::BeginChild("Events List");
+	ImGui::Text("EventPack");
+
+	{
+		int index = 0;
+		for (auto& e : eventPackMap[currentLine]) {
+			auto slabel = std::string();
+			switch (e->type_)
+			{
+			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:
+				slabel = "EVENT: Changes Appearance" + e->key_;
+
+				break;
+			case EPISODE_EVENT_TYPE::CHARACTER_IN:
+				slabel = "EVENT: Character IN" + e->key_;
+				break;
+			case EPISODE_EVENT_TYPE::CHARACTER_OUT:
+				slabel = "EVENT: Character OUT" + e->key_;
+				break;
+			default:
+				break;
+			}
+
+			ImGui::Selectable(slabel.c_str(), eventPackNum == index);
+			if (ImGui::IsItemClicked()) {
+				eventPackNum = index;
+				std::cout << "Clicked" << eventPackNum << std::endl;
+			}
+
+			index++;
+		}
+	}
+
+	//TODO:eventPack.size()=0のときの処理を追加する
+	//イベント再生順の変更
+	auto& evn = eventPackMap[currentLine];
+	if (ImGui::Button("Up") && eventPackNum != 0) {
+		SwapEvent(evn, eventPackNum, eventPackNum - 1);
+		++eventPackNum;
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Down") && eventPackNum <= evn.size() - 1) {
+		SwapEvent(evn, eventPackNum, eventPackNum + 1);
+		++eventPackNum;
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Delete selected event.") && eventPackMap[currentLine].size() > eventPackNum) {
+		auto eventindex = eventPackMap[currentLine].begin();
+		std::advance(eventindex, eventPackNum);
+		eventPackMap[currentLine].erase(eventindex);
 	}
 
 	ImGui::EndChild();

@@ -73,6 +73,8 @@ namespace Teller {
 	protected:
 		//trueのときtickを呼び出す。
 		bool bEnabled;
+
+		fs::path openedFilePath_;
 	public:
 		Editor() :name_(""), bEnabled(true) {};
 		Editor(std::string _name) :
@@ -185,18 +187,33 @@ namespace Teller {
 
 		//編集対象の行
 		int currentLine;
+
 		//キャラクター見た目
 		int characterAppearanceNum;
+		//EventPack編集行
+		int eventPackNum;
 
+		//json
 		json jsonEpisode;
 		std::unordered_map<std::string, json> jsonCharacterMap;
+		std::unordered_map<std::string, fs::path> characterPathMap;
 
+		using EventPack = std::vector<std::unique_ptr<EpisodeEvent>>;
+		std::map<int, EventPack> eventPackMap;
+
+		fs::path jsonFilePath_;
+
+		void CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key);
+		void SwapEvent(EventPack& _vector, int m, int n);
 		void Initialize();
 		void LoadEpisode(fs::path _path);
 		void LoadCharacterJson(fs::path _path);
+		void LoadEpisodeEvent(json _j);
 
-		std::map<int, std::unique_ptr<EpisodeEvent>> eventsMap;
+		//Character.jsonのfile情報を取得
+		std::vector<std::string> GetSpritesName(json _cjson);
 
+		bool bShowSprite;
 
 	public:
 		EpisodeEventEditor() :
@@ -208,7 +225,9 @@ namespace Teller {
 			jsonEpisode(nullptr),
 			currentLine(0),
 			s_PinIconSize(24),
-			characterAppearanceNum(0)
+			characterAppearanceNum(0),
+			eventPackNum(0),
+			bShowSprite(true)
 		{
 			//ノード用
 			nodeList_.push_back("Branch.");
@@ -218,7 +237,7 @@ namespace Teller {
 			nodeList_.push_back("Event.");
 			nodeList_.push_back("Comment");
 			nodeList_.push_back("Character In Out");
-		};
+		}
 		~EpisodeEventEditor() = default;
 
 		void Tick() override;
@@ -226,15 +245,19 @@ namespace Teller {
 
 		void CallByParent() override;
 
+		//TODO: Delete
 		void UpdateAssetList();
-
+		//TODO: Delete
 		bool CanAccept(fs::path _path) override;
 
 		void LoadFile(fs::path _path) override;
+
+		//TODO:早くどうにかしろ
+		void Save()override;
 	};
 
 	//ノードエディタ用基底クラス
-	//はやくこれに基底クラスを移さないとこれからが大変。
+	//TODO:こいつを早く実装するか削除しろ
 	class NodeEditorBase :public Editor {
 	public:
 		NodeEditorBase() = delete;

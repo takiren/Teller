@@ -37,6 +37,7 @@ namespace Teller {
 		vec2 size_; //このエージェントの占める画面上の大きさ(ピクセル数)
 		std::weak_ptr<AgentCore> parentAgent;
 		void SetParent(std::shared_ptr<AgentCore> _parent) { parentAgent = _parent; };
+
 	public:
 		AgentCore() :
 			deltaTime_(0.02f),
@@ -56,20 +57,26 @@ namespace Teller {
 		virtual ~AgentCore() = default;
 		virtual void Tick();
 		virtual void Draw();
-		void SetDeltaTime(float _deltaTime);
+		virtual void SetDeltaTime(float _deltaTime);
 	};
 
 	template<class... Args>
 	class Agent :public AgentCore
 	{
 	protected:
-
+		std::string name_;
 	public:
 		Agent() :AgentCore()
 		{};
 
 		Agent(ci::vec2 _position, ci::vec2 _scale, ci::vec2 _rotation) :
-			AgentCore(_position, _scale, _rotation)
+			AgentCore(_position, _scale, _rotation),
+			name_("")
+		{};
+
+		Agent(std::string _name, ci::vec2 _position, ci::vec2 _scale, ci::vec2 _rotation) :
+			AgentCore(_position, _scale, _rotation),
+			name_(_name)
 		{};
 
 		Agent(const Agent&) = delete;
