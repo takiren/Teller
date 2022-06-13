@@ -148,13 +148,24 @@ namespace Teller {
 		EPISODE_EVENT_TYPE type_;
 		uint64_t ID_;
 		int targetLine;
+		std::string target_;
 		std::string key_;
 		std::string description_;
 
 		EpisodeEvent() = delete;
+
 		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _key) :
 			type_(_type),
 			targetLine(_line),
+			key_(_key),
+			ID_(0),
+			target_("")
+		{};
+
+		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key) :
+			type_(_type),
+			targetLine(_line),
+			target_(""),
 			key_(_key),
 			ID_(0)
 		{};
@@ -164,12 +175,12 @@ namespace Teller {
 	private:
 		//key=intは行を表す。
 		//ex) key=6 6行目のイベント。
-		std::map<int,std::unique_ptr<EpisodeEvent>> eventRefs;
+		std::map<int, std::unique_ptr<EpisodeEvent>> eventRefs;
 	public:
 		uint64_t ID_;
 		EpisodeEventManager() = delete;
 		EpisodeEventManager(fs::path _path);
-		
+
 	};
 
 	class EpisodeSequencer {

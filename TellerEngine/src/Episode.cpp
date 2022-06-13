@@ -44,6 +44,7 @@ namespace Teller {
 		}
 		auto ostr = std::ostringstream{};
 		ostr << ifs_csv_file.rdbuf();
+
 		return ostr.str();
 	}
 
@@ -57,6 +58,10 @@ namespace Teller {
 		ID_ = (uint64_t)this;
 		auto data = ReadToString(inputCSVPath);
 		std::istringstream sstream(data);
+
+		//BOMスキップ
+		sstream.ignore(3);
+
 		std::vector<std::string> items;
 		std::string record;
 		int counter = 0;

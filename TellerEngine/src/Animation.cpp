@@ -54,3 +54,8 @@ void Teller::Repeat::Update()
 	dpos_ = vec2(-sin(theta) * 100, 0);
 	callback_(dpos_);
 }
+
+void Teller::CharacterAnimator::Update()
+{
+	callback_(vec2(0, 0), vec2(0, 0), vec2(0, 0), "");
+}

@@ -71,7 +71,10 @@ namespace Teller {
 
 	class Editor :public std::enable_shared_from_this<Editor> {
 	protected:
+		//trueのときtickを呼び出す。
 		bool bEnabled;
+
+		fs::path openedFilePath_;
 	public:
 		Editor() :name_(""), bEnabled(true) {};
 		Editor(std::string _name) :
@@ -81,6 +84,7 @@ namespace Teller {
 		virtual ~Editor() = default;
 
 		std::weak_ptr<TellerCore> parent;
+
 		std::string name_;
 
 		//コピー禁止
@@ -91,15 +95,25 @@ namespace Teller {
 
 		//depricated
 		virtual void TickInternal();
+
+		//毎チック呼ばれる処理
 		virtual void Tick();
+
+		//おそらく必要ない
 		virtual void Update();
 
+		//エディターでの編集を保存する
 		virtual void Save();
 
+		//いらない
 		virtual bool CanAccept(fs::path _path) = 0;
+
+		//メッセージ用
 		virtual void GetTMessage(TEVENT_MESSAGE& _message) {};
 
 		virtual void CallByParent();
+
+		//ロード
 		virtual void LoadFile(fs::path _path) = 0;
 
 		//参照 : imgui-node-editor->Splitter
@@ -107,6 +121,7 @@ namespace Teller {
 	};
 
 	//メニューバー用
+
 	class TopLevelMenu :public Editor {
 	private:
 	public:
@@ -118,20 +133,12 @@ namespace Teller {
 	//csvからエピソードファイルを作成するためのエディター
 	class EpisodeEditor :public Editor {
 	private:
-		//読み込まれた生のCSVファイルリスト
-		//std::vector<std::string> loadedCsvFiles;
-
-		//コンテンツマネージャーへのポインタ。
-		std::weak_ptr<CSVManager> csvContentMangerRef;
-		std::weak_ptr<EpisodeManager> episodeContentManagerRef;
-		//エピソードCM
-
 		std::pair<int, int> lineBracket;
 
 		//ファイルリスト
-		std::vector<uint64_t> fileVec_;
-		std::map<int, std::vector<std::string>> data;
 		std::string episodeNameCandidate;
+
+		std::unique_ptr<CSVLoader> CSVRef;
 
 		//初期化用関数。
 		void Initialize();
@@ -159,6 +166,7 @@ namespace Teller {
 		//ノードエディタ用変数
 		ImColor GetIconColor(Socket_TYPE type);
 		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
+		int s_PinIconSize;
 
 		//左のパネルを表示
 		void ShowLeftPane(float panewidth);
@@ -170,41 +178,60 @@ namespace Teller {
 		ImVector<LinkInfo> g_Links;
 		ed::EditorContext* gContext;
 
-		//deprecated　これ必要ない。
-		std::weak_ptr<EpisodeManager> EpsdMngrRef;
-
-		int s_PinIconSize;
 		uint64_t currentEpisodeID_;
 
 		std::unique_ptr<TNodeManager> TNodeManagerRef;
 
-		//まじでいらない
-		bool bShiftDown;
-
 		std::vector<std::string> nodeList_;
 		std::unique_ptr<Episode> episodeRef;
 
+		//編集対象の行
 		int currentLine;
 
-		json jsonEpisode;
-		std::vector<json> jsonCharacter; //多分いらない。
-		std::unordered_map<std::string, json> jsonCharacterMap;
+		//キャラクター見た目
+		int characterAppearanceNum;
+		//EventPack編集行
+		int eventPackNum;
 
+		//json
+		json jsonEpisode;
+		std::unordered_map<std::string, json> jsonCharacterMap;
+		std::unordered_map<std::string, fs::path> characterPathMap;
+
+		using EventPack = std::vector<std::unique_ptr<EpisodeEvent>>;
+		std::map<int, EventPack> eventPackMap;
+
+		fs::path jsonFilePath_;
+
+		void CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key);
+		void SwapEvent(EventPack& _vector, int m, int n);
 		void Initialize();
 		void LoadEpisode(fs::path _path);
 		void LoadCharacterJson(fs::path _path);
+		void LoadEpisodeEvent(json _j);
+
+		void ShowPreview();
+
+		//Character.jsonのfile情報を取得
+		std::vector<std::string> GetSpritesName(json _cjson);
+
+		bool bShowSprite;
+
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
 			TNodeManagerRef(std::move(std::make_unique<TNodeManager>())),
 			gContext(ed::CreateEditor()),
-			bShiftDown(false),
 			currentEpisodeID_(0),
 			episodeRef(nullptr),
 			jsonEpisode(nullptr),
 			currentLine(0),
-			s_PinIconSize(24)
+			s_PinIconSize(24),
+			characterAppearanceNum(0),
+			eventPackNum(0),
+			bShowSprite(true)
 		{
+			//ノード用
 			nodeList_.push_back("Branch.");
 			nodeList_.push_back("Scene change");
 			nodeList_.push_back("Animation.");
@@ -212,24 +239,27 @@ namespace Teller {
 			nodeList_.push_back("Event.");
 			nodeList_.push_back("Comment");
 			nodeList_.push_back("Character In Out");
-		};
-
+		}
 		~EpisodeEventEditor() = default;
+
 		void Tick() override;
 		void Update() override;
+
 		void CallByParent() override;
 
+		//TODO: Delete
 		void UpdateAssetList();
-
-		void AttachEpisode(std::shared_ptr<Episode> _episode);
+		//TODO: Delete
 		bool CanAccept(fs::path _path) override;
 
-		void SetEpisode();
 		void LoadFile(fs::path _path) override;
+
+		//TODO:早くどうにかしろ
+		void Save()override;
 	};
 
 	//ノードエディタ用基底クラス
-	//はやくこれに基底クラスを移さないとこれからが大変。
+	//TODO:こいつを早く実装するか削除しろ
 	class NodeEditorBase :public Editor {
 	public:
 		NodeEditorBase() = delete;
@@ -282,11 +312,13 @@ namespace Teller {
 		fs::path characterPath_;
 		void Initialize();
 
-		//std::unordered_map<fs::path, std::unique_ptr<Editor>> editorsRef;
+		fs::path targetFile;
 
-		//TellerCoreのLoadFileToEditorのコールバック。
+		fs::path dataPath_;
+
 	protected:
 	public:
+		//TODO:DELETE
 		std::function<void(fs::path)> TCcallback_;
 
 		AssetViewer() :Editor("Asset Viewer") { Initialize(); };

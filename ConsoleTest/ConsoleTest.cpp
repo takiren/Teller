@@ -88,6 +88,7 @@ int main()
 	fspath_ /= fs::path("data");
 	auto jpath = fspath_;
 	fspath_ /= fs::path("episodes");
+	for (fs::directory_entry e : fs::directory_iterator(fspath_)) std::cout <<";;;"<< e << std::endl;
 	std::cout << fspath_.string() << std::endl;
 
 	std::vector<fs::path> entries = cppglob::glob(fspath_ / fs::path("*.csv"));
@@ -102,36 +103,8 @@ int main()
 		for (auto& e : strvec)std::cout << e << std::endl;
 	}
 
-	{
-		jpath /= fs::path("images\\湊\\CharacterData.json");
-		json j;
-		std::ifstream jf(jpath.string());
-		jf >> j;
+	
 
-		std::cout << j["name"] << std::endl;
-		for (auto& e : j["file"].items())std::cout << e.value().dump() << std::endl;
-		std::cout << "湊" << std::endl;
-
-	}
-
-	{
-		Test tin = Test();
-		tin.hoge();
-	}
-
-	std::vector<json> jfs;
-	{
-		json js;
-		std::ifstream i(jpath.string());
-		i >> js;
-		jfs.push_back(js);
-	}
-	std::cout << jfs.at(0) << std::endl;
-
-	fs::path pt{ ".json" };
-	std::cout << pt << std::endl;
-	std::cout << jpath.extension() << std::endl;
-	if (pt == jpath.extension()) std::cout << "同じい"<<std::endl;
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
