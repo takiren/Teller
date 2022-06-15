@@ -7,7 +7,7 @@
 #include"Episode.h"
 #include"Asset.h"
 
-namespace Teller {
+namespace teller {
 	template< class TYPE>
 	class ContentsManager {
 	private:

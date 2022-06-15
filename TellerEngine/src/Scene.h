@@ -7,7 +7,7 @@
 #include"ModuleCore.h"
 #include"Agent.h"
 
-namespace Teller {
+namespace teller {
 	using namespace ci;
 	class SceneModule : public ModuleCore
 	{

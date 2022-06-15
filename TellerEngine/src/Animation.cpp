@@ -1,61 +1,61 @@
 #include"Animation.h"
 
-void Teller::AnimationSequencer::Update()
+void teller::AnimationSequencer::Update()
 {
 	for (auto& e : animators) {
 		e->Update();
 	}
 }
 
-void Teller::AnimationSequencer::AddAnimator(std::unique_ptr<AnimatorCore> _animator)
+void teller::AnimationSequencer::AddAnimator(std::unique_ptr<AnimatorCore> _animator)
 {
 	animators.push_back(std::move(_animator));
 }
 
-void Teller::TextChanger::Initialize()
+void teller::TextChanger::Initialize()
 {
 	auto cline = csvData->GetLine(currentline);
 	callback_(cline.at(0), cline.at(1));
 }
 
-void Teller::TextChanger::Update()
+void teller::TextChanger::Update()
 {
-	count_++;
-	if (count_ % 300 == 0) {
-		Next();
-		auto cline = csvData->GetLine(currentline);
-		callback_(cline.at(0), cline.at(1));
-	}
+
 }
 
-void Teller::TextChanger::Next()
+void teller::TextChanger::Next()
 {
 	currentline++;
 }
 
-void Teller::AnimatorCore::Update()
+void teller::TextChanger::SetText(std::string _speaker, std::string _text)
+{
+	callback_(_speaker, _text);
+}
+
+void teller::AnimatorCore::Update()
 {
 }
 
-void Teller::Circular::Initialize()
+void teller::Circular::Initialize()
 {
 }
 
-void Teller::Circular::Update()
+void teller::Circular::Update()
 {
 	theta += 0.02f;
 	dpos_ = vec2(-sin(theta) * 100, cos(theta) * 100);
 	callback_(dpos_, drot_, dscale_);
 }
 
-void Teller::Repeat::Update()
+void teller::Repeat::Update()
 {
 	theta += 0.02f;
 	dpos_ = vec2(-sin(theta) * 100, 0);
 	callback_(dpos_);
 }
 
-void Teller::CharacterAnimator::Update()
+void teller::CharacterAnimator::Update()
 {
 	callback_(vec2(0, 0), vec2(0, 0), vec2(0, 0), "");
 }

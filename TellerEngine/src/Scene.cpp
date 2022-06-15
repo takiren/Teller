@@ -1,8 +1,8 @@
 #include "Scene.h"
 
-using namespace Teller;
+using namespace teller;
 
-void Teller::SceneModule::Tick(float& deltaTime)
+void teller::SceneModule::Tick(float& deltaTime)
 {
 	ModuleCore::Tick(deltaTime);
 	// フレームバッファーをFBOに設定。
@@ -18,12 +18,12 @@ void Teller::SceneModule::Tick(float& deltaTime)
 	//gl::draw(mFbo_->getColorTexture(),vec2(0,0));
 }
 
-void Teller::SceneModule::AddAgent(std::shared_ptr<AgentCore> _agent)
+void teller::SceneModule::AddAgent(std::shared_ptr<AgentCore> _agent)
 {
 	agents_.push_back(_agent);
 }
 
-void Teller::SceneModule::SetArea(ci::Area _dest)
+void teller::SceneModule::SetArea(ci::Area _dest)
 {
 	destRect = _dest;
 }

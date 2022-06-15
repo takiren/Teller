@@ -1,6 +1,6 @@
 #include "Episode.h"
 
-namespace Teller {
+namespace teller {
 
 	Episode::Episode(uint64_t _ID)
 	{

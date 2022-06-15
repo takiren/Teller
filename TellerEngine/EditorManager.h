@@ -2,6 +2,6 @@
 
 #include"Editor.h"
 
-namespace Teller {
+namespace teller {
 	
 }

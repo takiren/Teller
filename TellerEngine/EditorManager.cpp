@@ -1,4 +1,4 @@
 #include"EditorManager.h"
 
 
-using namespace Teller;
+using namespace teller;

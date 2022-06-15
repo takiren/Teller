@@ -2,7 +2,7 @@
 #include<memory>
 #include"Agent.h"
 
-namespace Teller {
+namespace teller {
 	class InGameUIBase :public Agent {
 	private:
 		Agent* Target();

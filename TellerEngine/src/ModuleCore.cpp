@@ -1,17 +1,17 @@
 #include"ModuleCore.h"
 
-using namespace Teller;
+using namespace teller;
 
-void Teller::ModuleCore::AddChildModule(std::shared_ptr<ModuleCore> sub_module)
+void teller::ModuleCore::AddChildModule(std::shared_ptr<ModuleCore> sub_module)
 {
 	children.push_back(sub_module);
 	sub_module->parent = shared_from_this();
 	sub_module->ptrTellerCore = this->ptrTellerCore;
 }
 
-void Teller::ModuleCore::Update(){};
+void teller::ModuleCore::Update(){};
 
-void Teller::ModuleCore::Tick(float& deltaTime) {
+void teller::ModuleCore::Tick(float& deltaTime) {
 
 	//1ÉtÉåÅ[ÉÄÇÃï`âÊÇ…Ç©Ç©Ç¡ÇΩéûä‘
 	deltaTime_ = deltaTime;
@@ -38,5 +38,5 @@ void Teller::ModuleCore::Tick(float& deltaTime) {
 	*/
 
 	if (!bUpdate) return;
-	Teller::ModuleCore::Update();
+	teller::ModuleCore::Update();
 }

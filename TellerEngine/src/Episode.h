@@ -9,7 +9,7 @@
 #include<sstream>
 #include<nlohmann/json.hpp>
 
-namespace Teller {
+namespace teller {
 	using json = nlohmann::json;
 	namespace fs = std::filesystem;
 

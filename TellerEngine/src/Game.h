@@ -12,7 +12,7 @@
 
 using json = nlohmann::json;
 
-namespace Teller {
+namespace teller {
 	class Sequence {
 	private:
 		json jsfile;

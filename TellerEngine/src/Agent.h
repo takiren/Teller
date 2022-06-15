@@ -10,7 +10,7 @@
 #include"Episode.h"
 #include"nlohmann/json.hpp"
 
-namespace Teller {
+namespace teller {
 	using namespace ci;
 	using namespace ci::app;
 	namespace fs = std::filesystem;
@@ -58,6 +58,15 @@ namespace Teller {
 		virtual void Tick();
 		virtual void Draw();
 		virtual void SetDeltaTime(float _deltaTime);
+
+		vec2 GetPosition()const { return position_; };
+		void SetPosition(vec2 _pos) { position_ = _pos; };
+
+		vec2 GetRotation()const { return rotation_; };
+		void SetRotation(vec2 _rot) { rotation_ = _rot; };
+
+		vec2 GetScale()const { return scale_; };
+		void SetScale(vec2 _scale) { scale_ = _scale; };
 	};
 
 	template<class... Args>
@@ -121,6 +130,7 @@ namespace Teller {
 		json j;
 	};
 
+
 	class CharacterSimple :public Agent<vec2, vec2, vec2, std::string> {
 	private:
 		std::unordered_map < std::string, std::unique_ptr<Sprite>> charSprites_;
@@ -149,6 +159,7 @@ namespace Teller {
 
 		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, std::string _key) override;
 	};
+
 
 	class Character :public Agent<vec2, vec2, vec2, CharacterAppearance> {
 	private:

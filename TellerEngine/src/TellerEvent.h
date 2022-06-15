@@ -6,7 +6,7 @@
 #include<map>
 #include"Core.h"
 
-namespace Teller {
+namespace teller {
 	template<class KEY,class DATA_TYPE>
 	class TMessageHandler {
 	protected:

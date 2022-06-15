@@ -8,7 +8,7 @@
 #include"Agent.h"
 #include"Episode.h"
 
-namespace Teller {
+namespace teller {
 	using namespace ci;
 
 	class AnimatorCore {
@@ -24,11 +24,15 @@ namespace Teller {
 	template<class... Args>
 	class Animator :public AnimatorCore {
 	protected:
+		//ベクトルを与える
 		//A letter "d" means diff
 		vec2 dpos_;
 		vec2 drot_;
 		vec2 dscale_;
+
+		//TODO:Delete this valiable.
 		std::weak_ptr<Agent<Args...>> targetAgent;
+
 		float deltaTime_;
 		using AnimatorTargetFunc = std::function<void(Args...)>;
 		AnimatorTargetFunc callback_;
@@ -38,12 +42,10 @@ namespace Teller {
 			deltaTime_(1),
 			dpos_(vec2(0)),
 			drot_(vec2(0)),
-			dscale_(1)
-		{};
+			dscale_(1) {};
 
 		Animator(const Animator&) = delete;
 		Animator& operator=(const Animator&) = delete;
-
 		Animator& operator=(Animator&&) = default;
 
 		void SetDeltaTime(float _deltaTime);
@@ -67,7 +69,11 @@ namespace Teller {
 	inline void Animator<Args...>::AttachToAgent(std::shared_ptr<Agent<Args...>> _agent)
 	{
 		targetAgent = _agent;
+		//TODO:なぜ _agent->CallBackListner(args...)を渡すとnullptrが返されるのかわからない
 		callback_ = [&](Args... args) {targetAgent.lock()->CallBackListener(args...); };
+
+		//これは動かない
+		//callback_ = [&](Args... args) {_agent->CallBackListener(args...); };
 	}
 
 	class Circular :public Animator<vec2, vec2, vec2> {
@@ -93,16 +99,24 @@ namespace Teller {
 		Timer timer_;
 		std::unique_ptr<CSVLoader> csvData;
 		int currentline;
+		std::string speaker_;
+		std::string text_;
 		int count_;
 		void Initialize();
 	public:
-		TextChanger() :Animator(), currentline(1), count_(0) { ; };
+		TextChanger() :
+			Animator(),
+			currentline(1),
+			count_(0),
+			speaker_(""),
+			text_("")
+		{};
+
 		void Update() override;
 		//次の行へ。
 		void Next();
-		void LoadCSV(std::string path) {
-			csvData = std::move(std::make_unique<CSVLoader>(path)); Initialize();
-		};
+
+		void SetText(std::string _speaker, std::string _text);
 	};
 
 

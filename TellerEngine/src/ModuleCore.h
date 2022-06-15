@@ -6,7 +6,7 @@
 #include<string>
 
 
-namespace Teller {
+namespace teller {
 	class TellerCore;
 
 	class ModuleCore :public std::enable_shared_from_this<ModuleCore>

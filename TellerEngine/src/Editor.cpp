@@ -7,18 +7,18 @@ using namespace ci::app;
 
 using ax::Widgets::IconType;
 
-void Teller::TopLevelMenu::Tick()
+void teller::TopLevelMenu::Tick()
 {
 	ImGui::Begin("Menu");
 	ImGui::End();
 }
 
-void Teller::TopLevelMenu::LoadFile(fs::path _path)
+void teller::TopLevelMenu::LoadFile(fs::path _path)
 {
 }
 
 
-void Teller::AssetViewer::Tick()
+void teller::AssetViewer::Tick()
 {
 	ImGui::Begin("AssetViewer");
 
@@ -39,7 +39,7 @@ void Teller::AssetViewer::Tick()
 
 		//キャラクターデータ表示
 		if (ImGui::BeginTabItem("Character visuals.")) {
-			std::vector<fs::path> entries = cppglob::glob(characterPath_/ fs::path("*.json"));
+			std::vector<fs::path> entries = cppglob::glob(characterPath_ / fs::path("*.json"));
 			for (auto& e : entries) {
 				ImGui::Selectable(e.filename().string().c_str(), targetFile == e);
 				if (ImGui::IsItemClicked())
@@ -65,28 +65,28 @@ void Teller::AssetViewer::Tick()
 	ImGui::End();
 }
 
-void Teller::Editor::Tick()
+void teller::Editor::Tick()
 {
 	TickInternal();
 }
 
-void Teller::Editor::TickInternal()
+void teller::Editor::TickInternal()
 {
 }
 
-void Teller::Editor::Update()
+void teller::Editor::Update()
 {
 }
 
-void Teller::Editor::Save()
+void teller::Editor::Save()
 {
 }
 
-void Teller::Editor::CallByParent()
+void teller::Editor::CallByParent()
 {
 }
 
-bool Teller::Editor::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size)
+bool teller::Editor::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size)
 {
 	ImGuiContext& g = *GImGui;
 	ImGuiWindow* window = g.CurrentWindow;
@@ -97,24 +97,24 @@ bool Teller::Editor::Splitter(bool split_vertically, float thickness, float* siz
 	return ImGui::SplitterBehavior(bb, id, split_vertically ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, min_size1, min_size2, 0.0f);
 }
 
-void Teller::EpisodeEditor::Initialize()
+void teller::EpisodeEditor::Initialize()
 {
 }
 
-void Teller::EpisodeEditor::CallByParent()
+void teller::EpisodeEditor::CallByParent()
 {
 }
 
-bool Teller::EpisodeEditor::CanAccept(fs::path _path)
+bool teller::EpisodeEditor::CanAccept(fs::path _path)
 {
 	return false;
 }
 
-void Teller::EpisodeEditor::LoadFile(fs::path _path)
+void teller::EpisodeEditor::LoadFile(fs::path _path)
 {
 }
 
-void Teller::EpisodeEditor::Tick()
+void teller::EpisodeEditor::Tick()
 {
 	namespace fs = std::filesystem;
 	/*
@@ -237,11 +237,11 @@ void Teller::EpisodeEditor::Tick()
 	ImGui::End();
 }
 
-void Teller::EpisodeEventEditor::Initialize()
+void teller::EpisodeEventEditor::Initialize()
 {
 }
 
-std::vector<std::string> Teller::EpisodeEventEditor::GetSpritesName(json _cjson)
+std::vector<std::string> teller::EpisodeEventEditor::GetSpritesName(json _cjson)
 {
 	auto vec = std::vector<std::string>();
 
@@ -252,11 +252,11 @@ std::vector<std::string> Teller::EpisodeEventEditor::GetSpritesName(json _cjson)
 	return vec;
 }
 
-void Teller::EpisodeEventEditor::LoadEpisodeEvent(json _j)
+void teller::EpisodeEventEditor::LoadEpisodeEvent(json _j)
 {
 }
 
-void Teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
+void teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
 {
 	EventPack::iterator it1;
 	EventPack::iterator it2;
@@ -270,7 +270,7 @@ void Teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
 }
 
 
-void Teller::EpisodeEventEditor::OpenAddNodePopup()
+void teller::EpisodeEventEditor::OpenAddNodePopup()
 {
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle)) {
 		DEBUG_PRINTF("Right clicked.");
@@ -278,7 +278,7 @@ void Teller::EpisodeEventEditor::OpenAddNodePopup()
 	}
 }
 
-void Teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
+void teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
 {
 	auto& io = ImGui::GetIO();
 	ImGui::BeginChild("EventEditor", ImVec2(panewidth, 0));
@@ -286,35 +286,35 @@ void Teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
 	ImGui::EndChild();
 }
 
-ImColor Teller::EpisodeEventEditor::GetIconColor(Socket_TYPE type)
+ImColor teller::EpisodeEventEditor::GetIconColor(Socket_TYPE type)
 {
 	switch (type)
 	{
-	case Teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
-	case Teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
-	case Teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
-	case Teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
-	case Teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
+	case teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
+	case teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
+	case teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
+	case teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
+	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
 	default:							return ImColor(0, 0, 0);
 	}
 }
 
-void Teller::EpisodeEventEditor::LoadFile(fs::path _path)
+void teller::EpisodeEventEditor::LoadFile(fs::path _path)
 {
 	LoadEpisode(_path);
 	LoadCharacterJson(_path);
 }
 
 
-void Teller::EpisodeEventEditor::Update()
+void teller::EpisodeEventEditor::Update()
 {
 }
 
-void Teller::EpisodeEventEditor::UpdateAssetList()
+void teller::EpisodeEventEditor::UpdateAssetList()
 {
 }
 
-void Teller::EpisodeEventEditor::Save()
+void teller::EpisodeEventEditor::Save()
 {
 	//エピソードイベントを保存するjsonに書き込み
 	json j;
@@ -326,13 +326,14 @@ void Teller::EpisodeEventEditor::Save()
 		for (auto& evnt : evntPack.second) {
 			std::string type_;
 
+			//FIXME:なぜかうまく保存されない。
 			//json["events"][行の指定][イベントを再生する順序]
 			//j["events"][evntPack.first][order]
 			switch (evnt->type_)
 			{
 			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:
 				type_ = "CHANGE_CHARACTER_APPERANCE";
-				j["events"][evntPack.first][order]["description"] = evnt->key_;
+				j["events"][std::to_string(evntPack.first)][std::to_string(order)]["description"] = evnt->key_;
 				break;
 
 			case EPISODE_EVENT_TYPE::CHARACTER_IN:
@@ -346,7 +347,7 @@ void Teller::EpisodeEventEditor::Save()
 			default:
 				break;
 			}
-			j["events"][evntPack.first][order]["type"] = type_;
+			j["events"][std::to_string(evntPack.first)][std::to_string(order)]["type"] = type_;
 
 			order++;
 		}
@@ -354,16 +355,16 @@ void Teller::EpisodeEventEditor::Save()
 	o << j;
 }
 
-bool Teller::EpisodeEventEditor::CanAccept(fs::path _path)
+bool teller::EpisodeEventEditor::CanAccept(fs::path _path)
 {
 	return false;
 }
 
-void Teller::EpisodeEventEditor::CallByParent() {
+void teller::EpisodeEventEditor::CallByParent() {
 
 }
 
-void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
+void teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
 {
 	episodeRef = std::make_unique<Episode>(_path);
 	jsonFilePath_ = _path;
@@ -383,7 +384,7 @@ void Teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
 }
 
 
-void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
+void teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 {
 	//登場人物誰がいるか検索 重複なし
 	std::set<std::string> cset;
@@ -418,12 +419,12 @@ void Teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 
 }
 
-void Teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key)
+void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key)
 {
 	eventPackMap[_line].push_back(std::make_unique<EpisodeEvent>(_type, _line, _target, _key));
 }
 
-void Teller::EpisodeEventEditor::Tick()
+void teller::EpisodeEventEditor::Tick()
 {
 	if (!bEnabled) return;
 
@@ -496,9 +497,15 @@ void Teller::EpisodeEventEditor::Tick()
 		}
 
 		if (ImGui::BeginTabItem("CharacterInOut")) {
+			//キャラクター登場イベント
 			if (ImGui::Selectable("Character IN"))
 				if (characterName != "")
 					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, currentLine, "", characterName);
+
+			//キャラクター退場イベント
+			if (ImGui::Selectable("Character OUT"))
+				if (characterName != "")
+					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_OUT, currentLine, "", characterName);
 
 			ImGui::EndTabItem();
 		}
@@ -692,7 +699,7 @@ void Teller::EpisodeEventEditor::Tick()
 	ImGui::End();
 }
 
-void Teller::NodeEditorBase::Tick()
+void teller::NodeEditorBase::Tick()
 {
 	ImGui::Begin(name_.c_str());
 
@@ -702,11 +709,11 @@ void Teller::NodeEditorBase::Tick()
 	ImGui::End();
 }
 
-void Teller::NodeEditorBase::LoadFile(fs::path _path)
+void teller::NodeEditorBase::LoadFile(fs::path _path)
 {
 }
 
-void Teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);
@@ -714,10 +721,10 @@ void Teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> 
 
 	switch (sckt->type_)
 	{
-	case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-	case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-	case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-	case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	case  teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
 	default:
 		return;
 	}
@@ -725,11 +732,11 @@ void Teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> 
 	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
 };
 
-void Teller::SequenceEditor::LoadFile(fs::path _path)
+void teller::SequenceEditor::LoadFile(fs::path _path)
 {
 }
 
-void Teller::SequenceEditor::UpdateEpisodeList()
+void teller::SequenceEditor::UpdateEpisodeList()
 {
 	auto eplist = ptrEPCM.lock()->GetKeys();
 	for (auto& key : eplist) {
@@ -737,7 +744,7 @@ void Teller::SequenceEditor::UpdateEpisodeList()
 	}
 }
 
-void Teller::SequenceEditor::Tick()
+void teller::SequenceEditor::Tick()
 {
 	ImGui::Begin(name_.c_str());
 	ImGui::BeginChild("Episode list.");
@@ -809,16 +816,16 @@ void Teller::SequenceEditor::Tick()
 	ImGui::End();
 }
 
-void Teller::SequenceEditor::Initialize()
+void teller::SequenceEditor::Initialize()
 {
 	ptrEPCM = parent.lock()->GetEpisodeContentManager();
 }
 
-void Teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _episode)
+void teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _episode)
 {
 }
 
-void Teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);
@@ -826,48 +833,48 @@ void Teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt
 
 	switch (sckt->type_)
 	{
-	case  Teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-	case Teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-	case Teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-	case Teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	case  teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
 	default:
 		return;
 	}
 
 	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
 };
-ImColor Teller::SequenceEditor::GetIconColor(Socket_TYPE type)
+ImColor teller::SequenceEditor::GetIconColor(Socket_TYPE type)
 {
 	switch (type)
 	{
-	case Teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
-	case Teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
-	case Teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
-	case Teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
-	case Teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
+	case teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
+	case teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
+	case teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
+	case teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
+	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
 	default:							return ImColor(0, 0, 0);
 	}
 }
 
-void Teller::CharacterEditor::Initialize(fs::path _path)
+void teller::CharacterEditor::Initialize(fs::path _path)
 {
 
 }
 
-std::filesystem::path Teller::CharacterEditor::OpenFile()
+std::filesystem::path teller::CharacterEditor::OpenFile()
 {
 	return getOpenFilePath("");
 }
 
-void Teller::CharacterEditor::Tick()
+void teller::CharacterEditor::Tick()
 {
 }
 
-void Teller::CharacterEditor::LoadFile(fs::path _path)
+void teller::CharacterEditor::LoadFile(fs::path _path)
 {
 }
 
-void Teller::AssetViewer::Initialize()
+void teller::AssetViewer::Initialize()
 {
 	episodePath_ = fs::current_path();
 	episodePath_ = episodePath_.parent_path();
@@ -882,28 +889,28 @@ void Teller::AssetViewer::Initialize()
 
 }
 
-bool Teller::AssetViewer::CanAccept(fs::path _path)
+bool teller::AssetViewer::CanAccept(fs::path _path)
 {
 	return false;
 }
 
-void Teller::AssetViewer::CallByParent()
+void teller::AssetViewer::CallByParent()
 {
 }
 
-void Teller::AssetViewer::LoadFile(fs::path _path)
+void teller::AssetViewer::LoadFile(fs::path _path)
 {
 }
 
-void Teller::EditorManager::EditorCallBack(std::string _filename)
+void teller::EditorManager::EditorCallBack(std::string _filename)
 {
 }
 
-void Teller::EditorManager::EditorCallBack(std::unique_ptr<Episode> _episode)
+void teller::EditorManager::EditorCallBack(std::unique_ptr<Episode> _episode)
 {
 }
 
-std::string Teller::EpisodeEditor::SingleLine(std::vector<std::string > _vector) {
+std::string teller::EpisodeEditor::SingleLine(std::vector<std::string > _vector) {
 	auto s = std::string("");
 	for (auto& e : _vector)s += e;
 	return s;

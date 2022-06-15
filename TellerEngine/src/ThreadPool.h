@@ -8,7 +8,7 @@
 #include<functional>
 #include<future>
 
-namespace Teller {
+namespace teller {
 	//スレッドプール
 	// 
 	//参考 : https://contentsviewer.work/Master/Cpp/how-to-implement-a-thread-pool/article#SectionID_7
@@ -68,7 +68,7 @@ namespace Teller {
 	};
 
 	template<typename F>
-	void Teller::ThreadPool::push_task(const F& task) {
+	void teller::ThreadPool::push_task(const F& task) {
 		{
 			const std::lock_guard<std::mutex> lock(tasks_mutex);
 

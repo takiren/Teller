@@ -1,23 +1,23 @@
 #include "Game.h"
 
-using namespace Teller;
+using namespace teller;
 
-void Teller::GameModule::PushScene(std::shared_ptr<SceneModule> _scene)
+void teller::GameModule::PushScene(std::shared_ptr<SceneModule> _scene)
 {
 	mScenes_.push(_scene);
 }
 
-void Teller::GameModule::Tick(float& deltaTime)
+void teller::GameModule::Tick(float& deltaTime)
 {
 	mScenes_.front()->Tick(deltaTime);
 }
 
-void Teller::GameModule::SetEnable(bool enable)
+void teller::GameModule::SetEnable(bool enable)
 {
 	bEnabled = enable;
 }
 
-Teller::Sequence::Sequence(std::string path)
+teller::Sequence::Sequence(std::string path)
 {
 	std::ifstream reading(path);
 	reading >> jsfile;

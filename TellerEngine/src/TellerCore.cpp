@@ -1,6 +1,6 @@
 #include"TellerCore.h"
 
-namespace Teller {
+namespace teller {
 	void TellerCore::Tick()
 	{
 		auto now = clock();

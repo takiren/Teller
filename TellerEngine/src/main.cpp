@@ -25,7 +25,7 @@
 
 using namespace ci;
 using namespace ci::app;
-using namespace Teller;
+using namespace teller;
 namespace fs = std::filesystem;
 // We'll create a new Cinder Application by deriving from the App class
 
@@ -98,27 +98,21 @@ void TellerEngineMain::setup()
 	mGame->PushScene(mScene);
 	mScene->AddAgent(mAgent);
 
+	//TODO:Delete
 	auto animSeq = std::make_unique<AnimationSequencer>("args");
 
-	auto mAnimator = std::make_unique<Circular>();
 
+	auto mAnimator = std::make_unique<Circular>();
 	auto textAgent = std::make_shared<MainTextArea>();
 	mScene->AddAgent(textAgent);
-	auto tChanger = std::make_unique<TextChanger>();
 	auto rpt = std::make_unique<Repeat>();
 
 	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
 	auto kap = std::make_shared<Kappa>("kappa.png");
 	rpt->AttachToAgent(kap);
 
-	CMCSV->LoadContent("../data/story.csv");
-	CMCSV->LoadContent("../data/episode.csv");
-
-	tChanger->AttachToAgent(textAgent);
-	tChanger->LoadCSV("../data/story.csv");
 	mAnimator->AttachToAgent(mAgent);
 	animSeq->AddAnimator(std::move(mAnimator));
-	animSeq->AddAnimator(std::move(tChanger));
 	animSeq->AddAnimator(std::move(rpt));
 	mCore->AddAnimSequencer(std::move(animSeq));
 	mScene->AddAgent(kap);

@@ -2,7 +2,7 @@
 #include<vector>
 #include<string>
 
-namespace Teller {
+namespace teller {
 	enum class TEVENT_MESSAGE
 	{
 		CONTENTS_UPDATE,

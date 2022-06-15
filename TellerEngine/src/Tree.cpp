@@ -3,7 +3,7 @@
 //NodeÀ‘•
 //SetParent(Node)‚Í’ñ‹Ÿ‚µ‚È‚¢BAddChild‚Å‚·‚×‚Äs‚Á‚Ä‚à‚ç‚¤B
 
-namespace Teller {
+namespace teller {
 
 	void NodeBase::AddSocket(int socketID, Socket_TYPE socketType)
 	{
@@ -68,14 +68,14 @@ namespace Teller {
 	{
 		switch (_type)
 		{
-		case Teller::Node_TYPE::BLANK:
+		case teller::Node_TYPE::BLANK:
 			return std::make_unique<TNodeBranch>(vec2(100, 100));
 			break;
-		case Teller::Node_TYPE::EPISODE:
+		case teller::Node_TYPE::EPISODE:
 			break;
-		case Teller::Node_TYPE::EVENT:
+		case teller::Node_TYPE::EVENT:
 			break;
-		case Teller::Node_TYPE::BRANCH:
+		case teller::Node_TYPE::BRANCH:
 			return std::make_unique<TNodeBranch>(vec2(100, 100));
 			break;
 		default:

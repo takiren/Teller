@@ -9,7 +9,7 @@
 #include"imgui_node_editor.h"
 #include"Episode.h"
 
-namespace Teller {
+namespace teller {
 	using namespace ci;
 	namespace ed = ax::NodeEditor;
 	enum class Node_TYPE {

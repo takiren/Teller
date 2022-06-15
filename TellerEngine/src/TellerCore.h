@@ -31,7 +31,7 @@
 # define DEBUG_PRINTF(fmt, ...)
 #endif
 
-namespace Teller {
+namespace teller {
 	//前方宣言
 	class Editor;
 	class ModuleCore;
@@ -69,7 +69,9 @@ namespace Teller {
 		std::unordered_map<fs::path, std::unique_ptr<Editor>> editorsRef;
 
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
+		//初期化処理
 		void CoreInitialize();
+
 		void UpdateDeltaTime();
 		int hConsole;
 
@@ -110,7 +112,10 @@ namespace Teller {
 		//毎チック行う処理。
 		void Tick();
 
+		//こいつらはもういらん。
 		//必ずweak_ptrで受け取ること。
+		//TODO:Delete these valiables.
+		//depricated
 		const std::shared_ptr<CSVManager>& GetCSVContentsManager() const { return CSVContentManagerRef; };
 		const std::shared_ptr<SpriteManager>& GetSpriteContentManager() const { return spriteContentManagerRef; };
 		const std::shared_ptr<EpisodeManager>& GetEpisodeContentManager() const { return episodeContentManagerRef; };
@@ -124,20 +129,25 @@ namespace Teller {
 		//エディターの追加。ファイルを編集するエディターの場合は対応する拡張子を引数に与える。
 		void AppendEditor(fs::path _extension, std::unique_ptr<Editor> editor);
 		void AppendEditor(std::unique_ptr<Editor> editor);
-			
 
+		//ファイルをロード
 		void LoadFileToEditor(fs::path _file);
 
 		float GetDeltaTime()const { return deltaTime_; };
-		//推奨
+		//TODO:Delete
+		//depricated
 		void AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor);
 
+		//これもいらん
 		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
 
+		//TODO:Delete
 		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);
 
+		//TODO:Delete
 		void LoadSprite(std::string path);
 
+		//TODO:Delete
 		void AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode);
 	};
 }

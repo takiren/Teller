@@ -5,7 +5,7 @@
 
 #include<memory>
 #include<string>
-namespace Teller {
+namespace teller {
 	using namespace ci;
 	using namespace ci::app;
 	using namespace std;

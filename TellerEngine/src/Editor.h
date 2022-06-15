@@ -37,7 +37,7 @@
 #include"Tree.h"
 #include"NodeLink.h"
 
-namespace Teller {
+namespace teller {
 	class TellerCore;
 
 	using CSVManager = ContentsManager<CSVLoader>;
@@ -241,6 +241,8 @@ namespace Teller {
 			nodeList_.push_back("Character In Out");
 		}
 		~EpisodeEventEditor() = default;
+
+		//TODO:イベントを外部から登録できるようにしたい
 
 		void Tick() override;
 		void Update() override;
