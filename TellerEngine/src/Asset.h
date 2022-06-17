@@ -5,10 +5,13 @@
 
 #include<memory>
 #include<string>
+#include<filesystem>
 namespace teller {
 	using namespace ci;
 	using namespace ci::app;
 	using namespace std;
+	namespace fs = std::filesystem;
+
 	enum class ASSET_TYPE
 	{
 		NONE,
@@ -26,16 +29,16 @@ namespace teller {
 
 	class Sprite :public Asset {
 	protected:
-		std::string filepath_;
+		fs::path filepath_;
 	public:
 		std::string name_;
 		uint64_t ID_;
 		gl::TextureRef texture_;
 		Sprite() = delete;
-		Sprite(std::string path) :
+		Sprite(fs::path _path) :
 			Asset(ASSET_TYPE::Image),
-			filepath_(path),
-			texture_(gl::Texture::create(loadImage(path))),
+			filepath_(_path),
+			texture_(gl::Texture::create(loadImage(_path))),
 			ID_((uint64_t)this)
 		{};
 	};

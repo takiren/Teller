@@ -280,9 +280,9 @@ void teller::EpisodeEventEditor::OpenAddNodePopup()
 
 void teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
 {
+	//TODO:こいつはなんなんだ。
 	auto& io = ImGui::GetIO();
 	ImGui::BeginChild("EventEditor", ImVec2(panewidth, 0));
-
 	ImGui::EndChild();
 }
 
@@ -392,6 +392,7 @@ void teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 		if (e.second.at(0) != "")
 			cset.insert(e.second.at(0));
 	}
+
 	for (auto& e : cset)std::cout << e << std::endl;
 
 	//コピーでいい
@@ -412,11 +413,16 @@ void teller::EpisodeEventEditor::LoadCharacterJson(fs::path _path)
 		}
 
 		i >> j;
-		std::cout << "Json Loaded :" << j["name"].get<std::string>() << std::endl;
 
-		jsonCharacterMap[j["name"].get<std::string>()] = j;
+		auto nameInJson = j["name"].get<std::string>();
+
+		std::cout << "Json Loaded :" << nameInJson << std::endl;
+		jsonCharacterMap[nameInJson] = j;
+
+		previewCharacterMap[nameInJson] = std::make_unique<CharacterSimple>(vec2(0), vec2(0), vec2(0), e, nameInJson);
+		previewAnimationMap[nameInJson] = std::make_unique<CharacterAppearanceChanger>();
+		previewAnimationMap[nameInJson]->AttachToAgent(previewCharacterMap[nameInJson]);
 	}
-
 }
 
 void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key)
@@ -429,7 +435,7 @@ void teller::EpisodeEventEditor::Tick()
 	if (!bEnabled) return;
 
 	//TODO:キャラクター見た目変更用エディターとノードエディタを切り出し。
-	//キャラクターの画像切替
+	//開始
 	ImGui::Begin("Character appearance", 0, ImGuiWindowFlags_MenuBar);
 
 	if (ImGui::BeginMenuBar()) {
@@ -443,25 +449,31 @@ void teller::EpisodeEventEditor::Tick()
 
 		ImGui::EndMenuBar();
 	}
-	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
 
+	//TODO:関数へ切り出し
+	//エピソードファイルのテキスト表示
+	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
 	//episodeRef!=nullptrのときテキスト表示。
 	if (episodeRef) {
 		int i = 0;
 		for (auto& e : episodeRef->data) {
 			auto str = e.second.at(0) + e.second.at(1);
-			if (ImGui::Selectable(str.c_str(), currentLine == i))
+			if (ImGui::Selectable(str.c_str(), currentLine == i)) {
 				currentLine = i;
+				previewTextChanger->SetText(e.second.at(0), e.second.at(1));
+			}
 			i++;
 		}
 	}
 
 	ImGui::EndChild();
+
 	ImGui::SameLine();
 
 	ImGui::BeginChild("Event sprite", ImVec2(300, 0));
 
-
+	//TODO:関数へ切り出し
+	//キャラクターの画像切替
 	if (episodeRef) {
 		//エピソードファイルの1列目が話者
 		auto& characterName = episodeRef->data[currentLine].at(0);
@@ -481,13 +493,16 @@ void teller::EpisodeEventEditor::Tick()
 					ImGui::Selectable(e.c_str(), characterAppearanceNum == i);
 
 					//右クリックでプレビュー
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
 						characterAppearanceNum = i;
+						previewAnimationMap[characterName]->Change(e);
+					}
 
 					//左クリックで確定
 					if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
 						characterAppearanceNum = i;
-						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, "", e);
+						previewAnimationMap[characterName]->Change(e);
+						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, characterName, e);
 					}
 
 					i++;
@@ -497,6 +512,16 @@ void teller::EpisodeEventEditor::Tick()
 		}
 
 		if (ImGui::BeginTabItem("CharacterInOut")) {
+
+			if (ImGui::BeginCombo("##CharacterCombo", "Choose a character.", ImGuiComboFlags_HeightRegular)) {
+
+				//キャラクター一覧(jsonが読み込めたやつだけ表示)
+				for (auto& e : previewCharacterMap)
+					ImGui::Selectable(e.first.c_str());
+
+				ImGui::EndCombo();
+			}
+
 			//キャラクター登場イベント
 			if (ImGui::Selectable("Character IN"))
 				if (characterName != "")
@@ -515,7 +540,11 @@ void teller::EpisodeEventEditor::Tick()
 
 	ImGui::EndChild();
 
+	ShowPreview();
+
 	ImGui::SameLine();
+
+	//TODO:関数へ切り出し
 	ImGui::BeginChild("Events List");
 	ImGui::Text("EventPack");
 
@@ -730,7 +759,7 @@ void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> 
 	}
 
 	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
-};
+}
 
 void teller::SequenceEditor::LoadFile(fs::path _path)
 {
@@ -914,4 +943,15 @@ std::string teller::EpisodeEditor::SingleLine(std::vector<std::string > _vector)
 	auto s = std::string("");
 	for (auto& e : _vector)s += e;
 	return s;
+}
+
+void teller::EpisodeEventEditor::ShowPreview()
+{
+	if (previewCharacterMap.size() != 0) {
+		for (auto& e : previewCharacterMap) {
+			e.second->Tick();
+		}
+	}
+
+	previewText->Tick();
 }

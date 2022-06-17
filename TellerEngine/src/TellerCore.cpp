@@ -29,7 +29,6 @@ namespace teller {
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)
 	{
-
 	}
 
 	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)

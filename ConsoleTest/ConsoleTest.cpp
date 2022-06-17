@@ -61,6 +61,8 @@ std::vector<std::string> split(std::string& input, char delimiter)
 	}
 	return result;
 }
+
+
 int main()
 {
 	SetConsoleOutputCP(CP_UTF8);
@@ -102,8 +104,6 @@ int main()
 		std::vector<std::string> strvec = split(fstr, ',');
 		for (auto& e : strvec)std::cout << e << std::endl;
 	}
-
-	
 
 }
 

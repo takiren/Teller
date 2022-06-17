@@ -88,27 +88,48 @@ void teller::CharacterItem::Draw()
 {
 }
 
-void teller::CharacterSimple::Initialize(fs::path _path)
+void teller::CharacterSimple::Initialize(fs::path _path, std::string _charactername)
 {
+	//jsonを読み込んでスプライトを生成
 	json j;
-	std::ifstream jsonEpisode(_path.string(), std::ios::in);
-	jsonEpisode >> j;
-	name_ = j["name"];
-	for (auto& e : j["file"].items()) {
+	//std::vector<fs::path> entries = cppglob::glob(_path / fs::path("*/*.json"));
 
+	fs::path ipath = _path;
+	//json検索
+	std::ifstream i(ipath);
+	if (i) i >> j;
+	else {
+		std::cout << "File not found : " << ipath.string() << std::endl;
+		return;
 	}
+	auto nameInJson = j["name"].get<std::string>();
+
+	if (nameInJson == _charactername) {
+		for (auto je : j["file"].items()) {
+			auto imgpath = _path.remove_filename();
+
+			imgpath /= fs::path(je.value().get<std::string>());
+			LoadSprite(imgpath);
+		}
+	}
+	else {
+		std::cout << "Failed" << std::endl;
+	}
+
+}
+
+void teller::CharacterSimple::LoadSprite(fs::path _path)
+{
+	std::cout << "Trying to load : " << _path.string() << std::endl;
+
+	charSprites_[_path.filename().string()] = std::make_unique<Sprite>(_path);
+	if (charSprites_.size() == 1) currentSprite = _path.filename().string();
 }
 
 void teller::CharacterSimple::Tick()
 {
-	Rectf destRect = Rectf(charSprites_[currentSprite]->texture_ ->getBounds() + position_);
+	Rectf destRect = Rectf(charSprites_[currentSprite]->texture_->getBounds() + position_);
 	gl::draw(charSprites_[currentSprite]->texture_, destRect);
-}
-
-
-void teller::CharacterSimple::AddCharacterSprite(std::string _key, std::unique_ptr<Sprite> _sprite)
-{
-	charSprites_[_key] = std::move(_sprite);
 }
 
 std::vector<std::string> teller::CharacterSimple::GetKeys()
@@ -124,4 +145,8 @@ std::vector<std::string> teller::CharacterSimple::GetKeys()
 void teller::CharacterSimple::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, std::string _key)
 {
 	SetCurrentSprite(_key);
+}
+
+void teller::BackGroundImage::Tick()
+{
 }

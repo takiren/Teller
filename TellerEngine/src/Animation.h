@@ -44,6 +44,14 @@ namespace teller {
 			drot_(vec2(0)),
 			dscale_(1) {};
 
+		Animator(std::shared_ptr<Agent<Args...>> _agent) :
+			deltaTime_(1),
+			dpos_(vec2(0)),
+			drot_(vec2(0)),
+			dscale_(vec2(0)),
+			callback_([&_agent](Args... args) {_agent.get()->CallBackListener(args...); })
+		{};
+
 		Animator(const Animator&) = delete;
 		Animator& operator=(const Animator&) = delete;
 		Animator& operator=(Animator&&) = default;
@@ -70,6 +78,7 @@ namespace teller {
 	{
 		targetAgent = _agent;
 		//TODO:なぜ _agent->CallBackListner(args...)を渡すとnullptrが返されるのかわからない
+		//多分キャプチャする前に寿命が切れてるからだけど要検証。
 		callback_ = [&](Args... args) {targetAgent.lock()->CallBackListener(args...); };
 
 		//これは動かない
@@ -120,12 +129,11 @@ namespace teller {
 	};
 
 
-	class CharacterAppearanceChanger :public Animator<std::string> {
+	class CharacterAppearanceChanger :public Animator<vec2,vec2,vec2,std::string> {
 	private:
-
 	public:
 		CharacterAppearanceChanger() :Animator() {};
-		void Change(std::string _key) { callback_(_key); };
+		void Change(std::string _key) { callback_(vec2(0), vec2(0), vec2(0),_key); };
 	};
 
 	class CharacterAnimator :public Animator<vec2, vec2, vec2, std::string> {

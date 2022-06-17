@@ -101,14 +101,13 @@ void TellerEngineMain::setup()
 	//TODO:Delete
 	auto animSeq = std::make_unique<AnimationSequencer>("args");
 
-
 	auto mAnimator = std::make_unique<Circular>();
 	auto textAgent = std::make_shared<MainTextArea>();
 	mScene->AddAgent(textAgent);
 	auto rpt = std::make_unique<Repeat>();
 
 	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
-	auto kap = std::make_shared<Kappa>("kappa.png");
+	auto kap = std::make_shared<Kappa>(fs::current_path()/ fs::path("kappa.png"));
 	rpt->AttachToAgent(kap);
 
 	mAnimator->AttachToAgent(mAgent);

@@ -9,6 +9,7 @@
 
 namespace teller {
 	using namespace ci;
+
 	class SceneModule : public ModuleCore
 	{
 	private:

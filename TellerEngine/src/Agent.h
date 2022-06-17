@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<filesystem>
+#include<cppglob/glob.hpp>
 #include"cinder/Cinder.h"
 #include "cinder/app/App.h"
 #include"cinder/gl/gl.h"
@@ -100,6 +101,8 @@ namespace teller {
 
 		virtual void CallBackListener(Args... args);
 
+		std::string GetName()const { return name_; };
+
 		//virtual void AddAnimator(int key,std::shared_ptr<Animator> _animator);
 	};
 
@@ -135,27 +138,26 @@ namespace teller {
 	private:
 		std::unordered_map < std::string, std::unique_ptr<Sprite>> charSprites_;
 		std::string currentSprite;
-		std::string name_;
 		std::string rubi_;
-		void Initialize(fs::path _path);
+		void Initialize(fs::path _path, std::string _charactername);
+
+		void LoadSprite(fs::path _path);
+		void SetCurrentSprite(std::string _key) { currentSprite = _key; };
 	public:
 		CharacterSimple() :
 			Agent(),
 			currentSprite("")
 		{};
-		CharacterSimple(vec2 _position, vec2 _scale, vec2 _rotation,fs::path _path) :
-			Agent(_position, _scale, _rotation),
+
+		CharacterSimple(vec2 _position, vec2 _scale, vec2 _rotation, fs::path _path, std::string _charactername) :
+			Agent(_charactername, _position, _scale, _rotation),
 			currentSprite("")
 		{
-			Initialize(_path);
+			Initialize(_path, _charactername);
 		};
 
 		void Tick() override;
-		void AddCharacterSprite(std::string _key, std::unique_ptr<Sprite> _sprite);
-
 		std::vector<std::string> GetKeys();
-
-		void SetCurrentSprite(std::string _key) { currentSprite = _key; };
 
 		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, std::string _key) override;
 	};
@@ -186,8 +188,8 @@ namespace teller {
 		std::unique_ptr<Sprite> sprite_;
 	public:
 		Kappa() = delete;
-		Kappa(std::string path) :
-			sprite_(std::make_unique<Sprite>(path))
+		Kappa(fs::path _path) :
+			sprite_(std::make_unique<Sprite>(_path))
 		{
 			position_ = vec2(700, 300);
 		};
@@ -212,6 +214,15 @@ namespace teller {
 		void Tick() override;
 
 		void CallBackListener(std::string _speaker, std::string _text);
+	};
+
+	class BackGroundImage :public Agent<> {
+	private:
+		std::unordered_map<std::string, std::unique_ptr<Sprite>> backGroundImagesMap;
+	public:
+		BackGroundImage() :Agent(){};
+		~BackGroundImage() = default;
+		void Tick() override;
 	};
 
 

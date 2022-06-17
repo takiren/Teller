@@ -1,4 +1,4 @@
-@startuml Stack
+@startuml architecture
 
 skinparam {
     monochrome true
@@ -12,6 +12,7 @@ class GameModule{
     +void Tick() override
     +void Update() override
 }
+
 class SceneModule{
     +void Tick() override
     +void Update() override
@@ -25,24 +26,38 @@ class Editor{
     +void Update() override
 }
 
+class EpisodeEditor{
+}
+
+
+class EpisodeEventEditor{
+}
+class AssetViewer
+
 class CSVLoader{
 }
 
 class Episode{
 }
 
-class AnimationSequencer{}
 class Animation{}
 
 
 TellerCore *-- GameModule
-TellerCore *-- Editor
 GameModule *-- SceneModule
 SceneModule *-- Agent
-Agent - Episode
-Episode - CSVLoader
 
-AnimationSequencer *-- Animation
 Animation -> Agent :callback
-TellerCore *-- AnimationSequencer
+Editor <|-- EpisodeEditor
+Editor <|-- EpisodeEventEditor
+Editor <|-- AssetViewer
+
+EpisodeEditor *-- CSVLoader
+EpisodeEventEditor *-- Episode
+
+EpisodeEditor -->Episode
+
+TellerCore *--Editor
+
+
 @enduml

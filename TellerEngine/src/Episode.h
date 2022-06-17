@@ -4,10 +4,15 @@
 #include<string>
 #include<filesystem>
 #include<map>
+#include<iostream>
+#include<stdio.h>
 #include<istream>
 #include<fstream>
 #include<sstream>
 #include<nlohmann/json.hpp>
+#include<cinder/Cinder.h>
+#include<cinder/gl/gl.h>
+#include"utility.h"
 
 namespace teller {
 	using json = nlohmann::json;
@@ -143,6 +148,55 @@ namespace teller {
 		void NextEpisode();
 	};
 
+	enum TDataType
+	{
+		DataInt,
+		DataVec2,
+		DataFloat,
+		DataString
+	};
+
+	//Event用のデータ
+	using TEData = std::string;
+
+	class EventDataCore {
+	protected:
+		TDataType dataType_;
+		TEData data_;
+
+	public:
+		EventDataCore(TDataType _type, TEData _data) :
+			dataType_(_type),
+			data_(_data)
+		{};
+		virtual ~EventDataCore() = default;
+
+		template<typename T>
+		inline const T GetData()const
+		{
+			switch (dataType_)
+			{
+			case teller::DataInt:
+				return std::stoi(data_);
+
+			case teller::DataVec2:
+				auto d = Utility::split(data_, ',');
+				return ci::vec2(std::stof(d.at(0)),std::stof(d.at(1)));
+
+			case teller::DataFloat:
+				auto d = Utility::split(data_, ',');
+				return std::stof(d.at(0));
+
+			case teller::DataString:
+				return data_;
+
+			default:
+				std::cout << "Data error." << std::endl;
+				break;
+			}
+		}
+	};
+
 	class EpisodeEvent {
 	public:
 		EPISODE_EVENT_TYPE type_;
@@ -169,6 +223,19 @@ namespace teller {
 			key_(_key),
 			ID_(0)
 		{};
+	};
+
+	class EpisodeEventIn :public EpisodeEvent {
+	private:
+
+	public:
+		EpisodeEventIn(std::string _target, std::string _key) :
+			EpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, 0, _key)
+		{};
+
+		~EpisodeEventIn() = default;
+
+		std::vector<std::string> GetStructure();
 	};
 
 	class EpisodeEventManager {

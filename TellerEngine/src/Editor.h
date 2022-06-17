@@ -35,6 +35,7 @@
 #include"Episode.h"
 #include"TellerEvent.h"
 #include"Tree.h"
+#include"Animation.h"
 #include"NodeLink.h"
 
 namespace teller {
@@ -199,6 +200,7 @@ namespace teller {
 		std::unordered_map<std::string, fs::path> characterPathMap;
 
 		using EventPack = std::vector<std::unique_ptr<EpisodeEvent>>;
+
 		std::map<int, EventPack> eventPackMap;
 
 		fs::path jsonFilePath_;
@@ -208,9 +210,16 @@ namespace teller {
 		void Initialize();
 		void LoadEpisode(fs::path _path);
 		void LoadCharacterJson(fs::path _path);
+
+		//TODO:実装しろ
 		void LoadEpisodeEvent(json _j);
 
+		//プレビュー用
 		void ShowPreview();
+		std::unordered_map<std::string, std::shared_ptr<CharacterSimple>> previewCharacterMap;
+		std::unordered_map<std::string, std::unique_ptr<CharacterAppearanceChanger>> previewAnimationMap;
+		std::shared_ptr<MainTextArea> previewText;
+		std::unique_ptr<TextChanger> previewTextChanger;
 
 		//Character.jsonのfile情報を取得
 		std::vector<std::string> GetSpritesName(json _cjson);
@@ -229,7 +238,9 @@ namespace teller {
 			s_PinIconSize(24),
 			characterAppearanceNum(0),
 			eventPackNum(0),
-			bShowSprite(true)
+			bShowSprite(true),
+			previewText(std::make_unique<MainTextArea>()),
+			previewTextChanger(std::make_unique<TextChanger>())
 		{
 			//ノード用
 			nodeList_.push_back("Branch.");
@@ -239,12 +250,13 @@ namespace teller {
 			nodeList_.push_back("Event.");
 			nodeList_.push_back("Comment");
 			nodeList_.push_back("Character In Out");
+			
+			previewTextChanger->AttachToAgent(previewText);
 		}
 		~EpisodeEventEditor() = default;
 
 		//TODO:イベントを外部から登録できるようにしたい
-
-		void Tick() override;
+		void Tick()override;
 		void Update() override;
 
 		void CallByParent() override;
@@ -266,8 +278,8 @@ namespace teller {
 	public:
 		NodeEditorBase() = delete;
 		NodeEditorBase(std::string _name) : Editor("Node Editor Base") {};
-		virtual void Tick();
 		void LoadFile(fs::path _path) override;
+		void Tick() override;
 	};
 
 

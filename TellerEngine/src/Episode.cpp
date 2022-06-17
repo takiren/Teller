@@ -140,4 +140,9 @@ namespace teller {
 	{
 	}
 
+	std::vector<std::string> EpisodeEventIn::GetStructure()
+	{
+		return std::vector<std::string>();
+	}
+
 }
