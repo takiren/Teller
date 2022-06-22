@@ -632,8 +632,8 @@ void teller::EpisodeEventEditor::Tick()
 				if (ed::QueryNewLink(&startPinId, &endPinId)) {
 				}
 
-				ed::EndCreate();
 			}
+			ed::EndCreate();
 		}
 	}
 
