@@ -11,6 +11,7 @@
 
 #include<cppglob/glob.hpp>
 #include<json.hpp>
+#include<uuids.h>
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
@@ -98,12 +99,11 @@ int main()
 
 	std::ifstream fp(entries.at(0));
 
-	std::string fstr;
-	while (std::getline(fp,fstr	))
-	{
-		std::vector<std::string> strvec = split(fstr, ',');
-		for (auto& e : strvec)std::cout << e << std::endl;
-	}
+	
+	uuid_t uid;
+	UuidCreate(&uid);
+	std::cout << uid.Data1 << std::endl;
+
 
 }
 

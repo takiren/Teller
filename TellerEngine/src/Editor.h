@@ -38,6 +38,7 @@
 #include"Animation.h"
 #include"NodeLink.h"
 
+
 namespace teller {
 	class TellerCore;
 
@@ -226,6 +227,15 @@ namespace teller {
 
 		bool bShowSprite;
 
+		std::string targetCharacter = "";
+
+		bool bCreatingNewNode;
+
+		void DrawLinks();
+
+		std::shared_ptr<TSocketCore> GetSocketsRef(uint64_t _id);
+
+		void UpdateAssetList();
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
@@ -240,7 +250,8 @@ namespace teller {
 			eventPackNum(0),
 			bShowSprite(true),
 			previewText(std::make_unique<MainTextArea>()),
-			previewTextChanger(std::make_unique<TextChanger>())
+			previewTextChanger(std::make_unique<TextChanger>()),
+			bCreatingNewNode(false)
 		{
 			//ノード用
 			nodeList_.push_back("Branch.");
@@ -250,37 +261,56 @@ namespace teller {
 			nodeList_.push_back("Event.");
 			nodeList_.push_back("Comment");
 			nodeList_.push_back("Character In Out");
-			
+
 			previewTextChanger->AttachToAgent(previewText);
 		}
 		~EpisodeEventEditor() = default;
 
 		//TODO:イベントを外部から登録できるようにしたい
-		void Tick()override;
+		void Tick() override;
 		void Update() override;
 
 		void CallByParent() override;
 
-		//TODO: Delete
-		void UpdateAssetList();
 		//TODO: Delete
 		bool CanAccept(fs::path _path) override;
 
 		void LoadFile(fs::path _path) override;
 
 		//TODO:早くどうにかしろ
-		void Save()override;
+		void Save() override;
 	};
 
 	//ノードエディタ用基底クラス
 	//TODO:こいつを早く実装するか削除しろ
-	class NodeEditorBase :public Editor {
+	class NodeEditorBase{
+	private:
+	protected:
+		std::string name_;
+		void TickInternal();
+		void BuildNode();
 	public:
 		NodeEditorBase() = delete;
-		NodeEditorBase(std::string _name) : Editor("Node Editor Base") {};
-		void LoadFile(fs::path _path) override;
-		void Tick() override;
+		NodeEditorBase(std::string _name):
+			name_(_name)
+		{};
+		virtual ~NodeEditorBase() = default;
+		
+		//コピーコンストラクタ削除
+		NodeEditorBase(const NodeEditorBase&) = delete;
+		NodeEditorBase& operator=(const NodeEditorBase&) = delete;
+		//ムーブ許可
+		NodeEditorBase& operator=(NodeEditorBase&&) = default;
+
+		
+		virtual void LoadFile(fs::path _path) ;
+		virtual void Tick();
+		virtual void AddEventEntry(EpisodeEvent _event);
 	};
+
+	inline void teller::NodeEditorBase::AddEventEntry(EpisodeEvent _event) {
+
+	}
 
 
 	class SequenceEditor :public Editor {

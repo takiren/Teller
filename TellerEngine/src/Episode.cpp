@@ -2,22 +2,6 @@
 
 namespace teller {
 
-	Episode::Episode(uint64_t _ID)
-	{
-		std::ifstream i("EpisodeID.json");
-		json j;
-		i >> j;
-
-		auto st = std::to_string(_ID);
-		if (j.contains(st)) {
-			ID_ = _ID;
-			title = j["title"];
-			path_ = j["path"];
-			eventID_ = (uint64_t)j["eventID"];
-			data = CSVLoader(path_).GetCSVData();
-		}
-	}
-
 	void Episode::SetNumber(int episodeNumber)
 	{
 	}
@@ -140,9 +124,9 @@ namespace teller {
 	{
 	}
 
-	std::vector<std::string> EpisodeEventIn::GetStructure()
+	std::vector<TDataType> EpisodeEventIn::GetStructure()
 	{
-		return std::vector<std::string>();
+		return std::vector<TDataType>();
 	}
 
 }

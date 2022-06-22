@@ -4,6 +4,7 @@ using std::abs;
 namespace util = ax::NodeEditor::Utilities;
 using namespace ax;
 using namespace ci::app;
+using namespace teller;
 
 using ax::Widgets::IconType;
 
@@ -252,6 +253,19 @@ std::vector<std::string> teller::EpisodeEventEditor::GetSpritesName(json _cjson)
 	return vec;
 }
 
+void teller::EpisodeEventEditor::DrawLinks()
+{
+}
+
+std::shared_ptr<TSocketCore> teller::EpisodeEventEditor::GetSocketsRef(uint64_t _id)
+{
+	if (!_id) return nullptr;
+
+	for (auto& node : nodeList_) {
+
+	}
+}
+
 void teller::EpisodeEventEditor::LoadEpisodeEvent(json _j)
 {
 }
@@ -272,7 +286,7 @@ void teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
 
 void teller::EpisodeEventEditor::OpenAddNodePopup()
 {
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle)) {
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
 		DEBUG_PRINTF("Right clicked.");
 		ImGui::OpenPopup("AddNode");
 	}
@@ -297,6 +311,338 @@ ImColor teller::EpisodeEventEditor::GetIconColor(Socket_TYPE type)
 	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
 	default:							return ImColor(0, 0, 0);
 	}
+}
+
+void teller::EpisodeEventEditor::Tick()
+{
+	if (!bEnabled) return;
+
+	//TODO:キャラクター見た目変更用エディターとノードエディタを切り出し。
+	//開始
+	ImGui::Begin("Character appearance", 0, ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::BeginMenuBar()) {
+
+		if (ImGui::BeginMenu("File")) {
+
+			if (ImGui::MenuItem("save"))
+				Save();
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
+
+	//TODO:関数へ切り出し
+	//エピソードファイルのテキスト表示
+	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
+	//episodeRef!=nullptrのときテキスト表示。
+	if (episodeRef) {
+		int i = 0;
+		for (auto& e : episodeRef->data) {
+			auto str = e.second.at(0) + e.second.at(1);
+			if (ImGui::Selectable(str.c_str(), currentLine == i)) {
+				currentLine = i;
+				previewTextChanger->SetText(e.second.at(0), e.second.at(1));
+			}
+			i++;
+		}
+	}
+
+	ImGui::EndChild();
+
+	ImGui::SameLine();
+
+	ImGui::BeginChild("Event sprite", ImVec2(300, 0));
+
+	//TODO:関数へ切り出し
+	//キャラクターの画像切替
+	if (episodeRef) {
+		//エピソードファイルの1列目が話者
+		auto& characterName = episodeRef->data[currentLine].at(0);
+		ImGui::Text(("Name :" + characterName).c_str());
+		int i = 0;
+		ImGui::BeginTabBar("Simple Event Tabs");
+		if (ImGui::BeginTabItem("Appearance")) {
+			ImGui::Text("Left click : Make an event  Right click : Preview Appearance");
+			if (characterName != "") {
+
+				if (ImGui::Selectable("Inherit")) {
+					//TODO:前のイベントの情報を引き継ぐときの処理。
+					characterAppearanceNum = 0;
+				}
+				auto filevec = GetSpritesName(jsonCharacterMap[characterName]);
+				for (auto& e : filevec) {
+					ImGui::Selectable(e.c_str(), characterAppearanceNum == i);
+
+					//右クリックでプレビュー
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+						characterAppearanceNum = i;
+						previewAnimationMap[characterName]->Change(e);
+					}
+
+					//左クリックで確定
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
+						characterAppearanceNum = i;
+						previewAnimationMap[characterName]->Change(e);
+						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, characterName, e);
+					}
+
+					i++;
+				}
+			}
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("CharacterInOut")) {
+
+			if (ImGui::BeginCombo("##CharacterCombo", "Choose a character.", ImGuiComboFlags_HeightRegular)) {
+
+				//キャラクター一覧(jsonが読み込めたやつだけ表示)
+				for (auto& e : previewCharacterMap)
+					if (ImGui::Selectable(e.first.c_str()))
+						targetCharacter = e.first;
+
+				ImGui::EndCombo();
+			}
+
+			//キャラクター登場イベント
+			if (ImGui::Selectable("Character IN"))
+				if (characterName != "")
+					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, currentLine, targetCharacter, targetCharacter);
+
+			//キャラクター退場イベント
+			if (ImGui::Selectable("Character OUT"))
+				if (characterName != "")
+					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_OUT, currentLine, targetCharacter, targetCharacter);
+
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	ImGui::EndChild();
+
+	ShowPreview();
+
+	ImGui::SameLine();
+
+	//TODO:関数へ切り出し
+	ImGui::BeginChild("Events List");
+	ImGui::Text("EventPack");
+
+	{
+		int index = 0;
+		for (auto& e : eventPackMap[currentLine]) {
+			auto slabel = std::string();
+			switch (e->type_)
+			{
+			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:
+				slabel = "EVENT: Changes Appearance" + e->key_;
+				break;
+
+			case EPISODE_EVENT_TYPE::CHARACTER_IN:
+				slabel = "EVENT: Character IN" + e->key_;
+				break;
+
+			case EPISODE_EVENT_TYPE::CHARACTER_OUT:
+				slabel = "EVENT: Character OUT" + e->key_;
+				break;
+
+			default:
+				break;
+			}
+
+			ImGui::Selectable(slabel.c_str(), eventPackNum == index);
+			if (ImGui::IsItemClicked()) {
+				eventPackNum = index;
+				std::cout << "Clicked" << eventPackNum << std::endl;
+			}
+
+			index++;
+		}
+	}
+
+	//TODO:eventPack.size()=0のときの処理を追加する
+	//イベント再生順の変更
+	auto& evn = eventPackMap[currentLine];
+	if (ImGui::Button("Up") && eventPackNum != 0) {
+		SwapEvent(evn, eventPackNum, eventPackNum - 1);
+		++eventPackNum;
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Down") && eventPackNum <= evn.size() - 1) {
+		SwapEvent(evn, eventPackNum, eventPackNum + 1);
+		++eventPackNum;
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Delete selected event.") && eventPackMap[currentLine].size() > eventPackNum) {
+		auto eventindex = eventPackMap[currentLine].begin();
+		std::advance(eventindex, eventPackNum);
+		eventPackMap[currentLine].erase(eventindex);
+	}
+
+	ImGui::EndChild();
+
+	ImGui::End();
+
+	//ノードエディタ
+	ImGui::Begin("EpisodeEventEditor");
+
+	ImGui::BeginChild("NodeEditor Event");
+	OpenAddNodePopup();
+	auto openPopupPosition = ImGui::GetMousePos();
+	int selected = -1;
+	if (ImGui::BeginPopup("AddNode")) {
+		ImGui::Text("Node list.");
+
+		// 追加可能なノードリスト
+		ImGui::Separator();
+		int i = 0;
+		for (auto& e : nodeList_) {
+			if (ImGui::Selectable(e.c_str())) {
+				selected = i;
+			}
+			i++;
+		}
+		ImGui::EndPopup();
+	}
+
+	if (selected != -1) {
+		// 関数ポインタでもっとスマートな実装にしてもいいかも。
+		uint64_t id_;
+		switch (selected)
+		{
+		case 0:
+			//分岐
+			id_ = TNodeManagerRef->AddTNodeBranch();
+			break;
+		case 1:
+			//シーンチェンジ
+			id_ = TNodeManagerRef->AddTNodeSceneChange();
+			break;
+		case 2:
+			id_ = TNodeManagerRef->AddTNodeAnimation();
+			break;
+
+		case 6:
+			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
+			break;
+		default:
+			DEBUG_PRINTF("Nothing added.");
+			break;
+		}
+		//ed::SetNodePosition(id_, openPopupPosition);
+	}
+
+	ed::SetCurrentEditor(gContext);
+	auto cursorTopLeft = ImGui::GetCursorScreenPos();
+
+	ed::Begin("Editor");
+
+	// 1.ノードマネージャーから読み取って描画
+	{
+		util::BlueprintNodeBuilder builder;
+
+		// ノードでイテレーション
+		for (auto& node : TNodeManagerRef->nodes) {
+			
+			builder.Begin(node.second->ID_);
+
+			//builderでの操作。
+			{
+				builder.Header(ImColor(255, 255, 255));
+				{
+					ImGui::Spring(0);
+					ImGui::TextUnformatted(node.second->title_.c_str());
+					ImGui::Spring(1);
+					ImGui::Dummy(ImVec2(0, 28));
+					ImGui::Spring(0);
+				}
+				builder.EndHeader();
+
+				// インプットソケットの描画
+				{
+					auto alpha = ImGui::GetStyle().Alpha;
+					for (auto& e : node.second->socketsInput) {
+
+						builder.Input(e->ID_);
+						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+						DrawPinIcon(e, false, (int)(alpha * 255));
+						ImGui::Spring(0);
+						ImGui::Spring(0);
+						ImGui::PopStyleVar();
+						builder.EndInput();
+					}
+				}
+
+				// アウトプットソケットの描画
+				{
+					auto alpha = ImGui::GetStyle().Alpha;
+					for (auto& e : node.second->socketsOutput) {
+						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+						builder.Output(e->ID_);
+						ImGui::Spring(0);
+						ImGui::TextUnformatted(node.second->title_.c_str());
+						// ピンごとの条件分岐を記述ここから
+
+						// ここまで
+						ImGui::Spring(0);
+						DrawPinIcon(e, false, (int)(alpha * 255));
+						ImGui::PopStyleVar();
+						builder.EndOutput();
+					}
+				}
+			}
+			builder.End();
+		}
+	}
+
+	// 2.リンクの描画
+
+	{
+		//ノードを生成していないときに処理
+		if (!bCreatingNewNode) {
+			if (ed::BeginCreate(ImColor(255, 255, 255), 2.0f)) {
+				auto showLabel = [](const char* label, ImColor _color) {
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetTextLineHeight());
+					auto size = ImGui::CalcTextSize(label);
+
+					auto padding = ImGui::GetStyle().FramePadding;
+					auto spacing = ImGui::GetStyle().ItemSpacing;
+
+					ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(spacing.x, -spacing.y));
+
+					auto rectMin = ImGui::GetCursorScreenPos() - padding;
+					auto rectMax = ImGui::GetCursorScreenPos() + size + padding;
+
+					auto drawlist = ImGui::GetWindowDrawList();
+					drawlist->AddRectFilled(rectMin, rectMax, _color, size.y * 0.15f);
+
+					ImGui::TextUnformatted(label);
+				};
+
+				ed::PinId startPinId = 0, endPinId = 0;
+				if (ed::QueryNewLink(&startPinId, &endPinId)) {
+				}
+
+				ed::EndCreate();
+			}
+		}
+	}
+
+
+	ed::End();
+	ed::SetCurrentEditor(nullptr);
+	ImGui::EndChild();
+
+	ImGui::End();
 }
 
 void teller::EpisodeEventEditor::LoadFile(fs::path _path)
@@ -430,317 +776,26 @@ void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, in
 	eventPackMap[_line].push_back(std::make_unique<EpisodeEvent>(_type, _line, _target, _key));
 }
 
-void teller::EpisodeEventEditor::Tick()
-{
-	if (!bEnabled) return;
-
-	//TODO:キャラクター見た目変更用エディターとノードエディタを切り出し。
-	//開始
-	ImGui::Begin("Character appearance", 0, ImGuiWindowFlags_MenuBar);
-
-	if (ImGui::BeginMenuBar()) {
-
-		if (ImGui::BeginMenu("File")) {
-
-			if (ImGui::MenuItem("save")) Save();
-
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMenuBar();
-	}
-
-	//TODO:関数へ切り出し
-	//エピソードファイルのテキスト表示
-	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
-	//episodeRef!=nullptrのときテキスト表示。
-	if (episodeRef) {
-		int i = 0;
-		for (auto& e : episodeRef->data) {
-			auto str = e.second.at(0) + e.second.at(1);
-			if (ImGui::Selectable(str.c_str(), currentLine == i)) {
-				currentLine = i;
-				previewTextChanger->SetText(e.second.at(0), e.second.at(1));
-			}
-			i++;
-		}
-	}
-
-	ImGui::EndChild();
-
-	ImGui::SameLine();
-
-	ImGui::BeginChild("Event sprite", ImVec2(300, 0));
-
-	//TODO:関数へ切り出し
-	//キャラクターの画像切替
-	if (episodeRef) {
-		//エピソードファイルの1列目が話者
-		auto& characterName = episodeRef->data[currentLine].at(0);
-		ImGui::Text(("Name :" + characterName).c_str());
-		int i = 0;
-		ImGui::BeginTabBar("Simple Event Tabs");
-		if (ImGui::BeginTabItem("Appearance")) {
-			ImGui::Text("Left click : Make an event  Right click : Preview Appearance");
-			if (characterName != "") {
-
-				if (ImGui::Selectable("Inherit")) {
-					//TODO:前のイベントの情報を引き継ぐときの処理。
-					characterAppearanceNum = 0;
-				}
-				auto filevec = GetSpritesName(jsonCharacterMap[characterName]);
-				for (auto& e : filevec) {
-					ImGui::Selectable(e.c_str(), characterAppearanceNum == i);
-
-					//右クリックでプレビュー
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
-						characterAppearanceNum = i;
-						previewAnimationMap[characterName]->Change(e);
-					}
-
-					//左クリックで確定
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
-						characterAppearanceNum = i;
-						previewAnimationMap[characterName]->Change(e);
-						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, characterName, e);
-					}
-
-					i++;
-				}
-			}
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("CharacterInOut")) {
-
-			if (ImGui::BeginCombo("##CharacterCombo", "Choose a character.", ImGuiComboFlags_HeightRegular)) {
-
-				//キャラクター一覧(jsonが読み込めたやつだけ表示)
-				for (auto& e : previewCharacterMap)
-					ImGui::Selectable(e.first.c_str());
-
-				ImGui::EndCombo();
-			}
-
-			//キャラクター登場イベント
-			if (ImGui::Selectable("Character IN"))
-				if (characterName != "")
-					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, currentLine, "", characterName);
-
-			//キャラクター退場イベント
-			if (ImGui::Selectable("Character OUT"))
-				if (characterName != "")
-					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_OUT, currentLine, "", characterName);
-
-			ImGui::EndTabItem();
-		}
-
-		ImGui::EndTabBar();
-	}
-
-	ImGui::EndChild();
-
-	ShowPreview();
-
-	ImGui::SameLine();
-
-	//TODO:関数へ切り出し
-	ImGui::BeginChild("Events List");
-	ImGui::Text("EventPack");
-
-	{
-		int index = 0;
-		for (auto& e : eventPackMap[currentLine]) {
-			auto slabel = std::string();
-			switch (e->type_)
-			{
-			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:
-				slabel = "EVENT: Changes Appearance" + e->key_;
-
-				break;
-			case EPISODE_EVENT_TYPE::CHARACTER_IN:
-				slabel = "EVENT: Character IN" + e->key_;
-				break;
-			case EPISODE_EVENT_TYPE::CHARACTER_OUT:
-				slabel = "EVENT: Character OUT" + e->key_;
-				break;
-			default:
-				break;
-			}
-
-			ImGui::Selectable(slabel.c_str(), eventPackNum == index);
-			if (ImGui::IsItemClicked()) {
-				eventPackNum = index;
-				std::cout << "Clicked" << eventPackNum << std::endl;
-			}
-
-			index++;
-		}
-	}
-
-	//TODO:eventPack.size()=0のときの処理を追加する
-	//イベント再生順の変更
-	auto& evn = eventPackMap[currentLine];
-	if (ImGui::Button("Up") && eventPackNum != 0) {
-		SwapEvent(evn, eventPackNum, eventPackNum - 1);
-		++eventPackNum;
-	}
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("Down") && eventPackNum <= evn.size() - 1) {
-		SwapEvent(evn, eventPackNum, eventPackNum + 1);
-		++eventPackNum;
-	}
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("Delete selected event.") && eventPackMap[currentLine].size() > eventPackNum) {
-		auto eventindex = eventPackMap[currentLine].begin();
-		std::advance(eventindex, eventPackNum);
-		eventPackMap[currentLine].erase(eventindex);
-	}
-
-	ImGui::EndChild();
-
-	ImGui::End();
-
-	//ノードエディタ
-	ImGui::Begin("EpisodeEventEditor");
-
-	ImGui::BeginChild("NodeEditor Event");
-	OpenAddNodePopup();
-	auto openPopupPosition = ImGui::GetMousePos();
-	int selected = -1;
-	if (ImGui::BeginPopup("AddNode")) {
-		ImGui::Text("Node list.");
-
-		// 追加可能なノードリスト
-		ImGui::Separator();
-		int i = 0;
-		for (auto& e : nodeList_) {
-			if (ImGui::Selectable(e.c_str())) {
-				selected = i;
-			}
-			i++;
-		}
-		ImGui::EndPopup();
-	}
-
-	if (selected != -1) {
-		// 関数ポインタでもっとスマートな実装にしてもいいかも。
-		uint64_t id_;
-		switch (selected)
-		{
-		case 0:
-			//分岐
-			id_ = TNodeManagerRef->AddTNodeBranch();
-			break;
-		case 1:
-			//シーンチェンジ
-			id_ = TNodeManagerRef->AddTNodeSceneChange();
-			break;
-		case 2:
-			id_ = TNodeManagerRef->AddTNodeAnimation();
-			break;
-
-		case 6:
-			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
-			break;
-		default:
-			DEBUG_PRINTF("Nothing added.");
-			break;
-		}
-		//ed::SetNodePosition(id_, openPopupPosition);
-	}
-
-	ed::SetCurrentEditor(gContext);
-	auto cursorTopLeft = ImGui::GetCursorScreenPos();
-
-	ed::Begin("Editor");
-
-	// 1.ノードマネージャーから読み取って描画
-	{
-		util::BlueprintNodeBuilder builder;
-
-		// ノードでイテレーション
-		for (auto& node : TNodeManagerRef->nodes) {
-
-			builder.Begin(node.second->ID_);
-
-			//builderでの操作。
-			{
-				builder.Header(ImColor(255, 255, 255));
-				{
-					ImGui::Spring(0);
-					ImGui::TextUnformatted(node.second->title_.c_str());
-					ImGui::Spring(1);
-					ImGui::Dummy(ImVec2(0, 28));
-					ImGui::Spring(0);
-				}
-				builder.EndHeader();
-
-				// インプットソケットの描画
-				{
-					auto alpha = ImGui::GetStyle().Alpha;
-					for (auto& e : node.second->socketsInput) {
-
-						builder.Input(e->ID_);
-						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-						DrawPinIcon(e, false, (int)(alpha * 255));
-						ImGui::Spring(0);
-						ImGui::Spring(0);
-						ImGui::PopStyleVar();
-						builder.EndInput();
-					}
-				}
-
-				// アウトプットソケットの描画
-				{
-					auto alpha = ImGui::GetStyle().Alpha;
-					for (auto& e : node.second->socketsOutput) {
-						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-						builder.Output(e->ID_);
-						ImGui::Spring(0);
-						ImGui::TextUnformatted(node.second->title_.c_str());
-						// ピンごとの条件分岐を記述ここから
-
-						// ここまで
-						ImGui::Spring(0);
-						DrawPinIcon(e, false, (int)(alpha * 255));
-						ImGui::PopStyleVar();
-						builder.EndOutput();
-					}
-				}
-			}
-			builder.End();
-		}
-	}
-	// 2.リンクの描画
-	{
-
-	}
-
-	ed::End();
-	ed::SetCurrentEditor(nullptr);
-	ImGui::EndChild();
-
-	ImGui::End();
-}
 
 void teller::NodeEditorBase::Tick()
 {
-	ImGui::Begin(name_.c_str());
-
-	ed::Begin("Editor");
-
+	ed::Begin(name_.c_str());
+	
 	ed::End();
-	ImGui::End();
 }
 
 void teller::NodeEditorBase::LoadFile(fs::path _path)
 {
 }
+
+void teller::NodeEditorBase::TickInternal()
+{
+}
+
+void teller::NodeEditorBase::BuildNode()
+{
+}
+
 
 void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 {
@@ -767,82 +822,10 @@ void teller::SequenceEditor::LoadFile(fs::path _path)
 
 void teller::SequenceEditor::UpdateEpisodeList()
 {
-	auto eplist = ptrEPCM.lock()->GetKeys();
-	for (auto& key : eplist) {
-		episodeMap[key] = ptrEPCM.lock()->GetContent(key)->title;
-	}
 }
 
 void teller::SequenceEditor::Tick()
 {
-	ImGui::Begin(name_.c_str());
-	ImGui::BeginChild("Episode list.");
-	for (auto& e : episodeMap) {
-		if (ImGui::Selectable(e.second.c_str())) {
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))TNodeManagerRef->AddEpisodeNode(e.first);
-		}
-	}
-	ImGui::EndChild();
-
-	// ノードマネージャーからノードを描画。
-
-	ed::Begin("Sequence editor.");
-	util::BlueprintNodeBuilder builder;
-	for (auto& node : TNodeManagerRef->nodes)
-	{
-		builder.Begin(node.second->ID_);
-
-		//builderでの操作。
-		{
-			builder.Header(ImColor(255, 255, 255));
-			{
-				ImGui::Spring(0);
-				ImGui::TextUnformatted(node.second->title_.c_str());
-				ImGui::Spring(1);
-				ImGui::Dummy(ImVec2(0, 28));
-				ImGui::Spring(0);
-			}
-			builder.EndHeader();
-
-			// インプットソケットの描画
-			{
-				auto alpha = ImGui::GetStyle().Alpha;
-				for (auto& e : node.second->socketsInput) {
-
-					builder.Input(e->ID_);
-					ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-					DrawPinIcon(e, false, (int)(alpha * 255));
-					ImGui::Spring(0);
-					ImGui::Spring(0);
-					ImGui::PopStyleVar();
-					builder.EndInput();
-				}
-			}
-
-			// アウトプットソケットの描画
-			{
-				auto alpha = ImGui::GetStyle().Alpha;
-				for (auto& e : node.second->socketsOutput) {
-					ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-					builder.Output(e->ID_);
-					ImGui::Spring(0);
-					ImGui::TextUnformatted(node.second->title_.c_str());
-					// ピンごとの条件分岐を記述ここから
-
-					// ここまで
-					ImGui::Spring(0);
-					DrawPinIcon(e, false, (int)(alpha * 255));
-					ImGui::PopStyleVar();
-					builder.EndOutput();
-				}
-			}
-		}
-		builder.End();
-	}
-
-	ed::End();
-
-	ImGui::End();
 }
 
 void teller::SequenceEditor::Initialize()

@@ -14,9 +14,11 @@
 #include<cinder/gl/gl.h>
 #include"utility.h"
 
+
 namespace teller {
 	using json = nlohmann::json;
 	namespace fs = std::filesystem;
+
 
 	enum class EPISODE_EVENT_TYPE
 	{
@@ -57,7 +59,6 @@ namespace teller {
 		std::string title;
 		fs::path directory_;
 		fs::path filename_;
-		uint64_t eventID_;
 		uint64_t ID_;
 		std::map<int, std::vector<std::string>> data;
 		std::map<int, uint64_t> events_;
@@ -66,13 +67,11 @@ namespace teller {
 		Episode() = delete;
 
 		// エピソードファイルを読み込む。
-		Episode(uint64_t _ID);
 
 		// エピソードファイルを読み込む。非推奨
 		Episode(std::string _path) :
 			title(_path),
-			ID_((uint64_t)this),
-			eventID_(-1),
+			ID_(-1),
 			data(CSVLoader(_path).GetCSVData()),
 			path_(_path)
 		{
@@ -181,7 +180,7 @@ namespace teller {
 
 			case teller::DataVec2:
 				auto d = Utility::split(data_, ',');
-				return ci::vec2(std::stof(d.at(0)),std::stof(d.at(1)));
+				return ci::vec2(std::stof(d.at(0)), std::stof(d.at(1)));
 
 			case teller::DataFloat:
 				auto d = Utility::split(data_, ',');
@@ -197,7 +196,20 @@ namespace teller {
 		}
 	};
 
+	struct EventSignature {
+		std::vector<EventDataCore> data_;
+		std::string name_;
+
+		EventSignature() = default;
+		virtual ~EventSignature() = default;
+
+		void AddEventData(EventDataCore&& _data) { data_.push_back(_data); };
+		void SetName(std::string _name) { name_ = _name; };
+	};
+
 	class EpisodeEvent {
+		std::vector<EventDataCore> data_;
+
 	public:
 		EPISODE_EVENT_TYPE type_;
 		uint64_t ID_;
@@ -207,12 +219,11 @@ namespace teller {
 		std::string description_;
 
 		EpisodeEvent() = delete;
-
 		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _key) :
 			type_(_type),
 			targetLine(_line),
 			key_(_key),
-			ID_(0),
+			ID_(-1),
 			target_("")
 		{};
 
@@ -221,21 +232,24 @@ namespace teller {
 			targetLine(_line),
 			target_(""),
 			key_(_key),
-			ID_(0)
+			ID_(-1)
 		{};
 	};
 
+
 	class EpisodeEventIn :public EpisodeEvent {
 	private:
-
 	public:
 		EpisodeEventIn(std::string _target, std::string _key) :
 			EpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, 0, _key)
 		{};
-
 		~EpisodeEventIn() = default;
 
-		std::vector<std::string> GetStructure();
+		std::vector<TDataType> GetStructure();
+	};
+
+	class EpisodeEventOut :public EpisodeEvent {
+
 	};
 
 	class EpisodeEventManager {

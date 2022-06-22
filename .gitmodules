@@ -25,3 +25,9 @@
 [submodule "cppglob"]
 	path = cppglob
 	url = https://github.com/Kogia-sima/cppglob.git
+[submodule "uuid"]
+	path = uuid
+	url = https://github.com/boostorg/uuid.git
+[submodule "boost"]
+	path = boost
+	url = https://github.com/boostorg/boost.git
