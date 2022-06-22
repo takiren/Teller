@@ -2,7 +2,7 @@
 #include<vector>
 #include<string>
 #include<sstream>
-
+#include<random>
 
 namespace teller {
 	//std::vector<std::string>‚ðstd::string‚É“WŠJ
@@ -19,4 +19,19 @@ namespace teller {
 			return result;
 		}
 	};
+
+	namespace utils {
+		class UIDGenerator final {
+		private:
+			std::mt19937_64 engine;
+			std::uniform_int_distribution<uint64_t> ui64tdistr;
+		public:
+			UIDGenerator() :
+				engine(std::random_device{}())
+			{};
+			~UIDGenerator() = default;
+			uint64_t Generate();
+		};
+		inline uint64_t teller::utils::UIDGenerator::Generate() { return ui64tdistr(engine); }
+	}
 }

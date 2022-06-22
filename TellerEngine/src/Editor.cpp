@@ -552,7 +552,7 @@ void teller::EpisodeEventEditor::Tick()
 
 		// ノードでイテレーション
 		for (auto& node : TNodeManagerRef->nodes) {
-			
+
 			builder.Begin(node.second->ID_);
 
 			//builderでの操作。
@@ -604,7 +604,14 @@ void teller::EpisodeEventEditor::Tick()
 		}
 	}
 
-	// 2.リンクの描画
+	// 2.リンク描画
+	{
+		auto& links = TNodeManagerRef->GetLinksRef();
+		for (auto& link : links)
+			ed::Link(link.ID_, link.InputID_, link.OutputID_);
+	}
+
+	// 3.リンク生成
 
 	{
 		//ノードを生成していないときに処理
@@ -630,6 +637,22 @@ void teller::EpisodeEventEditor::Tick()
 
 				ed::PinId startPinId = 0, endPinId = 0;
 				if (ed::QueryNewLink(&startPinId, &endPinId)) {
+
+					if (startPinId && endPinId)
+					{
+						if (startPinId == endPinId)
+						{
+							ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
+						}
+						else
+						{
+							showLabel("+ Create Link", ImColor(32, 45, 32, 180));
+							if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
+							{
+								TNodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
+							}
+						}
+					}
 				}
 
 			}
@@ -780,7 +803,7 @@ void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, in
 void teller::NodeEditorBase::Tick()
 {
 	ed::Begin(name_.c_str());
-	
+
 	ed::End();
 }
 
@@ -830,7 +853,6 @@ void teller::SequenceEditor::Tick()
 
 void teller::SequenceEditor::Initialize()
 {
-	ptrEPCM = parent.lock()->GetEpisodeContentManager();
 }
 
 void teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _episode)

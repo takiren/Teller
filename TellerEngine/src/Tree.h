@@ -9,11 +9,15 @@
 #include"cinder/CinderImGui.h"
 #include"imgui_node_editor.h"
 #include"Episode.h"
-
+#include"utility.h"
 
 
 namespace teller {
 	using namespace ci;
+	using TSocketID = uint64_t;
+	using TNodeID = uint64_t;
+	using TLinkID = uint64_t;
+
 	namespace ed = ax::NodeEditor;
 
 	enum class Node_TYPE {
@@ -41,13 +45,13 @@ namespace teller {
 	class TNodeCore;
 
 	struct TSocketCore {
-		uint64_t ID_;
+		TSocketID ID_;
 
 		std::weak_ptr<TNodeCore> parentTNode;
-		std::vector<uint64_t> targetSocketsID_;
+		std::vector<TSocketID> targetSocketsID_;
 		Socket_TYPE type_;
 		TSocketCore() = delete;
-		TSocketCore(Socket_TYPE _type,uint64_t _id) :
+		TSocketCore(Socket_TYPE _type,TSocketID _id) :
 			type_(_type),
 			ID_(_id)
 		{
@@ -63,7 +67,7 @@ namespace teller {
 		std::string description; //説明
 		ImVec2 size_; //大きさ
 		ImVec2 pos_; //座標
-		uint64_t ID_;
+		TNodeID ID_;
 		uint64_t eventID_;
 		uint64_t episodeID_;
 		Node_TYPE type_;
@@ -74,7 +78,7 @@ namespace teller {
 
 		TNodeCore() = delete;
 
-		TNodeCore(Node_TYPE _type, std::string _title ,uint64_t _id, vec2 _pos=vec2(0,0), vec2 _size=vec2(0,0)) :
+		TNodeCore(Node_TYPE _type, std::string _title ,TNodeID _id, vec2 _pos=vec2(0,0), vec2 _size=vec2(0,0)) :
 			ID_(_id),
 			type_(_type),
 			title_(_title),
@@ -84,9 +88,9 @@ namespace teller {
 		{};
 
 		void SetDesciption(std::string _description);
-		void AddInputSocket(Socket_TYPE _scktType,uint64_t _id);
+		void AddInputSocket(Socket_TYPE _scktType,TSocketID _id);
 
-		void AddOutPutSocket(Socket_TYPE _scktType,uint64_t _id);
+		void AddOutPutSocket(Socket_TYPE _scktType,TSocketID _id);
 	};
 
 	class TNodeAnimation :public TNodeCore {
@@ -108,51 +112,63 @@ namespace teller {
 		~TEventNodeSignature() = default;
 	};
 
-	struct LinkInfo
+	struct TLinkInfo
 	{
-		ed::LinkId Id;
-		ed::PinId  InputId;
-		ed::PinId  OutputId;
+		TLinkID ID_;
+		TSocketID  InputID_;
+		TSocketID  OutputID_;
+		TLinkInfo(TLinkID _ID, TSocketID _InID, TSocketID _OutID) :
+			ID_(_ID),
+			InputID_(_InID),
+			OutputID_(_OutID) {};
+		~TLinkInfo() = default;
 	};
 
 	//ノード管理クラス
 	class TNodeManager {
-		std::weak_ptr<Episode> episode_;
 
+		//TODO:teller::utils::UIDGeneratorで書き換え
 		std::mt19937_64 engine;
-		std::uniform_int_distribution<uint64_t> ui64distr;
+		std::uniform_int_distribution<uint64_t> ui64distr; //shortened uint64_t distribution
 
 		uint64_t MakeUID_ui64t();
 
+		utils::UIDGenerator uid;
+		std::vector<TLinkInfo> tLinks;
 	public:
 		TNodeManager() :
-			engine(std::random_device{}())
+			engine(std::random_device{}()),
+			uid(utils::UIDGenerator())
 		{
 		};
 
-		void AddTNode(Node_TYPE _nodeType);
 		std::shared_ptr<TNodeCore> beginNode_;
 		std::shared_ptr<TNodeCore> endNode_;
 		std::map<uint64_t, std::shared_ptr<TNodeCore>> nodes;
 
-		std::vector<LinkInfo> GetLinkVector();
-		void MakeLink(std::shared_ptr<TSocketCore> _from, uint64_t _dest);
-		void MakeLink(uint64_t _from, uint64_t _dest);
-		std::shared_ptr<TSocketCore> SearchSocket(uint64_t _ID);
+		std::vector<TLinkInfo> GetLinkVector();
 
-		std::vector<LinkInfo> GetLinks();
+		template<typename T>
+		void MakeLink(T _from, T _dest) {
+			tLinks.emplace_back(uid.Generate(),(TSocketID)_from,(TSocketID)_dest);
+		};
+		std::shared_ptr<TSocketCore> SearchSocket(TSocketID _ID);
 
-		uint64_t AddTNodeBranch();
-		uint64_t AddTNodeSceneChange();
-		uint64_t AddTNodeEvent();
-		uint64_t AddTNodeAnimation();
-		uint64_t AddTNodeEnd();
-		uint64_t AddTNodeBegin();
-		uint64_t AddEpisodeNode(uint64_t _id);
-		uint64_t AddTNodeCharacterInOut();
-		uint64_t AddEpisodeNode(uint64_t _id, int _in, int _out);
-		uint64_t AddEpisodeNode(Episode _episode);
-		uint64_t AddEpisodeNode(std::shared_ptr<Episode> _episode);
+		//It returns a copy of std::vector<TLinkInfo>.
+		//Use MakeLink if you want to create a new link.
+		std::vector<TLinkInfo> GetLinks()const { return tLinks; };
+
+		TNodeID AddTNodeBranch();
+		TNodeID AddTNodeSceneChange();
+		TNodeID AddTNodeEvent();
+		TNodeID AddTNodeAnimation();
+		TNodeID AddTNodeEnd();
+		TNodeID AddTNodeBegin();
+		TNodeID AddEpisodeNode(uint64_t _id);
+		TNodeID AddTNodeCharacterInOut();
+		TNodeID AddEpisodeNode(uint64_t _id, int _in, int _out);
+		TNodeID AddEpisodeNode(Episode _episode);
+		TNodeID AddEpisodeNode(std::shared_ptr<Episode> _episode);
 	};
 
 	inline uint64_t teller::TNodeManager::MakeUID_ui64t() 

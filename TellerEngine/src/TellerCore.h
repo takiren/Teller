@@ -116,9 +116,6 @@ namespace teller {
 		//必ずweak_ptrで受け取ること。
 		//TODO:Delete these valiables.
 		//depricated
-		const std::shared_ptr<CSVManager>& GetCSVContentsManager() const { return CSVContentManagerRef; };
-		const std::shared_ptr<SpriteManager>& GetSpriteContentManager() const { return spriteContentManagerRef; };
-		const std::shared_ptr<EpisodeManager>& GetEpisodeContentManager() const { return episodeContentManagerRef; };
 
 		//エディターの追加　deprecated
 		int AddEditor(std::shared_ptr<Editor> editor);

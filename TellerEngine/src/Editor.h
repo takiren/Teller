@@ -37,6 +37,7 @@
 #include"Tree.h"
 #include"Animation.h"
 #include"NodeLink.h"
+#include"utility.h"
 
 
 namespace teller {
@@ -177,7 +178,6 @@ namespace teller {
 		void OpenAddNodePopup();
 
 		//ノードエディタ用変数
-		ImVector<LinkInfo> g_Links;
 		ed::EditorContext* gContext;
 
 		uint64_t currentEpisodeID_;
@@ -236,6 +236,8 @@ namespace teller {
 		std::shared_ptr<TSocketCore> GetSocketsRef(uint64_t _id);
 
 		void UpdateAssetList();
+
+		utils::UIDGenerator uidgen;
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
@@ -251,7 +253,8 @@ namespace teller {
 			bShowSprite(true),
 			previewText(std::make_unique<MainTextArea>()),
 			previewTextChanger(std::make_unique<TextChanger>()),
-			bCreatingNewNode(false)
+			bCreatingNewNode(false),
+			uidgen(utils::UIDGenerator())
 		{
 			//ノード用
 			nodeList_.push_back("Branch.");
@@ -302,7 +305,6 @@ namespace teller {
 		//ムーブ許可
 		NodeEditorBase& operator=(NodeEditorBase&&) = default;
 
-		
 		virtual void LoadFile(fs::path _path) ;
 		virtual void Tick();
 		virtual void AddEventEntry(EpisodeEvent _event);

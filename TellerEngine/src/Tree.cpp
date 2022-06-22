@@ -23,9 +23,9 @@ namespace teller {
 		socketsOutput.push_back(std::move(sckt));
 	}
 
-	std::vector<LinkInfo> TNodeManager::GetLinkVector()
+	std::vector<TLinkInfo> TNodeManager::GetLinkVector()
 	{
-		auto links = std::vector<LinkInfo>();
+		auto links = std::vector<TLinkInfo>();
 		int l = 1;
 		for (auto iter = nodes.begin(); iter != nodes.end(); ++iter) {
 			l += iter->second->socketsInput.size() + iter->second->socketsOutput.size();
@@ -33,21 +33,10 @@ namespace teller {
 
 		auto mx = std::make_unique<Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic>>();
 
-		return std::vector<LinkInfo>();
+		return std::vector<TLinkInfo>();
 	}
 
-	void TNodeManager::MakeLink(std::shared_ptr<TSocketCore> _from, uint64_t _dest)
-	{
-		_from->AddTarget(_dest);
-	}
-
-	void TNodeManager::MakeLink(uint64_t _from, uint64_t _dest)
-	{
-		auto sf = SearchSocket(_from);
-		sf->AddTarget(_dest);
-	}
-
-	std::shared_ptr<TSocketCore> TNodeManager::SearchSocket(uint64_t _ID)
+	std::shared_ptr<TSocketCore> TNodeManager::SearchSocket(TSocketID _ID)
 	{
 		for (auto& e : nodes) {
 			for (auto& ein : e.second->socketsInput) {
@@ -59,12 +48,6 @@ namespace teller {
 		}
 
 		return nullptr;
-	}
-
-	std::vector<LinkInfo> TNodeManager::GetLinks()
-	{
-
-		return std::vector<LinkInfo>();
 	}
 
 	uint64_t TNodeManager::AddTNodeBranch()
@@ -153,16 +136,7 @@ namespace teller {
 
 	uint64_t TNodeManager::AddEpisodeNode(std::shared_ptr<Episode> _episode)
 	{
-		auto n = std::make_shared<TNodeCore>(Node_TYPE::EPISODE,"Episode", MakeUID_ui64t());
-		episode_ = _episode;
-		n->title_ = "Episode";
-		n->episodeID_ = episode_.lock()->ID_;
-		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
-		if (episode_.lock()->nextCandidate.size() == 0) n->AddOutPutSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
-		auto nid = n->ID_;
-		nodes[n->ID_] = n;
-
-		return nid;
+		return -1;
 	}
 
 
