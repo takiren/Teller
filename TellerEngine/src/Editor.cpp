@@ -257,15 +257,6 @@ void teller::EpisodeEventEditor::DrawLinks()
 {
 }
 
-std::shared_ptr<TSocketCore> teller::EpisodeEventEditor::GetSocketsRef(uint64_t _id)
-{
-	if (!_id) return nullptr;
-
-	for (auto& node : nodeList_) {
-
-	}
-}
-
 void teller::EpisodeEventEditor::LoadEpisodeEvent(json _j)
 {
 }
@@ -497,7 +488,6 @@ void teller::EpisodeEventEditor::Tick()
 
 	ImGui::BeginChild("NodeEditor Event");
 	OpenAddNodePopup();
-	auto openPopupPosition = ImGui::GetMousePos();
 	int selected = -1;
 	if (ImGui::BeginPopup("AddNode")) {
 		ImGui::Text("Node list.");
@@ -514,32 +504,7 @@ void teller::EpisodeEventEditor::Tick()
 		ImGui::EndPopup();
 	}
 
-	if (selected != -1) {
-		// 関数ポインタでもっとスマートな実装にしてもいいかも。
-		uint64_t id_;
-		switch (selected)
-		{
-		case 0:
-			//分岐
-			id_ = TNodeManagerRef->AddTNodeBranch();
-			break;
-		case 1:
-			//シーンチェンジ
-			id_ = TNodeManagerRef->AddTNodeSceneChange();
-			break;
-		case 2:
-			id_ = TNodeManagerRef->AddTNodeAnimation();
-			break;
-
-		case 6:
-			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
-			break;
-		default:
-			DEBUG_PRINTF("Nothing added.");
-			break;
-		}
-		//ed::SetNodePosition(id_, openPopupPosition);
-	}
+	
 
 	ed::SetCurrentEditor(gContext);
 	auto cursorTopLeft = ImGui::GetCursorScreenPos();
@@ -560,7 +525,7 @@ void teller::EpisodeEventEditor::Tick()
 				builder.Header(ImColor(255, 255, 255));
 				{
 					ImGui::Spring(0);
-					ImGui::TextUnformatted(node.second->title_.c_str());
+					ImGui::TextUnformatted(node.second->name_.c_str());
 					ImGui::Spring(1);
 					ImGui::Dummy(ImVec2(0, 28));
 					ImGui::Spring(0);
@@ -589,7 +554,7 @@ void teller::EpisodeEventEditor::Tick()
 						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
 						builder.Output(e->ID_);
 						ImGui::Spring(0);
-						ImGui::TextUnformatted(node.second->title_.c_str());
+						ImGui::TextUnformatted(node.second->name_.c_str());
 						// ピンごとの条件分岐を記述ここから
 
 						// ここまで
@@ -606,7 +571,7 @@ void teller::EpisodeEventEditor::Tick()
 
 	// 2.リンク描画
 	{
-		auto& links = TNodeManagerRef->GetLinksRef();
+		auto links = TNodeManagerRef->GetLinks();
 		for (auto& link : links)
 			ed::Link(link.ID_, link.InputID_, link.OutputID_);
 	}
@@ -636,6 +601,7 @@ void teller::EpisodeEventEditor::Tick()
 				};
 
 				ed::PinId startPinId = 0, endPinId = 0;
+				//NOTE:ネストが深すぎませんか？
 				if (ed::QueryNewLink(&startPinId, &endPinId)) {
 
 					if (startPinId && endPinId)
@@ -660,6 +626,36 @@ void teller::EpisodeEventEditor::Tick()
 		}
 	}
 
+	if (selected != -1) {
+		// 関数ポインタでもっとスマートな実装にしてもいいかも。
+		uint64_t id_;
+		switch (selected)
+		{
+		case 0:
+			//分岐
+			id_ = TNodeManagerRef->AddTNodeBranch();
+			break;
+
+		case 1:
+			//シーンチェンジ
+			id_ = TNodeManagerRef->AddTNodeSceneChange();
+			break;
+
+		case 2:
+			id_ = TNodeManagerRef->AddTNodeAnimation();
+			break;
+
+		case 6:
+			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
+			break;
+
+		default:
+			DEBUG_PRINTF("Nothing added.");
+			break;
+		}
+		auto newNodePosition = ImGui::GetMousePos();
+		ed::SetNodePosition(id_, newNodePosition);
+	}
 
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
@@ -820,7 +816,7 @@ void teller::NodeEditorBase::BuildNode()
 }
 
 
-void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);
@@ -859,7 +855,7 @@ void teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _ep
 {
 }
 
-void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);

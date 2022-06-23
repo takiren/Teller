@@ -163,48 +163,52 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 	};
 
+	struct TEvent {
+		TEvent() = default;
+	};
+
 	//エピソードイベントエディター
 	class EpisodeEventEditor :public Editor {
 	private:
 		//ノードエディタ用変数
 		ImColor GetIconColor(Socket_TYPE type);
-		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
-		int s_PinIconSize;
+		void DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha);
+		int											s_PinIconSize;
 
 		//左のパネルを表示
 		void ShowLeftPane(float panewidth);
-		bool g_FirstFrame = true;
+		bool										g_FirstFrame = true;
 
 		void OpenAddNodePopup();
 
 		//ノードエディタ用変数
-		ed::EditorContext* gContext;
+		ed::EditorContext*							gContext;
 
-		uint64_t currentEpisodeID_;
+		uint64_t									currentEpisodeID_;
 
-		std::unique_ptr<TNodeManager> TNodeManagerRef;
+		std::unique_ptr<TNodeManager<TEvent>>		TNodeManagerRef;
 
-		std::vector<std::string> nodeList_;
-		std::unique_ptr<Episode> episodeRef;
+		std::vector<std::string>					nodeList_;
+		std::unique_ptr<Episode>					episodeRef;
 
 		//編集対象の行
 		int currentLine;
 
 		//キャラクター見た目
-		int characterAppearanceNum;
+		int											characterAppearanceNum;
 		//EventPack編集行
-		int eventPackNum;
+		int											eventPackNum;
 
 		//json
-		json jsonEpisode;
-		std::unordered_map<std::string, json> jsonCharacterMap;
-		std::unordered_map<std::string, fs::path> characterPathMap;
+		json										jsonEpisode;
+		std::unordered_map<std::string, json>		jsonCharacterMap;
+		std::unordered_map<std::string, fs::path>	characterPathMap;
+		fs::path									jsonFilePath_;
 
 		using EventPack = std::vector<std::unique_ptr<EpisodeEvent>>;
 
-		std::map<int, EventPack> eventPackMap;
+		std::map<int, EventPack>					eventPackMap;
 
-		fs::path jsonFilePath_;
 
 		void CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key);
 		void SwapEvent(EventPack& _vector, int m, int n);
@@ -217,10 +221,10 @@ namespace teller {
 
 		//プレビュー用
 		void ShowPreview();
-		std::unordered_map<std::string, std::shared_ptr<CharacterSimple>> previewCharacterMap;
-		std::unordered_map<std::string, std::unique_ptr<CharacterAppearanceChanger>> previewAnimationMap;
-		std::shared_ptr<MainTextArea> previewText;
-		std::unique_ptr<TextChanger> previewTextChanger;
+		std::unordered_map<std::string, std::shared_ptr<CharacterSimple>>				previewCharacterMap;
+		std::unordered_map<std::string, std::unique_ptr<CharacterAppearanceChanger>>	previewAnimationMap;
+		std::shared_ptr<MainTextArea>													previewText;
+		std::unique_ptr<TextChanger>													previewTextChanger;
 
 		//Character.jsonのfile情報を取得
 		std::vector<std::string> GetSpritesName(json _cjson);
@@ -233,15 +237,13 @@ namespace teller {
 
 		void DrawLinks();
 
-		std::shared_ptr<TSocketCore> GetSocketsRef(uint64_t _id);
-
 		void UpdateAssetList();
 
 		utils::UIDGenerator uidgen;
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
-			TNodeManagerRef(std::move(std::make_unique<TNodeManager>())),
+			TNodeManagerRef(std::make_unique<TNodeManager<TEvent>>()),
 			gContext(ed::CreateEditor()),
 			currentEpisodeID_(0),
 			episodeRef(nullptr),
@@ -322,19 +324,19 @@ namespace teller {
 		int s_PinIconSize;
 		// EpisodeManagerへのポインタ。
 		std::weak_ptr<EpisodeManager> ptrEPCM;
-		std::unique_ptr<TNodeManager> TNodeManagerRef;
+		std::unique_ptr<TNodeManager<TEvent>> TNodeManagerRef;
 
 		std::map<uint64_t, std::string> episodeMap;
 		ed::EditorContext* gContext;
 
 		void Initialize();
 		void UpdateEpisodeList();
-		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
+		void DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha);
 
 	public:
 		SequenceEditor() :
 			Editor("SequenceEditor"),
-			TNodeManagerRef(std::make_unique<TNodeManager>()),
+			TNodeManagerRef(std::make_unique<TNodeManager<TEvent>>()),
 			gContext(ed::CreateEditor()),
 			s_PinIconSize(24)
 		{
