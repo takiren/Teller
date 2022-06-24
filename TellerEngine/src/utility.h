@@ -21,6 +21,7 @@ namespace teller {
 	};
 
 	namespace utils {
+		//64bit‚Ì®”‚Ì—”‚ğ¶¬‚·‚é
 		class UIDGenerator final {
 		private:
 			std::mt19937_64 engine;

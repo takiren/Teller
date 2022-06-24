@@ -112,14 +112,6 @@ namespace teller {
 		//毎チック行う処理。
 		void Tick();
 
-		//こいつらはもういらん。
-		//必ずweak_ptrで受け取ること。
-		//TODO:Delete these valiables.
-		//depricated
-
-		//エディターの追加　deprecated
-		int AddEditor(std::shared_ptr<Editor> editor);
-
 		//モジュール追加
 		int AddModule(std::shared_ptr<ModuleCore>&& sub_module);
 
@@ -140,9 +132,6 @@ namespace teller {
 
 		//TODO:Delete
 		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);
-
-		//TODO:Delete
-		void LoadSprite(std::string path);
 
 		//TODO:Delete
 		void AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode);

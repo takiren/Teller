@@ -87,6 +87,7 @@ namespace teller {
 			fspath_ /= fs::path("data\\episodes");
 			fspath_ /= jsonEpisode;
 
+			//TODO:書け asap
 			// イベントデータが存在するか確認。
 			if (fs::directory_entry(fspath_).exists()) {
 				//存在した場合の処理。
@@ -288,7 +289,6 @@ namespace teller {
 	};
 
 	class EpisodeEventOut :public EpisodeEvent {
-
 	};
 
 	class EpisodeEventManager {

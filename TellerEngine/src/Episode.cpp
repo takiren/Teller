@@ -84,7 +84,6 @@ namespace teller {
 
 	StorySequencer::StorySequencer(uint64_t _id, int _line)
 	{
-
 	}
 
 	void StorySequencer::Update()

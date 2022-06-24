@@ -489,8 +489,6 @@ void teller::EpisodeEventEditor::Tick()
 		ImGui::EndPopup();
 	}
 
-
-
 	ed::SetCurrentEditor(gContext);
 	auto cursorTopLeft = ImGui::GetCursorScreenPos();
 
@@ -586,6 +584,7 @@ void teller::EpisodeEventEditor::Tick()
 				};
 
 				ed::PinId startPinId = 0, endPinId = 0;
+
 				//NOTE:ネストが深すぎませんか？
 				if (ed::QueryNewLink(&startPinId, &endPinId)) {
 
@@ -630,6 +629,15 @@ void teller::EpisodeEventEditor::Tick()
 			id_ = TNodeManagerRef->AddTNodeAnimation();
 			break;
 
+		case 3:
+			break;
+
+		case 4:
+			break;
+
+		case 5:
+			break;
+
 		case 6:
 			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
 			break;
@@ -645,27 +653,25 @@ void teller::EpisodeEventEditor::Tick()
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
 	ImGui::EndChild();
-
 	ImGui::End();
 }
 
 void teller::EpisodeEventEditor::ShowEpisodeText()
 {
-	if (ImGui::BeginChild("EpisodeText", ImVec2(900, 0))) {
-		//episodeRef!=nullptrのときテキスト表示。
-		if (episodeRef) {
-			int i = 0;
-			for (auto& e : episodeRef->data) {
-				auto str = e.second.at(0) + e.second.at(1);
-				if (ImGui::Selectable(str.c_str(), currentLine == i)) {
-					currentLine = i;
-					previewTextChanger->SetText(e.second.at(0), e.second.at(1));
-				}
-				i++;
+	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
+	//episodeRef!=nullptrのときテキスト表示。
+	if (episodeRef) {
+		int i = 0;
+		for (auto& e : episodeRef->data) {
+			auto str = e.second.at(0) + e.second.at(1);
+			if (ImGui::Selectable(str.c_str(), currentLine == i)) {
+				currentLine = i;
+				previewTextChanger->SetText(e.second.at(0), e.second.at(1));
 			}
+			i++;
 		}
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 }
 
 void teller::EpisodeEventEditor::LoadFile(fs::path _path)
@@ -800,25 +806,6 @@ void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, in
 }
 
 
-void teller::NodeEditorBase::Tick()
-{
-	ed::Begin(name_.c_str());
-
-	ed::End();
-}
-
-void teller::NodeEditorBase::LoadFile(fs::path _path)
-{
-}
-
-void teller::NodeEditorBase::TickInternal()
-{
-}
-
-void teller::NodeEditorBase::BuildNode()
-{
-}
-
 
 void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha)
 {
@@ -832,6 +819,7 @@ void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<T
 	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
 	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
 	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::STRING:		iconType = IconType::Circle; break;
 	default:
 		return;
 	}

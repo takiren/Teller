@@ -168,7 +168,7 @@ namespace teller {
 	};
 
 	//エピソードイベントエディター
-	class EpisodeEventEditor :public Editor {
+	class EpisodeEventEditor final :public Editor {
 	private:
 		//ノードエディタ用変数
 		ImColor GetIconColor(Socket_TYPE type);
@@ -182,17 +182,17 @@ namespace teller {
 		void OpenAddNodePopup();
 
 		//ノードエディタ用変数
-		ed::EditorContext*							gContext;
-
-		uint64_t									currentEpisodeID_;
-
+		ed::EditorContext* gContext;
 		std::unique_ptr<TNodeManager<TEvent>>		TNodeManagerRef;
 
-		std::vector<std::string>					nodeList_;
+		TEposodeID									currentEpisodeID_;
+
+		//追加できるノードの一覧
+		std::vector<std::string>					nodeList_; //HACK:なんでvectorなのにList_なの？
 		std::unique_ptr<Episode>					episodeRef;
 
 		//編集対象の行
-		int currentLine;
+		int											currentLine;
 
 		//キャラクター見た目
 		int											characterAppearanceNum;
@@ -206,9 +206,7 @@ namespace teller {
 		fs::path									jsonFilePath_;
 
 		using EventPack = std::vector<std::unique_ptr<EpisodeEvent>>;
-
 		std::map<int, EventPack>					eventPackMap;
-
 
 		void CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key);
 		void SwapEvent(EventPack& _vector, int m, int n);
@@ -221,6 +219,8 @@ namespace teller {
 
 		//プレビュー用
 		void ShowPreview();
+		void ShowEpisodeText();
+
 		std::unordered_map<std::string, std::shared_ptr<CharacterSimple>>				previewCharacterMap;
 		std::unordered_map<std::string, std::unique_ptr<CharacterAppearanceChanger>>	previewAnimationMap;
 		std::shared_ptr<MainTextArea>													previewText;
@@ -228,18 +228,18 @@ namespace teller {
 
 		//Character.jsonのfile情報を取得
 		std::vector<std::string> GetSpritesName(json _cjson);
-
-		bool bShowSprite;
-
 		std::string targetCharacter = "";
 
-		bool bCreatingNewNode;
-
-		void DrawLinks();
-
-		void UpdateAssetList();
+		bool				bCreatingNewNode;
+		//プレビューするかどうか
+		bool				bShowSprite;
 
 		utils::UIDGenerator uidgen;
+
+		void UpdateAssetList();
+		void DrawLinks();
+
+	protected:
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
@@ -258,6 +258,7 @@ namespace teller {
 			bCreatingNewNode(false),
 			uidgen(utils::UIDGenerator())
 		{
+			//HACK:なんでこんな雑な感じなの？
 			//ノード用
 			nodeList_.push_back("Branch.");
 			nodeList_.push_back("Scene change");
@@ -273,7 +274,6 @@ namespace teller {
 
 		//TODO:イベントを外部から登録できるようにしたい
 		void Tick() override;
-		void ShowEpisodeText();
 		void Update() override;
 
 		void CallByParent() override;
@@ -289,33 +289,45 @@ namespace teller {
 
 	//ノードエディタ用基底クラス
 	//TODO:こいつを早く実装するか削除しろ
-	class NodeEditorBase{
-	private:
+	class NodeEditorBase {
 	protected:
-		std::string name_;
-		void TickInternal();
-		void BuildNode();
+		ImColor GetIconColor(Socket_TYPE _type);
+		void	DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha);
+		int										s_PinIconSize = 24;
+
+		ed::EditorContext*						gContext;
+		std::unique_ptr<TNodeManager<TEvent>>	TNodeManagerRef;
+
+		//追加できるノードの一覧
+		std::vector<std::string>				nodeList_; //HACK:なんでvectorなのにList_なの？
+		std::unique_ptr<Episode>				episodeRef;
+
+		std::string								name_;
+
+		utils::UIDGenerator						uidgen;
+
 	public:
 		NodeEditorBase() = delete;
-		NodeEditorBase(std::string _name):
-			name_(_name)
+		NodeEditorBase(std::string _name) :
+			name_(_name),
+			uidgen(utils::UIDGenerator()),
+			gContext(ed::CreateEditor())
 		{};
 		virtual ~NodeEditorBase() = default;
-		
+
 		//コピーコンストラクタ削除
-		NodeEditorBase(const NodeEditorBase&) = delete;
-		NodeEditorBase& operator=(const NodeEditorBase&) = delete;
+		NodeEditorBase(const NodeEditorBase&) =				delete;
+		NodeEditorBase& operator=(const NodeEditorBase&) =	delete;
 		//ムーブ許可
-		NodeEditorBase& operator=(NodeEditorBase&&) = default;
+		NodeEditorBase& operator=(NodeEditorBase&&) =		default;
 
-		virtual void LoadFile(fs::path _path) ;
+		virtual void LoadFile(fs::path _path);
 		virtual void Tick();
-		virtual void AddEventEntry(EpisodeEvent _event);
-	};
 
-	//TODO:いい加減何かする
-	inline void teller::NodeEditorBase::AddEventEntry(EpisodeEvent _event) {
-	}
+		virtual void AddNode();
+
+		virtual void AddNodeSignature(TNodeSignature _nodeSig);
+	};
 
 
 	class SequenceEditor :public Editor {
@@ -352,7 +364,7 @@ namespace teller {
 
 	};
 
-	inline void teller::SequenceEditor::Initialize(){
+	inline void teller::SequenceEditor::Initialize() {
 	}
 
 	class AssetViewer :public Editor {

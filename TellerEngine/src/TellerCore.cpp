@@ -42,12 +42,6 @@ namespace teller {
 		animSequencer_.push_back(_animSequencer);
 	}
 
-
-	void TellerCore::LoadSprite(std::string path)
-	{
-
-	}
-
 	void TellerCore::AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode)
 	{
 		episodeContentManagerRef->AddContent(_key, std::move(_episode));
@@ -85,13 +79,5 @@ namespace teller {
 	void TellerCore::UpdateDeltaTime()
 	{
 		deltaTime_ = timeCurrent - timeOld;
-	}
-
-	int TellerCore::AddEditor(std::shared_ptr<Editor> editor)
-	{
-		editors.push_back(editor);
-		editor->parent = this->shared_from_this();
-		editor->CallByParent();
-		return 0;
 	}
 }
