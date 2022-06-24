@@ -18,7 +18,6 @@ void teller::TopLevelMenu::LoadFile(fs::path _path)
 {
 }
 
-
 void teller::AssetViewer::Tick()
 {
 	ImGui::Begin("AssetViewer");
@@ -586,10 +585,8 @@ void teller::EpisodeEventEditor::Tick()
 				ed::PinId startPinId = 0, endPinId = 0;
 
 				//NOTE:ネストが深すぎませんか？
-				if (ed::QueryNewLink(&startPinId, &endPinId)) {
-
+				if (ed::QueryNewLink(&startPinId, &endPinId))
 					if (startPinId && endPinId)
-					{
 						if (startPinId == endPinId)
 						{
 							ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
@@ -602,9 +599,6 @@ void teller::EpisodeEventEditor::Tick()
 								TNodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
 							}
 						}
-					}
-				}
-
 			}
 			ed::EndCreate();
 		}
@@ -931,17 +925,18 @@ void teller::EditorManager::EditorCallBack(std::unique_ptr<Episode> _episode)
 
 std::string teller::EpisodeEditor::SingleLine(std::vector<std::string > _vector) {
 	auto s = std::string("");
-	for (auto& e : _vector)s += e;
+	for (auto& e : _vector)
+		s += e;
+
 	return s;
 }
 
 void teller::EpisodeEventEditor::ShowPreview()
 {
-	if (previewCharacterMap.size() != 0) {
+	if (previewCharacterMap.size() != 0)
 		for (auto& e : previewCharacterMap) {
 			e.second->Tick();
 		}
-	}
 
 	previewText->Tick();
 }
@@ -957,6 +952,36 @@ ImColor teller::NodeEditorBase::GetIconColor(Socket_TYPE _type)
 	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
 	default:							return ImColor(0, 0, 0);
 	}
+}
+
+void teller::NodeEditorBase::OpenPopupAddNode()
+{
+	std::string str = name_;
+	name_ += "AddNode";
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle)) {
+
+		ImGui::OpenPopup(name_.c_str());
+	}
+
+	if (ImGui::BeginPopup(name_.c_str())) {
+		ImGui::Text("Node list.");
+		ImGui::Separator();
+		int i = 0;
+
+		for (auto& nodesig : nodeSignatureVector) {
+			if (ImGui::Selectable(nodesig.first.c_str()))
+				;
+			++i;
+		}
+
+		ImGui::EndPopup();
+	}
+
+}
+
+TNodeID teller::NodeEditorBase::MakeNode(int _index)
+{
+	return TNodeID();
 }
 
 void teller::NodeEditorBase::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
@@ -977,4 +1002,131 @@ void teller::NodeEditorBase::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt
 	}
 
 	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
+}
+
+void teller::NodeEditorBase::Tick()
+{
+	ed::SetCurrentEditor(gContext);
+	ed::Begin(name_.c_str());
+
+	//1.ノードマネージャーから読み取って描画
+	{
+		util::BlueprintNodeBuilder builder;
+		// ノードでイテレーション
+		for (auto& node : TNodeManagerRef->nodes) {
+			builder.Begin(node.second->ID_);
+			//builderでの操作。
+			{
+				builder.Header(ImColor(255, 255, 255));
+				{
+					ImGui::Spring(0);
+					ImGui::TextUnformatted(node.second->name_.c_str());
+					ImGui::Spring(1);
+					ImGui::Dummy(ImVec2(0, 28));
+					ImGui::Spring(0);
+				}
+				builder.EndHeader();
+
+				// インプットソケットの描画
+				{
+					auto alpha = ImGui::GetStyle().Alpha;
+					for (auto& e : node.second->socketsInput) {
+
+						builder.Input(e.first);
+						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+						DrawPinIcon(e.second, false, (int)(alpha * 255));
+						ImGui::Spring(0);
+						ImGui::Spring(0);
+						ImGui::PopStyleVar();
+						builder.EndInput();
+					}
+				}
+
+				// アウトプットソケットの描画
+				{
+					auto alpha = ImGui::GetStyle().Alpha;
+					for (auto& e : node.second->socketsOutput) {
+						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+						builder.Output(e.first);
+						ImGui::Spring(0);
+						ImGui::TextUnformatted(node.second->name_.c_str());
+						// ピンごとの条件分岐を記述ここから
+
+						// ここまで
+						ImGui::Spring(0);
+						DrawPinIcon(e.second, false, (int)(alpha * 255));
+						ImGui::PopStyleVar();
+						builder.EndOutput();
+					}
+				}
+			}
+			builder.End();
+		}
+	}
+	//2.リンク描画
+	{
+		auto links = TNodeManagerRef->GetLinks();
+		for (auto& link : links)
+			ed::Link(link.ID_, link.InputID_, link.OutputID_);
+	}
+
+	//3.リンク生成
+	{
+		//ノードを生成していないときに処理
+		if (!bCreatingNewNode) {
+			if (ed::BeginCreate(ImColor(255, 255, 255), 2.0f)) {
+				auto showLabel = [](const char* label, ImColor _color) {
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetTextLineHeight());
+					auto size = ImGui::CalcTextSize(label);
+
+					auto padding = ImGui::GetStyle().FramePadding;
+					auto spacing = ImGui::GetStyle().ItemSpacing;
+
+					ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(spacing.x, -spacing.y));
+
+					auto rectMin = ImGui::GetCursorScreenPos() - padding;
+					auto rectMax = ImGui::GetCursorScreenPos() + size + padding;
+
+					auto drawlist = ImGui::GetWindowDrawList();
+					drawlist->AddRectFilled(rectMin, rectMax, _color, size.y * 0.15f);
+
+					ImGui::TextUnformatted(label);
+				};
+
+				ed::PinId startPinId = 0, endPinId = 0;
+
+				//NOTE:ネストが深すぎませんか？
+				if (ed::QueryNewLink(&startPinId, &endPinId))
+					if (startPinId && endPinId)
+						if (startPinId == endPinId)
+						{
+							ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
+						}
+						else
+						{
+							showLabel("+ Create Link", ImColor(32, 45, 32, 180));
+							if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
+							{
+								TNodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
+							}
+						}
+			}
+			ed::EndCreate();
+		}
+	}
+
+	ed::End();
+	ed::SetCurrentEditor(nullptr);
+}
+
+void NodeEditorBase::LoadFile(fs::path _path)
+{
+}
+
+void NodeEditorBase::AddNodeSignature(TNodeSignature _nodeSig)
+{
+	nodeSignatureVector[_nodeSig.name] = _nodeSig;
+}
+
+void teller::SequenceEditor::Initialize() {
 }

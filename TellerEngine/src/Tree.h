@@ -85,7 +85,6 @@ namespace teller {
 		bool AddTarget(uint64_t _target);
 	};
 
-
 	inline bool TSocketCore::AddTarget(uint64_t _target)
 	{
 		targetSocketsID_.push_back(_target);
@@ -131,6 +130,7 @@ namespace teller {
 		void AddOutputSocket(Socket_TYPE _scktType, TSocketID _id);
 
 		void SetPosition(vec2 _pos) { pos_ = _pos; }
+		
 	};
 
 	inline void TNodeCore::SetDesciption(std::string _description) { description = _description; }
@@ -249,7 +249,14 @@ namespace teller {
 		//Depricated:ノードエディターのAddNodeSignatureを使え
 		//Use a method AddNodeSignature in NodeEditorBase
 		void AddNodeSignature(TNodeSignature _nodeSignature);
+
+		TNodeID AddNodeFromSignature(TNodeSignature _nodeSignature);
 	};
+
+	inline TNodeID teller::TNodeManager::AddNodeFromSignature(TNodeSignature _nodeSignature) 
+	{
+		return TNodeID();
+	}
 
 	inline void teller::TNodeManager::AddNodeSignature(TNodeSignature _nodeSignature)
 	{

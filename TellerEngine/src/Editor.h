@@ -150,7 +150,6 @@ namespace teller {
 			Editor("EpisodeEditor"),
 			lineBracket(std::make_pair<int, int>(0, 1)),
 			episodeNameCandidate("") {};
-
 		~EpisodeEditor() = default;
 
 		void CallByParent() override;
@@ -178,7 +177,7 @@ namespace teller {
 		void OpenAddNodePopup();
 
 		//ノードエディタ用変数
-		ed::EditorContext*							gContext;
+		ed::EditorContext* gContext;
 		std::unique_ptr<TNodeManager>				TNodeManagerRef;
 
 		TEposodeID									currentEpisodeID_;
@@ -283,32 +282,38 @@ namespace teller {
 		void Save() override;
 	};
 
+
 	//ノードエディタ用基底クラス
 	//TODO:こいつを早く実装するか削除しろ
 	class NodeEditorBase {
+	private:
 	protected:
-		ImColor GetIconColor(Socket_TYPE _type);
-		void	DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
+		std::string								name_;
 		int										s_PinIconSize = 24;
 
 		ed::EditorContext*						gContext;
-		std::unique_ptr<TNodeManager>	TNodeManagerRef;
+		std::unique_ptr<TNodeManager>			TNodeManagerRef;
 
 		//追加できるノードの一覧
-		std::vector<std::string>				nodeList_; //HACK:なんでvectorなのにList_なの？
-		std::unique_ptr<Episode>				episodeRef;
-
-		std::string								name_;
 
 		utils::UIDGenerator						uidgen;
 		std::unordered_map<std::string, TNodeSignature> nodeSignatureVector;
 
+		bool									bCreatingNewNode;
+
+		void	DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
+		ImColor GetIconColor(Socket_TYPE _type);
+
+		void OpenPopupAddNode();
+
+		TNodeID MakeNode(int _index);
 	public:
 		NodeEditorBase() = delete;
 		NodeEditorBase(std::string _name) :
 			name_(_name),
 			uidgen(utils::UIDGenerator()),
-			gContext(ed::CreateEditor())
+			gContext(ed::CreateEditor()),
+			bCreatingNewNode(false)
 		{};
 		virtual ~NodeEditorBase() = default;
 
@@ -321,16 +326,8 @@ namespace teller {
 		virtual void LoadFile(fs::path _path);
 		virtual void Tick();
 
-		virtual void AddNode();
-
 		virtual void AddNodeSignature(TNodeSignature _nodeSig);
 	};
-
-	inline void NodeEditorBase::AddNodeSignature(TNodeSignature _nodeSig)
-	{
-		nodeSignatureVector[_nodeSig.name] = _nodeSig;
-	}
-
 
 	class SequenceEditor :public Editor {
 	private:
@@ -365,9 +362,6 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 
 	};
-
-	inline void teller::SequenceEditor::Initialize() {
-	}
 
 	class AssetViewer :public Editor {
 	private:
