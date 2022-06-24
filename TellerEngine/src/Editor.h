@@ -163,16 +163,12 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 	};
 
-	struct TEvent {
-		TEvent() = default;
-	};
-
 	//エピソードイベントエディター
 	class EpisodeEventEditor final :public Editor {
 	private:
 		//ノードエディタ用変数
 		ImColor GetIconColor(Socket_TYPE type);
-		void DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha);
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
 		int											s_PinIconSize;
 
 		//左のパネルを表示
@@ -182,8 +178,8 @@ namespace teller {
 		void OpenAddNodePopup();
 
 		//ノードエディタ用変数
-		ed::EditorContext* gContext;
-		std::unique_ptr<TNodeManager<TEvent>>		TNodeManagerRef;
+		ed::EditorContext*							gContext;
+		std::unique_ptr<TNodeManager>				TNodeManagerRef;
 
 		TEposodeID									currentEpisodeID_;
 
@@ -243,7 +239,7 @@ namespace teller {
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
-			TNodeManagerRef(std::make_unique<TNodeManager<TEvent>>()),
+			TNodeManagerRef(std::make_unique<TNodeManager>()),
 			gContext(ed::CreateEditor()),
 			currentEpisodeID_(0),
 			episodeRef(nullptr),
@@ -292,11 +288,11 @@ namespace teller {
 	class NodeEditorBase {
 	protected:
 		ImColor GetIconColor(Socket_TYPE _type);
-		void	DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha);
+		void	DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
 		int										s_PinIconSize = 24;
 
 		ed::EditorContext*						gContext;
-		std::unique_ptr<TNodeManager<TEvent>>	TNodeManagerRef;
+		std::unique_ptr<TNodeManager>	TNodeManagerRef;
 
 		//追加できるノードの一覧
 		std::vector<std::string>				nodeList_; //HACK:なんでvectorなのにList_なの？
@@ -305,6 +301,7 @@ namespace teller {
 		std::string								name_;
 
 		utils::UIDGenerator						uidgen;
+		std::unordered_map<std::string, TNodeSignature> nodeSignatureVector;
 
 	public:
 		NodeEditorBase() = delete;
@@ -329,6 +326,11 @@ namespace teller {
 		virtual void AddNodeSignature(TNodeSignature _nodeSig);
 	};
 
+	inline void NodeEditorBase::AddNodeSignature(TNodeSignature _nodeSig)
+	{
+		nodeSignatureVector[_nodeSig.name] = _nodeSig;
+	}
+
 
 	class SequenceEditor :public Editor {
 	private:
@@ -337,19 +339,19 @@ namespace teller {
 		int s_PinIconSize;
 		// EpisodeManagerへのポインタ。
 		std::weak_ptr<EpisodeManager> ptrEPCM;
-		std::unique_ptr<TNodeManager<TEvent>> TNodeManagerRef;
+		std::unique_ptr<TNodeManager> TNodeManagerRef;
 
 		std::map<uint64_t, std::string> episodeMap;
 		ed::EditorContext* gContext;
 
 		void Initialize();
 		void UpdateEpisodeList();
-		void DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha);
+		void DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
 
 	public:
 		SequenceEditor() :
 			Editor("SequenceEditor"),
-			TNodeManagerRef(std::make_unique<TNodeManager<TEvent>>()),
+			TNodeManagerRef(std::make_unique<TNodeManager>()),
 			gContext(ed::CreateEditor()),
 			s_PinIconSize(24)
 		{

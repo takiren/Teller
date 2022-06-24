@@ -520,9 +520,9 @@ void teller::EpisodeEventEditor::Tick()
 					auto alpha = ImGui::GetStyle().Alpha;
 					for (auto& e : node.second->socketsInput) {
 
-						builder.Input(e->ID_);
+						builder.Input(e.first);
 						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-						DrawPinIcon(e, false, (int)(alpha * 255));
+						DrawPinIcon(e.second, false, (int)(alpha * 255));
 						ImGui::Spring(0);
 						ImGui::Spring(0);
 						ImGui::PopStyleVar();
@@ -535,14 +535,14 @@ void teller::EpisodeEventEditor::Tick()
 					auto alpha = ImGui::GetStyle().Alpha;
 					for (auto& e : node.second->socketsOutput) {
 						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-						builder.Output(e->ID_);
+						builder.Output(e.first);
 						ImGui::Spring(0);
 						ImGui::TextUnformatted(node.second->name_.c_str());
 						// ÉsÉìÇ≤Ç∆ÇÃèåèï™äÚÇãLèqÇ±Ç±Ç©ÇÁ
 
 						// Ç±Ç±Ç‹Ç≈
 						ImGui::Spring(0);
-						DrawPinIcon(e, false, (int)(alpha * 255));
+						DrawPinIcon(e.second, false, (int)(alpha * 255));
 						ImGui::PopStyleVar();
 						builder.EndOutput();
 					}
@@ -807,7 +807,7 @@ void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, in
 
 
 
-void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha)
+void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);
@@ -843,7 +843,7 @@ void teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _ep
 {
 }
 
-void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<TEvent>> sckt, bool connected, int alpha)
+void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);
@@ -944,4 +944,37 @@ void teller::EpisodeEventEditor::ShowPreview()
 	}
 
 	previewText->Tick();
+}
+
+ImColor teller::NodeEditorBase::GetIconColor(Socket_TYPE _type)
+{
+	switch (_type)
+	{
+	case teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
+	case teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
+	case teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
+	case teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
+	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
+	default:							return ImColor(0, 0, 0);
+	}
+}
+
+void teller::NodeEditorBase::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+{
+	IconType iconType;
+	ImColor  color = GetIconColor(sckt->type_);
+	color.Value.w = alpha / 255.0f;
+
+	switch (sckt->type_)
+	{
+	case  teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+	case teller::Socket_TYPE::STRING:		iconType = IconType::Circle; break;
+	default:
+		return;
+	}
+
+	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
 }

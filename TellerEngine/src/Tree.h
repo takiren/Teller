@@ -56,14 +56,13 @@ namespace teller {
 	};
 
 	//テンプレート化する必要なかったな。
-	template<class T>
+
 	class TNodeCore;
 
-	template<class T>
 	struct TSocketCore {
 		TSocketID ID_;
 
-		std::weak_ptr<TNodeCore<T>> parentTNode;
+		std::weak_ptr<TNodeCore> parentTNode;
 		std::vector<TSocketID> targetSocketsID_;
 
 		Socket_TYPE type_;
@@ -73,18 +72,27 @@ namespace teller {
 			ID_(_id)
 		{};
 
+		bool operator==(const TSocketCore& rhs)
+		{
+			return ID_ == rhs.ID_ ? true : false;
+		}
+
+		bool operator!=(const TSocketCore& rhs)
+		{
+			return ID_ != rhs.ID_ ? true : false;
+		}
+
 		bool AddTarget(uint64_t _target);
 	};
 
-	template<class T>
-	inline bool TSocketCore<T>::AddTarget(uint64_t _target)
+
+	inline bool TSocketCore::AddTarget(uint64_t _target)
 	{
 		targetSocketsID_.push_back(_target);
 		return true;
 	}
 
-	template<class T>
-	class TNodeCore :public std::enable_shared_from_this<TNodeCore<T>> {
+	class TNodeCore :public std::enable_shared_from_this<TNodeCore> {
 	private:
 		std::string description; //説明
 		std::vector<EventDataCore> dataVec_;
@@ -100,8 +108,8 @@ namespace teller {
 		Node_TYPE type_;
 
 		//ポインタじゃなくていいんじゃない？
-		std::vector<std::shared_ptr<TSocketCore<T>>> socketsInput;
-		std::vector<std::shared_ptr<TSocketCore<T>>> socketsOutput;
+		std::unordered_map<TSocketID, std::shared_ptr<TSocketCore>> socketsInput;
+		std::unordered_map<TSocketID, std::shared_ptr<TSocketCore>> socketsOutput;
 
 		TNodeCore() = delete;
 
@@ -125,32 +133,25 @@ namespace teller {
 		void SetPosition(vec2 _pos) { pos_ = _pos; }
 	};
 
-	template<class T>
-	inline void TNodeCore<T>::SetDesciption(std::string _description) { description = _description; }
+	inline void TNodeCore::SetDesciption(std::string _description) { description = _description; }
 
-	template<class T>
-	inline void TNodeCore<T>::SetName(std::string _name) { name_ = _name; }
 
-	template<class T>
-	inline void TNodeCore<T>::AddInputSocket(Socket_TYPE _scktType, TSocketID _id)
+	inline void TNodeCore::SetName(std::string _name) { name_ = _name; }
+
+	inline void TNodeCore::AddInputSocket(Socket_TYPE _scktType, TSocketID _id)
 	{
-		auto sckt = std::make_shared<TSocketCore<T>>(_scktType, _id);
+		auto sckt = std::make_unique<TSocketCore>(_scktType, _id);
 		sckt->parentTNode = this->shared_from_this();
-		socketsInput.push_back(sckt);
+		socketsInput[sckt->ID_] = std::move(sckt);
 	}
 
-	template<class T>
-	inline void TNodeCore<T>::AddOutputSocket(Socket_TYPE _scktType, TSocketID _id)
+	inline void TNodeCore::AddOutputSocket(Socket_TYPE _scktType, TSocketID _id)
 	{
-		auto sckt = std::make_unique<TSocketCore<T>>(_scktType, _id);
+		auto sckt = std::make_unique<TSocketCore>(_scktType, _id);
 		sckt->parentTNode = this->shared_from_this();
-		socketsOutput.push_back(std::move(sckt));
-	}
 
-	struct TEventNodeSignature {
-		TEventNodeSignature() = default;
-		~TEventNodeSignature() = default;
-	};
+		socketsOutput[sckt->ID_] = std::move(sckt);
+	}
 
 	struct TLinkInfo
 	{
@@ -170,21 +171,27 @@ namespace teller {
 		std::string description;
 		std::vector<Socket_TYPE> inputSockets;
 		std::vector<Socket_TYPE> outputSockets;
-
-		TNodeSignature(std::string _name) {};
+		TNodeSignature():
+			name(""),
+			description("")
+		{};
+		TNodeSignature(std::string _name):
+			name(_name),
+			description("")
+		{};
 		virtual ~TNodeSignature() = default;
 	};
 
 	//ノード管理クラス
-	template<class T>
+
 	class TNodeManager {
 		uint64_t MakeUID_ui64t();
 
 		utils::UIDGenerator uid;
 		std::vector<TLinkInfo> tLinks;
 
-		std::shared_ptr<TNodeCore<T>> beginNode_;
-		std::shared_ptr<TNodeCore<T>> endNode_;
+		std::shared_ptr<TNodeCore> beginNode_;
+		std::shared_ptr<TNodeCore> endNode_;
 
 		std::unordered_map<std::string, TNodeSignature> nodeSignatureVector;
 
@@ -197,7 +204,7 @@ namespace teller {
 			uid(utils::UIDGenerator())
 		{};
 
-		std::unordered_map<TNodeID, std::shared_ptr<TNodeCore<T>>> nodes;
+		std::unordered_map<TNodeID, std::shared_ptr<TNodeCore>> nodes;
 
 		std::vector<TLinkInfo> GetLinkVector();
 
@@ -206,7 +213,7 @@ namespace teller {
 			tLinks.emplace_back(uid.Generate(), (TSocketID)_from, (TSocketID)_dest);
 		};
 
-		std::shared_ptr<TSocketCore<T>> FindSocket(TSocketID _ID);
+		std::shared_ptr<TSocketCore> FindSocket(TSocketID _ID);
 
 		//It returns a copy of std::vector<TLinkInfo>.
 		//Use MakeLink if you want to create a new link.
@@ -233,28 +240,28 @@ namespace teller {
 		//基本ノードを補助するノード
 		TNodeID AddTNodeCharacterSelecter();
 
-		void SetNodePosition(TNodeID _ID, vec2 _pos) 
+		void SetNodePosition(TNodeID _ID, vec2 _pos)
 		{
 		}
 
 		void Tick();
 
+		//Depricated:ノードエディターのAddNodeSignatureを使え
+		//Use a method AddNodeSignature in NodeEditorBase
 		void AddNodeSignature(TNodeSignature _nodeSignature);
 	};
 
-	template<class T>
-	inline void teller::TNodeManager<T>::AddNodeSignature(TNodeSignature _nodeSignature) 
+	inline void teller::TNodeManager::AddNodeSignature(TNodeSignature _nodeSignature)
 	{
 		nodeSignatureVector[_nodeSignature.name] = _nodeSignature;
 	}
 
-	template<class T>
-	inline uint64_t teller::TNodeManager<T>::MakeUID_ui64t()
+	inline uint64_t teller::TNodeManager::MakeUID_ui64t()
 	{
 		return uid.Generate();
 	}
-	template<class T>
-	inline std::vector<TLinkInfo> TNodeManager<T>::GetLinkVector()
+
+	inline std::vector<TLinkInfo> TNodeManager::GetLinkVector()
 	{
 		auto links = std::vector<TLinkInfo>();
 		int l = 1;
@@ -267,26 +274,25 @@ namespace teller {
 		return std::vector<TLinkInfo>();
 	}
 
-	template<class T>
-	inline std::shared_ptr<TSocketCore<T>> TNodeManager<T>::FindSocket(TSocketID _ID)
+	inline std::shared_ptr<TSocketCore> TNodeManager::FindSocket(TSocketID _ID)
 	{
 		for (auto& node : nodes)
 		{
-			auto insckt = std::find(node.second->socketsInput.begin(), node.second->socketsInput.end(), _ID);
+			auto insckt = node.second->socketsInput.find(_ID);
 			if (insckt != node.second->socketsInput.end())
-				return *insckt;
-			auto outsckt = std::find(node.second->socketsOutput.begin(), node.second->socketsOutput.end(), _ID);
+				return insckt->second;
+			auto outsckt = node.second->socketsOutput.find(_ID);
 			if (outsckt != node.second->socketsOutput.end())
-				return *outsckt;
+				return outsckt->second;
 		}
 
 		return nullptr;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeBranch()
+
+	inline TNodeID TNodeManager::AddTNodeBranch()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::BRANCH, "Branch", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::BRANCH, "Branch", MakeUID_ui64t());
 		n->name_ = "Branch node";
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		n->AddOutputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
@@ -296,10 +302,9 @@ namespace teller {
 		return n->ID_;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeSceneChange()
+	inline TNodeID TNodeManager::AddTNodeSceneChange()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::SCENECHANGE, "Scenechange ", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::SCENECHANGE, "Scenechange ", MakeUID_ui64t());
 		n->name_ = "Scene change.";
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		n->AddOutputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
@@ -308,10 +313,9 @@ namespace teller {
 		return n->ID_;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeEvent()
+	inline TNodeID TNodeManager::AddTNodeEvent()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::EVENT, "Event", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::EVENT, "Event", MakeUID_ui64t());
 		n->name_ = "Event node.";
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		n->AddOutputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
@@ -321,10 +325,9 @@ namespace teller {
 
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeAnimation()
+	inline TNodeID TNodeManager::AddTNodeAnimation()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::ANIMATION, "animation", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::ANIMATION, "animation", MakeUID_ui64t());
 		n->name_ = "Animation node.";
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		n->AddOutputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
@@ -333,10 +336,10 @@ namespace teller {
 		return n->ID_;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeBegin()
+
+	inline TNodeID TNodeManager::AddTNodeBegin()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::BEGINEPISODE, "Begin", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::BEGINEPISODE, "Begin", MakeUID_ui64t());
 		n->name_ = "Episode begin.";
 		n->AddOutputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		std::cout << n->ID_ << std::endl;
@@ -345,10 +348,9 @@ namespace teller {
 		return n->ID_;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddEpisodeNode(uint64_t _id)
+	inline TNodeID TNodeManager::AddEpisodeNode(uint64_t _id)
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::EPISODE, "Episode", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::EPISODE, "Episode", MakeUID_ui64t());
 
 		n->name_ = "Episode";
 		n->episodeID_ = _id;
@@ -360,10 +362,9 @@ namespace teller {
 		return nid;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeCharacterInOut()
+	inline TNodeID TNodeManager::AddTNodeCharacterInOut()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::CHARACTER_IN_OUT, "CharacterIn", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::CHARACTER_IN_OUT, "CharacterIn", MakeUID_ui64t());
 		n->name_ = "Character In Out";
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		n->AddOutputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
@@ -373,51 +374,44 @@ namespace teller {
 		return nid;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeCharacterAppear(std::string _name)
+	inline TNodeID TNodeManager::AddTNodeCharacterAppear(std::string _name)
 	{
 
 		return TNodeID();
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeCharacterExit(std::string _name)
+	inline TNodeID TNodeManager::AddTNodeCharacterExit(std::string _name)
 	{
 		return TNodeID();
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddEpisodeNode(uint64_t _id, int _in, int _out)
+	inline TNodeID TNodeManager::AddEpisodeNode(uint64_t _id, int _in, int _out)
 	{
 		return TNodeID();
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddEpisodeNode(Episode _episode)
+	inline TNodeID TNodeManager::AddEpisodeNode(Episode _episode)
 	{
 		return TNodeID();
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddEpisodeNode(std::shared_ptr<Episode> _episode)
+	inline TNodeID TNodeManager::AddEpisodeNode(std::shared_ptr<Episode> _episode)
 	{
 		return -1;
 	}
 
-	template<class T>
-	inline TNodeID TNodeManager<T>::AddTNodeEnd()
+	inline TNodeID TNodeManager::AddTNodeEnd()
 	{
-		auto n = std::make_shared<TNodeCore<T>>(Node_TYPE::ENDEPISODE, "End", MakeUID_ui64t());
+		auto n = std::make_shared<TNodeCore>(Node_TYPE::ENDEPISODE, "End", MakeUID_ui64t());
 		n->name_ = "Episode endF";
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		endNode_ = n;
 		return n->ID_;
 	}
 
-	template<class T>
-	inline TNodeID teller::TNodeManager<T>::AddTNodeCharacterSelecter()
+	inline TNodeID teller::TNodeManager::AddTNodeCharacterSelecter()
 	{
-		auto n = std::make_unique<TNodeCore<T>>(Node_TYPE::BLANK, "Character Selecter", MakeUID_ui64t());
+		auto n = std::make_unique<TNodeCore>(Node_TYPE::BLANK, "Character Selecter", MakeUID_ui64t());
 		n->name_ = "Character Selecter";
 		n->AddOutputSocket(Socket_TYPE::STRING, MakeUID_ui64t());
 		auto nid = n->ID_;
