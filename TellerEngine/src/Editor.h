@@ -273,6 +273,7 @@ namespace teller {
 
 		//TODO:ƒCƒxƒ“ƒg‚ðŠO•”‚©‚ç“o˜^‚Å‚«‚é‚æ‚¤‚É‚µ‚½‚¢
 		void Tick() override;
+		void ShowEpisodeText();
 		void Update() override;
 
 		void CallByParent() override;
@@ -312,8 +313,8 @@ namespace teller {
 		virtual void AddEventEntry(EpisodeEvent _event);
 	};
 
+	//TODO:‚¢‚¢‰ÁŒ¸‰½‚©‚·‚é
 	inline void teller::NodeEditorBase::AddEventEntry(EpisodeEvent _event) {
-
 	}
 
 
@@ -350,6 +351,9 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 
 	};
+
+	inline void teller::SequenceEditor::Initialize(){
+	}
 
 	class AssetViewer :public Editor {
 	private:

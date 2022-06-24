@@ -30,6 +30,7 @@ namespace teller {
 		CHANGE_BG,
 		CHANGE_CHARACTER_APPERANCE
 	};
+
 	/*
 	CSVファイルを読み込むクラス	*/
 	class CSVLoader {
@@ -147,12 +148,13 @@ namespace teller {
 		void NextEpisode();
 	};
 
-	enum TDataType
+	enum class TDataType
 	{
 		DataInt,
 		DataVec2,
 		DataFloat,
-		DataString
+		DataString,
+		COMBO
 	};
 
 	//Event用のデータ
@@ -164,37 +166,74 @@ namespace teller {
 		TEData data_;
 
 	public:
+		EventDataCore(TDataType _type) :
+			dataType_(_type) {};
+
 		EventDataCore(TDataType _type, TEData _data) :
 			dataType_(_type),
-			data_(_data)
-		{};
+			data_(_data) {};
 		virtual ~EventDataCore() = default;
 
+		TDataType GetDataType()const { return dataType_; };
+		TEData GetDump()const { return data_; };
+
 		template<typename T>
-		inline const T GetData()const
+		inline T GetData()
 		{
-			switch (dataType_)
-			{
-			case teller::DataInt:
-				return std::stoi(data_);
+			return data_;
+		}
 
-			case teller::DataVec2:
-				auto d = Utility::split(data_, ',');
-				return ci::vec2(std::stof(d.at(0)), std::stof(d.at(1)));
-
-			case teller::DataFloat:
-				auto d = Utility::split(data_, ',');
-				return std::stof(d.at(0));
-
-			case teller::DataString:
-				return data_;
-
-			default:
-				std::cout << "Data error." << std::endl;
-				break;
-			}
+		template<typename T>
+		inline void SetData(T _data)
+		{
+			return T();
 		}
 	};
+
+	template<>
+	inline void EventDataCore::SetData<std::string>(std::string _data)
+	{
+		data_ = _data;
+	}
+
+	template<>
+	inline void EventDataCore::SetData<ci::vec2>(ci::vec2 _data)
+	{
+		std::stringstream ss;
+		ss << _data[0] << "," << _data[1];
+		data_ = ss.str();
+	}
+
+	template<>
+	inline void EventDataCore::SetData<int>(int _data)
+	{
+		data_ = _data;
+	}
+
+	template<>
+	inline void EventDataCore::SetData<float>(float _data)
+	{
+		data_ = _data;
+	}
+
+	template<>
+	inline std::string EventDataCore::GetData<std::string>()
+	{
+		return data_;
+	}
+
+	template<>
+	inline ci::vec2 EventDataCore::GetData<ci::vec2>() 
+	{
+		auto strvec = Utility::split(data_, ',');
+		return ci::vec2( std::stof(strvec.at(0)), std::stof(strvec.at(1)) );
+	}
+
+	template<>
+	inline int EventDataCore::GetData<int>() 
+	{
+		return std::stoi(data_);
+	}
 
 	struct EventSignature {
 		std::vector<EventDataCore> data_;

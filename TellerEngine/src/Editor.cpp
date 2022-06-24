@@ -325,23 +325,8 @@ void teller::EpisodeEventEditor::Tick()
 		ImGui::EndMenuBar();
 	}
 
-	//TODO:関数へ切り出し
 	//エピソードファイルのテキスト表示
-	ImGui::BeginChild("EpisodeText", ImVec2(900, 0));
-	//episodeRef!=nullptrのときテキスト表示。
-	if (episodeRef) {
-		int i = 0;
-		for (auto& e : episodeRef->data) {
-			auto str = e.second.at(0) + e.second.at(1);
-			if (ImGui::Selectable(str.c_str(), currentLine == i)) {
-				currentLine = i;
-				previewTextChanger->SetText(e.second.at(0), e.second.at(1));
-			}
-			i++;
-		}
-	}
-
-	ImGui::EndChild();
+	ShowEpisodeText();
 
 	ImGui::SameLine();
 
@@ -504,7 +489,7 @@ void teller::EpisodeEventEditor::Tick()
 		ImGui::EndPopup();
 	}
 
-	
+
 
 	ed::SetCurrentEditor(gContext);
 	auto cursorTopLeft = ImGui::GetCursorScreenPos();
@@ -664,6 +649,25 @@ void teller::EpisodeEventEditor::Tick()
 	ImGui::End();
 }
 
+void teller::EpisodeEventEditor::ShowEpisodeText()
+{
+	if (ImGui::BeginChild("EpisodeText", ImVec2(900, 0))) {
+		//episodeRef!=nullptrのときテキスト表示。
+		if (episodeRef) {
+			int i = 0;
+			for (auto& e : episodeRef->data) {
+				auto str = e.second.at(0) + e.second.at(1);
+				if (ImGui::Selectable(str.c_str(), currentLine == i)) {
+					currentLine = i;
+					previewTextChanger->SetText(e.second.at(0), e.second.at(1));
+				}
+				i++;
+			}
+		}
+		ImGui::EndChild();
+	}
+}
+
 void teller::EpisodeEventEditor::LoadFile(fs::path _path)
 {
 	LoadEpisode(_path);
@@ -725,8 +729,8 @@ bool teller::EpisodeEventEditor::CanAccept(fs::path _path)
 	return false;
 }
 
-void teller::EpisodeEventEditor::CallByParent() {
-
+void teller::EpisodeEventEditor::CallByParent()
+{
 }
 
 void teller::EpisodeEventEditor::LoadEpisode(fs::path _path)
@@ -847,10 +851,6 @@ void teller::SequenceEditor::Tick()
 {
 }
 
-void teller::SequenceEditor::Initialize()
-{
-}
-
 void teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _episode)
 {
 }
@@ -863,10 +863,11 @@ void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<TEven
 
 	switch (sckt->type_)
 	{
-	case  teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
+	case teller::Socket_TYPE::FLOW:			iconType = IconType::Flow;   break;
 	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
 	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
 	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
+
 	default:
 		return;
 	}

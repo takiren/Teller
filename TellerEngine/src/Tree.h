@@ -81,6 +81,8 @@ namespace teller {
 	}
 
 	//TNodeCoreここから
+
+
 	template<class T>
 	class TNodeCore :public std::enable_shared_from_this<TNodeCore<T>> {
 	private:
@@ -99,6 +101,7 @@ namespace teller {
 		//ポインタじゃなくていいんじゃない？
 		std::vector<std::shared_ptr<TSocketCore<T>>> socketsInput;
 		std::vector<std::shared_ptr<TSocketCore<T>>> socketsOutput;
+
 
 		TNodeCore() = delete;
 
@@ -163,11 +166,6 @@ namespace teller {
 	//ノード管理クラス
 	template<class T>
 	class TNodeManager {
-
-		//TODO:teller::utils::UIDGeneratorで書き換え
-		std::mt19937_64 engine;
-		std::uniform_int_distribution<uint64_t> ui64distr; //shortened uint64_t distribution
-
 		uint64_t MakeUID_ui64t();
 
 		utils::UIDGenerator uid;
@@ -175,9 +173,10 @@ namespace teller {
 
 		std::shared_ptr<TNodeCore<T>> beginNode_;
 		std::shared_ptr<TNodeCore<T>> endNode_;
+
+		void AddDataSlot();
 	public:
 		TNodeManager() :
-			engine(std::random_device{}()),
 			uid(utils::UIDGenerator())
 		{};
 
@@ -195,6 +194,7 @@ namespace teller {
 		//Use MakeLink if you want to create a new link.
 		std::vector<TLinkInfo> GetLinks()const { return tLinks; };
 
+		//分岐やイベントなどの基本ノード
 		TNodeID AddTNodeBranch();
 		TNodeID AddTNodeSceneChange();
 		TNodeID AddTNodeEvent();
@@ -208,12 +208,20 @@ namespace teller {
 		TNodeID AddEpisodeNode(uint64_t _id, int _in, int _out);
 		TNodeID AddEpisodeNode(Episode _episode);
 		TNodeID AddEpisodeNode(std::shared_ptr<Episode> _episode);
+
+		//基本ノードを補助するノード
+
+		TNodeID AddTNodeCharacterSelecter();
 	};
+
+	template<class T>
+	inline void teller::TNodeManager<T>::AddDataSlot() {
+	}
 
 	template<class T>
 	inline uint64_t teller::TNodeManager<T>::MakeUID_ui64t() 
 	{
-		return ui64distr(engine);
+		return uid.Generate();
 	}
 	template<class T>
 	inline std::vector<TLinkInfo> TNodeManager<T>::GetLinkVector()
@@ -305,7 +313,6 @@ namespace teller {
 
 		beginNode_ = n;
 		return n->ID_;
-
 	}
 
 	template<class T>
@@ -376,6 +383,17 @@ namespace teller {
 		n->AddInputSocket(Socket_TYPE::FLOW, MakeUID_ui64t());
 		endNode_ = n;
 		return n->ID_;
+	}
 
+	template<class T>
+	inline TNodeID teller::TNodeManager<T>::AddTNodeCharacterSelecter()
+	{
+		auto n = std::make_unique<TNodeCore<T>>(Node_TYPE::BLANK, "Character Selecter", MakeUID_ui64t());
+		n->name_ = "Character Selecter";
+		n->AddOutPutSocket(Socket_TYPE::STRING, MakeUID_ui64t());
+		auto nid = n->ID_;
+		nodes[n->ID_] = std::move(n);
+
+		return nid;
 	}
 }
