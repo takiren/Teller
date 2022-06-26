@@ -294,19 +294,22 @@ namespace teller {
 		ed::EditorContext*						gContext;
 		std::unique_ptr<TNodeManager>			TNodeManagerRef;
 
-		//追加できるノードの一覧
-
 		utils::UIDGenerator						uidgen;
-		std::unordered_map<std::string, TNodeSignature> nodeSignatureVector;
+		//追加できるノードの一覧
+		std::vector<TNodeSignature>				nodeSignatureVector;
 
 		bool									bCreatingNewNode;
 
 		void	DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha);
 		ImColor GetIconColor(Socket_TYPE _type);
 
-		void OpenPopupAddNode();
+		//Opens a Popup to add Node.
+		void	OpenPopupAddNode();
 
+		//It returns TNodeID
 		TNodeID MakeNode(int _index);
+
+		virtual void Initialize();
 	public:
 		NodeEditorBase() = delete;
 		NodeEditorBase(std::string _name) :
@@ -314,7 +317,9 @@ namespace teller {
 			uidgen(utils::UIDGenerator()),
 			gContext(ed::CreateEditor()),
 			bCreatingNewNode(false)
-		{};
+		{
+			Initialize();
+		};
 		virtual ~NodeEditorBase() = default;
 
 		//コピーコンストラクタ削除

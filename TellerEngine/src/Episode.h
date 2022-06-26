@@ -105,7 +105,6 @@ namespace teller {
 			data = csv.GetCSVData();
 		};
 
-
 		~Episode() = default;
 		void SetNumber(int episodeNumber);
 	};
@@ -149,93 +148,6 @@ namespace teller {
 		void NextEpisode();
 	};
 
-	enum class TDataType
-	{
-		DataInt,
-		DataVec2,
-		DataFloat,
-		DataString,
-		COMBO
-	};
-
-	//Event用のデータ
-	using TEData = std::string;
-
-	class EventDataCore {
-	protected:
-		TDataType dataType_;
-		TEData data_;
-
-	public:
-		EventDataCore(TDataType _type) :
-			dataType_(_type) {};
-
-		EventDataCore(TDataType _type, TEData _data) :
-			dataType_(_type),
-			data_(_data) {};
-		virtual ~EventDataCore() = default;
-
-		TDataType GetDataType()const { return dataType_; };
-		TEData GetDump()const { return data_; };
-
-		template<typename T>
-		inline T GetData()
-		{
-			return data_;
-		}
-
-		template<typename T>
-		inline void SetData(T _data)
-		{
-			return T();
-		}
-	};
-
-	template<>
-	inline void EventDataCore::SetData<std::string>(std::string _data)
-	{
-		data_ = _data;
-	}
-
-	template<>
-	inline void EventDataCore::SetData<ci::vec2>(ci::vec2 _data)
-	{
-		std::stringstream ss;
-		ss << _data[0] << "," << _data[1];
-		data_ = ss.str();
-	}
-
-	template<>
-	inline void EventDataCore::SetData<int>(int _data)
-	{
-		data_ = _data;
-	}
-
-	template<>
-	inline void EventDataCore::SetData<float>(float _data)
-	{
-		data_ = _data;
-	}
-
-	template<>
-	inline std::string EventDataCore::GetData<std::string>()
-	{
-		return data_;
-	}
-
-	template<>
-	inline ci::vec2 EventDataCore::GetData<ci::vec2>() 
-	{
-		auto strvec = Utility::split(data_, ',');
-		return ci::vec2( std::stof(strvec.at(0)), std::stof(strvec.at(1)) );
-	}
-
-	template<>
-	inline int EventDataCore::GetData<int>() 
-	{
-		return std::stoi(data_);
-	}
-
 	struct EventSignature {
 		std::vector<EventDataCore> data_;
 		std::string name_;
@@ -245,81 +157,6 @@ namespace teller {
 
 		void AddEventData(EventDataCore&& _data) { data_.push_back(_data); };
 		void SetName(std::string _name) { name_ = _name; };
-	};
-
-	class EpisodeEvent {
-		std::vector<EventDataCore> data_;
-
-	public:
-		EPISODE_EVENT_TYPE type_;
-		uint64_t ID_;
-		int targetLine;
-		std::string target_;
-		std::string key_;
-		std::string description_;
-
-		EpisodeEvent() = delete;
-		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _key) :
-			type_(_type),
-			targetLine(_line),
-			key_(_key),
-			ID_(-1),
-			target_("")
-		{};
-
-		EpisodeEvent(EPISODE_EVENT_TYPE _type, int _line, std::string _target, std::string _key) :
-			type_(_type),
-			targetLine(_line),
-			target_(""),
-			key_(_key),
-			ID_(-1)
-		{};
-	};
-
-
-	class EpisodeEventIn :public EpisodeEvent {
-	private:
-	public:
-		EpisodeEventIn(std::string _target, std::string _key) :
-			EpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, 0, _key)
-		{};
-		~EpisodeEventIn() = default;
-
-		std::vector<TDataType> GetStructure();
-	};
-
-	class EpisodeEventOut :public EpisodeEvent {
-	};
-
-	class EpisodeEventManager {
-	private:
-		//key=intは行を表す。
-		//ex) key=6 6行目のイベント。
-		std::map<int, std::unique_ptr<EpisodeEvent>> eventRefs;
-	public:
-		uint64_t ID_;
-		EpisodeEventManager() = delete;
-		EpisodeEventManager(fs::path _path);
-
-	};
-
-	class EpisodeSequencer {
-		std::weak_ptr<Episode> episode_;
-		std::unordered_map<int, EpisodeEvent> eventsMap_;
-		void LoadEvents();
-	public:
-		EpisodeSequencer() = delete;
-		EpisodeSequencer(uint64_t _id);
-		EpisodeSequencer(fs::path _path);
-		EpisodeSequencer(std::shared_ptr<Episode> _episode) :
-			episode_(_episode) {};
-	};
-
-	class EventSequencer {
-		std::unordered_map<int, EpisodeEvent> eventsMap_;
-	public:
-		EventSequencer() = delete;
-		EventSequencer(std::string _path);
 	};
 
 }

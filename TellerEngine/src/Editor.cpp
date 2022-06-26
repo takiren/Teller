@@ -411,7 +411,7 @@ void teller::EpisodeEventEditor::Tick()
 	{
 		int index = 0;
 		for (auto& e : eventPackMap[currentLine]) {
-			auto slabel = std::string();
+			auto slabel = std::string{""};
 			switch (e->type_)
 			{
 			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:
@@ -640,6 +640,7 @@ void teller::EpisodeEventEditor::Tick()
 			DEBUG_PRINTF("Nothing added.");
 			break;
 		}
+
 		auto newNodePosition = ImGui::GetMousePos();
 		ed::SetNodePosition(id_, newNodePosition);
 	}
@@ -958,30 +959,38 @@ void teller::NodeEditorBase::OpenPopupAddNode()
 {
 	std::string str = name_;
 	name_ += "AddNode";
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle)) {
-
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle))
 		ImGui::OpenPopup(name_.c_str());
-	}
+	
 
 	if (ImGui::BeginPopup(name_.c_str())) {
 		ImGui::Text("Node list.");
 		ImGui::Separator();
-		int i = 0;
 
+		int i = 0;
 		for (auto& nodesig : nodeSignatureVector) {
-			if (ImGui::Selectable(nodesig.first.c_str()))
-				;
+			if (ImGui::Selectable(nodesig.name.c_str()))
+				ed::SetNodePosition(MakeNode(i), ImGui::GetMousePos());
+
 			++i;
 		}
 
 		ImGui::EndPopup();
 	}
-
 }
 
 TNodeID teller::NodeEditorBase::MakeNode(int _index)
 {
-	return TNodeID();
+	auto nid = TNodeManagerRef->AddNodeFromSignature(nodeSignatureVector[_index]);
+	return nid;
+}
+
+void teller::NodeEditorBase::Initialize()
+{
+	TNodeSignature nsig;
+	nsig.name = "Animation";
+	nsig.inputSockets.push_back(Socket_TYPE::FLOW);
+	nsig.outputSockets.push_back(Socket_TYPE::FLOW);
 }
 
 void teller::NodeEditorBase::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
@@ -1114,6 +1123,7 @@ void teller::NodeEditorBase::Tick()
 			ed::EndCreate();
 		}
 	}
+	OpenPopupAddNode();
 
 	ed::End();
 	ed::SetCurrentEditor(nullptr);
@@ -1125,7 +1135,7 @@ void NodeEditorBase::LoadFile(fs::path _path)
 
 void NodeEditorBase::AddNodeSignature(TNodeSignature _nodeSig)
 {
-	nodeSignatureVector[_nodeSig.name] = _nodeSig;
+	nodeSignatureVector.push_back(_nodeSig);
 }
 
 void teller::SequenceEditor::Initialize() {

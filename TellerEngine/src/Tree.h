@@ -43,19 +43,105 @@ namespace teller {
 		INT,
 		FLOAT,
 		STRING,
-		COMBO
+		COMBO,
+		AGENT,
+		ANIMATION
 	};
 
 	enum class Socket_TYPE {
 		Delegate,
 		BOOL,
 		INT,
+		VEC2,
+		FLOAT,
 		STRING,
 		OPTION,
-		FLOW
+		FLOW,
+		ANIMATION,
+		AGENT
 	};
 
 	//テンプレート化する必要なかったな。
+
+	//Event用のデータ
+	using TEData = std::string;
+
+	class EventDataCore {
+	protected:
+		Socket_TYPE type_;
+		TEData data_;
+	public:
+		EventDataCore() = delete;
+		EventDataCore(Socket_TYPE _type) :
+			type_(_type),
+			data_("")
+		{};
+
+		EventDataCore(Socket_TYPE _type, TEData _data) :
+			type_(_type),
+			data_(_data)
+		{};
+		virtual ~EventDataCore() = default;
+
+		TEData GetDump()const { return data_; };
+
+		template<typename T>
+		inline T GetData()
+		{
+			return data_;
+		}
+
+		template<typename T>
+		inline void SetData(T _data)
+		{
+			return T();
+		}
+	};
+
+	template<>
+	inline void EventDataCore::SetData<std::string>(std::string _data)
+	{
+		data_ = _data;
+	}
+
+	template<>
+	inline void EventDataCore::SetData<ci::vec2>(ci::vec2 _data)
+	{
+		std::stringstream ss;
+		ss << _data[0] << "," << _data[1];
+		data_ = ss.str();
+	}
+
+	template<>
+	inline void EventDataCore::SetData<int>(int _data)
+	{
+		data_ = _data;
+	}
+
+	template<>
+	inline void EventDataCore::SetData<float>(float _data)
+	{
+		data_ = _data;
+	}
+
+	template<>
+	inline std::string EventDataCore::GetData<std::string>()
+	{
+		return data_;
+	}
+
+	template<>
+	inline ci::vec2 EventDataCore::GetData<ci::vec2>()
+	{
+		auto strvec = Utility::split(data_, ',');
+		return ci::vec2(std::stof(strvec.at(0)), std::stof(strvec.at(1)));
+	}
+
+	template<>
+	inline int EventDataCore::GetData<int>()
+	{
+		return std::stoi(data_);
+	}
 
 	class TNodeCore;
 
@@ -65,11 +151,15 @@ namespace teller {
 		std::weak_ptr<TNodeCore> parentTNode;
 		std::vector<TSocketID> targetSocketsID_;
 
+		EventDataCore data_;
+
 		Socket_TYPE type_;
+
 		TSocketCore() = delete;
 		TSocketCore(Socket_TYPE _type, TSocketID _id) :
 			type_(_type),
-			ID_(_id)
+			ID_(_id),
+			data_(EventDataCore(_type))
 		{};
 
 		bool operator==(const TSocketCore& rhs)
@@ -130,7 +220,7 @@ namespace teller {
 		void AddOutputSocket(Socket_TYPE _scktType, TSocketID _id);
 
 		void SetPosition(vec2 _pos) { pos_ = _pos; }
-		
+
 	};
 
 	inline void TNodeCore::SetDesciption(std::string _description) { description = _description; }
@@ -169,17 +259,31 @@ namespace teller {
 	struct TNodeSignature {
 		std::string name;
 		std::string description;
+
 		std::vector<Socket_TYPE> inputSockets;
 		std::vector<Socket_TYPE> outputSockets;
-		TNodeSignature():
+		std::vector<EventDataCore> data_;
+
+		TNodeSignature() :
 			name(""),
 			description("")
 		{};
-		TNodeSignature(std::string _name):
+		TNodeSignature(std::string _name) :
 			name(_name),
 			description("")
 		{};
 		virtual ~TNodeSignature() = default;
+
+		//自身が辞書的に上位に位置するのであればtrue
+		bool operator >(TNodeSignature& rhs) const {
+			return name.compare(rhs.name) < 0;
+		}
+
+		//自身が辞書的に下位に位置するのであればtrue
+		bool operator <(TNodeSignature& rhs) const {
+			return name.compare(rhs.name) > 0;
+		}
+
 	};
 
 	//ノード管理クラス
@@ -219,9 +323,6 @@ namespace teller {
 		//Use MakeLink if you want to create a new link.
 		std::vector<TLinkInfo> GetLinks()const { return tLinks; };
 
-		//ノードにデータスロットを追加
-		void AddDataSlot(TDataType _type);
-
 		//分岐やイベントなどの基本ノード
 		TNodeID AddTNodeBranch();
 		TNodeID AddTNodeSceneChange();
@@ -244,8 +345,6 @@ namespace teller {
 		{
 		}
 
-		void Tick();
-
 		//Depricated:ノードエディターのAddNodeSignatureを使え
 		//Use a method AddNodeSignature in NodeEditorBase
 		void AddNodeSignature(TNodeSignature _nodeSignature);
@@ -253,9 +352,19 @@ namespace teller {
 		TNodeID AddNodeFromSignature(TNodeSignature _nodeSignature);
 	};
 
-	inline TNodeID teller::TNodeManager::AddNodeFromSignature(TNodeSignature _nodeSignature) 
+	inline TNodeID teller::TNodeManager::AddNodeFromSignature(TNodeSignature _nodeSignature)
 	{
-		return TNodeID();
+		auto newnode = std::make_unique<TNodeCore>(Node_TYPE::BLANK, _nodeSignature.name, uid.Generate());
+		for (auto& sckt : _nodeSignature.inputSockets)
+			newnode->AddInputSocket(sckt, uid.Generate());
+
+		for (auto& sckt : _nodeSignature.outputSockets)
+			newnode->AddOutputSocket(sckt, uid.Generate());
+
+		auto nid = newnode->ID_;
+		nodes[nid] = std::move(newnode);
+
+		return nid;
 	}
 
 	inline void teller::TNodeManager::AddNodeSignature(TNodeSignature _nodeSignature)
