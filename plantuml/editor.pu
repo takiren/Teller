@@ -1,0 +1,15 @@
+@startuml editor
+skinparam {
+    monochrome true
+    padding 1
+}
+
+class Editor{
+    + virtual LoadFile(fs::path _path)
+    + virtual Tick()
+    + virtual Update()
+    + virtual Save()
+    + virtual GetTMessage(TEVENT_MESSAGE& _message)
+}
+
+@enduml

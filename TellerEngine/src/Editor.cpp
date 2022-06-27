@@ -86,6 +86,10 @@ void teller::Editor::CallByParent()
 {
 }
 
+void teller::Editor::LoadFile(fs::path _path)
+{
+}
+
 bool teller::Editor::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size)
 {
 	ImGuiContext& g = *GImGui;
@@ -103,11 +107,6 @@ void teller::EpisodeEditor::Initialize()
 
 void teller::EpisodeEditor::CallByParent()
 {
-}
-
-bool teller::EpisodeEditor::CanAccept(fs::path _path)
-{
-	return false;
 }
 
 void teller::EpisodeEditor::LoadFile(fs::path _path)
@@ -276,10 +275,11 @@ void teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
 
 void teller::EpisodeEventEditor::OpenAddNodePopup()
 {
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-		DEBUG_PRINTF("Right clicked.");
+	ed::Suspend();
+	if (ed::ShowBackgroundContextMenu()) {
 		ImGui::OpenPopup("AddNode");
 	}
+	ed::Resume();
 }
 
 void teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
@@ -290,15 +290,15 @@ void teller::EpisodeEventEditor::ShowLeftPane(float panewidth)
 	ImGui::EndChild();
 }
 
-ImColor teller::EpisodeEventEditor::GetIconColor(Socket_TYPE type)
+ImColor teller::EpisodeEventEditor::GetIconColor(Socket_Data_Type type)
 {
 	switch (type)
 	{
-	case teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
-	case teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
-	case teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
-	case teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
-	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
+	case teller::Socket_Data_Type::Delegate:	return ImColor(255, 255, 255);
+	case teller::Socket_Data_Type::BOOL:		return ImColor(220, 48, 48);
+	case teller::Socket_Data_Type::INT:		return ImColor(68, 201, 156);
+	case teller::Socket_Data_Type::OPTION:	return ImColor(147, 226, 74);
+	case teller::Socket_Data_Type::FLOW:		return ImColor(255, 255, 255);
 	default:							return ImColor(0, 0, 0);
 	}
 }
@@ -471,8 +471,15 @@ void teller::EpisodeEventEditor::Tick()
 	ImGui::Begin("EpisodeEventEditor");
 
 	ImGui::BeginChild("NodeEditor Event");
+
+	ed::SetCurrentEditor(gContext);
+	auto cursorTopLeft = ImGui::GetCursorScreenPos();
+
+	ed::Begin("Editor");
 	OpenAddNodePopup();
+
 	int selected = -1;
+	ed::Suspend();
 	if (ImGui::BeginPopup("AddNode")) {
 		ImGui::Text("Node list.");
 
@@ -488,11 +495,7 @@ void teller::EpisodeEventEditor::Tick()
 		ImGui::EndPopup();
 	}
 
-	ed::SetCurrentEditor(gContext);
-	auto cursorTopLeft = ImGui::GetCursorScreenPos();
-
-	ed::Begin("Editor");
-
+	ed::Resume();
 	// 1.ノードマネージャーから読み取って描画
 	{
 		util::BlueprintNodeBuilder builder;
@@ -725,11 +728,6 @@ void teller::EpisodeEventEditor::Save()
 	o << j;
 }
 
-bool teller::EpisodeEventEditor::CanAccept(fs::path _path)
-{
-	return false;
-}
-
 void teller::EpisodeEventEditor::CallByParent()
 {
 }
@@ -801,8 +799,7 @@ void teller::EpisodeEventEditor::CreateEpisodeEvent(EPISODE_EVENT_TYPE _type, in
 }
 
 
-
-void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
+void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore<Episode_Event_Node, Socket_Data_Type>> sckt, bool connected, int alpha)
 {
 	IconType iconType;
 	ImColor  color = GetIconColor(sckt->type_);
@@ -810,11 +807,11 @@ void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> 
 
 	switch (sckt->type_)
 	{
-	case  teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::STRING:		iconType = IconType::Circle; break;
+	case  teller::Socket_Data_Type::FLOW:		iconType = IconType::Flow;   break;
+	case teller::Socket_Data_Type::BOOL:			iconType = IconType::Circle; break;
+	case teller::Socket_Data_Type::INT:			iconType = IconType::Circle; break;
+	case teller::Socket_Data_Type::OPTION:		iconType = IconType::Circle; break;
+	case teller::Socket_Data_Type::STRING:		iconType = IconType::Circle; break;
 	default:
 		return;
 	}
@@ -822,71 +819,6 @@ void teller::EpisodeEventEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> 
 	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
 }
 
-void teller::SequenceEditor::LoadFile(fs::path _path)
-{
-}
-
-void teller::SequenceEditor::UpdateEpisodeList()
-{
-}
-
-void teller::SequenceEditor::Tick()
-{
-}
-
-void teller::SequenceEditor::callBackFromCSVManager(std::vector<std::string> _episode)
-{
-}
-
-void teller::SequenceEditor::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
-{
-	IconType iconType;
-	ImColor  color = GetIconColor(sckt->type_);
-	color.Value.w = alpha / 255.0f;
-
-	switch (sckt->type_)
-	{
-	case teller::Socket_TYPE::FLOW:			iconType = IconType::Flow;   break;
-	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
-
-	default:
-		return;
-	}
-
-	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
-};
-ImColor teller::SequenceEditor::GetIconColor(Socket_TYPE type)
-{
-	switch (type)
-	{
-	case teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
-	case teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
-	case teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
-	case teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
-	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
-	default:							return ImColor(0, 0, 0);
-	}
-}
-
-void teller::CharacterEditor::Initialize(fs::path _path)
-{
-
-}
-
-std::filesystem::path teller::CharacterEditor::OpenFile()
-{
-	return getOpenFilePath("");
-}
-
-void teller::CharacterEditor::Tick()
-{
-}
-
-void teller::CharacterEditor::LoadFile(fs::path _path)
-{
-}
 
 void teller::AssetViewer::Initialize()
 {
@@ -903,10 +835,6 @@ void teller::AssetViewer::Initialize()
 
 }
 
-bool teller::AssetViewer::CanAccept(fs::path _path)
-{
-	return false;
-}
 
 void teller::AssetViewer::CallByParent()
 {
@@ -942,201 +870,19 @@ void teller::EpisodeEventEditor::ShowPreview()
 	previewText->Tick();
 }
 
-ImColor teller::NodeEditorBase::GetIconColor(Socket_TYPE _type)
-{
-	switch (_type)
-	{
-	case teller::Socket_TYPE::Delegate:	return ImColor(255, 255, 255);
-	case teller::Socket_TYPE::BOOL:		return ImColor(220, 48, 48);
-	case teller::Socket_TYPE::INT:		return ImColor(68, 201, 156);
-	case teller::Socket_TYPE::OPTION:	return ImColor(147, 226, 74);
-	case teller::Socket_TYPE::FLOW:		return ImColor(255, 255, 255);
-	default:							return ImColor(0, 0, 0);
-	}
-}
-
-void teller::NodeEditorBase::OpenPopupAddNode()
-{
-	std::string str = name_;
-	name_ += "AddNode";
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Middle))
-		ImGui::OpenPopup(name_.c_str());
-	
-
-	if (ImGui::BeginPopup(name_.c_str())) {
-		ImGui::Text("Node list.");
-		ImGui::Separator();
-
-		int i = 0;
-		for (auto& nodesig : nodeSignatureVector) {
-			if (ImGui::Selectable(nodesig.name.c_str()))
-				ed::SetNodePosition(MakeNode(i), ImGui::GetMousePos());
-
-			++i;
-		}
-
-		ImGui::EndPopup();
-	}
-}
-
-TNodeID teller::NodeEditorBase::MakeNode(int _index)
-{
-	auto nid = TNodeManagerRef->AddNodeFromSignature(nodeSignatureVector[_index]);
-	return nid;
-}
-
-void teller::NodeEditorBase::Initialize()
-{
-	TNodeSignature nsig;
-	nsig.name = "Animation";
-	nsig.inputSockets.push_back(Socket_TYPE::FLOW);
-	nsig.outputSockets.push_back(Socket_TYPE::FLOW);
-}
-
-void teller::NodeEditorBase::DrawPinIcon(const std::shared_ptr<TSocketCore> sckt, bool connected, int alpha)
-{
-	IconType iconType;
-	ImColor  color = GetIconColor(sckt->type_);
-	color.Value.w = alpha / 255.0f;
-
-	switch (sckt->type_)
-	{
-	case  teller::Socket_TYPE::FLOW:		iconType = IconType::Flow;   break;
-	case teller::Socket_TYPE::BOOL:			iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::INT:			iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::OPTION:		iconType = IconType::Circle; break;
-	case teller::Socket_TYPE::STRING:		iconType = IconType::Circle; break;
-	default:
-		return;
-	}
-
-	ax::Widgets::Icon(ImVec2(s_PinIconSize, s_PinIconSize), iconType, connected, color, ImColor(32, 32, 32, alpha));
-}
-
-void teller::NodeEditorBase::Tick()
-{
-	ed::SetCurrentEditor(gContext);
-	ed::Begin(name_.c_str());
-
-	//1.ノードマネージャーから読み取って描画
-	{
-		util::BlueprintNodeBuilder builder;
-		// ノードでイテレーション
-		for (auto& node : TNodeManagerRef->nodes) {
-			builder.Begin(node.second->ID_);
-			//builderでの操作。
-			{
-				builder.Header(ImColor(255, 255, 255));
-				{
-					ImGui::Spring(0);
-					ImGui::TextUnformatted(node.second->name_.c_str());
-					ImGui::Spring(1);
-					ImGui::Dummy(ImVec2(0, 28));
-					ImGui::Spring(0);
-				}
-				builder.EndHeader();
-
-				// インプットソケットの描画
-				{
-					auto alpha = ImGui::GetStyle().Alpha;
-					for (auto& e : node.second->socketsInput) {
-
-						builder.Input(e.first);
-						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-						DrawPinIcon(e.second, false, (int)(alpha * 255));
-						ImGui::Spring(0);
-						ImGui::Spring(0);
-						ImGui::PopStyleVar();
-						builder.EndInput();
-					}
-				}
-
-				// アウトプットソケットの描画
-				{
-					auto alpha = ImGui::GetStyle().Alpha;
-					for (auto& e : node.second->socketsOutput) {
-						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-						builder.Output(e.first);
-						ImGui::Spring(0);
-						ImGui::TextUnformatted(node.second->name_.c_str());
-						// ピンごとの条件分岐を記述ここから
-
-						// ここまで
-						ImGui::Spring(0);
-						DrawPinIcon(e.second, false, (int)(alpha * 255));
-						ImGui::PopStyleVar();
-						builder.EndOutput();
-					}
-				}
-			}
-			builder.End();
-		}
-	}
-	//2.リンク描画
-	{
-		auto links = TNodeManagerRef->GetLinks();
-		for (auto& link : links)
-			ed::Link(link.ID_, link.InputID_, link.OutputID_);
-	}
-
-	//3.リンク生成
-	{
-		//ノードを生成していないときに処理
-		if (!bCreatingNewNode) {
-			if (ed::BeginCreate(ImColor(255, 255, 255), 2.0f)) {
-				auto showLabel = [](const char* label, ImColor _color) {
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetTextLineHeight());
-					auto size = ImGui::CalcTextSize(label);
-
-					auto padding = ImGui::GetStyle().FramePadding;
-					auto spacing = ImGui::GetStyle().ItemSpacing;
-
-					ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(spacing.x, -spacing.y));
-
-					auto rectMin = ImGui::GetCursorScreenPos() - padding;
-					auto rectMax = ImGui::GetCursorScreenPos() + size + padding;
-
-					auto drawlist = ImGui::GetWindowDrawList();
-					drawlist->AddRectFilled(rectMin, rectMax, _color, size.y * 0.15f);
-
-					ImGui::TextUnformatted(label);
-				};
-
-				ed::PinId startPinId = 0, endPinId = 0;
-
-				//NOTE:ネストが深すぎませんか？
-				if (ed::QueryNewLink(&startPinId, &endPinId))
-					if (startPinId && endPinId)
-						if (startPinId == endPinId)
-						{
-							ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
-						}
-						else
-						{
-							showLabel("+ Create Link", ImColor(32, 45, 32, 180));
-							if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
-							{
-								TNodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
-							}
-						}
-			}
-			ed::EndCreate();
-		}
-	}
-	OpenPopupAddNode();
-
-	ed::End();
-	ed::SetCurrentEditor(nullptr);
-}
-
-void NodeEditorBase::LoadFile(fs::path _path)
+void teller::CharacterEditor::Initialize(fs::path _path)
 {
 }
 
-void NodeEditorBase::AddNodeSignature(TNodeSignature _nodeSig)
+fs::path teller::CharacterEditor::OpenFile()
 {
-	nodeSignatureVector.push_back(_nodeSig);
+	return fs::path();
 }
 
-void teller::SequenceEditor::Initialize() {
+void teller::CharacterEditor::Tick()
+{
+}
+
+void teller::CharacterEditor::LoadFile(fs::path _path)
+{
 }

@@ -119,6 +119,7 @@ void TellerEngineMain::setup()
 	mCore->AppendEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
 	mCore->AppendEditor(std::make_unique<AssetViewer>());
 	mCore->AppendEditor(std::make_unique<EpisodeEditor>());
+	mCore->AppendEditor(std::make_unique<TestEditor>());
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));

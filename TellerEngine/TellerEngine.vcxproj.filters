@@ -179,6 +179,9 @@
     <ClInclude Include="src\NodeLink.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\NodeEditorPrivate.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

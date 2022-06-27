@@ -133,30 +133,4 @@ namespace teller {
 			episodeFilePath_(_path)
 		{};
 	};
-	class EpisodeSequencer;
-	class StorySequencer {
-		uint64_t currentEpisodeID_;
-		std::unique_ptr<EpisodeSequencer> epSequencer_;
-	public:
-		StorySequencer() = default;
-		StorySequencer(std::string _path);
-		StorySequencer(uint64_t _id, int _line);
-
-		void Update();
-		void Load();
-		void NextEpisode(uint64_t _id);
-		void NextEpisode();
-	};
-
-	struct EventSignature {
-		std::vector<EventDataCore> data_;
-		std::string name_;
-
-		EventSignature() = default;
-		virtual ~EventSignature() = default;
-
-		void AddEventData(EventDataCore&& _data) { data_.push_back(_data); };
-		void SetName(std::string _name) { name_ = _name; };
-	};
-
 }
