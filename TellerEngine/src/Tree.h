@@ -63,6 +63,18 @@ namespace teller {
 		AGENT
 	};
 
+	enum class Episode_Event_Socket {
+		BOOL,
+		INT,
+		VEC2,
+		FLOAT,
+		STRING,
+		OPTION,
+		FLOW,
+		ANIMATION,
+		AGENT
+	};
+
 	//テンプレート化する必要なかったな。
 
 	//Event用のデータ
@@ -227,7 +239,11 @@ namespace teller {
 		void SetDesciption(std::string _description);
 
 		void AddInputSocket(SOCKET_TYPE _scktType, TSocketID _id);
+		void AddInputSocket(SOCKET_TYPE _scktType, TSocketID _id, IconType icontype);
+
 		void AddOutputSocket(SOCKET_TYPE _scktType, TSocketID _id);
+		void AddOutputSocket(SOCKET_TYPE _scktType, TSocketID _id, IconType icontype);
+
 
 		void SetPosition(vec2 _pos) { pos_ = _pos; }
 
@@ -249,9 +265,27 @@ namespace teller {
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
+	inline void TNodeCore<NODE_TYPE, SOCKET_TYPE>::AddInputSocket(SOCKET_TYPE _scktType, TSocketID _id, IconType icontype)
+	{
+		auto sckt = std::make_unique<TSocket>(_scktType, _id, icontype);
+		sckt->parentTNode = this->shared_from_this();
+
+		socketsOutput[sckt->ID_] = std::move(sckt);
+	}
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline void TNodeCore< NODE_TYPE, SOCKET_TYPE>::AddOutputSocket(SOCKET_TYPE _scktType, TSocketID _id)
 	{
 		auto sckt = std::make_unique<TSocket>(_scktType, _id);
+		sckt->parentTNode = this->shared_from_this();
+
+		socketsOutput[sckt->ID_] = std::move(sckt);
+	}
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	inline void TNodeCore<NODE_TYPE, SOCKET_TYPE>::AddOutputSocket(SOCKET_TYPE _scktType, TSocketID _id, IconType icontype)
+	{
+		auto sckt = std::make_unique<TSocket>(_scktType, _id, icontype);
 		sckt->parentTNode = this->shared_from_this();
 
 		socketsOutput[sckt->ID_] = std::move(sckt);
@@ -275,14 +309,12 @@ namespace teller {
 		std::string name;
 		std::string description;
 
-		std::vector<SOCKET_TYPE> inputSockets;
-		std::vector<SOCKET_TYPE> outputSockets;
-
-		std::vector<EventDataCore> data_;
+		std::vector< std::pair< SOCKET_TYPE, IconType> > inputSockets;
+		std::vector< std::pair< SOCKET_TYPE, IconType> > outputSockets;
 
 		TNodeSignature() = delete;
 
-		TNodeSignature( std::string _name) :
+		TNodeSignature(std::string _name) :
 			name(_name),
 			description("")
 		{};
@@ -380,12 +412,12 @@ namespace teller {
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline TNodeID teller::TNodeManager<NODE_TYPE, SOCKET_TYPE>::AddNodeFromSignature(TNodeSignature<SOCKET_TYPE> _nodeSignature)
 	{
-		auto newnode = std::make_unique<TNode>(Episode_Event_Node::BLANK, _nodeSignature.name, uid.Generate());
+		auto newnode = std::make_shared<TNode>(Episode_Event_Node::BLANK, _nodeSignature.name, uid.Generate());
 		for (auto& sckt : _nodeSignature.inputSockets)
-			newnode->AddInputSocket(sckt, uid.Generate());
+			newnode->AddInputSocket(sckt.first, uid.Generate());
 
 		for (auto& sckt : _nodeSignature.outputSockets)
-			newnode->AddOutputSocket(sckt, uid.Generate());
+			newnode->AddOutputSocket(sckt.first, uid.Generate());
 
 		auto nid = newnode->ID_;
 		nodes[nid] = std::move(newnode);

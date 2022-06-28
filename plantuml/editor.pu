@@ -12,4 +12,29 @@ class Editor{
     + virtual GetTMessage(TEVENT_MESSAGE& _message)
 }
 
+class NodeEditorBase<NODE_TYPE, SOCKET_TYPE>{
+    # std::string name_
+    # int s_PinIconSize=24
+    # ax::NodeEditor::EditorContext* gContext
+    # std::unique_ptr<TNodeManager<NODE_TYPE,SOCKET_TYPE>> TNodeManagerRef
+    # std::vector<TNodeSignature<SOCKET_TYPE>> nodeSignatureVector
+    # bool bCreatingNewNode
+    # void DrawPinIcon(const std::shared_ptr<TSocketCore<NODE_TYPE, SOCKET_TYPE>> sckt, bool connected, int alpha)
+    # ImColor GetIconColor(TSocketCore<NODE_TYPE, SOCKET_TYPE>& _type)
+    # void OpepPopupAddNode()
+    # TNodeID MakeNode(int _index)
+
+    # virtual void Initialize()
+    # virtual void DrawInputSocketInternal()
+    # virtual void DrawOutputSocketInternal()
+
+    + NodeEditorBase(std::string _name)
+    + virtual ~NodeEditorBase()
+
+    + virtual void LoadFile(fs::path _path)
+    + virtual void Tick()
+    + virtual void AddNodeSignature(TNodeSignature<SOCKET_TYPE> _nodesig)
+
+}
+
 @enduml
