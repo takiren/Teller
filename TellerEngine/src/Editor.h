@@ -277,7 +277,6 @@ namespace teller {
 		void Save() override;
 	};
 
-	
 
 	class TestEditor :public Editor {
 	private:
