@@ -80,6 +80,7 @@ namespace teller {
 	//Event用のデータ
 	using TEData = std::string;
 
+	//共用体を使えばシンプルになる
 	class EventDataCore {
 	protected:
 		Node_DATA type_;
@@ -333,6 +334,7 @@ namespace teller {
 
 	};
 
+
 	//ノード管理クラス
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
@@ -350,6 +352,14 @@ namespace teller {
 		std::shared_ptr<TNode> endNode_;
 
 		std::unordered_map<std::string, TNodeSignature<SOCKET_TYPE>> nodeSignatureVector;
+
+		template<class NODE_TYPE,class SOCKET_TYPE>
+		struct TNodeSequence {
+			struct Connection
+			{
+
+			};
+		};
 
 	public:
 		TNodeManager() :
@@ -651,4 +661,5 @@ namespace teller {
 			ID_(-1)
 		{};
 	};
+
 }

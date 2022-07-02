@@ -34,7 +34,6 @@ class NodeEditorBase<NODE_TYPE, SOCKET_TYPE>{
     + virtual void LoadFile(fs::path _path)
     + virtual void Tick()
     + virtual void AddNodeSignature(TNodeSignature<SOCKET_TYPE> _nodesig)
-
 }
 
 @enduml

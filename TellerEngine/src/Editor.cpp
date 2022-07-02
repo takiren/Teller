@@ -501,7 +501,7 @@ void teller::EpisodeEventEditor::Tick()
 		util::BlueprintNodeBuilder builder;
 
 		// ノードでイテレーション
-		for (auto& node : TNodeManagerRef->nodes) {
+		for (auto& node : nodeManagerRef->nodes) {
 
 			builder.Begin(node.second->ID_);
 
@@ -525,6 +525,8 @@ void teller::EpisodeEventEditor::Tick()
 						builder.Input(e.first);
 						ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
 						DrawPinIcon(e.second, false, (int)(alpha * 255));
+						ImGui::SameLine();
+						ImGui::Text("lsddsdsd");
 						ImGui::Spring(0);
 						ImGui::Spring(0);
 						ImGui::PopStyleVar();
@@ -556,7 +558,7 @@ void teller::EpisodeEventEditor::Tick()
 
 	// 2.リンク描画
 	{
-		auto links = TNodeManagerRef->GetLinks();
+		auto links = nodeManagerRef->GetLinks();
 		for (auto& link : links)
 			ed::Link(link.ID_, link.InputID_, link.OutputID_);
 	}
@@ -599,7 +601,7 @@ void teller::EpisodeEventEditor::Tick()
 							showLabel("+ Create Link", ImColor(32, 45, 32, 180));
 							if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
 							{
-								TNodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
+								nodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
 							}
 						}
 			}
@@ -614,16 +616,16 @@ void teller::EpisodeEventEditor::Tick()
 		{
 		case 0:
 			//分岐
-			id_ = TNodeManagerRef->AddTNodeBranch();
+			id_ = nodeManagerRef->AddTNodeBranch();
 			break;
 
 		case 1:
 			//シーンチェンジ
-			id_ = TNodeManagerRef->AddTNodeSceneChange();
+			id_ = nodeManagerRef->AddTNodeSceneChange();
 			break;
 
 		case 2:
-			id_ = TNodeManagerRef->AddTNodeAnimation();
+			id_ = nodeManagerRef->AddTNodeAnimation();
 			break;
 
 		case 3:
@@ -636,7 +638,7 @@ void teller::EpisodeEventEditor::Tick()
 			break;
 
 		case 6:
-			id_ = TNodeManagerRef->AddTNodeCharacterInOut();
+			id_ = nodeManagerRef->AddTNodeCharacterInOut();
 			break;
 
 		default:
@@ -884,5 +886,25 @@ void teller::CharacterEditor::Tick()
 }
 
 void teller::CharacterEditor::LoadFile(fs::path _path)
+{
+}
+
+void teller::EpisodeEventNodeEditor::Initialize()
+{
+}
+
+void teller::EpisodeEventNodeEditor::DrawInputSocketInternal()
+{
+}
+
+void teller::EpisodeEventNodeEditor::DrawOutputSocketInternal()
+{
+}
+
+void teller::EpisodeEventNodeEditor::LoadFile(fs::path _path)
+{
+}
+
+void teller::EpisodeEventNodeEditor::AddNodeSignature(TNodeSignature<Socket_Data_Type> _nodesig)
 {
 }

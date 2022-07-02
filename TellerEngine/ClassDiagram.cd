@@ -1,2 +1,494 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="teller::ContentsManager&lt;TYPE&gt;" Collapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAIAAAACAAAAAAABAAAAAAAAAAAAAAACCAgAAAABAw=</HashCode>
+      <FileName>src\ContentManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TellerCore" Collapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAgQIAAEQAAIQCAghCAgAAAAABDIAoCAAgIAAAAQAA=</HashCode>
+      <FileName>src\TellerCore.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::ModuleCore" Collapsed="true">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAATABgAACAAAAAAAAAAQAIAgCQAAQAA=</HashCode>
+      <FileName>src\ModuleCore.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Editor" Collapsed="true">
+    <Position X="6.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYQAIAAAAAAAABA4gAAAAAAAAAAAAAQAAAgAAAAZAE=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::ThreadPool" Collapsed="true">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAYgCAABQAAAAAAAAAAAAAAgAAAgAAABAAAAAEAE=</HashCode>
+      <FileName>src\ThreadPool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Utility" Collapsed="true">
+    <Position X="19.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\utility.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::AgentCore" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAACCAAgCAAACAIABCAAAAAggQIMAAAgAAQAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Agent&lt;...Args&gt;" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAAgAAAAJAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::CharacterItem" Collapsed="true">
+    <Position X="1.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAABAgAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::CharacterSimple" Collapsed="true">
+    <Position X="3.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAIAAgAAAAQCAAAAAAAAEAAAAAIAAAAAAAAQAQAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Character" Collapsed="true">
+    <Position X="5.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAgAAIAAAAAAAAAAAAAAABAAAAAAACACAASAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Kappa" Collapsed="true">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::RectAgent" Collapsed="true">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::MainTextArea" Collapsed="true">
+    <Position X="14.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAABAAAAAABAAACAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::BackGroundImage" Collapsed="true">
+    <Position X="17" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAQAAAAABAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::AnimatorCore" Collapsed="true">
+    <Position X="5.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Animator&lt;...Args&gt;" Collapsed="true">
+    <Position X="5.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAAAAAAAAAACAAAAAAAIAAABAAAAQACAgEAwAAAA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Circular" Collapsed="true">
+    <Position X="0.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Repeat" Collapsed="true">
+    <Position X="3" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TextChanger" Collapsed="true">
+    <Position X="5.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQABAAAAAABAQAABIBAAAAAAAAAAAAAAABAAAAAABA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::CharacterAppearanceChanger" Collapsed="true">
+    <Position X="7.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::CharacterAnimator" Collapsed="true">
+    <Position X="9.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAAAABAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::AnimationSequencer" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgACAACAA=</HashCode>
+      <FileName>src\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Asset" Collapsed="true">
+    <Position X="0.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\Asset.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Sprite" Collapsed="true">
+    <Position X="0.5" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAQAEAAAAAEIAA=</HashCode>
+      <FileName>src\Asset.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::CSVLoader" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEACEAAAAAAgAIAAAAAAAAAAEAAABAAEAAAAAAAIAA=</HashCode>
+      <FileName>src\Episode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Episode" Collapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABBUAAAgAAAAABAAAAAAAAAAAAAEAAQECAAIAA=</HashCode>
+      <FileName>src\Episode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TSequencer&lt;TYPE&gt;" Collapsed="true">
+    <Position X="21.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Episode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::StorySequenceElement" Collapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAFAIAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Episode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::Sequence" Collapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>src\Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::GameModule" Collapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAAAAAAgAAAAAAAEAgAAAAAIAAAAAAAAAAAAgQAA=</HashCode>
+      <FileName>src\Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::SceneModule" Collapsed="true">
+    <Position X="2.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAACAAAAAAAAAAICAAAAggAAgAACAQAAAAQQA=</HashCode>
+      <FileName>src\Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::EventDataCore" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABECAAAAAAAAAAAAAIAAAAAACAAABAAAAAAAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TNodeCore&lt;NODE_TYPE, SOCKET_TYPE&gt;" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAACAAgAAAIEAAcEBAAEAAAgAAAAAAUAABIAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TNodeManager&lt;NODE_TYPE, SOCKET_TYPE&gt;" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBAQAAIIQoAQEAUAAAAAAAEIgACQQIAAAAAAgAEAMBA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::EpisodeEvent" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAIAAACAAgAAAIIEAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::InGameUIBase" Collapsed="true">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAgAAAAAAACAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\InGameUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::UITemplate&lt;T&gt;" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\InGameUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::UIBase" Collapsed="true">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAEgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\InGameUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::MainTextBox" Collapsed="true">
+    <Position X="10.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAQAAAAAAAAAAAAAAAAAAAAAAAEADgAAAAAAA=</HashCode>
+      <FileName>src\InGameUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TMessageHandler&lt;KEY, DATA_TYPE&gt;" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgACACAAAAAQCAAAAAAAAgAA=</HashCode>
+      <FileName>src\TellerEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TMessanger&lt;KEY_TYPE, DATA_TYPE&gt;" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAABAAUAAAQAAAAAAAA=</HashCode>
+      <FileName>src\TellerEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::EditorManager" Collapsed="true">
+    <Position X="24.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAABAAAAAAABAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TopLevelMenu" Collapsed="true">
+    <Position X="5.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAARAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::EpisodeEventNodeEditor" Collapsed="true">
+    <Position X="12.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAEAAQAAAAAAAAAAQAAAAIAAAAAAAAAARAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::EpisodeEditor">
+    <Position X="7.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAQAQAAAAAAQAAAAAAAAAAAACAAICAARAg=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::EpisodeEventEditor">
+    <Position X="10" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQQWkIBCkALgAQAEIAAAASgGAAkEABg0ACAAFAACREQ=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::TestEditor" Collapsed="true">
+    <Position X="12.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::AssetViewer" Collapsed="true">
+    <Position X="1" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAgBRAAAQAAAAAAACAAAAAAAAAAAAAIRAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::CharacterEditor" Collapsed="true">
+    <Position X="3.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAQAAAAAAAAAAAAAAhEAAAAAAAAAARAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::utils::UIDGenerator" Collapsed="true">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEUEAAA=</HashCode>
+      <FileName>src\utility.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellerEngineMain" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIgAAIICAEAAAAAAAAAIAAAAAAAUAAA=</HashCode>
+      <FileName>src\main.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowData" Collapsed="true">
+    <Position X="21.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>src\main.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="teller::NodeEditorBase&lt;NODE_TYPE, SOCKET_TYPE&gt;" Collapsed="true">
+    <Position X="12.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAECBSAAEAQQAEgAAAAAAAgAAAIJAgAAAwEAAAZAA=</HashCode>
+      <FileName>src\NodeEditor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="teller::CharacterAppearance" Collapsed="true">
+    <Position X="19.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAEAAAAAAAABAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="teller::CharacterSet" Collapsed="true">
+    <Position X="21.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="teller::TSocketCore&lt;NODE_TYPE, SOCKET_TYPE&gt;" Collapsed="true">
+    <Position X="21.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAACAAgBAAIAAAAQAAAAAAAAEAIAAAAAAAAAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="teller::TLinkInfo" Collapsed="true">
+    <Position X="26.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAgAAAAACAAAAAAAgAAAAEAAAAAAAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="teller::TNodeSignature&lt;SOCKET_TYPE&gt;" Collapsed="true">
+    <Position X="19.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAIAAAAIAAAAAEAAAAgAAgCAAAAAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="teller::EventSignature" Collapsed="true">
+    <Position X="23" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAgAAAAAAAAAAAAAIAAAAAAAAEAAAAQAAAIAA=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LinkInfo" Collapsed="true">
+    <Position X="24.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\NodeLink.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="teller::CHARACTER_ITEM" Collapsed="true">
+    <Position X="21.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAgAAAAAAAIAAIAAAAAAAQAABAAAAAAAAAAAQA=</HashCode>
+      <FileName>src\Agent.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::ASSET_TYPE" Collapsed="true">
+    <Position X="19.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQEAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Asset.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::TEVENT_MESSAGE" Collapsed="true">
+    <Position X="24.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAABAAAAAQAA=</HashCode>
+      <FileName>src\Core.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::EPISODE_EVENT_TYPE" Collapsed="true">
+    <Position X="19.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIhAAAAAAAAAAAAAAAACAAAAACAIAAAAAAAAAAAAI=</HashCode>
+      <FileName>src\Episode.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::Episode_Event_Node" Collapsed="true">
+    <Position X="24.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQDIAAIAAABAAAABAAACAAAACAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::Node_DATA" Collapsed="true">
+    <Position X="21.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAABAAAAAAIAAggAAAAIAAAAAI=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::Socket_Data_Type" Collapsed="true">
+    <Position X="23" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAIAAABAAAAAAIAAgEAgAAIAAAAII=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::Episode_Event_Socket" Collapsed="true">
+    <Position X="26.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAIAAABAAAAAAIAAgAAgAAIAAAAII=</HashCode>
+      <FileName>src\Tree.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="teller::EDITOR_TYPE" Collapsed="true">
+    <Position X="23" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Editor.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Yu Gothic UI" Size="9" />
+</ClassDiagram>

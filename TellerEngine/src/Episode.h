@@ -19,7 +19,6 @@ namespace teller {
 	using json = nlohmann::json;
 	namespace fs = std::filesystem;
 
-
 	enum class EPISODE_EVENT_TYPE
 	{
 		BRANCH,

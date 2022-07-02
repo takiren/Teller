@@ -226,6 +226,7 @@
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\Episode.cpp" />
+    <ClCompile Include="src\EventInstance.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InGameUI.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -237,10 +238,12 @@
     <ClCompile Include="src\TellerCore.cpp" />
     <ClCompile Include="src\TellerEvent.cpp" />
     <ClCompile Include="src\Tree.cpp" />
+    <ClCompile Include="src\Variant.cpp" />
     <ClCompile Include="src\UIBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="src\EventInstance.h" />
     <ClInclude Include="src\NodeEditorPrivate.h" />
     <ClInclude Include="src\NodeLink.h" />
     <ClInclude Include="src\Agent.h" />
@@ -262,13 +265,13 @@
     <ClInclude Include="src\TellerEvent.h" />
     <ClInclude Include="src\ThreadPool.h" />
     <ClInclude Include="src\Tree.h" />
+    <ClInclude Include="src\Variant.h" />
     <ClInclude Include="src\UIBase.h" />
     <ClInclude Include="src\utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
     <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

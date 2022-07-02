@@ -68,6 +68,7 @@ namespace teller {
 
 		vec2 GetScale()const { return scale_; };
 		void SetScale(vec2 _scale) { scale_ = _scale; };
+
 	};
 
 	template<class... Args>

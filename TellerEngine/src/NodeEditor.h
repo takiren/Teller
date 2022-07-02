@@ -27,26 +27,29 @@ namespace teller {
 	using ax::Widgets::IconType;
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
+	using TNodeManagerRef = std::unique_ptr<TNodeManager<NODE_TYPE, SOCKET_TYPE>>;
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
 	class NodeEditorBase {
 	private:
 	protected:
-		std::string								name_;
-		int										s_PinIconSize = 24;
+		std::string									name_;
+		int											s_PinIconSize = 24;
 
-		ed::EditorContext* gContext;
-		std::unique_ptr<TNodeManager<NODE_TYPE, SOCKET_TYPE>>			TNodeManagerRef;
+		ed::EditorContext*							gContext;
+		TNodeManagerRef<NODE_TYPE, SOCKET_TYPE>		nodeManagerRef;
 
-		utils::UIDGenerator						uidgen;
+		utils::UIDGenerator							uidgen;
 		//追加できるノードの一覧
-		std::vector<TNodeSignature<SOCKET_TYPE>>				nodeSignatureVector;
+		std::vector<TNodeSignature<SOCKET_TYPE>>	nodeSignatureVector;
 
-		bool									bCreatingNewNode;
+		bool										bCreatingNewNode;
 
 		void	DrawPinIcon(const std::shared_ptr<TSocketCore<NODE_TYPE, SOCKET_TYPE>> sckt, bool connected, int alpha);
-		ImColor GetIconColor(TSocketCore<NODE_TYPE, SOCKET_TYPE>& _type);
+		virtual ImColor GetIconColor(TSocketCore<NODE_TYPE, SOCKET_TYPE>& _type);
 
 		//Opens a Popup to add Node.
-		void	OpenPopupAddNode();
+		virtual void	OpenPopupAddNode();
 
 		//It returns TNodeID
 		TNodeID MakeNode(int _index);
@@ -57,6 +60,8 @@ namespace teller {
 
 		virtual void DrawOutputSocketInternal();
 
+		bool Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size);
+
 	public:
 		NodeEditorBase() = delete;
 		NodeEditorBase(std::string _name) :
@@ -64,7 +69,7 @@ namespace teller {
 			uidgen(utils::UIDGenerator()),
 			gContext(ed::CreateEditor()),
 			bCreatingNewNode(false),
-			TNodeManagerRef(std::make_unique<TNodeManager<NODE_TYPE, SOCKET_TYPE>>())
+			nodeManagerRef(std::make_unique<TNodeManager<NODE_TYPE, SOCKET_TYPE>>())
 		{
 			Initialize();
 		};
@@ -110,29 +115,40 @@ namespace teller {
 		ed::Resume();
 
 		ed::Suspend();
+		auto currentNode = TNodeID{ 0 };
 
+		auto nodeCreated = false;
+		//TODO:なぜかマウスの位置に出てくれない
 		if (ImGui::BeginPopup(popname.c_str())) {
 
 			ImGui::Text("Node list.");
 			ImGui::Separator();
 
 			int i = 0;
-
+			auto newnodeposition = ImGui::GetMousePos();
 			for (auto& nodesig : nodeSignatureVector)
 				if (ImGui::Selectable(nodesig.name.c_str()))
-					ed::SetNodePosition(MakeNode(i), ImGui::GetMousePos());
+				{
+					currentNode = MakeNode(i);
+					nodeCreated = true;
+				}
 
 			++i;
 
 			ImGui::EndPopup();
 		}
 		ed::Resume();
+
+		//NOTE:
+
+		if (nodeCreated)
+			ed::SetNodePosition(currentNode, ImGui::GetMousePos());
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline TNodeID teller::NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::MakeNode(int _index)
 	{
-		auto nid = TNodeManagerRef->AddNodeFromSignature(nodeSignatureVector[_index]);
+		auto nid = nodeManagerRef->AddNodeFromSignature(nodeSignatureVector[_index]);
 
 		return nid;
 	}
@@ -151,7 +167,18 @@ namespace teller {
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline void NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::DrawOutputSocketInternal()
 	{
+	}
 
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	inline bool NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::Splitter(bool split_vertically, float thickness, float* size1, float* size2, float min_size1, float min_size2, float splitter_long_axis_size)
+	{
+		ImGuiContext& g = *GImGui;
+		ImGuiWindow* window = g.CurrentWindow;
+		ImGuiID id = window->GetID("##Splitter");
+		ImRect bb;
+		bb.Min = window->DC.CursorPos + (split_vertically ? ImVec2(*size1, 0.0f) : ImVec2(0.0f, *size1));
+		bb.Max = bb.Min + ImGui::CalcItemSize(split_vertically ? ImVec2(thickness, splitter_long_axis_size) : ImVec2(splitter_long_axis_size, thickness), 0.0f, 0.0f);
+		return ImGui::SplitterBehavior(bb, id, split_vertically ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, min_size1, min_size2, 0.0f);
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
@@ -188,7 +215,7 @@ namespace teller {
 		{
 			typename util::BlueprintNodeBuilder builder;
 			// ノードでイテレーション
-			for (auto& node : TNodeManagerRef->nodes) {
+			for (auto& node : nodeManagerRef->nodes) {
 				builder.Begin(node.second->ID_);
 				//builderでの操作。
 				{
@@ -206,7 +233,6 @@ namespace teller {
 					{
 						auto alpha = ImGui::GetStyle().Alpha;
 						for (auto& e : node.second->socketsInput) {
-
 							builder.Input(e.first);
 							ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
 							DrawPinIcon(e.second, false, (int)(alpha * 255));
@@ -243,7 +269,7 @@ namespace teller {
 		}
 		//2.リンク描画
 		{
-			auto links = TNodeManagerRef->GetLinks();
+			auto links = nodeManagerRef->GetLinks();
 			for (auto& link : links)
 				ed::Link(link.ID_, link.InputID_, link.OutputID_);
 		}
@@ -275,7 +301,8 @@ namespace teller {
 
 					//NOTE:ネストが深すぎませんか？
 					if (ed::QueryNewLink(&startPinId, &endPinId))
-						if (startPinId && endPinId)
+						if (startPinId && endPinId) 
+
 							if (startPinId == endPinId)
 							{
 								ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
@@ -285,14 +312,14 @@ namespace teller {
 								showLabel("+ Create Link", ImColor(32, 45, 32, 180));
 								if (ed::AcceptNewItem(ImColor(128, 255, 128), 4.0f))
 								{
-									TNodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
+									nodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
 								}
 							}
+						
 				}
 				ed::EndCreate();
 			}
 		}
-
 
 		ed::End();
 		ed::SetCurrentEditor(nullptr);

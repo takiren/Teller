@@ -23,6 +23,7 @@
   numbersep=1zw,
   lineskip=-0.5ex
 }
+\renewcommand{\jsParagraphMark}{}
 %ここまでソースコードの表示に関する設定
 \titleformat*{\section}{\Huge}
 \begin{document}
@@ -160,6 +161,12 @@ CINDER_APP(TellerEngineMain, RendererGl)
 \subsection{Editor}
 \subsubsection{Editorクラス}
 Editorクラスはすべてのエディターの基底クラスとして扱います。
+
+\section{メモ}
+\subsection{imgui-node-editor}
+\subsubsection{ハマった場所}
+\paragraph{ed::SetNodePosition}
+こいつをed::Suspend()～ed::Resume()間で呼ぶとおかしくなる。
 
 
 \newpage

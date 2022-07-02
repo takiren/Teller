@@ -29,6 +29,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 x64/
+x64/Debug/TellerEngine.tlog/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

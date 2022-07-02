@@ -55,6 +55,7 @@ namespace teller {
 	namespace util = ax::NodeEditor::Utilities;
 	using ax::Widgets::IconType;
 
+	//TODO:Delete
 	//エディターを管理するクラスがあればいいのかなって思ったけどいらないからいずれ削除
 	class EditorManager :public std::enable_shared_from_this<EditorManager> {
 		//TellerCoreへのweak ptr
@@ -76,6 +77,7 @@ namespace teller {
 	class Editor :public std::enable_shared_from_this<Editor> {
 	private:
 	protected:
+		static std::weak_ptr<TellerCore> owner;
 		//trueのときtickを呼び出す。
 		bool bEnabled;
 
@@ -132,6 +134,25 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 	};
 
+	class EpisodeEventNodeEditor final :public NodeEditorBase<Episode_Event_Node, Socket_Data_Type> {
+	private:
+	protected:
+		void Initialize() override;
+
+		void DrawInputSocketInternal() override;
+		void DrawOutputSocketInternal() override;
+
+	public:
+		EpisodeEventNodeEditor() :
+			NodeEditorBase("EventNodeEditor")
+		{};
+		~EpisodeEventNodeEditor() = default;
+
+		void LoadFile(fs::path _path) override;
+
+		void AddNodeSignature(TNodeSignature<Socket_Data_Type> _nodesig) override;
+	};
+
 	//csvからエピソードファイルを作成するためのエディター
 	class EpisodeEditor :public Editor {
 	private:
@@ -176,7 +197,7 @@ namespace teller {
 
 		//ノードエディタ用変数
 		ed::EditorContext* gContext;
-		std::unique_ptr<TNodeManager<Episode_Event_Node, Socket_Data_Type>>				TNodeManagerRef;
+		std::unique_ptr<TNodeManager<Episode_Event_Node, Socket_Data_Type>>				nodeManagerRef;
 
 		TEposodeID									currentEpisodeID_;
 
@@ -236,7 +257,7 @@ namespace teller {
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
-			TNodeManagerRef(std::make_unique<TNodeManager<Episode_Event_Node, Socket_Data_Type>>()),
+			nodeManagerRef(std::make_unique<TNodeManager<Episode_Event_Node, Socket_Data_Type>>()),
 			gContext(ed::CreateEditor()),
 			currentEpisodeID_(0),
 			episodeRef(nullptr),
