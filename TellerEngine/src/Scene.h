@@ -4,13 +4,13 @@
 
 #include"cinder/gl/gl.h"
 #include"cinder/gl/Fbo.h"
-#include"ModuleCore.h"
+
 #include"Agent.h"
 
 namespace teller {
 	using namespace ci;
 
-	class SceneModule : public ModuleCore
+	class SceneModule
 	{
 	private:
 		std::vector<std::shared_ptr<AgentCore>> agents_;
@@ -20,7 +20,7 @@ namespace teller {
 		vec2 destSize;
 		vec2 destScaleFactor;
 	public:
-		SceneModule() :ModuleCore(),
+		SceneModule():
 			destSize(vec2(800, 600)),
 			mFbo_(gl::Fbo::create(1920, 1080,true)),
 			destTopLeft(vec2(100, 100)),
@@ -37,7 +37,7 @@ namespace teller {
 			)
 		{};
 		~SceneModule() {};
-		void Tick(float& deltaTime) override;
+		void Tick(float& deltaTime);
 		void AddAgent(std::shared_ptr<AgentCore> _agent);
 		void SetArea(ci::Area _dest);
 	};

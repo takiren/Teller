@@ -4,7 +4,6 @@ using namespace teller;
 
 void teller::SceneModule::Tick(float& deltaTime)
 {
-	ModuleCore::Tick(deltaTime);
 	// フレームバッファーをFBOに設定。
 	//mFbo_->bindFramebuffer();
 	gl::color(Color::black());

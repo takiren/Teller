@@ -52,10 +52,10 @@ namespace teller {
 		editorsRef[_file.extension()]->LoadFile(_file);
 	}
 
-	int TellerCore::AddModule(std::shared_ptr<ModuleCore>&& sub_module)
+	int TellerCore::AddModule(std::shared_ptr<GameModule> sub_module)
 	{
 		modules.push_back(sub_module);
-		sub_module->ptrTellerCore = this->shared_from_this();
+		sub_module->SetOwner(this->shared_from_this());
 		return 0;
 	}
 	void TellerCore::AppendEditor(fs::path _extension, std::unique_ptr<Editor> editor)

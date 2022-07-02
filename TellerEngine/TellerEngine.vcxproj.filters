@@ -75,9 +75,6 @@
     <ClCompile Include="src\Editor.cpp">
       <Filter>src\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="src\NodeEditor.cpp">
-      <Filter>src\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="src\Episode.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -85,9 +82,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\TellerCore.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ModuleCore.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui-node-editor\examples\blueprints-example\utilities\builders.cpp">
@@ -165,9 +159,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\ContentManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ModuleCore.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\ThreadPool.h">

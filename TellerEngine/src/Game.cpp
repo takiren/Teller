@@ -9,13 +9,9 @@ void teller::GameModule::PushScene(std::shared_ptr<SceneModule> _scene)
 
 void teller::GameModule::Tick(float& deltaTime)
 {
-	mScenes_.front()->Tick(deltaTime);
+	mScenes_.top()->Tick(deltaTime);
 }
 
-void teller::GameModule::SetEnable(bool enable)
-{
-	bEnabled = enable;
-}
 
 teller::Sequence::Sequence(std::string path)
 {

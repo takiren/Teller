@@ -13,7 +13,7 @@
 #include <cinder/app/RendererGl.h>
 
 #include"Core.h"
-#include"ModuleCore.h"
+#include"Game.h"
 #include"TellerEvent.h"
 #include"ContentManager.h"
 #include"Editor.h"
@@ -34,7 +34,8 @@
 namespace teller {
 	//前方宣言
 	class Editor;
-	class ModuleCore;
+	class GameModule;
+
 	using CSVManager = ContentsManager<CSVLoader>;
 	using SpriteManager = ContentsManager<Sprite>;
 	using EpisodeManager = ContentsManager<Episode>;
@@ -54,7 +55,7 @@ namespace teller {
 		std::shared_ptr<CSVManager> CSVContentManagerRef;
 
 		//モジュールとエディターのあれ。
-		std::vector<std::shared_ptr<ModuleCore>> modules;
+		std::vector<std::shared_ptr<GameModule>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
 
 		//メッセンジャーのポインタ
@@ -113,7 +114,7 @@ namespace teller {
 		void Tick();
 
 		//モジュール追加
-		int AddModule(std::shared_ptr<ModuleCore>&& sub_module);
+		int AddModule(std::shared_ptr<GameModule> sub_module);
 
 		//エディターの追加。ファイルを編集するエディターの場合は対応する拡張子を引数に与える。
 		void AppendEditor(fs::path _extension, std::unique_ptr<Editor> editor);
