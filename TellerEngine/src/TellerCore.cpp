@@ -7,9 +7,7 @@ namespace teller {
 		DeltaTimeMessangerRef->SendTMessage(deltaTime_);
 		// 1. モジュールのTick()呼び出し。
 		{
-			for (auto& e : modules) {
-				e->Tick(deltaTime_);
-			}
+			gameModuleStack.top()->Tick(deltaTime_);
 		}
 
 		// 2. エディターのTick()呼び出し。
@@ -52,18 +50,12 @@ namespace teller {
 		editorsRef[_file.extension()]->LoadFile(_file);
 	}
 
-	int TellerCore::AddModule(std::shared_ptr<GameModule> sub_module)
-	{
-		modules.push_back(sub_module);
-		sub_module->SetOwner(this->shared_from_this());
-		return 0;
-	}
-	void TellerCore::AppendEditor(fs::path _extension, std::unique_ptr<Editor> editor)
+	void TellerCore::AddEditor(fs::path _extension, std::unique_ptr<Editor> editor)
 	{
 		editor->parent = this->shared_from_this();
 		editorsRef[_extension] = std::move(editor);
 	}
-	void TellerCore::AppendEditor(std::unique_ptr<Editor> editor)
+	void TellerCore::AddEditor(std::unique_ptr<Editor> editor)
 	{
 		editor->parent = this->shared_from_this();
 		editorsRef[editor->name_] = std::move(editor);

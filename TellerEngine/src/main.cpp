@@ -90,12 +90,11 @@ void TellerEngineMain::setup()
 		[&](float deltaTime) { mAnimator->SetDeltaTime(deltaTime); }
 	);*/
 
-	auto mGame = std::make_shared<GameModule>();
 	auto mScene = std::make_shared<SceneModule>();
 	auto mAgent = std::make_shared<RectAgent>();
 
-	mCore->AddModule(mGame);
-	mGame->PushScene(mScene);
+	mCore->AddGame(std::make_unique<GameModule>());
+	mCore->GetGameModuleRef()->PushScene(mScene);
 	mScene->AddAgent(mAgent);
 
 	//TODO:Delete
@@ -116,10 +115,10 @@ void TellerEngineMain::setup()
 	mCore->AddAnimSequencer(std::move(animSeq));
 	mScene->AddAgent(kap);
 
-	mCore->AppendEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
-	mCore->AppendEditor(std::make_unique<AssetViewer>());
-	mCore->AppendEditor(std::make_unique<EpisodeEditor>());
-	mCore->AppendEditor(std::make_unique<TestEditor>());
+	mCore->AddEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
+	mCore->AddEditor(std::make_unique<AssetViewer>());
+	mCore->AddEditor(std::make_unique<EpisodeEditor>());
+	mCore->AddEditor(std::make_unique<TestEditor>());
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));

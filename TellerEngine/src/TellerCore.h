@@ -3,10 +3,11 @@
 #include<vector>
 #include<map>
 #include<time.h>
+#include<stack>
+#include<Windows.h>
 
 #include <io.h>
 #include <Fcntl.h>
-#include<Windows.h>
 
 #include<cinder/Cinder.h>
 #include <cinder/app/App.h>
@@ -21,6 +22,8 @@
 #include"ThreadPool.h"
 #include"cinder/CinderImGui.h"
 #include"Animation.h"
+#include"Scene.h"
+
 #include"japaneseGryph.h"
 
 #ifdef _DEBUG
@@ -40,7 +43,7 @@ namespace teller {
 	using SpriteManager = ContentsManager<Sprite>;
 	using EpisodeManager = ContentsManager<Episode>;
 
-	class TellerCore :
+	class TellerCore final :
 		public std::enable_shared_from_this<TellerCore>
 	{
 	private:
@@ -58,11 +61,13 @@ namespace teller {
 		std::vector<std::shared_ptr<GameModule>> modules;
 		std::vector<std::shared_ptr<Editor>> editors;
 
+		std::stack<std::unique_ptr<GameModule>> gameModuleStack;
+
 		//メッセンジャーのポインタ
 		//メッセージベース駆動
 		std::unique_ptr < TMessanger<int, float>> DeltaTimeMessangerRef;
 		std::unique_ptr < TMessanger < std::string, std::vector<std::string>>> EpisodeMessangerRef;
-		std::unique_ptr<TMessanger<int, fs::path>> pathMessangerRef;
+		std::unique_ptr< TMessanger<int, fs::path>> pathMessangerRef;
 
 		//シーケンサーはいずれ削除する。
 		std::vector<std::shared_ptr<AnimationSequencer>> animSequencer_;
@@ -97,7 +102,7 @@ namespace teller {
 			spriteContentManagerRef(_spriteManager),
 			episodeContentManagerRef(_episodeManager),
 			CSVContentManagerRef(_csvManager),
-			pathMessangerRef(std::make_unique<TMessanger<int,fs::path>>()),
+			pathMessangerRef(std::make_unique<TMessanger<int, fs::path>>()),
 			timeOld(0.0f),
 			timeCurrent(0.01),
 			deltaTime_(0.01),
@@ -110,25 +115,36 @@ namespace teller {
 
 		~TellerCore() = default;
 
+		TellerCore(const TellerCore&) = delete;
+		TellerCore& operator=(const TellerCore&) = delete;
+
+		TellerCore& operator=(TellerCore&&) = default;
+
+
 		//毎チック行う処理。
 		void Tick();
 
 		//モジュール追加
-		int AddModule(std::shared_ptr<GameModule> sub_module);
+
+		void AddGame(std::unique_ptr<GameModule>&& gamemodule) {
+			gameModuleStack.push(std::move(gamemodule));
+		}
 
 		//エディターの追加。ファイルを編集するエディターの場合は対応する拡張子を引数に与える。
-		void AppendEditor(fs::path _extension, std::unique_ptr<Editor> editor);
-		void AppendEditor(std::unique_ptr<Editor> editor);
+		void AddEditor(fs::path _extension, std::unique_ptr<Editor> editor);
+		void AddEditor(std::unique_ptr<Editor> editor);
 
 		//ファイルをロード
 		void LoadFileToEditor(fs::path _file);
 
 		float GetDeltaTime()const { return deltaTime_; };
+
 		//TODO:Delete
 		//depricated
 		void AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor);
 
 		//これもいらん
+		//TODO:Delete
 		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
 
 		//TODO:Delete
@@ -136,5 +152,14 @@ namespace teller {
 
 		//TODO:Delete
 		void AddEpisode(uint64_t _key, std::unique_ptr<Episode> _episode);
+
+		//Depricated:Use GetActiveGameModule()
+		//CAUTION:It returns "Raw pointer". Be careful not to delete.
+		GameModule* GetGameModuleRef() { return gameModuleStack.top().get(); }
+
+		//CAUTION:It returns "Raw pointer". Be careful not to delete.
+		GameModule* GetActiveGameModule() { return gameModuleStack.top().get(); }
+
+		std::shared_ptr<SceneModule> GetActiveScene() { return gameModuleStack.top()->GetActiveScene(); }
 	};
 }

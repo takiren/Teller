@@ -8,7 +8,6 @@
 #include<fstream>
 #include<sstream>
 
-#include"TellerCore.h"
 #include"Scene.h"
 #include"Episode.h"
 
@@ -17,7 +16,6 @@
 using json = nlohmann::json;
 
 namespace teller {
-	class TellerCore;
 
 	class Sequence {
 	private:
@@ -28,18 +26,29 @@ namespace teller {
 
 	class GameModule {
 		// シーンはキューで管理することにした。
-		std::weak_ptr<TellerCore> owner;
-
+		//std::weak_ptr<TellerCore> owner;
 		std::stack<std::shared_ptr<SceneModule>> mScenes_;
 
 		bool bEnabled = true;
+
+		bool bUpdate;
 	public:
-		GameModule()=default;
+		GameModule() :
+			bUpdate(false)
+		{};
 		virtual ~GameModule() = default;
 		void PushScene(std::shared_ptr<SceneModule> _scene);
 		void Tick(float& deltaTime);
 
-		void SetOwner(std::shared_ptr<TellerCore> _tellercore) { owner = _tellercore; }
+		//void SetOwner(std::shared_ptr<TellerCore> _tellercore) { owner = _tellercore; }
+
+		GameModule(const GameModule&) = delete;
+		GameModule& operator=(const GameModule&) = delete;
+
+		GameModule& operator=(GameModule&&) = default;
+
+		std::shared_ptr<SceneModule> GetActiveScene() { return mScenes_.top(); }
+
 	};
 
 }

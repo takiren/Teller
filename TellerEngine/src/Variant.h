@@ -20,9 +20,12 @@ namespace teller {
 			float _float;
 			double _double;
 			ci::vec2 _vector2;
+			std::shared_ptr<AgentCore> _agentRef;
+
 
 			void* _ptr;
 		}_data alignas(8);
+
 	protected:
 	public:
 		enum Type

@@ -5,43 +5,45 @@
 #include<vector>
 #include"Tree.h"
 #include"Variant.h"
+#include"Agent.h"
 
 namespace teller {
-	class EventDataPack {
-	};
 
 	class EventInstanceBase {
 	private:
 	protected:
 		//‚±‚ê‚ªtrue‚É‚È‚Á‚½‚çEvent‚ðŠJŽn
 		bool bFired = false;
+		std::vector<Variant> variables;
+
 	public:
 		EventInstanceBase() = default;
 		virtual ~EventInstanceBase() = default;
 
-		virtual void Tick() { if (bFired) Update(); }
-		virtual void Update(){}
+		virtual bool Tick() { 
+			if (bFired)
+				if (Update())
+					return true; 
+		}
+		virtual bool Update() {}
 	};
-
 
 	template<class TARGET>
 	class EventInstance :public EventInstanceBase {
 	private:
-		std::shared_ptr<TARGET> target;
-
 	protected:
+		std::shared_ptr<TARGET> targetRef;
 	public:
 		EventInstance() :
 			EventInstanceBase() {};
-
-		void Update() override;
 	};
 
-	template<class T>
-	inline void EventInstance<T>::Update()
-	{
-		target->Update();
-	}
+	class EpisodeEventInstance :public EventInstance<AgentCore> {
+	private:
+	protected:
+	public:
+
+	};
 
 }
 

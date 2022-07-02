@@ -37,6 +37,12 @@ namespace teller {
 			)
 		{};
 		~SceneModule() {};
+
+		SceneModule(const SceneModule&) = delete;
+		SceneModule& operator=(const SceneModule&) = delete;
+
+		SceneModule& operator=(SceneModule&&) = default;
+
 		void Tick(float& deltaTime);
 		void AddAgent(std::shared_ptr<AgentCore> _agent);
 		void SetArea(ci::Area _dest);
