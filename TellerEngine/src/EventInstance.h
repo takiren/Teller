@@ -1,8 +1,12 @@
 #ifndef _TELLERENGINE_SRC_EVENTINSTANCE_H_
 #define _TELLERENGINE_SRC_EVENTINSTANCE_H_
+
+
 #include<map>
 #include<string>
 #include<vector>
+#include<nlohmann/json.hpp>
+
 #include"Tree.h"
 #include"Variant.h"
 #include"Agent.h"
@@ -42,7 +46,13 @@ namespace teller {
 	private:
 	protected:
 	public:
-
+	};
+	
+	template<class T>
+	class EventSequencer {
+	private:
+	protected:
+	public:
 	};
 
 }

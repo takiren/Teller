@@ -1,4 +1,7 @@
-#pragma once
+
+#ifndef _SRC_TELLERCORE_H_
+#define _SRC_TELLERCORE_H_
+
 #include<memory>
 #include<vector>
 #include<map>
@@ -163,3 +166,6 @@ namespace teller {
 		std::shared_ptr<SceneModule> GetActiveScene() { return gameModuleStack.top()->GetActiveScene(); }
 	};
 }
+
+#endif // !_SRC_TELLERCORE_H_
+
