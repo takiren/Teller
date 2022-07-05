@@ -184,25 +184,10 @@ namespace teller {
 	//エピソードイベントエディター
 	class EpisodeEventEditor final :public Editor {
 	private:
-		//ノードエディタ用変数
-		ImColor GetIconColor(Socket_Data_Type type);
-		void DrawPinIcon(const std::shared_ptr<TSocketCore<Episode_Event_Node, Socket_Data_Type>> sckt, bool connected, int alpha);
-		int											s_PinIconSize;
-
-		//左のパネルを表示
-		void ShowLeftPane(float panewidth);
-		bool										g_FirstFrame = true;
-
-		void OpenAddNodePopup();
-
-		//ノードエディタ用変数
-		ed::EditorContext* gContext;
-		std::unique_ptr<TNodeManager<Episode_Event_Node, Socket_Data_Type>>				nodeManagerRef;
+		std::unique_ptr<NodeEditorBase<Episode_Event_Node, Socket_Data_Type>> tnodeEditor;
 
 		TEposodeID									currentEpisodeID_;
 
-		//追加できるノードの一覧
-		std::vector<std::string>					nodeList_; //HACK:なんでvectorなのにList_なの？
 		std::unique_ptr<Episode>					episodeRef;
 
 		//編集対象の行
@@ -244,7 +229,6 @@ namespace teller {
 		std::vector<std::string> GetSpritesName(json _cjson);
 		std::string targetCharacter = "";
 
-		bool				bCreatingNewNode;
 		//プレビューするかどうか
 		bool				bShowSprite;
 
@@ -253,34 +237,27 @@ namespace teller {
 		void UpdateAssetList();
 		void DrawLinks();
 
+		void NodeEditorTick();
+
 	protected:
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
-			nodeManagerRef(std::make_unique<TNodeManager<Episode_Event_Node, Socket_Data_Type>>()),
-			gContext(ed::CreateEditor()),
+
 			currentEpisodeID_(0),
 			episodeRef(nullptr),
 			jsonEpisode(nullptr),
 			currentLine(0),
-			s_PinIconSize(24),
 			characterAppearanceNum(0),
 			eventPackNum(0),
 			bShowSprite(true),
 			previewText(std::make_unique<MainTextArea>()),
 			previewTextChanger(std::make_unique<TextChanger>()),
-			bCreatingNewNode(false),
-			uidgen(utils::UIDGenerator())
+			uidgen(utils::UIDGenerator()),
+			tnodeEditor(std::make_unique< NodeEditorBase<Episode_Event_Node, Socket_Data_Type>>())
 		{
 			//HACK:なんでこんな雑な感じなの？
 			//ノード用
-			nodeList_.push_back("Branch.");
-			nodeList_.push_back("Scene change");
-			nodeList_.push_back("Animation.");
-			nodeList_.push_back("Episode.");
-			nodeList_.push_back("Event.");
-			nodeList_.push_back("Comment");
-			nodeList_.push_back("Character In Out");
 
 			previewTextChanger->AttachToAgent(previewText);
 		}
