@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{281720D0-C0BF-31CC-ACDD-9087898E5574}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.20348.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>TellerEngine</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\taki\source\repos\TellerEngine\x64\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TellerEngine.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TellerEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <LocalDebuggerWorkingDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/taki/source/repos/TellerEngine/x64/Debug</LocalDebuggerWorkingDirectory>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\taki\source\repos\TellerEngine\x64\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TellerEngine.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TellerEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <LocalDebuggerWorkingDirectory Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/taki/source/repos/TellerEngine/x64/Release</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\external\Cinder\include;C:\Users\taki\source\repos\TellerEngine\external\cppglob\include;C:\Users\taki\source\repos\TellerEngine\external\eigen\Eigen;C:\Users\taki\source\repos\TellerEngine\external\json\include;C:\Users\taki\source\repos\TellerEngine\include;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /EHsc"%3B"/std:c++17</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;NOMINAX;_UNICODE;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;NOMINAX;_UNICODE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\external\Cinder\include;C:\Users\taki\source\repos\TellerEngine\external\cppglob\include;C:\Users\taki\source\repos\TellerEngine\external\eigen\Eigen;C:\Users\taki\source\repos\TellerEngine\external\json\include;C:\Users\taki\source\repos\TellerEngine\include;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\external\Cinder\include;C:\Users\taki\source\repos\TellerEngine\external\cppglob\include;C:\Users\taki\source\repos\TellerEngine\external\eigen\Eigen;C:\Users\taki\source\repos\TellerEngine\external\json\include;C:\Users\taki\source\repos\TellerEngine\include;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+xcopy /I /D C:\Users\taki\source\repos\TellerEngine\x64\data C:\Users\taki\source\repos\TellerEngine\x64\Debug\data
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>cppglob_static.lib;cinder.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/taki/source/repos/TellerEngine/external/Cinder/lib/msw/x64/Debug/v143;C:/Users/taki/source/repos/TellerEngine/external/Cinder/lib/msw/x64/Debug/v143/$(Configuration);C:/Users/taki/source/repos/TellerEngine/external/cppglob/build/lib;C:/Users/taki/source/repos/TellerEngine/external/cppglob/build/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCPMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/taki/source/repos/TellerEngine/build/Debug/TellerEngine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/taki/source/repos/TellerEngine/x64/Debug/TellerEngine.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\external\Cinder\include;C:\Users\taki\source\repos\TellerEngine\external\cppglob\include;C:\Users\taki\source\repos\TellerEngine\external\eigen\Eigen;C:\Users\taki\source\repos\TellerEngine\external\json\include;C:\Users\taki\source\repos\TellerEngine\include;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /EHsc"%3B"/std:c++17</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINAX;_WIN32_WINNT=0x0502;_UNICODE;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINAX;_WIN32_WINNT=0x0502;_UNICODE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\external\Cinder\include;C:\Users\taki\source\repos\TellerEngine\external\cppglob\include;C:\Users\taki\source\repos\TellerEngine\external\eigen\Eigen;C:\Users\taki\source\repos\TellerEngine\external\json\include;C:\Users\taki\source\repos\TellerEngine\include;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\taki\source\repos\TellerEngine\external\Cinder\include;C:\Users\taki\source\repos\TellerEngine\external\cppglob\include;C:\Users\taki\source\repos\TellerEngine\external\eigen\Eigen;C:\Users\taki\source\repos\TellerEngine\external\json\include;C:\Users\taki\source\repos\TellerEngine\include;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui-node-editor;C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example;C:\Users\taki\source\repos\TellerEngine\external\Cinder\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+xcopy /I /D C:\Users\taki\source\repos\TellerEngine\x64\data C:\Users\taki\source\repos\TellerEngine\x64\Release\data
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>cppglob_static.lib;cinder.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/taki/source/repos/TellerEngine/external/Cinder/lib/msw/x64/Release/v143;C:/Users/taki/source/repos/TellerEngine/external/Cinder/lib/msw/x64/Release/v143/$(Configuration);C:/Users/taki/source/repos/TellerEngine/external/cppglob/build/lib;C:/Users/taki/source/repos/TellerEngine/external/cppglob/build/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/taki/source/repos/TellerEngine/build/Release/TellerEngine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/taki/source/repos/TellerEngine/x64/Release/TellerEngine.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Agent.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Animation.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Asset.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Audio.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Core.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Editor.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\EditorManager.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Episode.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\EventInstance.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Game.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\InGameUI.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\main.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Renderer.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Scene.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\StoryBoard.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\TellerCore.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\TellerEvent.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Tree.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\UIBase.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\src\Variant.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example\utilities\builders.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example\utilities\drawing.cpp" />
+    <ClCompile Include="C:\Users\taki\source\repos\TellerEngine\external\imgui-node-editor\examples\blueprints-example\utilities\widgets.cpp" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Agent.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Animation.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Asset.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Audio.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\ContentManager.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Core.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Editor.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\EditorManager.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Episode.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\EventInstance.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Game.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\InGameUI.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\japaneseGryph.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\NodeEditor.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\NodeEditorPrivate.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\NodeLink.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Renderer.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Scene.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\TellerCore.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\TellerEvent.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\ThreadPool.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Tree.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\UIBase.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\utility.h" />
+    <ClInclude Include="C:\Users\taki\source\repos\TellerEngine\include\Variant.h" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
