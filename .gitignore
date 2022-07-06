@@ -25,7 +25,6 @@ mono_crash.*
 bld/
 [Bb]in/
 [Oo]bj/
-[Oo]ut/
 [Ll]og/
 [Ll]ogs/
 /x64/
@@ -371,8 +370,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-Cinder
-imgui
+
 docs/teishutu/consept.tex
 docs/teishutu/consept.pdf
 docs/teishutu/consept.synctex.gz

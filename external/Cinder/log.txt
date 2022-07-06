@@ -1,0 +1,257 @@
+[33mcommit bfd055817bc6f04b4ff6a410932618c7eef0d78c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Wed May 18 07:57:29 2022 -0400
+
+    Fixing deprecated JsonTree.cpp still including Json.h rather than JsonTree.h
+
+[33mcommit 1007ed3baaee10624e7f6c8899843377d4b3400d[m
+Merge: 7285bb0ae b604d4fad
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon May 16 02:00:44 2022 +0000
+
+    Merge pull request #2287 from andrewfb/platform_cmd_line
+    
+    Platform cmd line
+
+[33mcommit 7285bb0ae652537885af98108487b58fcf39b28d[m
+Merge: ad56ff4f7 48892350c
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon May 16 02:00:32 2022 +0000
+
+    Merge pull request #2286 from andrewfb/nlohmann
+    
+    JSON for Modern C++
+
+[33mcommit ad56ff4f71a20ed1592ea48f13c401d480c37275[m
+Merge: 6ca959757 fbbe5aacc
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon May 16 01:46:50 2022 +0000
+
+    Merge pull request #2288 from cinder/circle_precision
+    
+    Circle precision
+
+[33mcommit 6ca95975764a4ba235ef4e975d721b341e28232c[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Wed May 4 23:33:23 2022 -0400
+
+    Fixing missing CI_API in Base64
+
+[33mcommit 6d0cba473717b86d303dc6237fd506b1d966d314[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Wed May 4 23:32:34 2022 -0400
+
+    Fixing missing CI_API in MediaTime
+
+[33mcommit 48892350c6245c6e0d1416f21146f6c1aa88e75b[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon May 2 20:53:28 2022 -0400
+
+    Updating dependencies docs for JSON changes
+
+[33mcommit 6b57f6547e84f975f4b38bdc15e4933038ef8aee[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon May 2 11:21:25 2022 -0400
+
+    Stripping some MacOS version code workarounds that are no longer necessary
+
+[33mcommit b604d4fadfe30b6a9a40b52a9210eaebe6b5974a[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon Apr 25 22:48:31 2022 -0400
+
+    Renaming test/ScreenSaverTest/vc2015/ to vc2019/
+
+[33mcommit 093ac00b63b11a6b72ff4fa3b693e28a90ebda94[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon Apr 25 22:47:45 2022 -0400
+
+    ScreenSaverTest updates for vc2019
+
+[33mcommit 37ef64d6d4802350caabd338fc40387075bc7090[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Mon Apr 25 22:47:33 2022 -0400
+
+    MSW ScreenSaver cmd line updates
+
+[33mcommit 536911f9aeb98cf9fba89b06799bb78f1a14c58c[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Fri Apr 22 19:16:32 2022 -0400
+
+    iOS updates for command line changes
+
+[33mcommit 213d18f9acf0d403442352b61f800977c239d17a[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Fri Apr 22 19:00:48 2022 -0400
+
+    macOS update for command line arg handling
+
+[33mcommit ab9a2b599ecb4629fc035c6e5b4ed2504440f987[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Fri Apr 22 19:00:20 2022 -0400
+
+    Updating macOS test/cmdLineArgs
+
+[33mcommit ad8c7fcf5023ffc226deb1086c873d25c10e1e56[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Fri Apr 22 03:51:05 2022 +0000
+
+    Linux platform updates for command line changes
+
+[33mcommit 4aa706214322e38792f11c35b961b0c1cfa0a27d[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Apr 21 21:49:28 2022 -0400
+
+    Untested test/cmdLineArgs cmake proj
+
+[33mcommit 77de6f9780926034f7373b40db64da30210a92fa[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Apr 21 21:43:50 2022 -0400
+
+    Convenience (untested) for setCommandLineArgs for Platform
+
+[33mcommit a7ee099a46cec78105fd1cb838f46d6bfc5c309c[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Apr 21 21:20:26 2022 -0400
+
+    MSW-only updates to parsing cmd line args before default Renderer instantiation
+
+[33mcommit ddcc0ff443709e6a49c7ab32fc709bbf77725743[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Apr 21 21:19:54 2022 -0400
+
+    Small update to test/CmdLineArgs
+
+[33mcommit 05b896f4e90a2c82e011b6dce72ae4f67e77c16f[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Apr 21 21:17:19 2022 -0400
+
+    test/CmdLineArgs/vc11 -> vc2019 rename
+
+[33mcommit a36754f6383d4fb4e3e1842b088094261786482d[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Wed Apr 20 22:46:16 2022 -0400
+
+    Updating cmdLineArgs sample
+
+[33mcommit 917f44cd6483a66eb5ddbdf9e2fe509cab029cb1[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 22:21:14 2022 -0400
+
+    Updating unit test for new JSON implementation
+
+[33mcommit d71e2f7ce14f8977cbb10e0a6b18263418428654[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 22:15:55 2022 -0400
+
+    Including nlohmann natvis in cinder.vcxproj
+
+[33mcommit c8098babc1269f5de5e1672f984e15a75b12337d[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 22:15:29 2022 -0400
+
+    Small update to writeJson()
+
+[33mcommit 757e7e017df55857322256aed2b6fa6ced1f23ba[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 22:14:41 2022 -0400
+
+    nlohmann JSON natvis
+
+[33mcommit c4a5b63cd0a783513236f362a70d49f47e13636b[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 13:45:55 2022 -0400
+
+    Updating Earthquake sample for JSON changes
+
+[33mcommit 0fe32bc45a474b806cde84f5180836dfb3ae3adb[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 00:07:49 2022 -0400
+
+    Updating FallingGears sample JSON parsing
+
+[33mcommit bfc4220b69791d4a4191d66001ce32c98ace0556[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sun May 1 00:07:04 2022 -0400
+
+    Nlohmann JSON for Modern C++ implementation
+
+[33mcommit f8b0d82a73a6632b13f22c4ff12acfb39f14ecc2[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sat Apr 30 23:53:12 2022 -0400
+
+    Committing Nlohmann JSON implementation, version 3.10.5
+
+[33mcommit 5db46d6ddaf9c3c644cd646ca4a3a12e260a49f2[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Sat Apr 30 23:51:59 2022 -0400
+
+    Deprecating current JSON implementation, moving to JsonTree.{h,cpp}
+
+[33mcommit fbbe5aacc96b6c952f3d80b156db72dd5fde610d[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Tue Apr 19 23:08:29 2022 -0400
+
+    geom::Circle internal math using mult instead of accumulation
+
+[33mcommit efe951e9fd02937cbdf4be8e1f73ae36bd3357de[m
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Apr 14 23:17:21 2022 -0400
+
+    geom::Circle internal precision to double to address very large circles re: #2283
+
+[33mcommit ff266266a8e7b064eb4eba9744a29104e8f123f3[m
+Merge: e323be43c ff4021ecb
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Wed Mar 23 17:53:14 2022 -0400
+
+    Merge pull request #2278 from afrancois/submodule_protocol_update
+    
+    Update protocol on submodules
+
+[33mcommit ff4021ecb6cdb01bbe8dc0c66fe675c4acf6d137[m
+Author: Aubrey Francois <aubrey@aubreyfrancois.com>
+Date:   Wed Mar 16 10:01:25 2022 -0700
+
+    Update protocol on modules
+
+[33mcommit e323be43c1144cb16fd1ff6fe2d0fbd15e48ace7[m
+Merge: e83f5bb9c 684f34462
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Thu Feb 10 11:24:34 2022 -0500
+
+    Merge pull request #2273 from totalgee/fix_console_crash_2272
+    
+    Fix mysterious console logging crash
+
+[33mcommit 684f344623b5c9d29311680795d2b1b99c32f019[m
+Author: Glen Fraser <holaglen@gmail.com>
+Date:   Thu Feb 10 16:39:02 2022 +0100
+
+    Fix mysterious console logging crash
+    
+    - an error would be thrown when trying to log a message to the
+      console that was of length 1113 bytes.
+    - fixes issue #2272.
+
+[33mcommit e83f5bb9c01a63eec20168d02953a0879e5100f7[m
+Merge: a2c536110 927787687
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Wed Jan 5 13:11:32 2022 -0500
+
+    Merge pull request #2266 from chaoticbob/copyRawRgbFullAlpha-fix
+    
+    Fixes copyRawRgbFullAlpha incorrect src offset
+
+[33mcommit 927787687216bf087ceba9b3cbb4865ed533e97d[m
+Author: Hai Nguyen <codingforlove@gmail.com>
+Date:   Wed Jan 5 12:38:01 2022 -0500
+
+    Fixes copyRawRgbFullAlpha incorrect src offset
+    
+    The constant for src should be 3 instead of 4 since the src surface is
+    Rgb and not Rgba.
+
+[33mcommit a2c5361105524fb4da628a898edc9c7278f5ae5c[m
+Merge: bb2376d71 9d2cff89b
+Author: Andrew Bell <cinder.afb@gmail.com>
+Date:   Fri Dec 24 15:29:10 2021 -0
