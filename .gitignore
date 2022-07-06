@@ -17,8 +17,6 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Rr]elease/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -28,7 +26,6 @@ bld/
 [Ll]og/
 [Ll]ogs/
 /x64/
-/x64/Debug/TellerEngine.tlog/
 /build/
 
 # Visual Studio 2015/2017 cache/options directory
