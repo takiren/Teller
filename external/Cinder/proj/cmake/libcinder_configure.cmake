@@ -29,6 +29,9 @@ list( APPEND CINDER_INCLUDE_USER_PRIVATE
 	${CINDER_SRC_DIR}/linebreak
 	${CINDER_SRC_DIR}/oggvorbis/vorbis
 	${CINDER_SRC_DIR}/r8brain
+	${CINDER_SRC_DIR}/imgui-node-editor
+
+	${CINDER_SRC_DIR}/ImGuiFileDialog
 )
 
 if( CINDER_HEADLESS_GL_EGL )

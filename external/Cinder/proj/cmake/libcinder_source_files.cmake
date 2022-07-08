@@ -335,7 +335,16 @@ if( CINDER_IMGUI_ENABLED )
 		${CINDER_SRC_DIR}/imgui/imgui_stdlib.cpp
 		${CINDER_SRC_DIR}/imgui/imgui_widgets.cpp
 
-		
+		${CINDER_SRC_DIR}/imgui-node-editor/crude_json.cpp
+		${CINDER_SRC_DIR}/imgui-node-editor/imgui_canvas.cpp
+		${CINDER_SRC_DIR}/imgui-node-editor/imgui_node_editor.cpp
+		${CINDER_SRC_DIR}/imgui-node-editor/imgui_node_editor_api.cpp
+
+		${CINDER_SRC_DIR}/imgui-node-editor/utilities/builders.cpp
+		${CINDER_SRC_DIR}/imgui-node-editor/utilities/drawing.cpp
+		${CINDER_SRC_DIR}/imgui-node-editor/utilities/widgets.cpp
+
+		${CINDER_SRC_DIR}/ImGuiFileDialog/ImGuiFileDialog.cpp
 	)
 
 	list( APPEND CINDER_SRC_FILES

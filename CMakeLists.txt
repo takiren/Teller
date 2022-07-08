@@ -11,8 +11,6 @@ set(TELLER_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(TELLER_EXT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external")
 
 set(CINDER_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/Cinder/include")
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-set(CMAKE_SUPPRESS_REGENERATION true)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(TELLER_TARGET_DEFAULT "msw")
@@ -95,7 +93,7 @@ list(APPEND TELLER_SRC_FILES
     ${TELLER_SRC_DIR}/Tree.cpp
     ${TELLER_SRC_DIR}/UIBase.cpp
     ${TELLER_SRC_DIR}/Variant.cpp
-
+    
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example/utilities/builders.cpp
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example/utilities/drawing.cpp
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example/utilities/widgets.cpp
@@ -145,6 +143,9 @@ if(MSVC)
     add_compile_options(/W4)
     set_property(TARGET TellerEngine PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TellerEngine)
+
+    target_link_options(TellerEngine PRIVATE $<$<CONFIG:Debug>:/DEBUG>)
+    
 else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
     add_compile_options(-MP)
@@ -182,8 +183,8 @@ endif()
 target_compile_features(TellerEngine PRIVATE cxx_std_17)
 
 target_include_directories(TellerEngine PRIVATE ${TELLER_ADDITIONAL_INCLUDE})
-target_link_directories(TellerEngine PRIVATE ${CINDER_LIB_PATH})
-target_link_directories(TellerEngine PRIVATE ${TELLER_EXT_DIR}/cppglob/build/lib)
+
+target_link_directories(TellerEngine PRIVATE ${TELLER_EXT_DIR}/libs)
 
 target_link_libraries(TellerEngine PRIVATE cppglob_static.lib)
 target_link_libraries(TellerEngine PRIVATE cinder.lib)
