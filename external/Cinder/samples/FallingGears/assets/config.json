@@ -1,7 +1,0 @@
-{
-	"descent-speed" : 60,
-	"background" : "background.jpg",
-	"gears" : [
-		"gear1.png", "gear2.png", "gear3.png", "gear4.png"
-	]
-}
