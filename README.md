@@ -6,6 +6,10 @@
 * TellerEngineがメインのプロジェクトフォルダ。
 * 使用しているサブモジュールはCinder, json, fast-cpp-csv-parser。それ以外を使う予定は今のところない。
 
+## 始め方
+* /external/Cinder/CMakeLists.txtよりビルドしてください。Cinder/lib/msw/x64/Debug|Release/cinder.libが生成されていれば成功です。
+* 
+
 ## ブランチについて
 * master  
   ビルドが通ってるやつ安定版。

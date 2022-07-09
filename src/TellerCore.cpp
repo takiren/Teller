@@ -63,8 +63,6 @@ namespace teller {
 	void TellerCore::CoreInitialize()
 	{
 		DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
-		AllocConsole();
-
 	}
 	void TellerCore::UpdateDeltaTime()
 	{

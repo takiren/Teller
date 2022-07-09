@@ -65,7 +65,7 @@ void TellerEngineMain::ShowConsole()
 
 void TellerEngineMain::setup()
 {
-	//ShowConsole();
+	ShowConsole();
 	// for the default window we need to provide an instance of WindowData
 	getWindow()->setUserData(new WindowData);
 
@@ -159,7 +159,6 @@ void TellerEngineMain::draw()
 	*/
 
 	mCore->Tick();
-
 	/*
 	ˆ—‹Lq‚±‚±‚Ü‚Å
 	*/

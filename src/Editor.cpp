@@ -391,7 +391,7 @@ void teller::EpisodeEventEditor::Tick()
 	{
 		int index = 0;
 		for (auto& e : eventPackMap[currentLine]) {
-			auto slabel = std::string{""};
+			auto slabel = std::string{ "" };
 			switch (e->type_)
 			{
 			case EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE:

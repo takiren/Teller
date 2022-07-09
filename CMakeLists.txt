@@ -93,7 +93,7 @@ list(APPEND TELLER_SRC_FILES
     ${TELLER_SRC_DIR}/Tree.cpp
     ${TELLER_SRC_DIR}/UIBase.cpp
     ${TELLER_SRC_DIR}/Variant.cpp
-    
+
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example/utilities/builders.cpp
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example/utilities/drawing.cpp
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example/utilities/widgets.cpp
@@ -145,7 +145,7 @@ if(MSVC)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TellerEngine)
 
     target_link_options(TellerEngine PRIVATE $<$<CONFIG:Debug>:/DEBUG>)
-    
+
 else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
     add_compile_options(-MP)
@@ -162,6 +162,8 @@ set(CMAKE_EXE_LINKER_FLAGS_DEBUG "/NODEFAULTLIB:LIBCMT /NODEFAULTLIB:LIBCPMT")
 target_compile_definitions(TellerEngine PRIVATE
     $<$<CONFIG:Release>:WIN32 NDEBUG _WINDOWS NOMINAX _WIN32_WINNT=0x0502>
 )
+
+target_compile_definitions(CPPGLOB_STATIC IMGUI_DEFINE_MATH_OPERATORS)
 
 set(CINDER_LIB_PATH "${TELLER_EXT_DIR}/Cinder/lib/msw/x64/${CMAKE_BUILD_TYPE}/v143")
 
@@ -185,6 +187,7 @@ target_compile_features(TellerEngine PRIVATE cxx_std_17)
 target_include_directories(TellerEngine PRIVATE ${TELLER_ADDITIONAL_INCLUDE})
 
 target_link_directories(TellerEngine PRIVATE ${TELLER_EXT_DIR}/libs)
+target_link_directories(TellerEngine PRIVATE ${CINDER_LIB_PATH})
 
 target_link_libraries(TellerEngine PRIVATE cppglob_static.lib)
 target_link_libraries(TellerEngine PRIVATE cinder.lib)

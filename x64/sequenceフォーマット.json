@@ -1,0 +1,65 @@
+[
+    {
+        "FormatEpisode": [
+            {
+                "UID": "UUID",
+                "PreviousEpisode": "UUID",
+                "NextEpisode": "UUID"
+            }
+        ],
+        "Episodes": [
+            {
+                "episode.csv": [
+                    {
+                        "UID": "0",
+                        "PreviousEpisode": "",
+                        "Next": "1"
+                    }
+                ],
+                "episode0201.csv": [
+                    {
+                        "uid": "1",
+                        "previousEpisode": "0",
+                        "next": ""
+                    }
+                ]
+            }
+        ],
+        "Sequence": [
+            {
+                "ExampleSequence": [
+                    {
+                        "SequenceID": "UUID",
+                        "episode": "episodeUID",
+                        "Events": [
+                            {
+                                "EventUID": [
+                                    {
+                                        "type": "event_type",
+                                        "targetLine": "line number"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "はじまり": [
+                    {
+                        "SequenceID": "50",
+                        "episode": "0",
+                        "Events": [
+                            {
+                                "100": [
+                                    {
+                                        "type": "ScreenEffect",
+                                        "targetLine": "5"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

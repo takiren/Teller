@@ -343,8 +343,6 @@ if( CINDER_IMGUI_ENABLED )
 		${CINDER_SRC_DIR}/imgui-node-editor/utilities/builders.cpp
 		${CINDER_SRC_DIR}/imgui-node-editor/utilities/drawing.cpp
 		${CINDER_SRC_DIR}/imgui-node-editor/utilities/widgets.cpp
-
-		${CINDER_SRC_DIR}/ImGuiFileDialog/ImGuiFileDialog.cpp
 	)
 
 	list( APPEND CINDER_SRC_FILES

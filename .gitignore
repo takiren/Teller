@@ -25,7 +25,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-/x64/
+/x64/Debug/
+/x64/Release/
 /build/
 /x86/
 
