@@ -1,7 +1,6 @@
 #pragma once
 #ifndef _TE_NODEEDITOR_H_
 #define _TE_NODEEDITOR_H_
-#define IMGUI_DEFINE_MATH_OPERATORS
 
 #include<memory>
 #include<string>
@@ -36,12 +35,12 @@ namespace teller {
 		std::string									name_;
 		int											s_PinIconSize = 24;
 
-		ed::EditorContext*							gContext;
+		ed::EditorContext* gContext;
 		TNodeManagerRef<NODE_TYPE, SOCKET_TYPE>		nodeManagerRef;
 
 		utils::UIDGenerator							uidgen;
 		//追加できるノードの一覧
-		std::vector<TNodeSignature<SOCKET_TYPE>>	nodeSignatureVector;
+		std::vector<TNodeSignature<NODE_TYPE, SOCKET_TYPE>>	nodeSignatureVector;
 
 		bool										bCreatingNewNode;
 
@@ -50,6 +49,7 @@ namespace teller {
 
 		//Opens a Popup to add Node.
 		virtual void	OpenPopupAddNode();
+		virtual void	OpenPopUpDeleteNode();
 
 		//It returns TNodeID
 		TNodeID MakeNode(int _index);
@@ -84,7 +84,7 @@ namespace teller {
 		virtual void LoadFile(fs::path _path);
 		virtual void Tick();
 
-		virtual void AddNodeSignature(TNodeSignature<SOCKET_TYPE> _nodeSig);
+		virtual void AddNodeSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSig);
 	};
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
@@ -143,6 +143,12 @@ namespace teller {
 
 		if (nodeCreated)
 			ed::SetNodePosition(currentNode, ImGui::GetMousePos());
+	}
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	inline void NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::OpenPopUpDeleteNode()
+	{
+
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
@@ -301,7 +307,7 @@ namespace teller {
 
 					//NOTE:ネストが深すぎませんか？
 					if (ed::QueryNewLink(&startPinId, &endPinId))
-						if (startPinId && endPinId) 
+						if (startPinId && endPinId)
 
 							if (startPinId == endPinId)
 							{
@@ -315,7 +321,7 @@ namespace teller {
 									nodeManagerRef->MakeLink<ed::PinId>(startPinId, endPinId);
 								}
 							}
-						
+
 				}
 				ed::EndCreate();
 			}
@@ -331,7 +337,7 @@ namespace teller {
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
-	inline void NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::AddNodeSignature(TNodeSignature<SOCKET_TYPE> _nodeSig)
+	inline void NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::AddNodeSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSig)
 	{
 		nodeSignatureVector.push_back(_nodeSig);
 	}

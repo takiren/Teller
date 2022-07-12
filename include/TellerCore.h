@@ -119,6 +119,9 @@ namespace teller {
 		//毎チック行う処理。
 		void Tick();
 
+		//エディターTick
+		void EditorTick();
+
 		//モジュール追加
 
 		void AddGame(std::unique_ptr<GameModule>&& gamemodule) {

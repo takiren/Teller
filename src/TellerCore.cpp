@@ -10,19 +10,18 @@ namespace teller {
 			gameModuleStack.top()->Tick(deltaTime_);
 		}
 
-		// 2. エディターのTick()呼び出し。
-		{
-			for (auto& e : editorsRef) {
-				e.second->Tick();
-			}
-		}
-
 		for (auto& e : animSequencer_) {
 			e->Update();
 		}
 
 		auto old = clock();
 		deltaTime_ = old - now;
+	}
+
+	void TellerCore::EditorTick()
+	{
+		for (auto& e : editorsRef)
+			e.second->Tick();
 	}
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)

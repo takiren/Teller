@@ -1,8 +1,5 @@
 #pragma once
 
-#define CPPGLOB_STATIC
-#define IMGUI_DEFINE_MATH_OPERATORS
-
 #include<Windows.h>
 #include<memory>
 #include<string>
@@ -41,7 +38,6 @@
 #include"NodeLink.h"
 #include"utility.h"
 #include"NodeEditor.h"
-
 
 
 namespace teller {
@@ -138,6 +134,8 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 	};
 
+	//TODO:Delete
+	//これはいらない
 	class EpisodeEventNodeEditor final :public NodeEditorBase<Episode_Event_Node, Socket_Data_Type> {
 	private:
 	protected:
@@ -154,7 +152,7 @@ namespace teller {
 
 		void LoadFile(fs::path _path) override;
 
-		void AddNodeSignature(TNodeSignature<Socket_Data_Type> _nodesig) override;
+		void AddNodeSignature(TNodeSignature<Episode_Event_Node, Socket_Data_Type> _nodesig) override;
 	};
 
 	//csvからエピソードファイルを作成するためのエディター
@@ -185,14 +183,22 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 	};
 
+	//ノードエディターのunique_ptrエイリアス
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	using TNodeEditorRef = std::unique_ptr<NodeEditorBase<Episode_Event_Node, Socket_Data_Type>>;
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	using TNodeEditor = NodeEditorBase<NODE_TYPE, SOCKET_TYPE>;
+
 	//エピソードイベントエディター
 	class EpisodeEventEditor final :public Editor {
 	private:
-		std::unique_ptr<NodeEditorBase<Episode_Event_Node, Socket_Data_Type>> tnodeEditor;
 
-		TEposodeID									currentEpisodeID_;
+		TNodeEditorRef<Episode_Event_Node, Socket_Data_Type>		tnodeEditor;
 
-		std::unique_ptr<Episode>					episodeRef;
+		TEposodeID												currentEpisodeID_;
+
+		std::unique_ptr<Episode>								episodeRef;
 
 		//編集対象の行
 		int											currentLine;
@@ -247,7 +253,6 @@ namespace teller {
 	public:
 		EpisodeEventEditor() :
 			Editor("EpisodeEventEditor"),
-
 			currentEpisodeID_(0),
 			episodeRef(nullptr),
 			jsonEpisode(nullptr),
@@ -262,7 +267,6 @@ namespace teller {
 		{
 			//HACK:なんでこんな雑な感じなの？
 			//ノード用
-
 			previewTextChanger->AttachToAgent(previewText);
 		}
 		~EpisodeEventEditor() = default;
@@ -282,15 +286,15 @@ namespace teller {
 
 	class TestEditor :public Editor {
 	private:
-		using TNodeEditor = NodeEditorBase<Episode_Event_Node, Socket_Data_Type>;
-		std::unique_ptr<TNodeEditor> nodeEditorRef;
+
+		TNodeEditorRef<Episode_Event_Node, Socket_Data_Type> nodeEditorRef;
 
 	public:
 		TestEditor() :
 			Editor("TestEditor"),
-			nodeEditorRef(std::make_unique<TNodeEditor>("NodeTest"))
+			nodeEditorRef(std::make_unique<TNodeEditor<Episode_Event_Node, Socket_Data_Type>>("NodeTest"))
 		{
-			TNodeSignature<Socket_Data_Type> nsig{ "Branch" };
+			TNodeSignature< Episode_Event_Node, Socket_Data_Type> nsig{ "Branch" };
 
 			nsig.inputSockets.push_back(
 				std::make_pair<Socket_Data_Type, IconType>(Socket_Data_Type::FLOW, IconType::Circle)
@@ -309,7 +313,7 @@ namespace teller {
 
 		void Tick() override {
 			ImGui::Begin("TestEditor");
-			ImGui::BeginChild("testNodeed");
+			ImGui::BeginChild("testNod");
 
 			nodeEditorRef->Tick();
 
@@ -320,8 +324,6 @@ namespace teller {
 
 	class AssetViewer :public Editor {
 	private:
-		std::weak_ptr<EpisodeManager> episodeMgrRef;
-
 		//アセットへのパス
 		fs::path episodePath_;
 		fs::path characterPath_;

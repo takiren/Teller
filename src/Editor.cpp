@@ -258,9 +258,7 @@ void teller::EpisodeEventEditor::DrawLinks()
 void teller::EpisodeEventEditor::NodeEditorTick()
 {
 	ImGui::Begin("EpisodeEventEditorNode");
-
-
-
+	tnodeEditor->Tick();
 	ImGui::End();
 }
 
@@ -318,64 +316,64 @@ void teller::EpisodeEventEditor::Tick()
 		auto& characterName = episodeRef->data[currentLine].at(0);
 		ImGui::Text(("Name :" + characterName).c_str());
 		int i = 0;
-		ImGui::BeginTabBar("Simple Event Tabs");
-		if (ImGui::BeginTabItem("Appearance")) {
-			ImGui::Text("Left click : Make an event  Right click : Preview Appearance");
-			if (characterName != "") {
+		if (ImGui::BeginTabBar("Simple Event Tabs")) {
+			if (ImGui::BeginTabItem("Appearance")) {
+				ImGui::Text("Left click : Make an event  Right click : Preview Appearance");
+				if (characterName != "") {
 
-				if (ImGui::Selectable("Inherit")) {
-					//TODO:前のイベントの情報を引き継ぐときの処理。
-					characterAppearanceNum = 0;
-				}
-				auto filevec = GetSpritesName(jsonCharacterMap[characterName]);
-				for (auto& e : filevec) {
-					ImGui::Selectable(e.c_str(), characterAppearanceNum == i);
-
-					//右クリックでプレビュー
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
-						characterAppearanceNum = i;
-						previewAnimationMap[characterName]->Change(e);
+					if (ImGui::Selectable("Inherit")) {
+						//TODO:前のイベントの情報を引き継ぐときの処理。
+						characterAppearanceNum = 0;
 					}
+					auto filevec = GetSpritesName(jsonCharacterMap[characterName]);
+					for (auto& e : filevec) {
+						ImGui::Selectable(e.c_str(), characterAppearanceNum == i);
 
-					//左クリックで確定
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
-						characterAppearanceNum = i;
-						previewAnimationMap[characterName]->Change(e);
-						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, characterName, e);
+						//右クリックでプレビュー
+						if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+							characterAppearanceNum = i;
+							previewAnimationMap[characterName]->Change(e);
+						}
+
+						//左クリックで確定
+						if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
+							characterAppearanceNum = i;
+							previewAnimationMap[characterName]->Change(e);
+							CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHANGE_CHARACTER_APPERANCE, currentLine, characterName, e);
+						}
+
+						i++;
 					}
-
-					i++;
 				}
+				ImGui::EndTabItem();
 			}
-			ImGui::EndTabItem();
-		}
+			if (ImGui::BeginTabItem("CharacterInOut")) {
 
-		if (ImGui::BeginTabItem("CharacterInOut")) {
+				if (ImGui::BeginCombo("##CharacterCombo", "Choose a character.", ImGuiComboFlags_HeightRegular)) {
 
-			if (ImGui::BeginCombo("##CharacterCombo", "Choose a character.", ImGuiComboFlags_HeightRegular)) {
+					//キャラクター一覧(jsonが読み込めたやつだけ表示)
+					for (auto& e : previewCharacterMap)
+						if (ImGui::Selectable(e.first.c_str()))
+							targetCharacter = e.first;
 
-				//キャラクター一覧(jsonが読み込めたやつだけ表示)
-				for (auto& e : previewCharacterMap)
-					if (ImGui::Selectable(e.first.c_str()))
-						targetCharacter = e.first;
+					ImGui::EndCombo();
+				}
 
-				ImGui::EndCombo();
+				//キャラクター登場イベント
+				if (ImGui::Selectable("Character IN"))
+					if (characterName != "")
+						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, currentLine, targetCharacter, targetCharacter);
+
+				//キャラクター退場イベント
+				if (ImGui::Selectable("Character OUT"))
+					if (characterName != "")
+						CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_OUT, currentLine, targetCharacter, targetCharacter);
+
+				ImGui::EndTabItem();
 			}
 
-			//キャラクター登場イベント
-			if (ImGui::Selectable("Character IN"))
-				if (characterName != "")
-					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_IN, currentLine, targetCharacter, targetCharacter);
-
-			//キャラクター退場イベント
-			if (ImGui::Selectable("Character OUT"))
-				if (characterName != "")
-					CreateEpisodeEvent(EPISODE_EVENT_TYPE::CHARACTER_OUT, currentLine, targetCharacter, targetCharacter);
-
-			ImGui::EndTabItem();
+			ImGui::EndTabBar();
 		}
-
-		ImGui::EndTabBar();
 	}
 
 	ImGui::EndChild();
@@ -447,6 +445,7 @@ void teller::EpisodeEventEditor::Tick()
 
 	ImGui::End();
 
+	NodeEditorTick();
 }
 
 void teller::EpisodeEventEditor::ShowEpisodeText()
@@ -677,6 +676,6 @@ void teller::EpisodeEventNodeEditor::LoadFile(fs::path _path)
 {
 }
 
-void teller::EpisodeEventNodeEditor::AddNodeSignature(TNodeSignature<Socket_Data_Type> _nodesig)
+void teller::EpisodeEventNodeEditor::AddNodeSignature(TNodeSignature<Episode_Event_Node, Socket_Data_Type> _nodesig)
 {
 }

@@ -138,18 +138,15 @@ set_property(TARGET TellerEngine PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${OUTPU
 add_definitions(-D_UNICODE)
 
 if(MSVC)
-    add_compile_options(/MP)
-    add_compile_options(/std=c++17)
-    add_compile_options(/W4)
     set_property(TARGET TellerEngine PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TellerEngine)
 
     target_link_options(TellerEngine PRIVATE $<$<CONFIG:Debug>:/DEBUG>)
+    target_compile_options(TellerEngine PRIVATE /MP /std:c++17 /W4)
 
 else()
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
-    add_compile_options(-MP)
-    add_compile_options(-std=c++17)
+    target_compile_options(TellerEngine PRIVATE -MP -std=c++17 -Wall -Wextra -pedantic -Werror)
+    
 endif()
 
 set(CMAKE_BUILD_TYPE $<IF:$<CONFIG:Debug>,Debug,Release>)
@@ -163,7 +160,7 @@ target_compile_definitions(TellerEngine PRIVATE
     $<$<CONFIG:Release>:WIN32 NDEBUG _WINDOWS NOMINAX _WIN32_WINNT=0x0502>
 )
 
-target_compile_definitions(CPPGLOB_STATIC IMGUI_DEFINE_MATH_OPERATORS)
+target_compile_definitions(TellerEngine PRIVATE CPPGLOB_STATIC IMGUI_DEFINE_MATH_OPERATORS)
 
 set(CINDER_LIB_PATH "${TELLER_EXT_DIR}/Cinder/lib/msw/x64/${CMAKE_BUILD_TYPE}/v143")
 

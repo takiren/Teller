@@ -3,15 +3,14 @@
 #include <Fcntl.h>
 #include <list>
 
-#include<cinder/Cinder.h>
-#include<cinder/CinderImGui.h>
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
-#include<cinder/ImageIo.h>
 #include <cinder/gl/gl.h>
 #include <cinder/gl/Texture.h>
+#include<cinder/ImageIo.h>
 #include <cinder/Rand.h>
 #include<cinder/Log.h>
+#include<cinder/CinderImGui.h>
 
 #include"japaneseGryph.h"
 
@@ -65,16 +64,15 @@ void TellerEngineMain::ShowConsole()
 
 void TellerEngineMain::setup()
 {
-	ShowConsole();
+	//ShowConsole();
 	// for the default window we need to provide an instance of WindowData
-	getWindow()->setUserData(new WindowData);
-
 	ImGui::Initialize();
-
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontFromFileTTF("../data/ipaexg.ttf", 14.0f, nullptr, glyphRangesJapanese);
 	}
+
+	//getWindow()->setUserData(new WindowData);
 
 	auto CMCSV = std::make_shared<CSVManager>();
 	auto CMSprite = std::make_shared<SpriteManager>();
@@ -106,7 +104,10 @@ void TellerEngineMain::setup()
 	auto rpt = std::make_unique<Repeat>();
 
 	auto cmcs = std::make_unique<ContentsManager<CSVLoader>>();
-	auto kap = std::make_shared<Kappa>(fs::current_path()/ fs::path("kappa.png"));
+	auto fpath = fs::current_path();
+	fpath = fpath.parent_path();
+	fpath /= fs::path{ "data" };
+	auto kap = std::make_shared<Kappa>(fpath / fs::path("kappa.png"));
 	rpt->AttachToAgent(kap);
 
 	mAnimator->AttachToAgent(mAgent);
@@ -122,6 +123,8 @@ void TellerEngineMain::setup()
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));
+
+	gl::enableAlphaBlending();
 }
 
 void TellerEngineMain::createNewWindow()
@@ -138,6 +141,8 @@ void TellerEngineMain::createNewWindow()
 
 void TellerEngineMain::update()
 {
+	//ImGui‚Íapp::update“à‚ÅŒÄ‚Î‚È‚¢‚Æassertion failed‚ª‹N‚«‚é.
+	mCore->EditorTick();
 }
 
 void TellerEngineMain::mouseDrag(MouseEvent event)
@@ -151,7 +156,7 @@ void TellerEngineMain::keyDown(KeyEvent event)
 
 void TellerEngineMain::draw()
 {
-	gl::enableAlphaBlending();
+	
 	gl::clear(Color::black());
 
 	/*
@@ -159,10 +164,11 @@ void TellerEngineMain::draw()
 	*/
 
 	mCore->Tick();
+
 	/*
 	ˆ—‹Lq‚±‚±‚Ü‚Å
 	*/
 }
 
 // This line tells Cinder to actually create the application
-CINDER_APP(TellerEngineMain, RendererGl)
+CINDER_APP(TellerEngineMain, RendererGl(RendererGl::Options().msaa(8)))

@@ -305,7 +305,7 @@ namespace teller {
 	};
 
 	//これをテンプレートととして
-	template<class SOCKET_TYPE>
+	template<class NODE_TYPE, class SOCKET_TYPE>
 	struct TNodeSignature {
 		std::string name;
 		std::string description;
@@ -351,9 +351,9 @@ namespace teller {
 		std::shared_ptr<TNode> beginNode_;
 		std::shared_ptr<TNode> endNode_;
 
-		std::unordered_map<std::string, TNodeSignature<SOCKET_TYPE>> nodeSignatureVector;
+		std::unordered_map<std::string, TNodeSignature<NODE_TYPE, SOCKET_TYPE>> nodeSignatureVector;
 
-		template<class NODE_TYPE,class SOCKET_TYPE>
+		template<class NODE_TYPE, class SOCKET_TYPE>
 		struct TNodeSequence {
 			struct Connection
 			{
@@ -406,9 +406,9 @@ namespace teller {
 
 		//Depricated:ノードエディターのAddNodeSignatureを使え
 		//Use a method AddNodeSignature in NodeEditorBase
-		void AddNodeSignature(TNodeSignature<SOCKET_TYPE> _nodeSignature);
+		void AddNodeSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature);
 
-		TNodeID AddNodeFromSignature(TNodeSignature<SOCKET_TYPE> _nodeSignature);
+		TNodeID AddNodeFromSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature);
 
 		TNode testfunc();
 	};
@@ -420,7 +420,7 @@ namespace teller {
 	};
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
-	inline TNodeID teller::TNodeManager<NODE_TYPE, SOCKET_TYPE>::AddNodeFromSignature(TNodeSignature<SOCKET_TYPE> _nodeSignature)
+	inline TNodeID teller::TNodeManager<NODE_TYPE, SOCKET_TYPE>::AddNodeFromSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature)
 	{
 		auto newnode = std::make_shared<TNode>(Episode_Event_Node::BLANK, _nodeSignature.name, uid.Generate());
 		for (auto& sckt : _nodeSignature.inputSockets)
@@ -436,7 +436,7 @@ namespace teller {
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
-	inline void teller::TNodeManager<NODE_TYPE, SOCKET_TYPE>::AddNodeSignature(TNodeSignature<SOCKET_TYPE> _nodeSignature)
+	inline void teller::TNodeManager<NODE_TYPE, SOCKET_TYPE>::AddNodeSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature)
 	{
 		nodeSignatureVector[_nodeSignature.name] = _nodeSignature;
 	}
