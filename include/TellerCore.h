@@ -1,4 +1,3 @@
-
 #ifndef _SRC_TELLERCORE_H_
 #define _SRC_TELLERCORE_H_
 
@@ -64,6 +63,8 @@ namespace teller {
 		std::unique_ptr < TMessanger < std::string, std::vector<std::string>>> EpisodeMessangerRef;
 		std::unique_ptr< TMessanger<int, fs::path>> pathMessangerRef;
 
+		std::unique_ptr<ThreadPool> threadPoolRef;
+
 		//シーケンサーはいずれ削除する。
 		std::vector<std::shared_ptr<AnimationSequencer>> animSequencer_;
 
@@ -72,6 +73,8 @@ namespace teller {
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
 		//初期化処理
 		void CoreInitialize();
+
+		void CreateThreadPool();
 
 		void UpdateDeltaTime();
 		int hConsole;
@@ -85,7 +88,8 @@ namespace teller {
 			timeCurrent(0.01),
 			deltaTime_(0.01),
 			DeltaTimeMessangerRef(std::make_unique<TMessanger<int, float>>()),
-			hConsole(0)
+			hConsole(0),
+			threadPoolRef(std::make_unique<ThreadPool>())
 		{
 			CoreInitialize();
 		};
@@ -144,6 +148,10 @@ namespace teller {
 		//これもいらん
 		//TODO:Delete
 		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
+
+		void EditorDraw();
+
+		void EditorUpdate();
 
 		//TODO:Delete
 		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);

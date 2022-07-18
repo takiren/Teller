@@ -56,8 +56,12 @@ namespace teller {
 			size_(vec2(1))
 		{};
 		virtual ~AgentCore() = default;
+
 		virtual void Tick();
+		virtual void UpdateInternal();
+		virtual void Update();
 		virtual void Draw();
+
 		virtual void SetDeltaTime(float _deltaTime);
 
 		vec2 GetPosition()const { return position_; };
@@ -226,6 +230,7 @@ namespace teller {
 		void Tick() override;
 	};
 
+	using AgentRef = std::shared_ptr<AgentCore>;
 
 }
 

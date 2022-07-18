@@ -31,7 +31,16 @@ namespace teller {
 	void TellerCore::AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_)
 	{
 		DeltaTimeMessangerRef->AttachFunction(key, callback_);
+	}
 
+	void TellerCore::EditorDraw()
+	{
+		for (auto& e : editorsRef)
+			e.second->Draw();
+	}
+
+	void TellerCore::EditorUpdate()
+	{
 	}
 
 	void TellerCore::AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer)
@@ -63,6 +72,12 @@ namespace teller {
 	{
 		DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
 	}
+
+	void TellerCore::CreateThreadPool()
+	{
+
+	}
+
 	void TellerCore::UpdateDeltaTime()
 	{
 		deltaTime_ = timeCurrent - timeOld;

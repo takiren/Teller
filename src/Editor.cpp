@@ -78,6 +78,10 @@ void teller::Editor::Update()
 {
 }
 
+void teller::Editor::Draw()
+{
+}
+
 void teller::Editor::Save()
 {
 }
@@ -477,6 +481,10 @@ void teller::EpisodeEventEditor::Update()
 {
 }
 
+void teller::EpisodeEventEditor::Draw()
+{
+}
+
 void teller::EpisodeEventEditor::UpdateAssetList()
 {
 }
@@ -636,9 +644,8 @@ std::string teller::EpisodeEditor::SingleLine(std::vector<std::string > _vector)
 void teller::EpisodeEventEditor::ShowPreview()
 {
 	if (previewCharacterMap.size() != 0)
-		for (auto& e : previewCharacterMap) {
+		for (auto& e : previewCharacterMap)
 			e.second->Tick();
-		}
 
 	previewText->Tick();
 }

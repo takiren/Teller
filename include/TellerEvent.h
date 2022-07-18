@@ -11,7 +11,7 @@ namespace teller {
 	class TMessageHandler {
 	protected:
 		using MessageHandlerImpleOnSuccess = std::function<void(DATA_TYPE)>;
-		std::map<KEY, std::function<void(DATA_TYPE)>> callbackMap_;
+		std::unordered_map<KEY, std::function<void(DATA_TYPE)>> callbackMap_;
 		void onSuccessInternal(const DATA_TYPE& _message) {
 			for (auto iter = callbackMap_.begin(); iter != callbackMap_.end(); ++iter) {
 				iter->second(_message);

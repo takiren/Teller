@@ -21,7 +21,6 @@ namespace teller {
 			float _float;
 			double _double;
 			ci::vec2 _vector2;
-			std::shared_ptr<AgentCore> _agentRef;
 
 			void* _ptr;
 		}_data alignas(8);
@@ -34,10 +33,18 @@ namespace teller {
 			BOOL,
 			INT,
 			STRING,
-			VECTOR2,
-
-			AGENT
+			VECTOR2
 		};
+
+		Variant() = default;
+		virtual ~Variant() = default;
+	};
+
+	class VariantPack {
+	private:
+	protected:
+	public:
+
 	};
 }
 

@@ -64,7 +64,7 @@ void TellerEngineMain::ShowConsole()
 
 void TellerEngineMain::setup()
 {
-	//ShowConsole();
+	ShowConsole();
 	// for the default window we need to provide an instance of WindowData
 	ImGui::Initialize();
 	{
@@ -115,7 +115,7 @@ void TellerEngineMain::setup()
 	animSeq->AddAnimator(std::move(rpt));
 	mCore->AddAnimSequencer(std::move(animSeq));
 	mScene->AddAgent(kap);
-
+	 
 	mCore->AddEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
 	mCore->AddEditor(std::make_unique<AssetViewer>());
 	mCore->AddEditor(std::make_unique<EpisodeEditor>());
@@ -156,7 +156,7 @@ void TellerEngineMain::keyDown(KeyEvent event)
 
 void TellerEngineMain::draw()
 {
-	
+
 	gl::clear(Color::black());
 
 	/*

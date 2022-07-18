@@ -88,6 +88,8 @@ list(APPEND TELLER_SRC_FILES
     ${TELLER_SRC_DIR}/Renderer.cpp
     ${TELLER_SRC_DIR}/Scene.cpp
     ${TELLER_SRC_DIR}/StoryBoard.cpp
+    ${TELLER_SRC_DIR}/TAgent.cpp
+    ${TELLER_SRC_DIR}/TAnimator.cpp
     ${TELLER_SRC_DIR}/TellerCore.cpp
     ${TELLER_SRC_DIR}/TellerEvent.cpp
     ${TELLER_SRC_DIR}/Tree.cpp
@@ -118,6 +120,8 @@ list(APPEND TELLER_H_FILES
     ${TELLER_H_DIR}/NodeLink.h
     ${TELLER_H_DIR}/Renderer.h
     ${TELLER_H_DIR}/Scene.h
+    ${TELLER_H_DIR}/TAgent.h
+    ${TELLER_H_DIR}/TAnimator.h
     ${TELLER_H_DIR}/TellerCore.h
     ${TELLER_H_DIR}/TellerEvent.h
     ${TELLER_H_DIR}/ThreadPool.h
@@ -125,6 +129,8 @@ list(APPEND TELLER_H_FILES
     ${TELLER_H_DIR}/UIBase.h
     ${TELLER_H_DIR}/utility.h
     ${TELLER_H_DIR}/Variant.h
+
+    ${TELLER_H_DIR}/TAlias.h
 )
 
 add_executable(
@@ -152,7 +158,7 @@ endif()
 set(CMAKE_BUILD_TYPE $<IF:$<CONFIG:Debug>,Debug,Release>)
 
 target_compile_definitions(TellerEngine PRIVATE
-    $<$<CONFIG:Debug>:WIN32 _DEBUG _WINDOWS NOMINAX>
+    $<$<CONFIG:Debug>:WIN32 _DEBUG _WINDOWS NOMINAX _WIN32_WINNT=0x0502>
 )
 
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "/NODEFAULTLIB:LIBCMT /NODEFAULTLIB:LIBCPMT")

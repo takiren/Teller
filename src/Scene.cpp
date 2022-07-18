@@ -17,7 +17,19 @@ void teller::SceneModule::Tick(float& deltaTime)
 	//gl::draw(mFbo_->getColorTexture(),vec2(0,0));
 }
 
-void teller::SceneModule::AddAgent(std::shared_ptr<AgentCore> _agent)
+void teller::SceneModule::Update(float& deltaTime)
+{
+
+}
+
+void teller::SceneModule::Draw()
+{
+	gl::clear(Color::black());
+	gl::color(Color::white());
+
+}
+
+void teller::SceneModule::AddAgent(AgentRef _agent)
 {
 	agents_.push_back(_agent);
 }

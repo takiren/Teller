@@ -29,6 +29,14 @@ void teller::AgentCore::Tick()
 {
 }
 
+void teller::AgentCore::UpdateInternal()
+{
+}
+
+void teller::AgentCore::Update()
+{
+}
+
 void teller::AgentCore::Draw()
 {
 }
@@ -130,6 +138,7 @@ void teller::CharacterSimple::Tick()
 {
 	Rectf destRect = Rectf(charSprites_[currentSprite]->texture_->getBounds() + position_);
 	gl::draw(charSprites_[currentSprite]->texture_, destRect);
+	std::cout << "draw" << std::endl;
 }
 
 std::vector<std::string> teller::CharacterSimple::GetKeys()

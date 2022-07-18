@@ -34,11 +34,14 @@
 #include"Episode.h"
 #include"TellerEvent.h"
 #include"Tree.h"
-#include"Animation.h"
 #include"NodeLink.h"
 #include"utility.h"
 #include"NodeEditor.h"
 
+#include"Scene.h"
+#include"Agent.h"
+#include"TAgent.h"
+#include"Animation.h"
 
 namespace teller {
 	class TellerCore;
@@ -108,6 +111,9 @@ namespace teller {
 
 		//おそらく必要ない
 		virtual void Update();
+
+		//DrawCall内で呼ぶための関数
+		virtual void Draw();
 
 		//エディターでの編集を保存する
 		virtual void Save();
@@ -183,9 +189,9 @@ namespace teller {
 		void LoadFile(fs::path _path) override;
 	};
 
-	//ノードエディターのunique_ptrエイリアス
+	//ノードエディターのshared_ptrエイリアス
 	template<class NODE_TYPE, class SOCKET_TYPE>
-	using TNodeEditorRef = std::unique_ptr<NodeEditorBase<Episode_Event_Node, Socket_Data_Type>>;
+	using TNodeEditorRef = std::shared_ptr<NodeEditorBase<Episode_Event_Node, Socket_Data_Type>>;
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	using TNodeEditor = NodeEditorBase<NODE_TYPE, SOCKET_TYPE>;
@@ -194,7 +200,7 @@ namespace teller {
 	class EpisodeEventEditor final :public Editor {
 	private:
 
-		TNodeEditorRef<Episode_Event_Node, Socket_Data_Type>		tnodeEditor;
+		TNodeEditorRef<Episode_Event_Node, Socket_Data_Type>	tnodeEditor;
 
 		TEposodeID												currentEpisodeID_;
 
@@ -274,6 +280,8 @@ namespace teller {
 		//TODO:イベントを外部から登録できるようにしたい
 		void Tick() override;
 		void Update() override;
+
+		void Draw() override;
 
 		void CallByParent() override;
 
