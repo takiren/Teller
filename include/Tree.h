@@ -4,14 +4,18 @@
 #include<string>
 #include<map>
 #include<random>
+#include<ostream>
 #include<Eigen>
 #include<algorithm>
+#include<magic_enum.hpp>
 
 #include"cinder/CinderImGui.h"
 #include<utilities/widgets.h>
+#include<nlohmann/json.hpp>
 #include"imgui_node_editor.h"
 #include"Episode.h"
 #include"utility.h"
+#include"TAlias.h"
 
 
 namespace teller {
@@ -400,24 +404,36 @@ namespace teller {
 		//基本ノードを補助するノード
 		TNodeID AddTNodeCharacterSelecter();
 
-		void SetNodePosition(TNodeID _ID, vec2 _pos)
-		{
-		}
-
 		//Depricated:ノードエディターのAddNodeSignatureを使え
 		//Use a method AddNodeSignature in NodeEditorBase
 		void AddNodeSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature);
 
 		TNodeID AddNodeFromSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature);
 
-		TNode testfunc();
+		void SaveFile(fs::path _path);
+		void LoadFile(fs::path _path);
+
 	};
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
-	inline TNodeCore<NODE_TYPE, SOCKET_TYPE> TNodeManager<NODE_TYPE, SOCKET_TYPE>::testfunc()
+	inline void TNodeManager<NODE_TYPE, SOCKET_TYPE>::SaveFile(fs::path _path)
 	{
+		json jout;
 
-	};
+		for (auto& node : nodes) {
+			jout["nodes"][node.second->ID_]
+			for (auto& isocket : node.second->) {
+			};
+			for(auto& osocket:node.second->)
+		}
+
+		std::ostream outfile{ _path };
+	}
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	inline void TNodeManager<NODE_TYPE, SOCKET_TYPE>::LoadFile(fs::path _path)
+	{
+	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline TNodeID teller::TNodeManager<NODE_TYPE, SOCKET_TYPE>::AddNodeFromSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSignature)

@@ -67,6 +67,7 @@ list(APPEND TELLER_ADDITIONAL_INCLUDE
     ${CINDER_INC_DIR}/imgui-node-editor
     ${TELLER_EXT_DIR}/imgui-node-editor/examples/blueprints-example
     ${CINDER_INC_DIR}/imgui
+    ${TELLER_EXT_DIR}/magic_enum/include
 )
 
 list(APPEND TELLER_LIBS_DEPENDS

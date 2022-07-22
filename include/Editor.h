@@ -103,13 +103,7 @@ namespace teller {
 		//ムーブ許可
 		Editor& operator=(Editor&&) = default;
 
-		//depricated
-		virtual void TickInternal();
-
 		//毎チック呼ばれる処理
-		virtual void Tick();
-
-		//おそらく必要ない
 		virtual void Update();
 
 		//DrawCall内で呼ぶための関数
@@ -136,7 +130,7 @@ namespace teller {
 	private:
 	public:
 		TopLevelMenu() : Editor("TopLevelMenu") {};
-		void Tick() override;
+		void Update() override;
 		void LoadFile(fs::path _path) override;
 	};
 
@@ -182,7 +176,7 @@ namespace teller {
 
 		void CallByParent() override;
 
-		void Tick() override;
+		void Update() override;
 
 		std::string SingleLine(std::vector<std::string > _vector);
 
@@ -278,7 +272,6 @@ namespace teller {
 		~EpisodeEventEditor() = default;
 
 		//TODO:イベントを外部から登録できるようにしたい
-		void Tick() override;
 		void Update() override;
 
 		void Draw() override;
@@ -317,13 +310,14 @@ namespace teller {
 			);
 
 			nodeEditorRef->AddNodeSignature(nsig);
+
 		};
 
-		void Tick() override {
+		void Update() override {
 			ImGui::Begin("TestEditor");
 			ImGui::BeginChild("testNod");
 
-			nodeEditorRef->Tick();
+			nodeEditorRef->Update();
 
 			ImGui::EndChild();
 			ImGui::End();
@@ -348,7 +342,7 @@ namespace teller {
 
 		AssetViewer() :Editor("Asset Viewer") { Initialize(); };
 
-		void Tick() override;
+		void Update() override;
 
 		void LoadFile(fs::path _path) override;
 
@@ -373,7 +367,7 @@ namespace teller {
 			Initialize(_path);
 		};
 
-		void Tick()override;
+		void Update()override;
 		void LoadFile(fs::path _path) override;
 	};
 }

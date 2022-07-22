@@ -7,9 +7,15 @@ void teller::GameModule::PushScene(std::shared_ptr<SceneModule> _scene)
 	mScenes_.push(_scene);
 }
 
-void teller::GameModule::Tick(float& deltaTime)
+void teller::GameModule::Update(float& deltaTime)
 {
-	mScenes_.top()->Tick(deltaTime);
+	mScenes_.top()->Update(deltaTime);
+}
+
+
+void teller::GameModule::Draw()
+{
+	mScenes_.top()->Draw();
 }
 
 

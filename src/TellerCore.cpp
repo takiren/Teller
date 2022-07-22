@@ -1,14 +1,24 @@
 #include"TellerCore.h"
 
 namespace teller {
-	void TellerCore::Tick()
+	void TellerCore::Update()
+	{
+		EditorUpdate();
+		GameUpdate();
+	}
+
+	void TellerCore::EditorUpdate()
+	{
+		for (auto& e : editorsRef)
+			e.second->Update();
+	}
+
+	void TellerCore::GameUpdate()
 	{
 		auto now = clock();
 		DeltaTimeMessangerRef->SendTMessage(deltaTime_);
-		// 1. モジュールのTick()呼び出し。
-		{
-			gameModuleStack.top()->Tick(deltaTime_);
-		}
+
+		gameModuleStack.top()->Update(deltaTime_);
 
 		for (auto& e : animSequencer_) {
 			e->Update();
@@ -18,10 +28,10 @@ namespace teller {
 		deltaTime_ = old - now;
 	}
 
-	void TellerCore::EditorTick()
+	void TellerCore::Draw()
 	{
-		for (auto& e : editorsRef)
-			e.second->Tick();
+		EditorDraw();
+		GameDraw();
 	}
 
 	void TellerCore::AttachEvent(TEVENT_MESSAGE _event, std::shared_ptr<Editor> editor)
@@ -39,7 +49,12 @@ namespace teller {
 			e.second->Draw();
 	}
 
-	void TellerCore::EditorUpdate()
+	void TellerCore::GameDraw()
+	{
+		gameModuleStack.top()->Draw();
+	}
+
+	void TellerCore::InitializeInternal()
 	{
 	}
 
@@ -68,14 +83,9 @@ namespace teller {
 		editor->parent = this->shared_from_this();
 		editorsRef[editor->name_] = std::move(editor);
 	}
-	void TellerCore::CoreInitialize()
-	{
-		DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
-	}
 
 	void TellerCore::CreateThreadPool()
 	{
-
 	}
 
 	void TellerCore::UpdateDeltaTime()

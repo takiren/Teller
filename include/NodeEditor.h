@@ -6,13 +6,16 @@
 #include<string>
 #include<map>
 #include<vector>
+#include<filesystem>
+
+#include<magic_enum.hpp>
+
 #include"utility.h"
 #include<cinder/CinderImGui.h>
 #include<imgui_internal.h>
 #include <utilities/builders.h>
 #include"imgui_node_editor.h"
 #include<utilities/widgets.h>
-#include<filesystem>
 #include"Tree.h"
 
 
@@ -82,7 +85,8 @@ namespace teller {
 		NodeEditorBase& operator=(NodeEditorBase&&) = default;
 
 		virtual void LoadFile(fs::path _path);
-		virtual void Tick();
+		virtual void SaveFile(fs::path _path);
+		virtual void Update();
 
 		virtual void AddNodeSignature(TNodeSignature<NODE_TYPE, SOCKET_TYPE> _nodeSig);
 	};
@@ -101,7 +105,7 @@ namespace teller {
 		default:						return ImColor(0, 0, 0);
 		}
 	}
-
+	 
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline void teller::NodeEditorBase< NODE_TYPE, SOCKET_TYPE>::OpenPopupAddNode()
 	{
@@ -210,7 +214,7 @@ namespace teller {
 	}
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
-	inline void teller::NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::Tick()
+	inline void teller::NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::Update()
 	{
 		ed::SetCurrentEditor(this->gContext);
 		ed::Begin(name_.c_str());
@@ -333,6 +337,11 @@ namespace teller {
 
 	template<class NODE_TYPE, class SOCKET_TYPE>
 	inline void NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::LoadFile(fs::path _path)
+	{
+	}
+
+	template<class NODE_TYPE, class SOCKET_TYPE>
+	inline void NodeEditorBase<NODE_TYPE, SOCKET_TYPE>::SaveFile(fs::path _path)
 	{
 	}
 

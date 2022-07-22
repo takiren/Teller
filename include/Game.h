@@ -38,7 +38,9 @@ namespace teller {
 		{};
 		virtual ~GameModule() = default;
 		void PushScene(std::shared_ptr<SceneModule> _scene);
-		void Tick(float& deltaTime);
+		void Update(float& deltaTime);
+
+		virtual void Draw();
 
 		//void SetOwner(std::shared_ptr<TellerCore> _tellercore) { owner = _tellercore; }
 

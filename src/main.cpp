@@ -119,7 +119,6 @@ void TellerEngineMain::setup()
 	mCore->AddEditor(fs::path(".csv"), std::make_unique<EpisodeEventEditor>());
 	mCore->AddEditor(std::make_unique<AssetViewer>());
 	mCore->AddEditor(std::make_unique<EpisodeEditor>());
-	mCore->AddEditor(std::make_unique<TestEditor>());
 
 	ci::app::setWindowSize(1280, 720);
 	ci::app::setWindowPos(vec2(1920 / 2 - 1280 / 2, 1080 / 2 - 720 / 2));
@@ -142,7 +141,7 @@ void TellerEngineMain::createNewWindow()
 void TellerEngineMain::update()
 {
 	//ImGuiはapp::update内で呼ばないとassertion failedが起きる.
-	mCore->EditorTick();
+	mCore->Update();
 }
 
 void TellerEngineMain::mouseDrag(MouseEvent event)
@@ -163,7 +162,7 @@ void TellerEngineMain::draw()
 	処理記述ここから
 	*/
 
-	mCore->Tick();
+	mCore->Draw();
 
 	/*
 	処理記述ここまで

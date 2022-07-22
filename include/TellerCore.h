@@ -71,14 +71,19 @@ namespace teller {
 		std::unordered_map<fs::path, std::unique_ptr<Editor>> editorsRef;
 
 		//std::map<CALL_BACK_EVENT, std::map<int, std::function<void()>&>> callBackByEventMap;
-		//初期化処理
-		void CoreInitialize();
 
 		void CreateThreadPool();
 
 		void UpdateDeltaTime();
 		int hConsole;
 
+		void EditorUpdate();
+		void GameUpdate();
+
+		void EditorDraw();
+		void GameDraw();
+
+		void InitializeInternal();
 	public:
 		TellerCore() :
 			spriteContentManagerRef(std::make_shared<SpriteManager>()),
@@ -91,7 +96,8 @@ namespace teller {
 			hConsole(0),
 			threadPoolRef(std::make_unique<ThreadPool>())
 		{
-			CoreInitialize();
+			DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
+			InitializeInternal();
 		};
 
 		TellerCore(
@@ -108,7 +114,8 @@ namespace teller {
 			DeltaTimeMessangerRef(std::make_unique<TMessanger<int, float>>()),
 			hConsole(0)
 		{
-			CoreInitialize();
+			DeltaTimeMessangerRef = std::make_unique<TMessanger<int, float>>();
+			InitializeInternal();
 		};
 
 
@@ -121,10 +128,12 @@ namespace teller {
 
 
 		//毎チック行う処理。
-		void Tick();
+		void Update();
 
-		//エディターTick
-		void EditorTick();
+		//エディターUpdate
+
+
+		void Draw();
 
 		//モジュール追加
 
@@ -149,10 +158,6 @@ namespace teller {
 		//TODO:Delete
 		void AttachDeltaTimeMessanger(int key, std::function<void(float)> callback_);
 
-		void EditorDraw();
-
-		void EditorUpdate();
-
 		//TODO:Delete
 		void AddAnimSequencer(std::shared_ptr<AnimationSequencer> _animSequencer);
 
@@ -169,6 +174,7 @@ namespace teller {
 		std::shared_ptr<SceneModule> GetActiveScene() { return gameModuleStack.top()->GetActiveScene(); }
 	};
 }
+
 
 #endif // !_SRC_TELLERCORE_H_
 

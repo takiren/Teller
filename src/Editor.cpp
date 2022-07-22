@@ -8,7 +8,7 @@ using namespace teller;
 
 using ax::Widgets::IconType;
 
-void teller::TopLevelMenu::Tick()
+void teller::TopLevelMenu::Update()
 {
 	ImGui::Begin("Menu");
 	ImGui::End();
@@ -18,7 +18,7 @@ void teller::TopLevelMenu::LoadFile(fs::path _path)
 {
 }
 
-void teller::AssetViewer::Tick()
+void teller::AssetViewer::Update()
 {
 	ImGui::Begin("AssetViewer");
 
@@ -65,18 +65,10 @@ void teller::AssetViewer::Tick()
 	ImGui::End();
 }
 
-void teller::Editor::Tick()
-{
-	TickInternal();
-}
-
-void teller::Editor::TickInternal()
-{
-}
-
 void teller::Editor::Update()
 {
 }
+
 
 void teller::Editor::Draw()
 {
@@ -117,7 +109,7 @@ void teller::EpisodeEditor::LoadFile(fs::path _path)
 {
 }
 
-void teller::EpisodeEditor::Tick()
+void teller::EpisodeEditor::Update()
 {
 	namespace fs = std::filesystem;
 	/*
@@ -262,7 +254,7 @@ void teller::EpisodeEventEditor::DrawLinks()
 void teller::EpisodeEventEditor::NodeEditorTick()
 {
 	ImGui::Begin("EpisodeEventEditorNode");
-	tnodeEditor->Tick();
+	tnodeEditor->Update();
 	ImGui::End();
 }
 
@@ -285,7 +277,7 @@ void teller::EpisodeEventEditor::SwapEvent(EventPack& _vector, int m, int n)
 
 
 
-void teller::EpisodeEventEditor::Tick()
+void teller::EpisodeEventEditor::Update()
 {
 	if (!bEnabled) return;
 
@@ -477,10 +469,6 @@ void teller::EpisodeEventEditor::LoadFile(fs::path _path)
 }
 
 
-void teller::EpisodeEventEditor::Update()
-{
-}
-
 void teller::EpisodeEventEditor::Draw()
 {
 }
@@ -645,9 +633,9 @@ void teller::EpisodeEventEditor::ShowPreview()
 {
 	if (previewCharacterMap.size() != 0)
 		for (auto& e : previewCharacterMap)
-			e.second->Tick();
+			e.second->Update();
 
-	previewText->Tick();
+	previewText->Update();
 }
 
 void teller::CharacterEditor::Initialize(fs::path _path)
@@ -659,7 +647,7 @@ fs::path teller::CharacterEditor::OpenFile()
 	return fs::path();
 }
 
-void teller::CharacterEditor::Tick()
+void teller::CharacterEditor::Update()
 {
 }
 

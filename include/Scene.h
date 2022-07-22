@@ -24,7 +24,7 @@ namespace teller {
 	{
 	private:
 		std::vector<AgentRef> agents_;
-		HashMap<std::string, TAgentRef> tAgents_;
+		std::vector<TAgentRef> tAgents_;
 
 		gl::FboRef mFbo_;
 		Rectf destRect;
@@ -55,8 +55,7 @@ namespace teller {
 
 		SceneModule& operator=(SceneModule&&) = default;
 
-		void Tick(float& deltaTime);
-
+		//Depricated
 		void Update(float& deltaTime);
 		void Draw();
 
@@ -65,8 +64,10 @@ namespace teller {
 
 		//It returns TAgentRef. If it's iter::end, the ret-value is nullptr.
 		inline TAgentRef FindTAgent(std::string _name) {
-			auto& val = tAgents_.find(_name);
-			return val == tAgents_.end() ? val->second : nullptr;
+			auto& val = std::find_if(tAgents_.begin(), tAgents_.end(), [&](auto& c) {
+				return c->uniqueName_ == _name;
+				});
+			return val == tAgents_.end() ? *val : nullptr;
 		};
 
 		inline void AddTAgent(TAgentRef _tAgent) {};

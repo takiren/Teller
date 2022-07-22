@@ -57,7 +57,6 @@ namespace teller {
 		{};
 		virtual ~AgentCore() = default;
 
-		virtual void Tick();
 		virtual void UpdateInternal();
 		virtual void Update();
 		virtual void Draw();
@@ -161,7 +160,7 @@ namespace teller {
 			Initialize(_path, _charactername);
 		};
 
-		void Tick() override;
+		void Update() override;
 		std::vector<std::string> GetKeys();
 
 		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, std::string _key) override;
@@ -183,7 +182,7 @@ namespace teller {
 			mappear_(_appear)
 		{};
 		void SetCharacterSprite(std::string _key, std::shared_ptr<Sprite> _sprite);
-		void Tick() override;
+		void Update() override;
 		void AddCharacterAppearance(std::string _key, std::unique_ptr<CharacterAppearance> _appearance);
 		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, CharacterAppearance _apperance) override;
 	};
@@ -199,14 +198,14 @@ namespace teller {
 			position_ = vec2(700, 300);
 		};
 
-		void Tick() override;
+		void Update() override;
 		void CallBackListener(vec2 _pos) override;
 	};
 
 	class RectAgent :public Agent<vec2, vec2, vec2> {
 	private:
 	public:
-		void Tick() override;
+		void Update() override;
 		void CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale) override;
 	};
 
@@ -216,7 +215,7 @@ namespace teller {
 		std::string text_;
 	public:
 		MainTextArea() :Agent(), text_(""), speaker_("") {};
-		void Tick() override;
+		void Update() override;
 
 		void CallBackListener(std::string _speaker, std::string _text);
 	};
@@ -227,7 +226,7 @@ namespace teller {
 	public:
 		BackGroundImage() :Agent(){};
 		~BackGroundImage() = default;
-		void Tick() override;
+		void Update() override;
 	};
 
 	using AgentRef = std::shared_ptr<AgentCore>;

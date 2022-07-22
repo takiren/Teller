@@ -1,6 +1,6 @@
 #include "Agent.h"
 
-void teller::RectAgent::Tick()
+void teller::RectAgent::Update()
 {
 	Rectf rf = Rectf(Area(vec2(0, 0), vec2(200, 200) + position_));
 	gl::drawSolidRect(rf);
@@ -13,7 +13,7 @@ void teller::RectAgent::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale)
 	scale_ += _scale * 0.01f;
 }
 
-void teller::MainTextArea::Tick()
+void teller::MainTextArea::Update()
 {
 	gl::drawString(speaker_, vec2(100, 470), ci::Color(1, 1, 1), ci::Font("", 40));
 	gl::drawString(text_, vec2(100, 520), ci::Color(1, 1, 1), ci::Font("", 30));
@@ -23,10 +23,6 @@ void teller::MainTextArea::CallBackListener(std::string _speaker, std::string _t
 {
 	speaker_ = _speaker;
 	text_ = _text;
-}
-
-void teller::AgentCore::Tick()
-{
 }
 
 void teller::AgentCore::UpdateInternal()
@@ -50,7 +46,7 @@ void teller::Character::SetCharacterSprite(std::string _key, std::shared_ptr<Spr
 {
 }
 
-void teller::Character::Tick()
+void teller::Character::Update()
 {
 
 }
@@ -68,7 +64,7 @@ void teller::Character::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale, Char
 	scale_ += _scale * deltaTime_;
 }
 
-void teller::Kappa::Tick()
+void teller::Kappa::Update()
 {
 	Rectf destRect = Rectf(sprite_->texture_->getBounds() + position_);
 	gl::draw(sprite_->texture_, destRect);
@@ -134,7 +130,7 @@ void teller::CharacterSimple::LoadSprite(fs::path _path)
 	if (charSprites_.size() == 1) currentSprite = _path.filename().string();
 }
 
-void teller::CharacterSimple::Tick()
+void teller::CharacterSimple::Update()
 {
 	Rectf destRect = Rectf(charSprites_[currentSprite]->texture_->getBounds() + position_);
 	gl::draw(charSprites_[currentSprite]->texture_, destRect);
@@ -156,6 +152,6 @@ void teller::CharacterSimple::CallBackListener(vec2 _pos, vec2 _rot, vec2 _scale
 	SetCurrentSprite(_key);
 }
 
-void teller::BackGroundImage::Tick()
+void teller::BackGroundImage::Update()
 {
 }

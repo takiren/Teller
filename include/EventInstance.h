@@ -24,12 +24,11 @@ namespace teller {
 		EventInstanceBase() = default;
 		virtual ~EventInstanceBase() = default;
 
-		virtual bool Tick() { 
+		virtual bool Update() { 
 			if (bFired)
 				if (Update())
 					return true; 
 		}
-		virtual bool Update() {}
 	};
 
 	template<class TARGET>
